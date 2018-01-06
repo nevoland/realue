@@ -1,5 +1,7 @@
 # Realue
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/davidbonnet/realue.svg)](https://greenkeeper.io/)
+
 [![NPM Version](https://img.shields.io/npm/v/realue.svg)](https://www.npmjs.org/package/realue)
 [![Build Status](https://travis-ci.org/davidbonnet/realue.svg?branch=master)](https://travis-ci.org/davidbonnet/realue)
 [![Coverage](https://codecov.io/gh/davidbonnet/realue/branch/master/graph/badge.svg)](https://codecov.io/gh/davidbonnet/realue)
