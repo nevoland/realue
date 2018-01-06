@@ -1,0 +1,13 @@
+*.DS_Store
+*.sublime-project
+*.sublime-workspace
+.gitignore
+.npmignore
+.nyc_output
+.travis.yml
+coverage
+doc
+node_modules
+package-lock.json
+scripts
+src/**/tests

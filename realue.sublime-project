@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "folder_exclude_patterns": [
+        ".git",
+        "node_modules",
+        "coverage",
+        ".esm-cache",
+        ".cache",
+        ".nyc_output"
+      ]
+    }
+  ],
+  "settings": {
+    "tab_size": 2,
+    "js_prettier": {
+      "auto_format_on_save": true,
+      "allow_inline_formatting": true,
+      "custom_file_extensions": ["sublime-project"]
+    }
+  },
+  "SublimeLinter": {
+    "linters": {
+      "eslint": {
+        "@disable": false,
+        "args": [],
+        "excludes": []
+      }
+    }
+  }
+}
