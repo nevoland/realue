@@ -7,7 +7,7 @@
 [![DevDependency Status](https://david-dm.org/davidbonnet/realue/dev-status.svg)](https://david-dm.org/davidbonnet/realue?type=dev)
 [![Greenkeeper](https://badges.greenkeeper.io/davidbonnet/realue.svg)](https://greenkeeper.io/)
 
-Simple value management for React components.
+⚙️ Simple value management for React components.
 
 > :warning: This project is under progress and not meant for production use.
 

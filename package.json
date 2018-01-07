@@ -5,12 +5,13 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "start": "parcel src/index.html",
+    "start":
+      "if [ -z ${npm_config_test+x} ]; then parcel src/index.html; else ava --watch; fi",
     "build": "parcel build --public-url ./ src/index.html",
     "server": "node scripts/server.js",
-    "prepare": "babel --out-dir lib --presets env --ignore tests src",
-    "test": "ava",
-    "coverage": "nyc ava --no-cov"
+    "prepare": "babel --out-dir lib --ignore tests src",
+    "test":
+      "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava"
   },
   "keywords": ["react", "value", "reuse", "polymorphism"],
   "author": "David Bonnet <david@bonnet.cc>",
