@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@std/esm": "^0.19.1",
-    "ava": "^0.24.0",
+    "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
