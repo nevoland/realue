@@ -27,8 +27,10 @@
 * `boolean`
 * `number`
 * `date`
-* `string`
+* `string` (value, selection)
 * `binary`
+
+* `input` (focus)
 
 ### Tools
 
