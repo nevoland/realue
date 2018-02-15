@@ -10,6 +10,7 @@ import {
   boolean,
   editor,
   creator,
+  removable,
   withValue,
   withKeys,
   withFocus,
@@ -53,10 +54,9 @@ const Checkbox = compose(pure, boolean)(function Checkbox({
   )
 })
 
-const Item = compose(pure, object)(function Item({
-  value,
+const Item = compose(pure, object, removable)(function Item({
   property,
-  onRemove,
+  remove,
 }) {
   return $(
     'li',
@@ -64,8 +64,7 @@ const Item = compose(pure, object)(function Item({
     $(Checkbox, property('done')),
     ' ',
     $(Text, property('label')),
-    onRemove &&
-      $('button', { onClick: event => onRemove(value, event) }, 'Remove'),
+    remove && $('button', { onClick: remove }, 'Remove'),
   )
 })
 

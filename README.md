@@ -9,13 +9,11 @@
 
 ⚙️ Simple value management for React components.
 
-> :warning: This project is under progress and not meant for production use.
-
 ### Features
 
-* Frees developers from value handling logic so that they can focus on the user experience
-* Enforces reusable components based on `{ value, onChange(value, name, event?), name? }` properties
-* Provides helpers for commonly used value types
+* Frees developers from value handling logic so that they can focus on the user experience.
+* Enforces reusable components based on `{ value, onChange(value, name, event?), name? }` properties.
+* Provides helpers for commonly used value types.
 
 ## Usage
 
@@ -29,6 +27,8 @@
 * `date`
 * `string` (value, selection)
 * `binary`
+
+### Widgets
 
 * `input` (focus)
 

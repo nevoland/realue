@@ -14,9 +14,13 @@ export const array = branch(
   compose(
     withHandlers({
       onChangeItem: ({ value, onChange }) => (item, name, payload) =>
-        onChange(replace(value, name, item), value, payload),
-      onRemoveItem: ({ value, onChange }) => (item, payload) =>
-        onChange(without(value, item), value, payload),
+        onChange(
+          item === undefined
+            ? without(value, name)
+            : replace(value, name, item),
+          value,
+          payload,
+        ),
       onAdd: ({ value, onChange }) => (item, _, payload) =>
         onChange(
           insert(
@@ -30,14 +34,19 @@ export const array = branch(
           payload,
         ),
     }),
-    withPropsOnChange(
-      ['onChangeItem', 'onRemoveItem'],
-      ({ onChangeItem: onChange, onRemoveItem: onRemove }) => ({
-        item: (value, key = value) => ({ value, key, onChange, onRemove }),
-      }),
-    ),
+    withPropsOnChange(['onChangeItem'], ({ onChangeItem: onChange }) => ({
+      item: (value, key = value) => ({ key, value, onChange }),
+    })),
   ),
   withProps({
     item: (value, key = value) => ({ value, key }),
+  }),
+)
+
+export const removable = branch(
+  hasProp('onChange'),
+  withHandlers({
+    remove: ({ value, name = value, onChange }) => payload =>
+      onChange(undefined, name, payload),
   }),
 )
