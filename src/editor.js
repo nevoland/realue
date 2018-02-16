@@ -52,21 +52,27 @@ export const editor = compose(
     compose(
       withBuffer(({ value, editing }) => (!editing ? undefined : value)),
       withHandlers({
-        edit: ({ value, setBuffer, onEdit }) => event =>
+        edit: ({ value, name = value, setBuffer, onEdit }) => event =>
           setBuffer(
             value,
-            onEdit == null ? undefined : () => onEdit(value, event),
+            onEdit == null ? undefined : () => onEdit(value, name, event),
           ),
         onChange: ({ setBuffer }) => value => setBuffer(value),
-        cancel: ({ value, buffer, setBuffer, onCancel }) => event =>
+        cancel: ({
+          value,
+          name = value,
+          buffer,
+          setBuffer,
+          onCancel,
+        }) => event =>
           setBuffer(
             undefined,
-            onCancel == null ? undefined : () => onCancel(value, buffer, event),
+            onCancel == null ? undefined : () => onCancel(buffer, name, event),
           ),
-        save: ({ onChange, value, buffer, setBuffer }) => event =>
+        save: ({ onChange, value, name = value, buffer, setBuffer }) => event =>
           buffer === undefined || value === buffer
             ? new Promise(resolve => setBuffer(undefined, resolve))
-            : promisify(onChange(buffer, value, event)).then(
+            : promisify(onChange(buffer, name, event)).then(
                 result =>
                   new Promise(
                     resolve => setBuffer(undefined, () => resolve(result)),
