@@ -1,52 +1,31 @@
-import {
-  compose,
-  branch,
-  withHandlers,
-  withPropsOnChange,
-  withProps,
-} from 'recompose'
-import { without } from 'lodash'
+import { compose, branch, withHandlers } from 'recompose'
 
-import { replace, insert, hasProp } from './tools'
+import { setItem, insertItem, hasProp } from './tools'
 
-export const array = branch(
-  hasProp('onChange'),
-  compose(
+export const array = compose(
+  branch(
+    hasProp('onChange'),
     withHandlers({
       onChangeItem: ({ value, onChange }) => (item, name, payload) =>
-        onChange(
-          item === undefined
-            ? without(value, name)
-            : replace(value, name, item),
-          value,
-          payload,
-        ),
-      onAdd: ({ value, onChange }) => (item, _, payload) =>
-        onChange(
-          insert(
-            value,
-            item,
-            payload == null || payload.index == null
-              ? value.length
-              : payload.index,
-          ),
-          value,
-          payload,
-        ),
+        onChange(setItem(value, name, item), value, payload),
+      onAdd: ({ value, onChange }) => (item, name, payload) =>
+        onChange(insertItem(value, item, name), value, payload),
     }),
-    withPropsOnChange(['onChangeItem'], ({ onChangeItem: onChange }) => ({
-      item: (value, key = value) => ({ key, value, onChange }),
-    })),
   ),
-  withProps({
-    item: (value, key = value) => ({ value, key }),
+  withHandlers({
+    item: ({ onChangeItem: onChange, value }) => (name, key = name) => ({
+      key,
+      value: value[name],
+      name,
+      onChange,
+    }),
   }),
 )
 
 export const removable = branch(
   hasProp('onChange'),
   withHandlers({
-    remove: ({ value, name = value, onChange }) => payload =>
+    remove: ({ name, onChange }) => payload =>
       onChange(undefined, name, payload),
   }),
 )

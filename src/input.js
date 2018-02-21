@@ -1,9 +1,9 @@
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
-import { onPropsChange, hasProps, withBuffer } from './tools'
+import { onPropsChange, withBuffer, hasProp } from './tools'
 
 export const withFocus = branch(
-  hasProps(['node']),
+  hasProp('node'),
   compose(
     withBuffer(({ focused }) => (focused == null ? false : !focused)),
     withHandlers({

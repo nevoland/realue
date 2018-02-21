@@ -1,12 +1,21 @@
 import { createElement as $ } from 'react'
 import { render } from 'react-dom'
-import { map } from 'lodash'
-import { compose, pure, withState, withHandlers, withProps } from 'recompose'
+import { map, isString } from 'lodash'
+import {
+  compose,
+  pure,
+  withState,
+  withHandlers,
+  withProps,
+  defaultProps,
+} from 'recompose'
 
 import {
   array,
   object,
   string,
+  number,
+  filterChange,
   boolean,
   editor,
   creator,
@@ -14,29 +23,43 @@ import {
   withValue,
   withKeys,
   withFocus,
+  withDefaultValue,
 } from '../'
 
-const Text = compose(pure, string, withValue('node'), withFocus)(function Text({
+const Text = compose(
+  pure,
+  string,
+  defaultProps({
+    defaultValue: '',
+  }),
+  withDefaultValue,
+  withValue('node'),
+  withFocus,
+)(function Text({
   value,
+  placeholder,
   onChange,
   onFocus,
   onBlur,
   setNode: ref,
   onKeyDown,
+  className,
 }) {
   return !onChange
-    ? $('span', null, value)
+    ? $('span', { className }, value)
     : $('input', {
         ref,
         value,
+        placeholder,
         onChange,
         onFocus,
         onBlur,
         onKeyDown,
+        className,
       })
 })
 
-const Checkbox = compose(pure, boolean)(function Checkbox({
+const Checkbox = compose(pure, boolean, withDefaultValue)(function Checkbox({
   value,
   onEvent: onChange,
   label,
@@ -61,9 +84,12 @@ const Item = compose(pure, object, removable)(function Item({
   return $(
     'li',
     null,
-    $(Checkbox, property('done')),
+    $(Checkbox, { ...property('done'), defaultValue: false }),
     ' ',
-    $(Text, property('label')),
+    $(Text, {
+      ...property('label'),
+      placeholder: 'Untitled item',
+    }),
     remove && $('button', { onClick: remove }, 'Remove'),
   )
 })
@@ -72,8 +98,8 @@ const Items = compose(pure, array)(function Items({ value, item, onAdd }) {
   return $(
     'div',
     null,
-    $('ul', null, map(value, (value, key) => $(Item, item(value, key)))),
-    onAdd && $(ItemCreator, { onChange: onAdd }),
+    $('ul', null, map(value, (value, index) => $(Item, item(index)))),
+    onAdd && $(ItemCreator, { onChange: onAdd, name: value.length }),
   )
 })
 
@@ -81,21 +107,28 @@ const ItemCreator = compose(
   pure,
   withProps({
     value: {
-      label: '',
       done: false,
     },
   }),
   creator,
   withValue('focus', true),
-  withKeys({
-    Enter: ({ save }, event) => save(event),
-  }),
   withHandlers({
     save: ({ save, setFocus }) => event =>
       save(event).then(() => setFocus(true)),
   }),
+  withKeys({
+    Enter: ({ save }, event) => save(event),
+  }),
   object,
-)(function ItemCreator({ save, cancel, property, focus, setFocus, onKeyDown }) {
+)(function ItemCreator({
+  value,
+  save,
+  cancel,
+  property,
+  focus,
+  setFocus,
+  onKeyDown,
+}) {
   return $(
     'ul',
     null,
@@ -105,7 +138,7 @@ const ItemCreator = compose(
       onChangeFocus: setFocus,
       onKeyDown,
     }),
-    $('button', { onClick: save }, 'Add'),
+    $('button', { onClick: save, disabled: !value.label }, 'Add'),
     $('button', { onClick: cancel }, 'Cancel'),
   )
 })
@@ -128,25 +161,98 @@ const EditedItems = compose(pure, editor)(function EditedItems({
   )
 })
 
+const Color = compose(pure, object)(function Color({ property, value }) {
+  return $(
+    'ul',
+    null,
+    $('div', {
+      style: {
+        width: 30,
+        height: 30,
+        backgroundColor: `rgb(${value.r || 0},${value.g || 0},${value.b || 0})`,
+      },
+    }),
+    map(['r', 'g', 'b'], name =>
+      $(ColorProperty, {
+        ...property(name, name),
+        type: 'number',
+        min: 0,
+        max: 255,
+      }),
+    ),
+  )
+})
+
+const Number = compose(
+  pure,
+  defaultProps({
+    type: 'number',
+    defaultValue: '',
+    placeholder: '0',
+  }),
+  filterChange(
+    value => value === '' || !isString(value),
+    value => (value === '' ? undefined : value),
+  ),
+  withDefaultValue,
+  number,
+)('input')
+
+const ColorProperty = compose(pure)(function ColorProperty({
+  value,
+  name,
+  onChange,
+  min,
+  max,
+}) {
+  return $(
+    'li',
+    null,
+    name,
+    ': ',
+    $(Number, { value, name, onChange, min, max }),
+    $(Number, {
+      value,
+      defaultValue: 0,
+      type: 'range',
+      name,
+      onChange,
+      min,
+      max,
+    }),
+  )
+})
+
 export const App = compose(
-  withState('value', 'onChange', [
-    { done: false, label: 'eye' },
-    { done: false, label: 'touch' },
-    { done: false, label: 'ear' },
-  ]),
+  withState('value', 'onChange', {
+    todos: [
+      { done: false, label: 'eye' },
+      { done: false, label: 'touch' },
+      { done: false, label: 'ear' },
+    ],
+    color: {
+      r: 0,
+      g: 0,
+      b: 0,
+    },
+  }),
   withHandlers({
     onChange: ({ onChange }) => value => onChange(value),
     printValue: ({ value }) => () =>
       // eslint-disable-next-line
       console.log('value', value),
   }),
+  object,
 )(function App(props) {
-  const { value, onChange, printValue } = props
+  const { property, printValue } = props
   return $(
     'div',
     null,
     $('h1', null, 'Realue'),
-    $(EditedItems, { value, onChange }),
+    $('h2', null, 'Todos'),
+    $(EditedItems, property('todos')),
+    $('h2', null, 'Color'),
+    $(Color, property('color')),
     $('p', null, $('button', { onClick: printValue }, 'Print value')),
   )
 })

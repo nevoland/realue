@@ -20,10 +20,10 @@ export const creator = branch(
           value,
           onCancel == null ? undefined : () => onCancel(value, buffer, event),
         ),
-      save: ({ onChange, value, buffer, setBuffer }) => event =>
+      save: ({ onChange, value, name, buffer, setBuffer }) => event =>
         buffer === undefined || value === buffer
           ? Promise.resolve()
-          : promisify(onChange(buffer, value, event)).then(
+          : promisify(onChange(buffer, name, event)).then(
               result =>
                 new Promise(
                   resolve => setBuffer(value, () => resolve(result)),
@@ -52,10 +52,10 @@ export const editor = compose(
     compose(
       withBuffer(({ value, editing }) => (!editing ? undefined : value)),
       withHandlers({
-        edit: ({ value, name = value, setBuffer, onEdit }) => event =>
+        edit: ({ value, name, setBuffer, onEdit }) => payload =>
           setBuffer(
             value,
-            onEdit == null ? undefined : () => onEdit(value, name, event),
+            onEdit == null ? undefined : () => onEdit(value, name, payload),
           ),
         onChange: ({ setBuffer }) => value => setBuffer(value),
         cancel: ({
@@ -64,15 +64,23 @@ export const editor = compose(
           buffer,
           setBuffer,
           onCancel,
-        }) => event =>
+        }) => payload =>
           setBuffer(
             undefined,
-            onCancel == null ? undefined : () => onCancel(buffer, name, event),
+            onCancel == null
+              ? undefined
+              : () => onCancel(buffer, name, payload),
           ),
-        save: ({ onChange, value, name = value, buffer, setBuffer }) => event =>
+        save: ({
+          onChange,
+          value,
+          name = value,
+          buffer,
+          setBuffer,
+        }) => payload =>
           buffer === undefined || value === buffer
             ? new Promise(resolve => setBuffer(undefined, resolve))
-            : promisify(onChange(buffer, name, event)).then(
+            : promisify(onChange(buffer, name, payload)).then(
                 result =>
                   new Promise(
                     resolve => setBuffer(undefined, () => resolve(result)),
@@ -80,6 +88,7 @@ export const editor = compose(
                   ),
               ),
       }),
+      branch(hasProp('editing')),
       mapProps(props => {
         const { value, buffer, onChange } = props
         const editing = buffer !== undefined

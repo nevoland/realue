@@ -9,17 +9,15 @@ import {
   get,
   memoize,
   upperFirst,
-  debounce,
   every,
+  identity,
 } from 'lodash'
 import {
   lifecycle,
   withState,
-  branch,
   compose,
   withHandlers,
   mapProps,
-  withPropsOnChange,
 } from 'recompose'
 
 export const EMPTY_ARRAY = []
@@ -30,30 +28,53 @@ export const hasProp = memoize(name => ({ [name]: prop }) => prop != null)
 export const hasProps = names => props =>
   every(names, name => props[name] != null)
 
-export function insert(array, value, index = array == null ? 0 : array.length) {
-  return [...slice(array, 0, index), value, ...slice(array, index)]
+export function insertItem(
+  array,
+  value,
+  index = array == null ? 0 : array.length,
+) {
+  return array == null
+    ? [value]
+    : [...slice(array, 0, index), value, ...slice(array, index)]
 }
 
-export function replace(array, previousValue, value) {
-  return replaceAt(array, indexOf(array, previousValue), value)
+export function replaceItem(array, previousValue, value) {
+  return setItem(array, indexOf(array, previousValue), value)
 }
 
-export function replaceAt(array, index, value) {
-  return index === -1
+export function setItem(array, index, value) {
+  /*
+  Returns a new array with `array[index]` set to `value` if `array[index]` is strictly different from `value`. Otherwise, returns the provided `array`.
+  If `value` is `undefined`, ensures that the returned array does not contain the `index`.
+  If `index` is greater than `array.length`, appends `value` to the `array`.
+  If `index` equals `-1` or is `undefined`, returns the `array` untouched.
+  */
+  return index === -1 || index == null
     ? array == null ? EMPTY_ARRAY : array
-    : [...slice(array, 0, index), value, ...slice(array, index + 1)]
+    : array == null
+      ? value === undefined ? EMPTY_ARRAY : [value]
+      : value === undefined
+        ? index < array.length
+          ? [...slice(array, 0, index), ...slice(array, index + 1)]
+          : array
+        : array[index] === value
+          ? array
+          : [...slice(array, 0, index), value, ...slice(array, index + 1)]
 }
 
-export function set(object, key, value) {
+export function setProperty(object, key, value) {
   /*
   Returns a new object with `object[key]` set to `value` if `object[key]` is strictly different from `value`. Otherwise, returns the provided `object`.
-  Note that if `value` is `undefined`, any value stored at `object[key]` is removed.
+  If `value` is `undefined`, ensures that the returned object does not contain the `key`.
+  If `key` is `undefined`, returns the `object` untouched.
   */
-  return object == null
-    ? value === undefined ? EMPTY_OBJECT : { [key]: value }
-    : value === undefined
-      ? !(key in object) ? object : omit(object, key)
-      : object[key] === value ? object : { ...object, [key]: value }
+  return key === undefined
+    ? object == null ? EMPTY_OBJECT : object
+    : object == null
+      ? value === undefined ? EMPTY_OBJECT : { [key]: value }
+      : value === undefined
+        ? key in object ? omit(object, key) : object
+        : object[key] === value ? object : { ...object, [key]: value }
 }
 
 export function same(
@@ -91,6 +112,22 @@ export function pickValue({ value }) {
   return value
 }
 
+export function withPropertyBuffer(name = 'value', decorators = identity) {
+  return compose(
+    withState('buffer', 'setBuffer', ({ [name]: value }) => value),
+    withHandlers({
+      updateBuffer: ({ [name]: value, buffer, setBuffer }) => () =>
+        value !== buffer && setBuffer(value),
+    }),
+    onPropsChange([name], ({ updateBuffer }) => updateBuffer()),
+    decorators,
+    mapProps(props => ({
+      ...omit(props, ['buffer', 'setBuffer', 'updateBuffer']),
+      [name]: props.buffer,
+    })),
+  )
+}
+
 export function withBuffer(initialValue = pickValue) {
   return withState('buffer', 'setBuffer', initialValue)
 }
@@ -101,30 +138,9 @@ export function withValue(name, initialValue) {
   return withState(name, `set${upperFirst(name)}`, initialValue)
 }
 
-export const withDebounce = branch(
-  ({ delay }) => delay,
-  compose(
-    withPropsOnChange(['onChange', 'delay'], ({ onChange, delay }) => {
-      const onChangeDebounced = debounce(onChange, delay)
-      return {
-        onChange: onChangeDebounced,
-        flush: onChangeDebounced.flush,
-      }
-    }),
-    withBuffer(),
-    onPropsChange(['value'], ({ setBuffer, value }) => setBuffer(value), false),
-    withHandlers({
-      onChange: ({ onChange, setBuffer }) => (value, previousValue, event) => {
-        event.persist()
-        return setBuffer(value, () => onChange(value, previousValue, event))
-      },
-    }),
-    mapProps(props => ({
-      ...withBuffer.omit(props),
-      value: props.buffer,
-    })),
-  ),
-)
+export function omitProps(keys) {
+  return mapProps(props => omit(props, keys))
+}
 
 export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
   /*
