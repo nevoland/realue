@@ -34,7 +34,7 @@ export function filterChange(condition, transform) {
       withHandlers({
         onChange: props => (value, name, payload) =>
           props.setBuffer(value, () => {
-            if (condition(value, props, payload)) {
+            if (condition == null || condition(value, props, payload)) {
               return props.onChange(
                 transform == null ? value : transform(value, props, payload),
                 name,

@@ -6,10 +6,10 @@ export const array = compose(
   branch(
     hasProp('onChange'),
     withHandlers({
-      onChangeItem: ({ value, onChange }) => (item, name, payload) =>
-        onChange(setItem(value, name, item), value, payload),
-      onAdd: ({ value, onChange }) => (item, name, payload) =>
-        onChange(insertItem(value, item, name), value, payload),
+      onChangeItem: ({ value, name, onChange }) => (item, index, payload) =>
+        onChange(setItem(value, index, item), name, payload),
+      onAdd: ({ value, name, onChange }) => (item, index, payload) =>
+        onChange(insertItem(value, item, index), name, payload),
     }),
   ),
   withHandlers({
