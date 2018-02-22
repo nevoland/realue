@@ -7,15 +7,7 @@ import {
 } from 'recompose'
 import { debounce, omit } from 'lodash'
 
-import { hasProp, withBuffer, onPropsChange } from './tools'
-
-export const value = branch(
-  hasProp('onChange'),
-  withHandlers({
-    onChange: ({ name, onChange }) => (value, payload) =>
-      onChange(value, name, payload),
-  }),
-)
+import { hasProp, withBuffer, onPropsChange, withPropertyBuffer } from './tools'
 
 export const withDefaultValue = mapProps(props => {
   const { value, defaultValue = null } = props
@@ -25,12 +17,19 @@ export const withDefaultValue = mapProps(props => {
   }
 })
 
-export function filterChange(condition, transform) {
+export const buffered = withPropertyBuffer(
+  'value',
+  withHandlers({
+    onChange: ({ onChange, setBuffer }) => (value, name, payload) =>
+      setBuffer(value, () => onChange(value, name, payload)),
+  }),
+)
+
+export function filtered(condition, transform) {
   return branch(
     hasProp('onChange'),
-    compose(
-      withBuffer(),
-      onPropsChange(['value'], ({ value, setBuffer }) => setBuffer(value)),
+    withPropertyBuffer(
+      'value',
       withHandlers({
         onChange: props => (value, name, payload) =>
           props.setBuffer(value, () => {
@@ -43,12 +42,11 @@ export function filterChange(condition, transform) {
             }
           }),
       }),
-      mapProps(props => ({ ...withBuffer.omit(props), value: props.buffer })),
     ),
   )
 }
 
-export const withDebounce = branch(
+export const debounced = branch(
   ({ delay }) => delay,
   compose(
     withPropsOnChange(['onChange', 'delay'], ({ onChange, delay }) => {

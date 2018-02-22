@@ -10,15 +10,9 @@ import {
   memoize,
   upperFirst,
   every,
-  identity,
+  compact,
 } from 'lodash'
-import {
-  lifecycle,
-  withState,
-  compose,
-  withHandlers,
-  mapProps,
-} from 'recompose'
+import { lifecycle, withState, compose, mapProps } from 'recompose'
 
 export const EMPTY_ARRAY = []
 export const EMPTY_OBJECT = {}
@@ -112,19 +106,21 @@ export function pickValue({ value }) {
   return value
 }
 
-export function withPropertyBuffer(name = 'value', decorators = identity) {
+export function withPropertyBuffer(name = 'value', decorators = null) {
   return compose(
-    withState('buffer', 'setBuffer', ({ [name]: value }) => value),
-    withHandlers({
-      updateBuffer: ({ [name]: value, buffer, setBuffer }) => () =>
-        value !== buffer && setBuffer(value),
-    }),
-    onPropsChange([name], ({ updateBuffer }) => updateBuffer()),
-    decorators,
-    mapProps(props => ({
-      ...omit(props, ['buffer', 'setBuffer', 'updateBuffer']),
-      [name]: props.buffer,
-    })),
+    ...compact([
+      withState('buffer', 'setBuffer', ({ [name]: value }) => value),
+      onPropsChange(
+        [name],
+        ({ [name]: value, buffer, setBuffer }) =>
+          value !== buffer && setBuffer(value),
+      ),
+      decorators,
+      mapProps(props => ({
+        ...omit(props, ['buffer', 'setBuffer']),
+        [name]: props.buffer,
+      })),
+    ]),
   )
 }
 

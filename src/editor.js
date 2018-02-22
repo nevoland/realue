@@ -7,7 +7,7 @@ import {
   mapProps,
 } from 'recompose'
 
-import { withBuffer, promisify, hasProp } from './tools'
+import { withBuffer, promisify, hasProp, onPropsChange } from './tools'
 
 export const creator = branch(
   hasProp('onChange'),
@@ -41,11 +41,11 @@ export const creator = branch(
 export const editor = compose(
   setPropTypes({
     value: PropTypes.any.isRequired,
-    loading: PropTypes.bool,
     editing: PropTypes.bool,
-    onChange: PropTypes.func,
     onEdit: PropTypes.func,
+    onChange: PropTypes.func,
     onCancel: PropTypes.func,
+    onSave: PropTypes.func,
   }),
   branch(
     hasProp('onChange'),
@@ -58,13 +58,7 @@ export const editor = compose(
             onEdit == null ? undefined : () => onEdit(value, name, payload),
           ),
         onChange: ({ setBuffer }) => value => setBuffer(value),
-        cancel: ({
-          value,
-          name = value,
-          buffer,
-          setBuffer,
-          onCancel,
-        }) => payload =>
+        cancel: ({ name, buffer, setBuffer, onCancel }) => payload =>
           setBuffer(
             undefined,
             onCancel == null
@@ -73,8 +67,9 @@ export const editor = compose(
           ),
         save: ({
           onChange,
+          onSave,
           value,
-          name = value,
+          name,
           buffer,
           setBuffer,
         }) => payload =>
@@ -82,13 +77,23 @@ export const editor = compose(
             ? new Promise(resolve => setBuffer(undefined, resolve))
             : promisify(onChange(buffer, name, payload)).then(
                 result =>
-                  new Promise(
-                    resolve => setBuffer(undefined, () => resolve(result)),
-                    result,
-                  ),
+                  onSave == null || onSave(result, buffer, name, payload)
+                    ? new Promise(resolve =>
+                        setBuffer(undefined, () => resolve(result)),
+                      )
+                    : result,
               ),
       }),
-      branch(hasProp('editing')),
+      branch(
+        hasProp('editing'),
+        onPropsChange(
+          ['editing'],
+          ({ editing, edit, cancel, buffer }) =>
+            editing
+              ? buffer === undefined && edit()
+              : buffer !== undefined && cancel(),
+        ),
+      ),
       mapProps(props => {
         const { value, buffer, onChange } = props
         const editing = buffer !== undefined

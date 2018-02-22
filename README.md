@@ -17,28 +17,51 @@
 
 ## Usage
 
+> 🏗 Under construction
+> 🚧 Subject to modifications
+
 ### Types
 
-* `value`
-* `object`
-* `array`
-* `boolean`
-* `number`
-* `date`
-* `string` (value, selection)
-* `binary`
+* Structure
+
+  * `object`
+  * `array`
+
+* Inputs
+
+  * `boolean`
+  * `number`
+  * `date` 🏗
+  * `string`
 
 ### Widgets
 
-* `input` (focus)
+* `withFocus`
+* `withKeys`
+* `withSelection` 🏗
 
 ### Tools
 
-* `debouncer`
-* `editor`
-* `timer`
-* `validator`
-* `logger`
+* Value
+
+  * `filtered`
+  * `buffered`
+  * `debounced`
+  * `editor` 🚧 (flushable activable buffer)
+  * `withDefaultValue`
+
+* State
+
+  * `onPropsChange`
+  * `withValue`
+  * `withBuffer`
+  * `withPropertyBuffer`
+  * `validator` 🏗
+  * `timer` 🏗
+
+* Debug
+
+  * `logger` 🏗
 
 ## Examples
 

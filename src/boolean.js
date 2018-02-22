@@ -6,13 +6,10 @@ export const boolean = branch(
   hasProp('onChange'),
   compose(
     withHandlers({
-      onChange: ({ name, onChange }) => (value, event) =>
-        onChange(value, name, event),
-      onEvent: ({ name, onChange }) => event =>
+      toggle: ({ value, name, onChange }) => event =>
+        onChange(!value, name, event),
+      onChange: ({ name, onChange }) => event =>
         onChange(event.target.checked, name, event),
-    }),
-    withHandlers({
-      toggle: ({ value, onChange }) => event => onChange(!value, event),
     }),
   ),
 )

@@ -12,18 +12,18 @@ import {
 
 import {
   array,
-  object,
-  string,
-  number,
-  filterChange,
   boolean,
-  editor,
   creator,
+  editor,
+  number,
+  object,
   removable,
-  withValue,
-  withKeys,
-  withFocus,
+  string,
+  filtered,
   withDefaultValue,
+  withFocus,
+  withKeys,
+  withValue,
 } from '../'
 
 const Text = compose(
@@ -61,7 +61,7 @@ const Text = compose(
 
 const Checkbox = compose(pure, boolean, withDefaultValue)(function Checkbox({
   value,
-  onEvent: onChange,
+  onChange,
   label,
 }) {
   return $(
@@ -190,7 +190,7 @@ const Number = compose(
     defaultValue: '',
     placeholder: '0',
   }),
-  filterChange(
+  filtered(
     value => value === '' || !isString(value),
     value => (value === '' ? undefined : value),
   ),
