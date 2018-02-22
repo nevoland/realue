@@ -17,12 +17,15 @@ export const withDefaultValue = mapProps(props => {
   }
 })
 
-export const buffered = withPropertyBuffer(
-  'value',
-  withHandlers({
-    onChange: ({ onChange, setBuffer }) => (value, name, payload) =>
-      setBuffer(value, () => onChange(value, name, payload)),
-  }),
+export const buffered = branch(
+  hasProp('onChange'),
+  withPropertyBuffer(
+    'value',
+    withHandlers({
+      onChange: ({ onChange, setBuffer }) => (value, name, payload) =>
+        setBuffer(value, () => onChange(value, name, payload)),
+    }),
+  ),
 )
 
 export function filtered(condition, transform) {

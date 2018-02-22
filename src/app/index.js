@@ -1,25 +1,19 @@
 import { createElement as $ } from 'react'
 import { render } from 'react-dom'
 import { map, isString } from 'lodash'
-import {
-  compose,
-  pure,
-  withState,
-  withHandlers,
-  withProps,
-  defaultProps,
-} from 'recompose'
+import { compose, pure, withHandlers, withProps, defaultProps } from 'recompose'
 
 import {
   array,
   boolean,
+  buffered,
   creator,
   editor,
+  filtered,
   number,
   object,
   removable,
   string,
-  filtered,
   withDefaultValue,
   withFocus,
   withKeys,
@@ -224,27 +218,26 @@ const ColorProperty = compose(pure)(function ColorProperty({
 })
 
 export const App = compose(
-  withState('value', 'onChange', {
-    todos: [
-      { done: false, label: 'eye' },
-      { done: false, label: 'touch' },
-      { done: false, label: 'ear' },
-    ],
-    color: {
-      r: 0,
-      g: 0,
-      b: 0,
+  withProps({
+    value: {
+      todos: [
+        { done: false, label: 'eye' },
+        { done: false, label: 'touch' },
+        { done: false, label: 'ear' },
+      ],
+      color: {
+        r: 0,
+        g: 0,
+        b: 0,
+      },
     },
+    // eslint-disable-next-line
+    onChange: value => console.log(value),
   }),
-  withHandlers({
-    onChange: ({ onChange }) => value => onChange(value),
-    printValue: ({ value }) => () =>
-      // eslint-disable-next-line
-      console.log('value', value),
-  }),
+  buffered,
   object,
 )(function App(props) {
-  const { property, printValue } = props
+  const { property } = props
   return $(
     'div',
     null,
@@ -253,7 +246,6 @@ export const App = compose(
     $(EditedItems, property('todos')),
     $('h2', null, 'Color'),
     $(Color, property('color')),
-    $('p', null, $('button', { onClick: printValue }, 'Print value')),
   )
 })
 
