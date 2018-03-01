@@ -12,7 +12,13 @@ import {
   every,
   compact,
 } from 'lodash'
-import { lifecycle, withState, compose, mapProps } from 'recompose'
+import {
+  lifecycle,
+  withState,
+  compose,
+  mapProps,
+  withHandlers,
+} from 'recompose'
 
 export const EMPTY_ARRAY = []
 export const EMPTY_OBJECT = {}
@@ -130,8 +136,21 @@ export function withBuffer(initialValue = pickValue) {
 
 withBuffer.omit = props => omit(props, ['buffer', 'setBuffer'])
 
-export function withValue(name, initialValue) {
-  return withState(name, `set${upperFirst(name)}`, initialValue)
+export function withValue(
+  name,
+  initialValue,
+  onChange,
+  setterName = `set${upperFirst(name)}`,
+) {
+  return compose(
+    withState(name, setterName, initialValue),
+    withHandlers({
+      [setterName]: props => (value, name, payload) =>
+        props[setterName](
+          onChange == null ? value : onChange(value, props, payload),
+        ),
+    }),
+  )
 }
 
 export function omitProps(keys) {
