@@ -9,13 +9,24 @@ import { debounce, omit } from 'lodash'
 
 import { hasProp, withBuffer, onPropsChange, withPropertyBuffer } from './tools'
 
-export const withDefaultValue = mapProps(props => {
-  const { value, defaultValue = null } = props
-  return {
-    ...('defaultValue' in props ? omit(props, 'defaultValue') : props),
-    value: value === undefined ? defaultValue : value,
-  }
-})
+export const withDefaultValue = branch(
+  props => 'defaultValue' in props,
+  mapProps(props => {
+    const { value, defaultValue = null } = props
+    return {
+      ...omit(props, 'defaultValue'),
+      value: value === undefined ? defaultValue : value,
+    }
+  }),
+)
+
+export const value = branch(
+  hasProp('onChange'),
+  withHandlers({
+    onChange: ({ value, name, onChange }) => payload =>
+      onChange(value, name, payload),
+  }),
+)
 
 export const buffered = branch(
   hasProp('onChange'),

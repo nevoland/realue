@@ -1,8 +1,9 @@
-import { compose, branch, withHandlers } from 'recompose'
+import { compose, branch, withHandlers, withProps } from 'recompose'
 
-import { setItem, insertItem, hasProp } from './tools'
+import { setItem, insertItem, hasProp, EMPTY_ARRAY } from './tools'
 
 export const array = compose(
+  branch(({ value }) => value == null, withProps({ value: EMPTY_ARRAY })),
   branch(
     hasProp('onChange'),
     withHandlers({

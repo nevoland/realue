@@ -6,11 +6,11 @@
   "module": "src/index.js",
   "scripts": {
     "start": "parcel src/index.html",
-    "start:test": "ava --watch",
     "build": "parcel build --public-url ./ src/index.html",
     "server": "node scripts/server.js",
     "prepare": "babel --out-dir lib --ignore tests src",
     "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava",
+    "test:coverage": "nyc ava",
     "prepush": "npm test"
   },
   "keywords": [
@@ -49,7 +49,8 @@
     "prettier": "^1.10.2",
     "react-devtools": "^3.1.0",
     "react-test-renderer": "^16.2.0",
-    "serve-static": "^1.13.2"
+    "serve-static": "^1.13.2",
+    "standard-version": "^4.3.0"
   },
   "prettier": {
     "printWidth": 80,
@@ -105,11 +106,6 @@
       "html",
       "lcov",
       "text"
-    ]
-  },
-  "pre-commit": {
-    "run": [
-      "test"
     ]
   },
   "@std/esm": {
