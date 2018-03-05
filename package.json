@@ -9,16 +9,13 @@
     "build": "parcel build --public-url ./ src/index.html",
     "server": "node scripts/server.js",
     "prepare": "babel --out-dir lib --ignore tests src",
-    "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava",
+    "release": "standard-version",
+    "test":
+      "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava",
     "test:coverage": "nyc ava",
     "prepush": "npm test"
   },
-  "keywords": [
-    "react",
-    "value",
-    "reuse",
-    "polymorphism"
-  ],
+  "keywords": ["react", "value", "reuse", "polymorphism"],
   "author": "David Bonnet <david@bonnet.cc>",
   "license": "MIT",
   "repository": {
@@ -62,14 +59,8 @@
     "bracketSpacing": true
   },
   "eslintConfig": {
-    "plugins": [
-      "import"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:import/errors",
-      "prettier"
-    ],
+    "plugins": ["import"],
+    "extends": ["eslint:recommended", "plugin:import/errors", "prettier"],
     "env": {
       "es6": true
     },
@@ -91,33 +82,19 @@
     }
   },
   "ava": {
-    "files": [
-      "src/**/tests/*.js"
-    ],
-    "require": [
-      "@std/esm"
-    ]
+    "files": ["src/**/tests/*.js"],
+    "require": ["@std/esm"]
   },
   "nyc": {
-    "exclude": [
-      "src/**/tests/*.js"
-    ],
-    "reporter": [
-      "html",
-      "lcov",
-      "text"
-    ]
+    "exclude": ["src/**/tests/*.js"],
+    "reporter": ["html", "lcov", "text"]
   },
   "@std/esm": {
     "esm": "js",
     "cjs": true
   },
   "babel": {
-    "presets": [
-      "env"
-    ],
-    "plugins": [
-      "transform-object-rest-spread"
-    ]
+    "presets": ["env"],
+    "plugins": ["transform-object-rest-spread"]
   }
 }
