@@ -20,7 +20,10 @@ export const object = compose(
     }),
   ),
   withHandlers({
-    property: ({ value, onChangeProperty: onChange }) => (name, key) => ({
+    property: ({ value, onChangeProperty: onChange }) => (
+      name,
+      key = name,
+    ) => ({
       value: value[name],
       key,
       name,
