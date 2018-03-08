@@ -4,6 +4,7 @@ import {
   withHandlers,
   mapProps,
   withPropsOnChange,
+  withProps,
 } from 'recompose'
 import { debounce, omit } from 'lodash'
 
@@ -38,6 +39,19 @@ export const buffered = branch(
     }),
   ),
 )
+
+export function transformed(onReceivingValue, onEmittingValue) {
+  return compose(
+    withProps(props => ({ value: onReceivingValue(props.value, props) })),
+    branch(
+      hasProp('onChange'),
+      withHandlers({
+        onChange: props => (value, name, payload) =>
+          props.onChange(onEmittingValue(value, props, payload), name, payload),
+      }),
+    ),
+  )
+}
 
 export function filtered(condition, transform) {
   return branch(
