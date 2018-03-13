@@ -110,7 +110,7 @@
     ]
   },
   "@std/esm": {
-    "esm": "js",
+    "esm": "auto",
     "cjs": true
   },
   "babel": {
