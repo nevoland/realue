@@ -1,17 +1,26 @@
-import { branch, withHandlers } from 'recompose'
+import { compose, branch, withHandlers, withProps } from 'recompose'
 
 import { hasProp } from './tools'
 
-export const number = branch(
-  hasProp('onChange'),
-  withHandlers({
-    onChange: ({ name, onChange }) => event => {
-      const { valueAsNumber, value } = event.target
-      if (valueAsNumber == null || isNaN(valueAsNumber)) {
-        const parsedValue = parseFloat(value)
-        return onChange(isNaN(parsedValue) ? value : parsedValue, name, event)
-      }
-      return onChange(valueAsNumber, name, event)
-    },
-  }),
+export const number = compose(
+  branch(({ value }) => value == null, withProps({ value: 0 })),
+  branch(
+    hasProp('onChange'),
+    withHandlers({
+      onChange: ({ name, onChange }) => event => {
+        const { valueAsNumber, value } = event.target
+        const parsedValue =
+          valueAsNumber == null || isNaN(valueAsNumber)
+            ? parseFloat(value)
+            : valueAsNumber
+        return onChange(
+          `${parsedValue}` !== value || isNaN(parsedValue)
+            ? value
+            : parsedValue,
+          name,
+          event,
+        )
+      },
+    }),
+  ),
 )
