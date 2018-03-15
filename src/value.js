@@ -8,7 +8,13 @@ import {
 } from 'recompose'
 import { debounce, omit } from 'lodash'
 
-import { hasProp, withBuffer, onPropsChange, withPropertyBuffer } from './tools'
+import {
+  hasProp,
+  hasProps,
+  withBuffer,
+  onPropsChange,
+  withPropertyBuffer,
+} from './tools'
 
 export const withDefaultValue = branch(
   props => 'defaultValue' in props,
@@ -75,22 +81,20 @@ export function filtered(condition, transform) {
 }
 
 export const debounced = branch(
-  ({ delay }) => delay,
+  hasProps(['onChange', 'delay']),
   compose(
     withPropsOnChange(['onChange', 'delay'], ({ onChange, delay }) => {
       const onChangeDebounced = debounce(onChange, delay)
       return {
         onChange: onChangeDebounced,
-        flush: onChangeDebounced.flush,
+        push: onChangeDebounced.flush,
       }
     }),
     withBuffer(),
     onPropsChange(['value'], ({ setBuffer, value }) => setBuffer(value), false),
     withHandlers({
-      onChange: ({ onChange, setBuffer }) => (value, name, event) => {
-        event.persist()
-        return setBuffer(value, () => onChange(value, name, event))
-      },
+      onChange: ({ onChange, setBuffer }) => (value, name, payload) =>
+        setBuffer(value, () => onChange(value, name, payload)),
     }),
     mapProps(props => ({
       ...withBuffer.omit(props),
