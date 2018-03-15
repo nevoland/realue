@@ -168,12 +168,12 @@ export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
   return lifecycle({
     componentWillMount() {
       if (callOnMount) {
-        handler(this.props)
+        handler(this.props, this.props)
       }
     },
     componentWillReceiveProps(nextProps) {
       if (shouldHandle(this.props, nextProps)) {
-        handler(nextProps)
+        handler(nextProps, this.props)
       }
     },
   })
