@@ -32,7 +32,7 @@
     "recompose": "^0.26.0"
   },
   "devDependencies": {
-    "@std/esm": "^0.22.0",
+    "@std/esm": "^0.25.3",
     "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
