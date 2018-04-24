@@ -6,7 +6,7 @@ import {
   withPropsOnChange,
   withProps,
 } from 'recompose'
-import { debounce, omit } from 'lodash'
+import { debounce } from 'lodash'
 
 import {
   hasProp,
@@ -17,14 +17,10 @@ import {
 } from './tools'
 
 export const withDefaultValue = branch(
-  props => 'defaultValue' in props,
-  mapProps(props => {
-    const { value, defaultValue = null } = props
-    return {
-      ...omit(props, 'defaultValue'),
-      value: value === undefined ? defaultValue : value,
-    }
-  }),
+  hasProp('defaultValue'),
+  withProps(({ value, defaultValue }) => ({
+    value: value === undefined ? defaultValue : value,
+  })),
 )
 
 export const value = branch(
@@ -60,6 +56,9 @@ export function transformed(onReceivingValue, onEmittingValue) {
 }
 
 export function filtered(condition, transform) {
+  /*
+  
+  */
   return branch(
     hasProp('onChange'),
     withPropertyBuffer(

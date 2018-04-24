@@ -16,6 +16,12 @@
     "tab_size": 2,
     "js_prettier": {
       "auto_format_on_save": true,
+      "auto_format_on_save_excludes": [
+        "*/package.json",
+        "*/dist/*",
+        "*/node_modules/*",
+        "*/.git/*"
+      ],
       "allow_inline_formatting": true,
       "custom_file_extensions": ["sublime-project"]
     }
@@ -23,9 +29,7 @@
   "SublimeLinter": {
     "linters": {
       "eslint": {
-        "@disable": false,
-        "args": [],
-        "excludes": []
+        "disable": false
       }
     }
   }

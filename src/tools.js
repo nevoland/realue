@@ -50,9 +50,13 @@ export function setItem(array, index, value) {
   If `index` equals `-1` or is `undefined`, returns the `array` untouched.
   */
   return index === -1 || index == null
-    ? array == null ? EMPTY_ARRAY : array
+    ? array == null
+      ? EMPTY_ARRAY
+      : array
     : array == null
-      ? value === undefined ? EMPTY_ARRAY : [value]
+      ? value === undefined
+        ? EMPTY_ARRAY
+        : [value]
       : value === undefined
         ? index < array.length
           ? [...slice(array, 0, index), ...slice(array, index + 1)]
@@ -69,12 +73,20 @@ export function setProperty(object, key, value) {
   If `key` is `undefined`, returns the `object` untouched.
   */
   return key === undefined
-    ? object == null ? EMPTY_OBJECT : object
+    ? object == null
+      ? EMPTY_OBJECT
+      : object
     : object == null
-      ? value === undefined ? EMPTY_OBJECT : { [key]: value }
+      ? value === undefined
+        ? EMPTY_OBJECT
+        : { [key]: value }
       : value === undefined
-        ? key in object ? omit(object, key) : object
-        : object[key] === value ? object : { ...object, [key]: value }
+        ? key in object
+          ? omit(object, key)
+          : object
+        : object[key] === value
+          ? object
+          : { ...object, [key]: value }
 }
 
 export function same(
@@ -189,3 +201,13 @@ export function called(object, property) {
   object[property]()
   return object
 }
+
+export const logger = compose(
+  // eslint-disable-next-line
+  onPropsChange(['value'], ({ value }) => console.log('value:', value)),
+  withHandlers({
+    onChange: ({ onChange }) => (value, name, payload) =>
+      // eslint-disable-next-line
+      console.log('new value:', value) || onChange(value, name, payload),
+  }),
+)
