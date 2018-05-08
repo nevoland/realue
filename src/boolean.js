@@ -1,15 +1,16 @@
-import { compose, branch, withHandlers } from 'recompose'
+import { compose, branch, withHandlers, withProps } from 'recompose'
 
-import { hasProp } from './tools'
+import { hasProp, hasNotProp } from './tools'
 
-export const boolean = branch(
-  hasProp('onChange'),
-  compose(
-    withHandlers({
-      toggle: ({ value, name, onChange }) => event =>
-        onChange(!value, name, event),
-      onChange: ({ name, onChange }) => event =>
-        onChange(event.target.checked, name, event),
-    }),
+export const boolean = compose(
+  branch(hasNotProp('value'), withProps({ value: false })),
+  branch(
+    hasProp('onChange'),
+    compose(
+      withHandlers({
+        toggle: ({ value, name, onChange }) => payload =>
+          onChange(!value, name, payload),
+      }),
+    ),
   ),
 )

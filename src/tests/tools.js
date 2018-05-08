@@ -2,10 +2,13 @@ import test from 'ava'
 
 import {
   hasProp,
+  hasNotProp,
   insertItem,
   setItem,
   setProperty,
   isValidDate,
+  EMPTY_ARRAY,
+  EMPTY_OBJECT,
 } from '../tools'
 
 function similar(assert, base, value, expected, message) {
@@ -15,8 +18,21 @@ function similar(assert, base, value, expected, message) {
 
 test('hasProp', assert => {
   assert.is(typeof hasProp, 'function')
+  assert.is(typeof hasProp('onChange'), 'function')
+  assert.is(hasProp('onChange'), hasProp('onChange'), 'memoizes')
   assert.true(hasProp('onChange')({ onChange() {} }), 'detects set onChange')
   assert.false(hasProp('onChange')({}), 'detects missing onChange')
+})
+
+test('hasNotProp', assert => {
+  assert.is(typeof hasNotProp, 'function')
+  assert.is(typeof hasNotProp('onChange'), 'function')
+  assert.is(hasNotProp('onChange'), hasNotProp('onChange'), 'memoizes')
+  assert.false(
+    hasNotProp('onChange')({ onChange() {} }),
+    'detects set onChange',
+  )
+  assert.true(hasNotProp('onChange')({}), 'detects missing onChange')
 })
 
 test('insertItem', assert => {
@@ -74,10 +90,10 @@ test('setItem', assert => {
     'appends if out of bounds',
   )
   similar(assert, null, setItem(null, 0, 3), [3], 'creates array')
-  similar(assert, null, setItem(null, -1, 3), [], 'creates empty array')
+  assert.is(setItem(null, -1, 3), EMPTY_ARRAY, 'creates empty array')
   assert.is(setItem(base, -1, 3), base, 'returns same array if not found')
   assert.is(setItem(base, null, 3), base, 'returns same array if no index')
-  similar(assert, null, setItem(), [], 'returns empty array if no arguments')
+  assert.is(setItem(), EMPTY_ARRAY, 'returns empty array if no arguments')
   similar(assert, base, setItem(base, 0), [1, 2], 'removes item if undefined')
 })
 
@@ -106,12 +122,18 @@ test('setProperty', assert => {
     { a: 1 },
     'creates object with key',
   )
-  similar(assert, null, setProperty(null, 'a'), {}, 'creates empty object')
+  similar(
+    assert,
+    null,
+    setProperty(null, 'a'),
+    EMPTY_OBJECT,
+    'creates empty object',
+  )
   similar(
     assert,
     null,
     setProperty(),
-    {},
+    EMPTY_OBJECT,
     'creates empty object if no arguments',
   )
   assert.is(setProperty(base, 'a', 1), base, 'returns same object if no change')

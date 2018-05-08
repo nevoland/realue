@@ -5,6 +5,5 @@ export * from './string'
 export * from './number'
 export * from './boolean'
 
-export * from './editor'
-export * from './input'
+export * from './dom'
 export * from './tools'

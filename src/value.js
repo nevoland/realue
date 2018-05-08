@@ -1,103 +1,129 @@
+import { createElement as $, PureComponent } from 'react'
 import {
   compose,
   branch,
   withHandlers,
-  mapProps,
   withPropsOnChange,
   withProps,
 } from 'recompose'
-import { debounce } from 'lodash'
 
 import {
   hasProp,
   hasProps,
-  withBuffer,
-  onPropsChange,
-  withPropertyBuffer,
+  delayedProp,
+  syncedProp,
+  editableProp,
+  cycledProp,
 } from './tools'
 
-export const withDefaultValue = branch(
+export const defaultValue = branch(
   hasProp('defaultValue'),
   withProps(({ value, defaultValue }) => ({
     value: value === undefined ? defaultValue : value,
   })),
 )
 
-export const value = branch(
-  hasProp('onChange'),
-  withHandlers({
-    onChange: ({ value, name, onChange }) => payload =>
-      onChange(value, name, payload),
-  }),
-)
-
-export const buffered = branch(
-  hasProp('onChange'),
-  withPropertyBuffer(
-    'value',
+export const transformable = compose(
+  /*
+  Replaces `value` with the return value of `transformValue(value)`, if set.
+  Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
+  */
+  branch(
+    hasProp('transformValue'),
+    withPropsOnChange(
+      ['transformValue', 'value'],
+      ({ transformValue, value }) => ({ value: transformValue(value) }),
+    ),
+  ),
+  branch(
+    hasProps(['onChange', 'transformOnChange']),
     withHandlers({
-      onChange: ({ onChange, setBuffer }) => (value, name, payload) =>
-        setBuffer(value, () => onChange(value, name, payload)),
+      onChange: ({ onChange, transformOnChange }) => (value, name, payload) =>
+        onChange(transformOnChange(value, name, payload), name, payload),
     }),
   ),
 )
 
-export function transformed(onReceivingValue, onEmittingValue) {
-  return compose(
-    withProps(props => ({ value: onReceivingValue(props.value, props) })),
-    branch(
-      hasProp('onChange'),
-      withHandlers({
-        onChange: props => (value, name, payload) =>
-          props.onChange(onEmittingValue(value, props, payload), name, payload),
-      }),
-    ),
-  )
-}
-
-export function filtered(condition, transform) {
+export const filterable = compose(
   /*
-  
+  Prevents `value` update if `filterValue(value, previousValue)` is set and returns `false`.
+  Prevents `onChange` call if `filterOnChange(value, name, payload)` is set and returns `false`.
   */
-  return branch(
-    hasProp('onChange'),
-    withPropertyBuffer(
-      'value',
+  branch(
+    hasProp('filterValue'),
+    Component =>
+      class extends PureComponent {
+        static getDerivedStateFromProps({ value, filterValue }, state) {
+          return state &&
+            (value === state.value || !filterValue(value, state.value))
+            ? null
+            : { value }
+        }
+        render() {
+          return $(Component, {
+            ...this.props,
+            ...this.state,
+          })
+        }
+      },
+  ),
+  branch(
+    hasProps(['onChange', 'filterOnChange']),
+    withHandlers({
+      onChange: ({ filterOnChange, onChange }) => (value, name, payload) =>
+        !filterOnChange(value, name, payload)
+          ? null
+          : onChange(value, name, payload),
+      push: ({ onChange }) => onChange,
+    }),
+  ),
+)
+
+export const delayed = delayedProp({
+  /*
+  Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
+  Renames undelayed `onChange` as `push`.
+  */
+  name: 'onChange',
+  delayName: 'delay',
+  pushName: 'push',
+})
+
+export const editable = branch(
+  /*
+  Enables the `value` prop to be locally editable when `onChange` is set, while staying in sync with its parent value.
+  The value can be updated with prop `onChange(value, name, payload)`, which triggers the parent prop `onChange`.
+  Calling `pull()` sets the local value to the parent value.
+  The return value of the optional parent prop `onPull(newValue, previousValue)` is used on `value` changes or when calling `pull()`.
+  */
+  hasProp('onChange'),
+  compose(
+    syncedProp({
+      name: 'value',
+      onChangeName: 'onChange',
+      onPullName: 'onPull',
+      pullName: 'pull',
+    }),
+    branch(
+      hasProp('push'),
       withHandlers({
-        onChange: props => (value, name, payload) =>
-          props.setBuffer(value, () => {
-            if (condition == null || condition(value, props, payload)) {
-              return props.onChange(
-                transform == null ? value : transform(value, props, payload),
-                name,
-                payload,
-              )
-            }
-          }),
+        push: ({ value, name, push }) => payload => push(value, name, payload),
       }),
     ),
-  )
-}
+  ),
+)
 
-export const debounced = branch(
-  hasProps(['onChange', 'delay']),
+export const toggledEditing = branch(
+  /*
+  Sets the `editing` prop and enables its toggling through the `toggleEditing()` prop. 
+  */
+  hasProp('onChange'),
   compose(
-    withPropsOnChange(['onChange', 'delay'], ({ onChange, delay }) => {
-      const onChangeDebounced = debounce(onChange, delay)
-      return {
-        onChange: onChangeDebounced,
-        push: onChangeDebounced.flush,
-      }
-    }),
-    withBuffer(),
-    onPropsChange(['value'], ({ setBuffer, value }) => setBuffer(value), false),
-    withHandlers({
-      onChange: ({ onChange, setBuffer }) => (value, name, payload) =>
-        setBuffer(value, () => onChange(value, name, payload)),
-    }),
-    mapProps(props => ({
-      ...withBuffer.omit(props),
-      value: props.buffer,
+    editableProp('editing'),
+    cycledProp('editing'),
+    withPropsOnChange(['editing'], ({ editing, onChange, push }) => ({
+      onChange: editing ? onChange : null,
+      push: editing ? onChange : push,
     })),
   ),
 )

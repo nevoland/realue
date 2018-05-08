@@ -1,33 +1,35 @@
 import { createElement as $ } from 'react'
 import { render } from 'react-dom'
-import { map, isString } from 'lodash'
+import { map, isString, stubFalse } from 'lodash'
 import { compose, pure, withHandlers, withProps, defaultProps } from 'recompose'
 
 import {
   array,
   boolean,
-  buffered,
-  creator,
-  editor,
-  filtered,
+  editable,
+  filterable,
+  transformable,
   number,
   object,
   removable,
   string,
-  withDefaultValue,
+  defaultValue,
+  fromEvent,
   withFocus,
-  withKeys,
-  withValue,
+  onKeysDown,
+  editableProp,
+  toggledEditing,
+  omitProps,
+  logProps,
 } from '../'
 
 const Text = compose(
   pure,
+  defaultProps({ defaultValue: '', focus: false }),
+  defaultValue,
   string,
-  defaultProps({
-    defaultValue: '',
-  }),
-  withDefaultValue,
-  withValue('node'),
+  fromEvent('target.value'),
+  editableProp('node'),
   withFocus,
 )(function Text({
   value,
@@ -35,14 +37,14 @@ const Text = compose(
   onChange,
   onFocus,
   onBlur,
-  setNode: ref,
+  onChangeNode,
   onKeyDown,
   className,
 }) {
   return !onChange
     ? $('span', { className }, value)
     : $('input', {
-        ref,
+        ref: onChangeNode,
         value,
         placeholder,
         onChange,
@@ -53,11 +55,12 @@ const Text = compose(
       })
 })
 
-const Checkbox = compose(pure, boolean, withDefaultValue)(function Checkbox({
-  value,
-  onChange,
-  label,
-}) {
+const Checkbox = compose(
+  pure,
+  defaultValue,
+  boolean,
+  fromEvent('target.checked'),
+)(function Checkbox({ value, onChange, label }) {
   return $(
     'label',
     null,
@@ -100,27 +103,31 @@ const Items = compose(pure, array)(function Items({ value, item, onAdd }) {
 const ItemCreator = compose(
   pure,
   withProps({
-    value: {
-      done: false,
+    value: { done: false },
+    filterOnChange: stubFalse,
+    focus: true,
+  }),
+  editableProp('focus'),
+  filterable,
+  editable,
+  withHandlers({
+    push: ({ push, pull, onChangeFocus }) => () => {
+      push()
+      pull()
+      onChangeFocus(true)
     },
   }),
-  creator,
-  withValue('focus', true),
-  withHandlers({
-    save: ({ save, setFocus }) => event =>
-      save(event).then(() => setFocus(true)),
-  }),
-  withKeys({
-    Enter: ({ save }, event) => save(event),
+  onKeysDown({
+    Enter: ({ push }) => push(),
   }),
   object,
 )(function ItemCreator({
   value,
-  save,
+  push,
   cancel,
   property,
   focus,
-  setFocus,
+  onChangeFocus,
   onKeyDown,
 }) {
   return $(
@@ -129,26 +136,35 @@ const ItemCreator = compose(
     $(Text, {
       ...property('label'),
       focus,
-      onChangeFocus: setFocus,
+      onChangeFocus,
       onKeyDown,
     }),
-    $('button', { onClick: save, disabled: !value.label }, 'Add'),
+    $('button', { onClick: push, disabled: !value.label }, 'Add'),
     $('button', { onClick: cancel }, 'Cancel'),
   )
 })
 
-const EditedItems = compose(pure, editor)(function EditedItems({
-  value,
-  edit,
-  onChange,
-  save,
-}) {
+const EditedItems = compose(
+  pure,
+  withProps({ filterOnChange: stubFalse, editing: false }),
+  toggledEditing,
+  filterable,
+  editable,
+  withHandlers({
+    toggleEditing: ({ push, editing, toggleEditing }) => payload => {
+      if (editing) {
+        push(payload)
+      }
+      toggleEditing()
+    },
+  }),
+)(function EditedItems({ value, onChange, editing, toggleEditing }) {
   return $(
     'div',
     null,
     $(Checkbox, {
-      value: onChange != null,
-      onChange: onChange == null ? edit : save,
+      value: editing,
+      onChange: toggleEditing,
       label: 'Edit',
     }),
     $(Items, { value, onChange }),
@@ -184,12 +200,23 @@ const Number = compose(
     defaultValue: '',
     placeholder: '0',
   }),
-  filtered(
-    value => value === '' || !isString(value),
-    value => (value === '' ? undefined : value),
-  ),
-  withDefaultValue,
+  withProps({
+    transformOnChange: value => (value === '' ? undefined : value),
+    filterOnChange: value => value === '' || !isString(value),
+  }),
+  transformable,
+  filterable,
+  editable,
+  defaultValue,
   number,
+  fromEvent('target.value'),
+  omitProps([
+    'transformOnChange',
+    'filterOnChange',
+    'defaultValue',
+    'pull',
+    'push',
+  ]),
 )('input')
 
 const ColorProperty = compose(pure)(function ColorProperty({
@@ -231,11 +258,11 @@ export const App = compose(
         b: 0,
       },
     },
-    // eslint-disable-next-line
-    onChange: value => console.log(value),
+    onChange: Function.prototype,
   }),
-  buffered,
+  editable,
   object,
+  logProps(['value']),
 )(function App(props) {
   const { property } = props
   return $(

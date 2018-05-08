@@ -1,14 +1,7 @@
-import { compose, branch, withHandlers, withProps } from 'recompose'
+import { compose, branch, withProps } from 'recompose'
 
-import { hasProp } from './tools'
+import { hasNotProp } from './tools'
 
 export const string = compose(
-  branch(({ value }) => value == null, withProps({ value: '' })),
-  branch(
-    hasProp('onChange'),
-    withHandlers({
-      onChange: ({ name, onChange }) => event =>
-        onChange(event.target.value, name, event),
-    }),
-  ),
+  branch(hasNotProp('value'), withProps({ value: '' })),
 )

@@ -1,29 +1,34 @@
+import { createElement as $, PureComponent } from 'react'
 import {
-  indexOf,
-  slice,
-  isFunction,
-  omit,
-  uniq,
   concat,
-  keys,
-  get,
-  memoize,
-  upperFirst,
+  debounce,
   every,
-  compact,
+  get,
+  indexOf,
+  isFunction,
+  isString,
+  keys,
+  memoize,
+  omit,
+  slice,
+  uniq,
+  upperFirst,
 } from 'lodash'
 import {
-  lifecycle,
-  withState,
+  branch,
   compose,
+  lifecycle,
   mapProps,
   withHandlers,
+  withPropsOnChange,
 } from 'recompose'
 
 export const EMPTY_ARRAY = []
 export const EMPTY_OBJECT = {}
 
 export const hasProp = memoize(name => ({ [name]: prop }) => prop != null)
+
+export const hasNotProp = memoize(name => ({ [name]: prop }) => prop == null)
 
 export const hasProps = names => props =>
   every(names, name => props[name] != null)
@@ -124,45 +129,22 @@ export function pickValue({ value }) {
   return value
 }
 
-export function withPropertyBuffer(name = 'value', decorators = null) {
-  return compose(
-    ...compact([
-      withState('buffer', 'setBuffer', ({ [name]: value }) => value),
-      onPropsChange(
-        [name],
-        ({ [name]: value, buffer, setBuffer }) =>
-          value !== buffer && setBuffer(value),
-      ),
-      decorators,
-      mapProps(props => ({
-        ...omit(props, ['buffer', 'setBuffer']),
-        [name]: props.buffer,
-      })),
-    ]),
-  )
+export function called(object, property) {
+  object[property]()
+  return object
 }
 
-export function withBuffer(initialValue = pickValue) {
-  return withState('buffer', 'setBuffer', initialValue)
-}
-
-withBuffer.omit = props => omit(props, ['buffer', 'setBuffer'])
-
-export function withValue(
-  name,
-  initialValue,
-  onChange,
-  setterName = `set${upperFirst(name)}`,
-) {
-  return compose(
-    withState(name, setterName, initialValue),
-    withHandlers({
-      [setterName]: props => (value, name, payload) =>
-        props[setterName](
-          onChange == null ? value : onChange(value, props, payload),
-        ),
-    }),
-  )
+export function logProps(propNames, name) {
+  return Component =>
+    onPropsChange(propNames, props => {
+      /* eslint-disable no-console */
+      console.group(name || Component.displayName || Component.name)
+      for (let name of propNames) {
+        console.log(name, props[name])
+      }
+      console.groupEnd()
+      /* eslint-enable no-console */
+    })(Component)
 }
 
 export function omitProps(keys) {
@@ -191,23 +173,147 @@ export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
   })
 }
 
-export function promisify(result) {
-  return result != null && isFunction(result.then) && isFunction(result.catch)
-    ? result
-    : Promise.resolve(result)
+export function delayedProp(options) {
+  const name = isString(options) ? options : options.name
+  const capitalizedName = upperFirst(name)
+  const {
+    delayName = `delay${capitalizedName}`,
+    pushName = `push${capitalizedName}`,
+  } =
+    name === options ? EMPTY_OBJECT : options
+  const propNames = [name, delayName]
+  return branch(
+    hasProps(propNames),
+    compose(
+      withPropsOnChange(
+        propNames,
+        ({ [name]: callable, [delayName]: delay }) => {
+          const debouncedCallable = debounce(callable, delay)
+          return {
+            [name]: debouncedCallable,
+            [pushName]: callable,
+          }
+        },
+      ),
+    ),
+  )
 }
 
-export function called(object, property) {
-  object[property]()
-  return object
+export function editableProp(options) {
+  /*
+  Enables a value prop of a given `name` to be locally editable.
+  The value can be updated with `onChangeName`.
+  */
+  const name = isString(options) ? options : options.name
+  const { onChangeName = `onChange${upperFirst(name)}` } =
+    name === options ? EMPTY_OBJECT : options
+  return Component =>
+    class extends PureComponent {
+      constructor(props) {
+        super(props)
+        this.state = {
+          value: props[name],
+        }
+        this.onChange = value => this.setState({ value })
+      }
+      render() {
+        return $(Component, {
+          ...this.props,
+          [name]: this.state.value,
+          [onChangeName]: this.onChange,
+        })
+      }
+    }
 }
 
-export const logger = compose(
-  // eslint-disable-next-line
-  onPropsChange(['value'], ({ value }) => console.log('value:', value)),
-  withHandlers({
-    onChange: ({ onChange }) => (value, name, payload) =>
-      // eslint-disable-next-line
-      console.log('new value:', value) || onChange(value, name, payload),
-  }),
-)
+export function syncedProp(options) {
+  /*
+  Enables a prop with a given `name` to be locally editable while staying in sync with its parent value.
+  The prop can be updated with prop `[onChangeName](value, name, payload)`, which triggers the optional parent prop `[onChangeName]`.
+  Calling `[pullName]()` sets the local value to the parent value.
+  The return value of the optional parent prop `[onPullName](newValue, previousValue)` is used on prop `[name]` changes or when calling `[pullName]()`.
+  */
+  const name = isString(options) ? options : options.name
+  const capitalizedName = upperFirst(name)
+  const {
+    onChangeName = `onChange${capitalizedName}`,
+    onPullName = `onPull${capitalizedName}`,
+    pullName = `pull${capitalizedName}`,
+  } =
+    name === options ? EMPTY_OBJECT : options
+  return Component =>
+    class extends PureComponent {
+      constructor(props) {
+        super(props)
+        this.state = this.constructor.getDerivedStateFromProps(
+          props,
+          EMPTY_OBJECT,
+        )
+        this.onChange = (value, name, payload) => {
+          if (value === this.state.value) {
+            return
+          }
+          const { [onChangeName]: onChange } = this.props
+          return this.setState(
+            { value },
+            onChange == null ? undefined : () => onChange(value, name, payload),
+          )
+        }
+        this.pull = () => {
+          const {
+            props: { onPull },
+            state: { value, originalValue },
+          } = this
+          this.setState({
+            value:
+              onPull == null ? originalValue : onPull(originalValue, value),
+          })
+        }
+      }
+      static getDerivedStateFromProps(props, state) {
+        const { [name]: value, [onPullName]: onPull } = props
+        if (value === state.originalValue && state !== EMPTY_OBJECT) {
+          return null
+        }
+        return {
+          value: onPull == null ? value : onPull(value, state.value),
+          originalValue: value,
+        }
+      }
+      render() {
+        return $(Component, {
+          ...this.props,
+          [name]: this.state.value,
+          [onChangeName]: this.onChange,
+          [pullName]: this.pull,
+        })
+      }
+    }
+}
+
+export function cycledProp(options) {
+  /*
+  Injects prop `[toggleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
+  Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameName]` or `name`.
+  */
+  const name = isString(options) ? options : options.name
+  const capitalizedName = upperFirst(name)
+  const {
+    valuesName = `${name}Values`,
+    toggleName = `toggle${capitalizedName}`,
+    onChangeName = `onChange${capitalizedName}`,
+    nameName = `${name}Name`,
+  } =
+    name === options ? EMPTY_OBJECT : options
+  return withHandlers({
+    [toggleName]: ({
+      [name]: value,
+      [valuesName]: values = [false, true],
+      [onChangeName]: onChange,
+      [nameName]: valueName = name,
+    }) => payload => {
+      const index = indexOf(values, value) + 1
+      onChange(values[index === values.length ? 0 : index], valueName, payload)
+    },
+  })
+}

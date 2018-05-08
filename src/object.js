@@ -1,9 +1,9 @@
 import { compose, branch, withHandlers, withProps } from 'recompose'
 
-import { hasProp, setProperty, EMPTY_OBJECT } from './tools'
+import { hasProp, hasNotProp, setProperty, EMPTY_OBJECT } from './tools'
 
 export const object = compose(
-  branch(({ value }) => value == null, withProps({ value: EMPTY_OBJECT })),
+  branch(hasNotProp('value'), withProps({ value: EMPTY_OBJECT })),
   branch(
     hasProp('onChange'),
     withHandlers({

@@ -1,24 +1,25 @@
+import { trim } from 'lodash'
 import { compose, branch, withHandlers, withProps } from 'recompose'
 
-import { hasProp } from './tools'
+import { hasProp, hasNotProp } from './tools'
 
 export const number = compose(
-  branch(({ value }) => value == null, withProps({ value: 0 })),
+  branch(hasNotProp('value'), withProps({ value: 0 })),
   branch(
     hasProp('onChange'),
     withHandlers({
-      onChange: ({ name, onChange }) => event => {
-        const { valueAsNumber, value } = event.target
-        const parsedValue =
-          valueAsNumber == null || isNaN(valueAsNumber)
-            ? parseFloat(value)
-            : valueAsNumber
+      onChange: ({ onChange }) => (value, name, payload) => {
+        if (value == null) {
+          return onChange(value, name, payload)
+        }
+        const formattedValue = trim(value, '.')
+        const parsedValue = parseFloat(formattedValue)
         return onChange(
-          `${parsedValue}` !== value || isNaN(parsedValue)
+          `${parsedValue}` !== formattedValue || isNaN(parsedValue)
             ? value
             : parsedValue,
           name,
-          event,
+          payload,
         )
       },
     }),
