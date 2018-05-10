@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/davidbonnet/realue/compare/v0.8.0...v0.9.0) (2018-05-10)
+
+
+### Bug Fixes
+
+* **app:** Use `onRemove` instead of `remove` ([cb84165](https://github.com/davidbonnet/realue/commit/cb84165))
+* **booleans:** Remove redundant `toggle()` ([e400d07](https://github.com/davidbonnet/realue/commit/e400d07))
+* **dependencies:** Update dependencies ([524a13d](https://github.com/davidbonnet/realue/commit/524a13d))
+* **dom:** Handle `fromEvent()` ([aa27451](https://github.com/davidbonnet/realue/commit/aa27451))
+* **tests:** Update tests ([d2074a1](https://github.com/davidbonnet/realue/commit/d2074a1))
+
+
+### Features
+
+* BREAKING CHANGES: Modularize and simplify ([33a8688](https://github.com/davidbonnet/realue/commit/33a8688))
+* **dates:** Add `date` ([8bd488c](https://github.com/davidbonnet/realue/commit/8bd488c))
+* **numbers:** Add `parseNumber` ([f05b601](https://github.com/davidbonnet/realue/commit/f05b601))
+* **objects:** Add `splittable` decorator ([e8ac760](https://github.com/davidbonnet/realue/commit/e8ac760))
+* **values:** Rename `delayed` to `delayable` ([49ffb82](https://github.com/davidbonnet/realue/commit/49ffb82))
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/davidbonnet/realue/compare/v0.7.0...v0.8.0) (2018-03-15)
 
