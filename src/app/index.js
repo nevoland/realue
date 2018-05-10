@@ -25,6 +25,7 @@ import {
   omitProps,
   onKeysDown,
   onPropsChange,
+  parseNumber,
   removable,
   string,
   toggledEditing,
@@ -210,8 +211,8 @@ const Number = compose(
     placeholder: '0',
   }),
   withProps({
-    transformOnChange: value => (value === '' ? undefined : value),
-    filterOnChange: value => value === '' || !isString(value),
+    transformOnChange: value => (value === '' ? undefined : parseNumber(value)),
+    filterOnChange: value => value === '' || !isString(parseNumber(value)),
   }),
   transformable,
   filterable,

@@ -121,6 +121,11 @@ export function same(
   return true
 }
 
+const REGEX_CHARS_PATTERN = /[.?*+^$[\]\\(){}|-]/g
+export function escapeRegex(pattern) {
+  return (pattern + '').replace(REGEX_CHARS_PATTERN, '\\$&')
+}
+
 export function isValidDate(date) {
   return !isNaN(date.getTime())
 }
