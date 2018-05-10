@@ -239,3 +239,24 @@ Exposes the synced `focus` state of an element through the `onFocus()` and `onBl
 Triggers the specified `keys` handlers on key down. Each handler is called with the current `props`.
 
 ### `withSelection` 🏗
+
+# Tools
+
+### `setItem(array, index, value)`
+
+Returns a new array with `array[index]` set to `value` if `array[index]` is strictly different from `value`. Otherwise, returns the provided `array`.
+If `value` is `undefined`, ensures that the returned array does not contain the `index`.
+If `index` is greater than `array.length`, appends `value` to the `array`.
+If `index` equals `-1` or is `undefined`, returns the `array` untouched.
+
+### `setProperty(object, key, value)`
+
+Returns a new object with `object[key]` set to `value` if `object[key]` is strictly different from `value`. Otherwise, returns the provided `object`.
+If `value` is `undefined`, ensures that the returned object does not contain the `key`.
+If `key` is `undefined`, returns the `object` untouched.
+
+### `same(a, b, properties, deep = false)`
+
+Returns `true` if objects `a` and `b` have the same `properties`.
+Unless provided, `properties` are the combined set of property names from `a` and `b`.
+If `deep` is `true`, considers properties as paths (e.g., `p1.p2`).
