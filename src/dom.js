@@ -22,13 +22,19 @@ function onChangeFromPath(path) {
 }
 
 export const fromEvent = memoize(path => {
+  /*
+  Creates an `onChange` handler that takes the value from `get(event, path)`.
+  */
   return branch(
     hasProp('onChange'),
     withHandlers({ onChange: onChangeFromPath(path) }),
   )
 })
 
-export const withFocus = branch(
+export const syncedFocus = branch(
+  /*
+  Exposes the synced `focus` state of an element through the `onFocus()` and `onBlur()` callbacks.
+  */
   hasProp('node'),
   compose(
     withHandlers({
@@ -46,6 +52,9 @@ export const withFocus = branch(
 )
 
 export function onKeysDown(keys) {
+  /*
+  Triggers the specified `keys` handlers on key down.
+  */
   return withHandlers({
     onKeyDown: props => event => {
       const handler = keys[event.key]

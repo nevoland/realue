@@ -30,7 +30,7 @@ import {
   string,
   toggledEditing,
   transformable,
-  withFocus,
+  syncedFocus,
 } from '../'
 
 const Text = compose(
@@ -40,7 +40,7 @@ const Text = compose(
   string,
   fromEvent('target.value'),
   editableProp('node'),
-  withFocus,
+  syncedFocus,
 )(function Text({
   value,
   placeholder,
@@ -121,19 +121,19 @@ const ItemCreator = compose(
   filterable,
   editable,
   withHandlers({
-    push: ({ push, pull, onChangeFocus }) => () => {
-      push()
-      pull()
+    onPush: ({ onPush, onPull, onChangeFocus }) => () => {
+      onPush()
+      onPull()
       onChangeFocus(true)
     },
   }),
   onKeysDown({
-    Enter: ({ push }) => push(),
+    Enter: ({ onPush }) => onPush(),
   }),
   object,
 )(function ItemCreator({
   value,
-  push,
+  onPush,
   cancel,
   property,
   focus,
@@ -149,7 +149,7 @@ const ItemCreator = compose(
       onChangeFocus,
       onKeyDown,
     }),
-    $('button', { onClick: push, disabled: !value.label }, 'Add'),
+    $('button', { onClick: onPush, disabled: !value.label }, 'Add'),
     $('button', { onClick: cancel }, 'Cancel'),
   )
 })
@@ -161,20 +161,20 @@ const EditedItems = compose(
   filterable,
   editable,
   withHandlers({
-    toggleEditing: ({ push, editing, toggleEditing }) => payload => {
+    onToggleEditing: ({ onPush, editing, onToggleEditing }) => payload => {
       if (editing) {
-        push(payload)
+        onPush(payload)
       }
-      toggleEditing()
+      onToggleEditing()
     },
   }),
-)(function EditedItems({ value, onChange, editing, toggleEditing }) {
+)(function EditedItems({ value, onChange, editing, onToggleEditing }) {
   return $(
     'div',
     null,
     $(Checkbox, {
       value: editing,
-      onChange: toggleEditing,
+      onChange: onToggleEditing,
       label: 'Edit',
     }),
     $(Items, { value, onChange }),
@@ -224,8 +224,8 @@ const Number = compose(
     'transformOnChange',
     'filterOnChange',
     'defaultValue',
-    'pull',
-    'push',
+    'onPull',
+    'onPush',
   ]),
 )('input')
 
@@ -261,13 +261,13 @@ export const Toggle = compose(
     ['value'],
     ({ value, onChange, name }) => value && onChange && onChange(false, name),
   ),
-  renameProp('push', 'onChange'),
+  renameProp('onPush', 'onChange'),
   cyclable,
-)(function Toggle({ value, cycle }) {
+)(function Toggle({ value, onCycle }) {
   return $(
     'div',
     null,
-    $('button', { onClick: cycle }, 'Toggle'),
+    $('button', { onClick: onCycle }, 'Toggle'),
     $('p', null, value ? 'ON' : 'OFF'),
   )
 })

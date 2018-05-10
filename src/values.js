@@ -47,7 +47,7 @@ export const transformable = compose(
 export const filterable = compose(
   /*
   Prevents `value` update if `filterValue(value, previousValue)` is set and returns `false`.
-  Prevents `onChange` call if `filterOnChange(value, name, payload)` is set and returns `false`.
+  Prevents `onChange` call if `filterOnChange(value, name, payload)` is set and returns `false`. Using `onPush` calls `onChange` unconditionally.
   */
   branch(
     hasProp('filterValue'),
@@ -74,7 +74,7 @@ export const filterable = compose(
         !filterOnChange(value, name, payload)
           ? null
           : onChange(value, name, payload),
-      push: ({ onChange }) => onChange,
+      onPush: ({ onChange }) => onChange,
     }),
   ),
 )
@@ -82,19 +82,19 @@ export const filterable = compose(
 export const delayable = delayedProp({
   /*
   Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
-  Renames undelayed `onChange` as `push`.
+  Renames undelayed `onChange` as `onPush`.
   */
   name: 'onChange',
   delayName: 'delay',
-  pushName: 'push',
+  onPushName: 'onPush',
 })
 
 export const editable = branch(
   /*
   Enables the `value` prop to be locally editable when `onChange` is set, while staying in sync with its parent value.
   The value can be updated with prop `onChange(value, name, payload)`, which triggers the parent prop `onChange`.
-  Calling `pull()` sets the local value to the parent value.
-  The return value of the optional parent prop `onPull(newValue, previousValue)` is used on `value` changes or when calling `pull()`.
+  Calling `onPull()` sets the local value to the parent value.
+  The return value of the optional parent prop `onPull(newValue, previousValue)` is used on `value` changes or when calling `onPull()`.
   */
   hasProp('onChange'),
   compose(
@@ -102,39 +102,42 @@ export const editable = branch(
       name: 'value',
       onChangeName: 'onChange',
       onPullName: 'onPull',
-      pullName: 'pull',
     }),
     branch(
-      hasProp('push'),
+      hasProp('onPush'),
       withHandlers({
-        push: ({ value, name, push }) => payload => push(value, name, payload),
+        onPush: ({ value, name, onPush }) => payload =>
+          onPush(value, name, payload),
       }),
     ),
   ),
 )
 
 export const cyclable = branch(
+  /*
+  Injects prop `onCycle(payload)` that cycles the `value` prop through the values of `values` prop, which default to `[false, true]`. Calls `onChange(value, name, payload)`.
+  */
   hasProp('onChange'),
   cycledProp({
     name: 'value',
     valuesName: 'values',
     onChangeName: 'onChange',
-    cycleName: 'cycle',
+    cycleName: 'onCycle',
     nameName: 'name',
   }),
 )
 
 export const toggledEditing = branch(
   /*
-  Sets the `editing` prop and enables its toggling through the `toggleEditing()` prop. 
+  Sets the `editing` prop and enables its toggling through the `onToggleEditing()` prop. 
   */
   hasProp('onChange'),
   compose(
     editableProp('editing'),
-    cycledProp({ name: 'editing', cycleName: 'toggleEditing' }),
-    withPropsOnChange(['editing'], ({ editing, onChange, push }) => ({
+    cycledProp({ name: 'editing', onCycleName: 'onToggleEditing' }),
+    withPropsOnChange(['editing'], ({ editing, onChange, onPush }) => ({
       onChange: editing ? onChange : null,
-      push: editing ? onChange : push,
+      onPush: editing ? onChange : onPush,
     })),
   ),
 )

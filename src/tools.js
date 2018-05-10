@@ -183,7 +183,7 @@ export function delayedProp(options) {
   const capitalizedName = upperFirst(name)
   const {
     delayName = `delay${capitalizedName}`,
-    pushName = `push${capitalizedName}`,
+    onPushName = `onPush${capitalizedName}`,
   } =
     name === options ? EMPTY_OBJECT : options
   const propNames = [name, delayName]
@@ -196,7 +196,7 @@ export function delayedProp(options) {
           const debouncedCallable = debounce(callable, delay)
           return {
             [name]: debouncedCallable,
-            [pushName]: callable,
+            [onPushName]: callable,
           }
         },
       ),
@@ -235,15 +235,14 @@ export function syncedProp(options) {
   /*
   Enables a prop with a given `name` to be locally editable while staying in sync with its parent value.
   The prop can be updated with prop `[onChangeName](value, name, payload)`, which triggers the optional parent prop `[onChangeName]`.
-  Calling `[pullName]()` sets the local value to the parent value.
-  The return value of the optional parent prop `[onPullName](newValue, previousValue)` is used on prop `[name]` changes or when calling `[pullName]()`.
+  Calling `[onPullName]()` sets the local value to the parent value.
+  The return value of the optional parent prop `[onPullName](newValue, previousValue)` is used on prop `[name]` changes or when calling `[onPullName]()`.
   */
   const name = isString(options) ? options : options.name
   const capitalizedName = upperFirst(name)
   const {
     onChangeName = `onChange${capitalizedName}`,
     onPullName = `onPull${capitalizedName}`,
-    pullName = `pull${capitalizedName}`,
   } =
     name === options ? EMPTY_OBJECT : options
   return Component =>
@@ -264,7 +263,7 @@ export function syncedProp(options) {
             onChange == null ? undefined : () => onChange(value, name, payload),
           )
         }
-        this.pull = () => {
+        this.onPull = () => {
           const {
             props: { onPull },
             state: { value, originalValue },
@@ -290,7 +289,7 @@ export function syncedProp(options) {
           ...this.props,
           [name]: this.state.value,
           [onChangeName]: this.onChange,
-          [pullName]: this.pull,
+          [onPullName]: this.onPull,
         })
       }
     }
@@ -298,20 +297,20 @@ export function syncedProp(options) {
 
 export function cycledProp(options) {
   /*
-  Injects prop `[cycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
+  Injects prop `[onCycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
   Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameName]` or `name`.
   */
   const name = isString(options) ? options : options.name
   const capitalizedName = upperFirst(name)
   const {
     valuesName = `${name}Values`,
-    cycleName = `cycle${capitalizedName}`,
+    onCycleName = `onCycle${capitalizedName}`,
     onChangeName = `onChange${capitalizedName}`,
     nameName = `${name}Name`,
   } =
     name === options ? EMPTY_OBJECT : options
   return withHandlers({
-    [cycleName]: ({
+    [onCycleName]: ({
       [name]: value,
       [valuesName]: values = [false, true],
       [onChangeName]: onChange,
