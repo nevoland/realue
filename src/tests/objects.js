@@ -2,7 +2,7 @@ import test from 'ava'
 import { createElement as $ } from 'react'
 import render from 'react-test-renderer'
 
-import { object } from '../object'
+import { object } from '../objects'
 
 test('returns a function', assert => {
   assert.is(typeof object, 'function')

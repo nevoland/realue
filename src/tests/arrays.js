@@ -3,8 +3,8 @@ import { createElement as $ } from 'react'
 import render from 'react-test-renderer'
 import { map } from 'lodash'
 
-import { value } from '../value'
-import { array, removable } from '../array'
+import { fromEvent } from '../dom'
+import { array, removable } from '../arrays'
 
 test('returns a function', assert => {
   assert.is(typeof array, 'function')
@@ -14,7 +14,9 @@ test('returns a function', assert => {
 const Item = removable(({ value, remove }) =>
   $('li', null, value, $('button', { onClick: remove })),
 )
-const ItemCreator = value(({ onChange }) => $('button', { onClick: onChange }))
+const ItemCreator = fromEvent()(({ onChange }) =>
+  $('button', { onClick: onChange }),
+)
 const Numbers = array(({ value, item, onAdd }) =>
   $(
     'ul',
