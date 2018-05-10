@@ -13,7 +13,8 @@
     "test:watch": "node --require esm node_modules/.bin/ava --no-power-assert --watch",
     "eslint": "eslint src/",
     "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
-    "prepush": "npm test"
+    "prepush": "npm test",
+    "release": "standard-version"
   },
   "keywords": [
     "react",
