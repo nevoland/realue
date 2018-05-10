@@ -24,6 +24,7 @@ function onChangeFromPath(path) {
 export const fromEvent = memoize(path => {
   /*
   Creates an `onChange` handler that takes the value from `get(event, path)`.
+  If `path` is `nil`, the value is taken from the `value` prop instead.
   */
   return branch(
     hasProp('onChange'),

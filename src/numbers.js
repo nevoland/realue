@@ -3,7 +3,13 @@ import { branch, withProps } from 'recompose'
 
 import { hasNotProp, escapeRegex, EMPTY_OBJECT } from './tools'
 
-export const number = branch(hasNotProp('value'), withProps({ value: 0 }))
+export const number = branch(
+  /*
+  Sets `value` to `0` if not set.
+  */
+  hasNotProp('value'),
+  withProps({ value: 0 }),
+)
 
 export function parseNumber(
   value,

@@ -7,6 +7,7 @@ export const object = compose(
   /*
   Provides `property(name, key = name)` that returns the props for the child element responsible of the property `name`.
   Also provides `onChangeProperty(value, name, payload?)` that sets the property `name` to the provided `value`.
+  Sets `value` to `{}` if not set.
   */
   branch(hasNotProp('value'), withProps({ value: EMPTY_OBJECT })),
   branch(
