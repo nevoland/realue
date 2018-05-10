@@ -1,26 +1,35 @@
 import { createElement as $ } from 'react'
 import { render } from 'react-dom'
 import { map, isString, stubFalse } from 'lodash'
-import { compose, pure, withHandlers, withProps, defaultProps } from 'recompose'
+import {
+  compose,
+  pure,
+  withHandlers,
+  withProps,
+  defaultProps,
+  renameProp,
+} from 'recompose'
 
 import {
   array,
   boolean,
+  cyclable,
+  defaultValue,
+  delayed,
   editable,
+  editableProp,
   filterable,
-  transformable,
+  fromEvent,
   number,
   object,
+  omitProps,
+  onKeysDown,
+  onPropsChange,
   removable,
   string,
-  defaultValue,
-  fromEvent,
-  withFocus,
-  onKeysDown,
-  editableProp,
   toggledEditing,
-  omitProps,
-  logProps,
+  transformable,
+  withFocus,
 } from '../'
 
 const Text = compose(
@@ -244,6 +253,24 @@ const ColorProperty = compose(pure)(function ColorProperty({
   )
 })
 
+export const Toggle = compose(
+  pure,
+  delayed,
+  onPropsChange(
+    ['value'],
+    ({ value, onChange, name }) => value && onChange && onChange(false, name),
+  ),
+  renameProp('push', 'onChange'),
+  cyclable,
+)(function Toggle({ value, cycle }) {
+  return $(
+    'div',
+    null,
+    $('button', { onClick: cycle }, 'Toggle'),
+    $('p', null, value ? 'ON' : 'OFF'),
+  )
+})
+
 export const App = compose(
   withProps({
     value: {
@@ -257,12 +284,15 @@ export const App = compose(
         g: 0,
         b: 0,
       },
+      toggle: false,
     },
-    onChange: Function.prototype,
+    delay: 1000,
+    // eslint-disable-next-line no-console
+    onChange: value => console.log('value', value),
   }),
+  delayed,
   editable,
   object,
-  logProps(['value']),
 )(function App(props) {
   const { property } = props
   return $(
@@ -273,6 +303,8 @@ export const App = compose(
     $(EditedItems, property('todos')),
     $('h2', null, 'Color'),
     $(Color, property('color')),
+    $('h2', null, 'Delayed'),
+    $(Toggle, { ...property('toggle'), delay: 2000 }),
   )
 })
 

@@ -293,20 +293,20 @@ export function syncedProp(options) {
 
 export function cycledProp(options) {
   /*
-  Injects prop `[toggleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
+  Injects prop `[cycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
   Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameName]` or `name`.
   */
   const name = isString(options) ? options : options.name
   const capitalizedName = upperFirst(name)
   const {
     valuesName = `${name}Values`,
-    toggleName = `toggle${capitalizedName}`,
+    cycleName = `cycle${capitalizedName}`,
     onChangeName = `onChange${capitalizedName}`,
     nameName = `${name}Name`,
   } =
     name === options ? EMPTY_OBJECT : options
   return withHandlers({
-    [toggleName]: ({
+    [cycleName]: ({
       [name]: value,
       [valuesName]: values = [false, true],
       [onChangeName]: onChange,
