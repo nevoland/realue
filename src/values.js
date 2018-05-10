@@ -79,7 +79,7 @@ export const filterable = compose(
   ),
 )
 
-export const delayed = delayedProp({
+export const delayable = delayedProp({
   /*
   Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
   Renames undelayed `onChange` as `push`.

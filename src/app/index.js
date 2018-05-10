@@ -15,7 +15,7 @@ import {
   boolean,
   cyclable,
   defaultValue,
-  delayed,
+  delayable,
   editable,
   editableProp,
   filterable,
@@ -256,7 +256,7 @@ const ColorProperty = compose(pure)(function ColorProperty({
 
 export const Toggle = compose(
   pure,
-  delayed,
+  delayable,
   onPropsChange(
     ['value'],
     ({ value, onChange, name }) => value && onChange && onChange(false, name),
@@ -291,7 +291,7 @@ export const App = compose(
     // eslint-disable-next-line no-console
     onChange: value => console.log('value', value),
   }),
-  delayed,
+  delayable,
   editable,
   object,
 )(function App(props) {
