@@ -11,6 +11,10 @@ function onChangeFromPath(path) {
     case 'target.checked':
       return ({ onChange, name }) => event =>
         onChange(event.target.checked, name, event)
+    case undefined:
+    case null:
+      return ({ value, onChange, name }) => event =>
+        onChange(value, name, event)
     default:
       return ({ onChange, name }) => event =>
         onChange(get(event, path), name, event)
