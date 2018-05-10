@@ -139,11 +139,14 @@ export function called(object, property) {
   return object
 }
 
-export function logProps(propNames, name) {
+export function logProps(propNames, title) {
+  /*
+  Logs the provided `propNames` whenever they change.
+  */
   return Component =>
     onPropsChange(propNames, props => {
       /* eslint-disable no-console */
-      console.group(name || Component.displayName || Component.name)
+      console.group(title || Component.displayName || Component.name)
       for (let name of propNames) {
         console.log(name, props[name])
       }
@@ -152,8 +155,11 @@ export function logProps(propNames, name) {
     })(Component)
 }
 
-export function omitProps(keys) {
-  return mapProps(props => omit(props, keys))
+export function omitProps(propNames) {
+  /*
+  Removes provided `propNames`.
+  */
+  return mapProps(props => omit(props, propNames))
 }
 
 export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
@@ -179,6 +185,10 @@ export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
 }
 
 export function delayedProp(options) {
+  /*
+  Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call.
+  Renames undelayed `[name]` as `onPushName`.
+  */
   const name = isString(options) ? options : options.name
   const capitalizedName = upperFirst(name)
   const {

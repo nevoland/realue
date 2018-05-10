@@ -4,6 +4,10 @@ import { compose, branch, withHandlers, withProps } from 'recompose'
 import { hasProp, hasNotProp, setProperty, EMPTY_OBJECT } from './tools'
 
 export const object = compose(
+  /*
+  Provides `property(name, key = name)` that returns the props for the child element responsible of the property `name`.
+  Also provides `onChangeProperty(value, name, payload?)` that sets the property `name` to the provided `value`.
+  */
   branch(hasNotProp('value'), withProps({ value: EMPTY_OBJECT })),
   branch(
     hasProp('onChange'),
@@ -34,6 +38,9 @@ export const object = compose(
 )
 
 export const splittable = compose(
+  /*
+  Enables dispatching a subset of properties to a child element.
+  */
   branch(
     hasProp('onChange'),
     withHandlers({

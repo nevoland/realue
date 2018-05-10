@@ -3,6 +3,10 @@ import { compose, branch, withHandlers, withProps } from 'recompose'
 import { setItem, insertItem, hasProp, hasNotProp, EMPTY_ARRAY } from './tools'
 
 export const array = compose(
+  /*
+  Provides `item(index, key = index)` that returns the props for the child element responsible of the item `index`.
+  Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAdd(value, index, payload?)` that inserts an item with the provided `value` at `index`.
+  */
   branch(hasNotProp('value'), withProps({ value: EMPTY_ARRAY })),
   branch(
     hasProp('onChange'),
@@ -24,9 +28,12 @@ export const array = compose(
 )
 
 export const removable = branch(
+  /*
+  Provides `onRemove(payload?)`, which sets the value to `undefined` and results in removing the item or property.
+  */
   hasProp('onChange'),
   withHandlers({
-    remove: ({ name, onChange }) => payload =>
+    onRemove: ({ name, onChange }) => payload =>
       onChange(undefined, name, payload),
   }),
 )
