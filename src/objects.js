@@ -1,3 +1,4 @@
+import { reduce, join, pick } from 'lodash'
 import { compose, branch, withHandlers, withProps } from 'recompose'
 
 import { hasProp, hasNotProp, setProperty, EMPTY_OBJECT } from './tools'
@@ -27,6 +28,40 @@ export const object = compose(
       value: value[name],
       key,
       name,
+      onChange,
+    }),
+  }),
+)
+
+export const splittable = compose(
+  branch(
+    hasProp('onChange'),
+    withHandlers({
+      onChangeProperties: ({ value, name, onChange }) => (
+        propertyValues,
+        propertyNames,
+        payload,
+      ) =>
+        onChange(
+          reduce(
+            propertyNames,
+            (value, propertyName) =>
+              setProperty(value, propertyName, propertyValues[propertyName]),
+            value,
+          ),
+          name,
+          payload,
+        ),
+    }),
+  ),
+  withHandlers({
+    properties: ({ value, onChangeProperties: onChange }) => (
+      names,
+      key = join(names, '-'),
+    ) => ({
+      value: pick(value, names),
+      key,
+      name: names,
       onChange,
     }),
   }),
