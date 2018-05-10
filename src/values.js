@@ -113,6 +113,17 @@ export const editable = branch(
   ),
 )
 
+export const cyclable = branch(
+  hasProp('onChange'),
+  cycledProp({
+    name: 'value',
+    valuesName: 'values',
+    onChangeName: 'onChange',
+    cycleName: 'cycle',
+    nameName: 'name',
+  }),
+)
+
 export const toggledEditing = branch(
   /*
   Sets the `editing` prop and enables its toggling through the `toggleEditing()` prop. 
@@ -120,7 +131,7 @@ export const toggledEditing = branch(
   hasProp('onChange'),
   compose(
     editableProp('editing'),
-    cycledProp('editing'),
+    cycledProp({ name: 'editing', cycleName: 'toggleEditing' }),
     withPropsOnChange(['editing'], ({ editing, onChange, push }) => ({
       onChange: editing ? onChange : null,
       push: editing ? onChange : push,
