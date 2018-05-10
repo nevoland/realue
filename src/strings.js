@@ -1,4 +1,4 @@
-import { compose, branch, withProps } from 'recompose'
+import { branch, withProps } from 'recompose'
 
 import { hasNotProp } from './tools'
 

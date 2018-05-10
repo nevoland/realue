@@ -11,8 +11,8 @@ test('returns a function', assert => {
   assert.is(typeof array(Function.prototype), 'function')
 })
 
-const Item = removable(({ value, remove }) =>
-  $('li', null, value, $('button', { onClick: remove })),
+const Item = removable(({ value, onRemove }) =>
+  $('li', null, value, $('button', { onClick: onRemove })),
 )
 const ItemCreator = fromEvent()(({ onChange }) =>
   $('button', { onClick: onChange }),

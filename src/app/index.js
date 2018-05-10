@@ -86,7 +86,7 @@ const Checkbox = compose(
 
 const Item = compose(pure, object, removable)(function Item({
   property,
-  remove,
+  onRemove,
 }) {
   return $(
     'li',
@@ -97,7 +97,7 @@ const Item = compose(pure, object, removable)(function Item({
       ...property('label'),
       placeholder: 'Untitled item',
     }),
-    remove && $('button', { onClick: remove }, 'Remove'),
+    onRemove && $('button', { onClick: onRemove }, 'Remove'),
   )
 })
 
