@@ -217,7 +217,7 @@ export function delayedProp(options) {
 export function editableProp(options) {
   /*
   Enables a value prop of a given `name` to be locally editable.
-  The value can be updated with `onChangeName`.
+  The value can be updated with `[onChangeName]`.
   */
   const name = isString(options) ? options : options.name
   const { onChangeName = `onChange${upperFirst(name)}` } =
