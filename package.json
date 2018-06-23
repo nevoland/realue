@@ -43,7 +43,7 @@
     "chalk": "^2.4.0",
     "codecov": "^3.0.0",
     "connect": "^3.6.6",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.46.3",
     "eslint-plugin-import": "^2.11.0",
