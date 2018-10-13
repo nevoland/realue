@@ -45,7 +45,7 @@
     "connect": "^3.6.6",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-flowtype": "^2.46.3",
+    "eslint-plugin-flowtype": "^3.0.0",
     "eslint-plugin-import": "^2.11.0",
     "esm": "^3.0.26",
     "flow-bin": "^0.73.0",
