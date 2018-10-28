@@ -11,9 +11,9 @@
 
 ### Features
 
-* Frees developers from value handling logic so that they can focus on the user experience.
-* Enforces reusable components based on `{ value, name, onChange(value, name, payload?) }` properties.
-* Provides helpers for commonly used value types.
+- Frees developers from value handling logic so that they can focus on the user experience.
+- Enforces reusable components based on `{ value, name, onChange(value, name, payload?) }` properties.
+- Provides helpers for commonly used value types.
 
 # Decorators
 
@@ -27,7 +27,7 @@
 
 ### `defaultValue`
 
-> ⬆️ `{ defaultValue }`
+> ⬆️ `{ defaultValue, value }`
 
 > ⬇️ `{ value? }`
 
@@ -37,7 +37,7 @@ Sets `value` to `defaultValue` if `value` is `null`.
 
 > ⬆️ `{ transformValue?, transformOnChange? }`
 
-> ⬇️ `{}`
+> ⬇️ `{ value?, onChange? }`
 
 Replaces `value` with the return value of `transformValue(value)`, if set.
 Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
@@ -73,7 +73,7 @@ The return value of the optional parent prop `onPull(newValue, previousValue)` i
 
 ### `cyclable`
 
-> ⬆️ `{ value, name, onChange }`
+> ⬆️ `{ value, values?, name, onChange }`
 
 > ⬇️ `{ onCycle(payload?) }`
 
