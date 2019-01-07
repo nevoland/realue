@@ -7,10 +7,10 @@
   "scripts": {
     "start": "node scripts/server.js",
     "build": "parcel build --public-url ./ src/index.html",
-    "build:watch": "parcel src/index.html --port ${npm_config_port:-1234}",
+    "build:watch": "parcel src/index.html",
     "prepare": "babel --out-dir lib --ignore tests src",
-    "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc --require esm ava --no-power-assert",
-    "test:watch": "node --require esm node_modules/.bin/ava --no-power-assert --watch",
+    "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava --no-power-assert",
+    "test:watch": "ava --no-power-assert --watch",
     "eslint": "eslint src/",
     "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
@@ -29,37 +29,33 @@
     "url": "https://github.com/davidbonnet/realue.git"
   },
   "dependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "recompose": "^0.27.0"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "recompose": "^0.30.0"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.3",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-flow": "^6.23.0",
-    "chalk": "^2.4.0",
-    "codecov": "^3.0.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "ava": "^1.0.1",
+    "chalk": "^2.4.1",
+    "codecov": "^3.1.0",
     "connect": "^3.6.6",
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-flowtype": "^2.46.3",
-    "eslint-plugin-import": "^2.11.0",
-    "esm": "^3.0.26",
-    "flow-bin": "^0.73.0",
-    "flow-remove-types": "^1.2.3",
-    "flow-typed": "^2.4.0",
-    "husky": "^0.14.3",
-    "lodash": "^4.17.10",
-    "nyc": "^11.7.1",
-    "parcel-bundler": "^1.7.1",
-    "prettier": "^1.12.1",
-    "react-devtools": "^3.2.1",
-    "react-test-renderer": "^16.3.2",
+    "eslint": "^5.8.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "esm": "^3.0.84",
+    "fast-glob": "2.2.4",
+    "husky": "^1.1.2",
+    "lodash": "^4.17.11",
+    "nyc": "^13.1.0",
+    "parcel-bundler": "^1.11.0",
+    "prettier": "^1.14.3",
+    "react-devtools": "^3.4.2",
+    "react-test-renderer": "^16.6.0",
     "serve-static": "^1.13.2",
-    "standard-version": "^4.3.0"
+    "standard-version": "^4.4.0"
   },
   "prettier": {
     "printWidth": 80,
@@ -72,17 +68,19 @@
   },
   "eslintConfig": {
     "plugins": [
-      "flowtype",
       "import"
     ],
     "extends": [
-      "plugin:flowtype/recommended",
       "eslint:recommended",
       "plugin:import/errors",
       "prettier"
     ],
     "env": {
       "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 10,
+      "sourceType": "module"
     },
     "globals": {
       "console": true,
@@ -97,6 +95,9 @@
   "ava": {
     "files": [
       "src/**/tests/*.js"
+    ],
+    "require": [
+      "esm"
     ]
   },
   "nyc": {

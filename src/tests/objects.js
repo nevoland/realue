@@ -4,6 +4,8 @@ import render from 'react-test-renderer'
 
 import { object } from '../objects'
 
+import { ThrownValue } from './'
+
 test('returns a function', assert => {
   assert.is(typeof object, 'function')
   assert.is(typeof object(Function.prototype), 'function')
@@ -45,7 +47,7 @@ test('sets properties in non-edition mode', assert => {
 
 test('sets properties in edition mode', assert => {
   const onChange = (value, name, payload) => {
-    throw { value, name, payload }
+    throw new ThrownValue({ value, name, payload })
   }
   const rendering = render.create($(Movie, { onChange, name: 'movie' }))
   const { root } = rendering
@@ -56,7 +58,7 @@ test('sets properties in edition mode', assert => {
   assert.is(typeof title.props.onChange, 'function')
   assert.is(typeof year.props.onChange, 'function')
 
-  const result = assert.throws(() => {
+  const { value: result } = assert.throws(() => {
     const { onChange, name } = title.props
     onChange('Serenity', name, null)
   })

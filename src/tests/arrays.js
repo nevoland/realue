@@ -6,6 +6,8 @@ import { map } from 'lodash'
 import { fromEvent } from '../dom'
 import { array, removable } from '../arrays'
 
+import { ThrownValue } from './'
+
 test('returns a function', assert => {
   assert.is(typeof array, 'function')
   assert.is(typeof array(Function.prototype), 'function')
@@ -58,7 +60,7 @@ test('sets properties in non-edition mode', assert => {
 
 test('sets properties in edition mode', assert => {
   const onChange = (value, name, payload) => {
-    throw { value, name, payload }
+    throw new ThrownValue({ value, name, payload })
   }
   const rendering = render.create(
     $(Numbers, { onChange, name: 'numbers', value: [1, 2] }),
@@ -72,7 +74,7 @@ test('sets properties in edition mode', assert => {
   assert.is(typeof one.props.onChange, 'function')
   assert.is(typeof two.props.onChange, 'function')
 
-  const result = assert.throws(() => {
+  const { value: result } = assert.throws(() => {
     const { onChange, name } = one.props
     onChange(3, name, null)
   })
@@ -87,7 +89,7 @@ test('sets properties in edition mode', assert => {
   )
 
   const create = root.findByType(ItemCreator).findByType('button')
-  const insert = assert.throws(() => {
+  const { value: insert } = assert.throws(() => {
     create.props.onClick(null)
   })
   assert.deepEqual(
@@ -101,7 +103,7 @@ test('sets properties in edition mode', assert => {
   )
 
   const remove = one.findByType('button')
-  const deletion = assert.throws(() => {
+  const { value: deletion } = assert.throws(() => {
     remove.props.onClick(null)
   })
   assert.deepEqual(

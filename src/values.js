@@ -122,7 +122,7 @@ export const cyclable = branch(
     name: 'value',
     valuesName: 'values',
     onChangeName: 'onChange',
-    cycleName: 'onCycle',
+    onCycleName: 'onCycle',
     nameName: 'name',
   }),
 )

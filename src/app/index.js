@@ -84,10 +84,11 @@ const Checkbox = compose(
   )
 })
 
-const Item = compose(pure, object, removable)(function Item({
-  property,
-  onRemove,
-}) {
+const Item = compose(
+  pure,
+  object,
+  removable,
+)(function Item({ property, onRemove }) {
   return $(
     'li',
     null,
@@ -101,7 +102,10 @@ const Item = compose(pure, object, removable)(function Item({
   )
 })
 
-const Items = compose(pure, array)(function Items({ value, item, onAdd }) {
+const Items = compose(
+  pure,
+  array,
+)(function Items({ value, item, onAdd }) {
   return $(
     'div',
     null,
@@ -181,7 +185,10 @@ const EditedItems = compose(
   )
 })
 
-const Color = compose(pure, object)(function Color({ property, value }) {
+const Color = compose(
+  pure,
+  object,
+)(function Color({ property, value }) {
   return $(
     'ul',
     null,
@@ -267,6 +274,11 @@ export const Toggle = compose(
   return $(
     'div',
     null,
+    $(
+      'small',
+      null,
+      'Clicking this button will switch the value to "ON" for 2 seconds only.',
+    ),
     $('button', { onClick: onCycle }, 'Toggle'),
     $('p', null, value ? 'ON' : 'OFF'),
   )
@@ -287,7 +299,7 @@ export const App = compose(
       },
       toggle: false,
     },
-    delay: 1000,
+    delay: 500,
     // eslint-disable-next-line no-console
     onChange: value => console.log('value', value),
   }),

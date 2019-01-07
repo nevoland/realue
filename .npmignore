@@ -5,6 +5,7 @@
 .npmignore
 .nyc_output
 .travis.yml
+.nvmrc
 coverage
 doc
 node_modules

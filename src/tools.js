@@ -59,16 +59,16 @@ export function setItem(array, index, value) {
       ? EMPTY_ARRAY
       : array
     : array == null
-      ? value === undefined
-        ? EMPTY_ARRAY
-        : [value]
-      : value === undefined
-        ? index < array.length
-          ? [...slice(array, 0, index), ...slice(array, index + 1)]
-          : array
-        : array[index] === value
-          ? array
-          : [...slice(array, 0, index), value, ...slice(array, index + 1)]
+    ? value === undefined
+      ? EMPTY_ARRAY
+      : [value]
+    : value === undefined
+    ? index < array.length
+      ? [...slice(array, 0, index), ...slice(array, index + 1)]
+      : array
+    : array[index] === value
+    ? array
+    : [...slice(array, 0, index), value, ...slice(array, index + 1)]
 }
 
 export function setProperty(object, key, value) {
@@ -82,16 +82,16 @@ export function setProperty(object, key, value) {
       ? EMPTY_OBJECT
       : object
     : object == null
-      ? value === undefined
-        ? EMPTY_OBJECT
-        : { [key]: value }
-      : value === undefined
-        ? key in object
-          ? omit(object, key)
-          : object
-        : object[key] === value
-          ? object
-          : { ...object, [key]: value }
+    ? value === undefined
+      ? EMPTY_OBJECT
+      : { [key]: value }
+    : value === undefined
+    ? key in object
+      ? omit(object, key)
+      : object
+    : object[key] === value
+    ? object
+    : { ...object, [key]: value }
 }
 
 export function same(
@@ -194,8 +194,7 @@ export function delayedProp(options) {
   const {
     delayName = `delay${capitalizedName}`,
     onPushName = `onPush${capitalizedName}`,
-  } =
-    name === options ? EMPTY_OBJECT : options
+  } = name === options ? EMPTY_OBJECT : options
   const propNames = [name, delayName]
   return branch(
     hasProps(propNames),
@@ -253,8 +252,7 @@ export function syncedProp(options) {
   const {
     onChangeName = `onChange${capitalizedName}`,
     onPullName = `onPull${capitalizedName}`,
-  } =
-    name === options ? EMPTY_OBJECT : options
+  } = name === options ? EMPTY_OBJECT : options
   return Component =>
     class extends PureComponent {
       constructor(props) {
@@ -317,8 +315,7 @@ export function cycledProp(options) {
     onCycleName = `onCycle${capitalizedName}`,
     onChangeName = `onChange${capitalizedName}`,
     nameName = `${name}Name`,
-  } =
-    name === options ? EMPTY_OBJECT : options
+  } = name === options ? EMPTY_OBJECT : options
   return withHandlers({
     [onCycleName]: ({
       [name]: value,
