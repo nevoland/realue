@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/davidbonnet/realue/compare/v0.9.2...v0.10.0) (2019-01-08)
+
+
+### Features
+
+* **values:** add `fromValue` decorator ([d9b37d7](https://github.com/davidbonnet/realue/commit/d9b37d7)), closes [#23](https://github.com/davidbonnet/realue/issues/23)
+
+
+
 <a name="0.9.2"></a>
 ## [0.9.2](https://github.com/davidbonnet/realue/compare/v0.9.1...v0.9.2) (2019-01-08)
 
