@@ -39,8 +39,8 @@ test('sets properties in non-edition mode', assert => {
   assert.is(title.props.name, 'title')
   assert.is(year.props.name, 'year')
 
-  assert.is(title.props.onChange, undefined)
-  assert.is(year.props.onChange, undefined)
+  assert.is(title.props.onChange, null)
+  assert.is(year.props.onChange, null)
 
   rendering.unmount()
 })
