@@ -3,7 +3,6 @@
   "version": "0.10.0",
   "description": "Value management for React components.",
   "main": "lib/index.js",
-  "module": "src/index.js",
   "scripts": {
     "start": "node scripts/server.js",
     "build": "parcel build --public-url ./ src/index.html",
