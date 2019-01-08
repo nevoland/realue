@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.5"></a>
+## [0.10.5](https://github.com/davidbonnet/realue/compare/v0.10.4...v0.10.5) (2019-01-08)
+
+
+### Bug Fixes
+
+* **setup:** discard app example ([b2359b5](https://github.com/davidbonnet/realue/commit/b2359b5))
+
+
+
 <a name="0.10.4"></a>
 ## [0.10.4](https://github.com/davidbonnet/realue/compare/v0.10.3...v0.10.4) (2019-01-08)
 
