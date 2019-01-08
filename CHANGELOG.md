@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.4"></a>
+## [0.10.4](https://github.com/davidbonnet/realue/compare/v0.10.3...v0.10.4) (2019-01-08)
+
+
+### Bug Fixes
+
+* **setup:** remove dist folder ([7c7f498](https://github.com/davidbonnet/realue/commit/7c7f498))
+
+
+
 <a name="0.10.3"></a>
 ## [0.10.3](https://github.com/davidbonnet/realue/compare/v0.10.2...v0.10.3) (2019-01-08)
 
