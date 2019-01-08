@@ -17,6 +17,8 @@
 
 # Decorators
 
+## Caption
+
 > 🏗 Under construction
 
 > ⬆️ Used props: `{ required, optional? }`
