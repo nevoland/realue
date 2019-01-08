@@ -1,11 +1,12 @@
 *.DS_Store
 *.sublime-project
 *.sublime-workspace
+.cache
 .gitignore
 .npmignore
+.nvmrc
 .nyc_output
 .travis.yml
-.nvmrc
 coverage
 doc
 node_modules
