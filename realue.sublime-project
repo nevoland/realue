@@ -32,14 +32,5 @@
       }
     }
   },
-  "SublimeLinter": {
-    "linters": {
-      "eslint": {
-        "disable": false
-      },
-      "flow": {
-        "disable": false
-      }
-    }
-  }
+  "SublimeLinter.linters.eslint.disable": false
 }
