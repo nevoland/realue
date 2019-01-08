@@ -19,16 +19,16 @@ const Item = removable(({ value, onRemove }) =>
 const ItemCreator = fromEvent()(({ onChange }) =>
   $('button', { onClick: onChange }),
 )
-const Numbers = array(({ value, item, onAdd }) =>
+const Numbers = array(({ value, item, onAddItem }) =>
   $(
     'ul',
     null,
     map(value, (value, index) => $(Item, item(index))),
-    onAdd &&
+    onAddItem &&
       $(ItemCreator, {
         value: value.length + 1,
         name: value.length,
-        onChange: onAdd,
+        onChange: onAddItem,
       }),
   ),
 )

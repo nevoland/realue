@@ -105,12 +105,12 @@ const Item = compose(
 const Items = compose(
   pure,
   array,
-)(function Items({ value, item, onAdd }) {
+)(function Items({ value, item, onAddItem }) {
   return $(
     'div',
     null,
     $('ul', null, map(value, (value, index) => $(Item, item(index)))),
-    onAdd && $(ItemCreator, { onChange: onAdd, name: value.length }),
+    onAddItem && $(ItemCreator, { onChange: onAddItem, name: value.length }),
   )
 })
 
@@ -275,7 +275,7 @@ export const Toggle = compose(
     'div',
     null,
     $(
-      'small',
+      'p',
       null,
       'Clicking this button will switch the value to "ON" for 2 seconds only.',
     ),

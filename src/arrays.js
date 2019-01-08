@@ -5,7 +5,7 @@ import { setItem, insertItem, hasProp, hasNotProp, EMPTY_ARRAY } from './tools'
 export const array = compose(
   /*
   Provides `item(index, key = index)` that returns the props for the child element responsible of the item `index`.
-  Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAdd(value, index, payload?)` that inserts an item with the provided `value` at `index`.
+  Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAddItem(value, index, payload?)` that inserts an item with the provided `value` at `index`.
   Sets `value` to `[]` if not set.
 
   Example:
@@ -25,7 +25,7 @@ export const array = compose(
     withHandlers({
       onChangeItem: ({ value, name, onChange }) => (item, index, payload) =>
         onChange(setItem(value, index, item), name, payload),
-      onAdd: ({ value, name, onChange }) => (item, index, payload) =>
+      onAddItem: ({ value, name, onChange }) => (item, index, payload) =>
         onChange(insertItem(value, item, index), name, payload),
     }),
   ),
