@@ -8,7 +8,7 @@
     "start": "node scripts/server.js",
     "build": "parcel build --public-url ./ src/index.html",
     "build:watch": "parcel src/index.html",
-    "prepare": "babel --out-dir lib --ignore tests src",
+    "prepare": "babel --out-dir lib --ignore \"src/tests/**/*.js\",\"src/app/**/*.js\" src",
     "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava --no-power-assert",
     "test:watch": "ava --no-power-assert --watch",
     "eslint": "eslint src/",
@@ -93,6 +93,8 @@
     }
   },
   "ava": {
+    "babel": false,
+    "compileEnhancements": false,
     "files": [
       "src/**/tests/*.js"
     ],
@@ -100,6 +102,10 @@
       "esm"
     ]
   },
+  "browserslist": [
+    "node 10",
+    "not dead"
+  ],
   "nyc": {
     "exclude": [
       "src/**/tests/*.js"
