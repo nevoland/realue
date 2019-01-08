@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/davidbonnet/realue/compare/v0.10.5...v1.0.0) (2019-01-08)
+
+
+### Bug Fixes
+
+* **array:** rename item push method ([fbe0274](https://github.com/davidbonnet/realue/commit/fbe0274))
+
+
+### BREAKING CHANGES
+
+* **array:** `onAdd` has been renamed to `onAddItem`.
+
+
+
 <a name="0.10.5"></a>
 ## [0.10.5](https://github.com/davidbonnet/realue/compare/v0.10.4...v0.10.5) (2019-01-08)
 
