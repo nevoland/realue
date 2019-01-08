@@ -89,6 +89,14 @@ Injects prop `cycle(payload)` that cycles the `value` prop through the values of
 
 Sets the `editing` prop and enables its toggling through the `onToggleEditing()` prop.
 
+### `fromValue(path)`
+
+> ⬆️ `{ name, onChange? }`
+
+> ⬇️ `{ onChange(value) }`
+
+Adapts `onChange` for components that call it by providing the `value` as a first argument. If the `path` is not `nil`, extracts the value from `get(value, path)`.
+
 ## Tools
 
 ### `logProps(propNames, title?)`

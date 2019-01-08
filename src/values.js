@@ -6,6 +6,7 @@ import {
   withPropsOnChange,
   withProps,
 } from 'recompose'
+import { memoize, get } from 'lodash'
 
 import {
   hasProp,
@@ -141,3 +142,32 @@ export const toggledEditing = branch(
     })),
   ),
 )
+
+function onChangeFromPath(path) {
+  switch (path) {
+    case undefined:
+    case null:
+      return ({ onChange, name }) => value => onChange(value, name)
+    default:
+      return ({ onChange, name }) => value => onChange(get(value, path), name)
+  }
+}
+
+export const fromValue = memoize(path => {
+  /*
+  Adapts `onChange` for components that call it by providing the `value` as a first argument. If the `path` is not `nil`, extracts the value from `get(value, path)`.
+
+  Example:
+
+    function Trigger({ onChange }) {
+      return <button onClick={() => onChange(true)}>Enable</button>
+    }
+
+    // `AdaptedTrigger` calls `onChange` with `onChange(true, name)`
+    const AdaptedTrigger = fromValue(Trigger)
+  */
+  return branch(
+    hasProp('onChange'),
+    withHandlers({ onChange: onChangeFromPath(path) }),
+  )
+})
