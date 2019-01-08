@@ -1,6 +1,6 @@
 {
   "name": "realue",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Value management for React components.",
   "main": "lib/index.js",
   "scripts": {
