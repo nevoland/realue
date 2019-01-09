@@ -4,7 +4,7 @@ import { compose, branch, withHandlers } from 'recompose'
 
 import { hasProp, setProperty, EMPTY_OBJECT } from './tools'
 
-function lasyProperty(element, propertyName, valueBuilder) {
+function lazyProperty(element, propertyName, valueBuilder) {
   const property = element[propertyName]
   if (property != null) {
     return property
@@ -49,8 +49,8 @@ export const object = Component =>
         value: props.value == null ? EMPTY_OBJECT : props.value,
         onChangeProperty:
           props.onChange &&
-          lasyProperty(this, 'onChangeProperty', onChangeProperty),
-        property: lasyProperty(this, 'property', property),
+          lazyProperty(this, 'onChangeProperty', onChangeProperty),
+        property: lazyProperty(this, 'property', property),
       })
     }
   }
