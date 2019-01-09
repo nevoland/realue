@@ -29,6 +29,7 @@
     "url": "https://github.com/davidbonnet/realue.git"
   },
   "dependencies": {
+    "lodash": "^4.17.11",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "recompose": "^0.30.0"
@@ -48,7 +49,6 @@
     "esm": "^3.0.84",
     "fast-glob": "2.2.4",
     "husky": "^1.1.2",
-    "lodash": "^4.17.11",
     "nyc": "^13.1.0",
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.14.3",
