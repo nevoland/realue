@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/davidbonnet/realue/compare/v1.1.0...v1.1.1) (2019-01-09)
+
+
+### Bug Fixes
+
+* **dependency:** add lodash as dependency ([9f91109](https://github.com/davidbonnet/realue/commit/9f91109))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/davidbonnet/realue/compare/v1.0.0...v1.1.0) (2019-01-08)
 
