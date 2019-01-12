@@ -2,15 +2,7 @@ import { createElement as $, Component as BaseComponent } from 'react'
 import { reduce, join, pick } from 'lodash'
 import { compose, branch, withHandlers } from 'recompose'
 
-import { hasProp, setProperty, EMPTY_OBJECT } from './tools'
-
-function lazyProperty(element, propertyName, valueBuilder) {
-  const property = element[propertyName]
-  if (property != null) {
-    return property
-  }
-  return (element[propertyName] = valueBuilder(element))
-}
+import { hasProp, setProperty, lazyProperty, EMPTY_OBJECT } from './tools'
 
 function property(element) {
   return (name, key = name) => {
