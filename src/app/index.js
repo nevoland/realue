@@ -139,7 +139,7 @@ const ItemCreator = compose(
 )(function ItemCreator({
   value,
   onPush,
-  cancel,
+  onPull,
   property,
   focus,
   onChangeFocus,
@@ -155,7 +155,7 @@ const ItemCreator = compose(
       onKeyDown,
     }),
     $('button', { onClick: onPush, disabled: !value.label }, 'Add'),
-    $('button', { onClick: cancel }, 'Cancel'),
+    $('button', { onClick: onPull }, 'Cancel'),
   )
 })
 
