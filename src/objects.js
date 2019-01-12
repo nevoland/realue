@@ -11,7 +11,7 @@ function property(element) {
       value: props.value && props.value[name],
       key,
       name,
-      onChange: !props.onChange ? null : element.onChangeProperty,
+      onChange: props.onChange && element.onChangeProperty,
     }
   }
 }
@@ -33,7 +33,7 @@ export const object = Component =>
   Also provides `onChangeProperty(value, name, payload?)` that sets the property `name` to the provided `value`.
   Sets `value` to `{}` if not set.
   */
-  class Object extends BaseComponent {
+  class object extends BaseComponent {
     render() {
       const { props } = this
       return $(Component, {
