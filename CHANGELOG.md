@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/davidbonnet/realue/compare/v1.2.0...v1.3.0) (2019-01-12)
+
+
+### Bug Fixes
+
+* **object:** set onChange accordingly ([280edd6](https://github.com/davidbonnet/realue/commit/280edd6))
+
+
+### Features
+
+* **array:** flatten decorator ([abcf8b4](https://github.com/davidbonnet/realue/commit/abcf8b4))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/davidbonnet/realue/compare/v1.1.4...v1.2.0) (2019-01-12)
 
