@@ -336,22 +336,56 @@ Exposes the synced `focus` state of an element through the `onFocus()` and `onBl
 
 Triggers the specified `keys` handlers on key down. Each handler is called with the current `props`.
 
-#### `withSelection` 🏗
+### Immutability-oriented tools
 
-### Utility functions
+#### `EMPTY_ARRAY`
+
+Empty array to be used in immutable values. Using this instead of `[]` avoids having several instances of immutable empty arrays.
+
+#### `EMPTY_OBJECT`
+
+Empty object to be used in immutable values. Using this instead of `{}` avoids having several instances of immutable empty objects.
+
+#### `insertItem(array, value, index)`
+
+Returns a new array with the `value` inserted into the `array` at the provided `index`, provided `value` is not `undefined`, in which case the `array` is returned untouched.
+If the `index` is not provided, the `value` appended to the `array`.
+If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
+
+#### `replaceItem(array, previousValue, value)`
+
+Returns a new array with the first occurence of the `previousValue` in `array` replaced by `value`.
+Returns the same `array` if the `previousValue` is not found.
+If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
 
 #### `setItem(array, index, value)`
 
 Returns a new array with `array[index]` set to `value` if `array[index]` is strictly different from `value`. Otherwise, returns the provided `array`.
-If `value` is `undefined`, ensures that the returned array does not contain the `index`.
+If `value` is `undefined`, ensures that the returned array does not contain the item found at `index`.
 If `index` is greater than `array.length`, appends `value` to the `array`.
 If `index` equals `-1` or is `undefined`, returns the `array` untouched.
+If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
 
 #### `setProperty(object, key, value)`
 
 Returns a new object with `object[key]` set to `value` if `object[key]` is strictly different from `value`. Otherwise, returns the provided `object`.
 If `value` is `undefined`, ensures that the returned object does not contain the `key`.
 If `key` is `undefined`, returns the `object` untouched.
+If `object` is `nil`, it is considered as an `EMPTY_OBJECT`.
+
+### Condition helpers
+
+#### `hasProp(name)`
+
+Returns a function that checks if `props[name]` is not `nil`.
+
+#### `hasNotProp(name)`
+
+Returns a function that checks if `props[name]` is `nil`.
+
+#### `hasProps(names)`
+
+Returns a function that checks if every prop `name` in `names` is not `nil`.
 
 #### `same(a, b, properties, deep = false)`
 
