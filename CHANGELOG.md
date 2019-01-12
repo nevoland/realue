@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.2"></a>
+## [1.1.2](https://github.com/davidbonnet/realue/compare/v1.1.1...v1.1.2) (2019-01-12)
+
+
+### Bug Fixes
+
+* **defaultValue:** stabilize virtual DOM ([3c6f407](https://github.com/davidbonnet/realue/commit/3c6f407))
+* **demo:** correctly reset item creation form ([8a58202](https://github.com/davidbonnet/realue/commit/8a58202))
+* **export:** provide module builds with sourcemaps ([f7c8389](https://github.com/davidbonnet/realue/commit/f7c8389))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/davidbonnet/realue/compare/v1.1.0...v1.1.1) (2019-01-09)
 
