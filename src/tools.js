@@ -38,8 +38,17 @@ export function insertItem(
   value,
   index = array == null ? 0 : array.length,
 ) {
+  /*
+  Returns a new array with the `value` inserted into the `array` at the provided `index`, provided `value` is not `undefined`, in which case the `array` is returned untouched.
+  If the `index` is not provided, the `value` appended to the `array`.
+  If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
+  */
   return array == null
-    ? [value]
+    ? value === undefined
+      ? EMPTY_ARRAY
+      : [value]
+    : value === undefined
+    ? array
     : [...slice(array, 0, index), value, ...slice(array, index)]
 }
 
