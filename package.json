@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node scripts/server.js",
     "build": "parcel build --public-url ./ src/index.html",
-    "build:watch": "parcel src/index.html",
+    "build:watch": "parcel demo/index.html",
     "prepare": "babel --out-dir lib --ignore \"src/tests/**/*.js\",\"src/app/**/*.js\" src",
     "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava --no-power-assert",
     "test:watch": "ava --no-power-assert --watch",

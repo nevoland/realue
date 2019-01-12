@@ -31,7 +31,7 @@ import {
   toggledEditing,
   transformable,
   syncedFocus,
-} from '../'
+} from '../src'
 
 const Text = compose(
   pure,
