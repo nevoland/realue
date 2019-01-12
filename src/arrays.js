@@ -1,8 +1,42 @@
-import { compose, branch, withHandlers, withProps } from 'recompose'
+import { createElement as $, Component as BaseComponent } from 'react'
 
-import { setItem, insertItem, hasProp, hasNotProp, EMPTY_ARRAY } from './tools'
+import { setItem, insertItem, lazyProperty, EMPTY_ARRAY } from './tools'
 
-export const array = compose(
+function item(element) {
+  return (index, key = index) => {
+    const { props } = element
+    return {
+      key,
+      value: props.value && props.value[index],
+      name: index,
+      onChange: props.onChange && element.onChangeItem,
+    }
+  }
+}
+
+function onChangeItem(element) {
+  return (itemValue, itemIndex, payload) => {
+    const { props } = element
+    return props.onChange(
+      setItem(props.value, itemIndex, itemValue),
+      props.name,
+      payload,
+    )
+  }
+}
+
+function onAddItem(element) {
+  return (itemValue, itemIndex, payload) => {
+    const { props } = element
+    return props.onChange(
+      insertItem(props.value, itemValue, itemIndex),
+      props.name,
+      payload,
+    )
+  }
+}
+
+export const array = Component =>
   /*
   Provides `item(index, key = index)` that returns the props for the child element responsible of the item `index`.
   Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAddItem(value, index, payload?)` that inserts an item with the provided `value` at `index`.
@@ -19,33 +53,32 @@ export const array = compose(
       </ul>
     ))
   */
-  branch(hasNotProp('value'), withProps({ value: EMPTY_ARRAY })),
-  branch(
-    hasProp('onChange'),
-    withHandlers({
-      onChangeItem: ({ value, name, onChange }) => (item, index, payload) =>
-        onChange(setItem(value, index, item), name, payload),
-      onAddItem: ({ value, name, onChange }) => (item, index, payload) =>
-        onChange(insertItem(value, item, index), name, payload),
-    }),
-  ),
-  withHandlers({
-    item: ({ onChangeItem: onChange, value }) => (name, key = name) => ({
-      key,
-      value: value[name],
-      name,
-      onChange,
-    }),
-  }),
-)
+  class array extends BaseComponent {
+    render() {
+      const { props } = this
+      return $(Component, {
+        ...props,
+        value: props.value == null ? EMPTY_ARRAY : props.value,
+        onChangeItem:
+          props.onChange && lazyProperty(this, 'onChangeItem', onChangeItem),
+        onAddItem: props.onChange && lazyProperty(this, 'onAddItem', onAddItem),
+        item: lazyProperty(this, 'item', item),
+      })
+    }
+  }
 
-export const removable = branch(
-  /*
-  Provides `onRemove(payload?)`, which sets the value to `undefined` and results in removing the item or property.
-  */
-  hasProp('onChange'),
-  withHandlers({
-    onRemove: ({ name, onChange }) => payload =>
-      onChange(undefined, name, payload),
-  }),
-)
+function onRemove(element) {
+  const { props } = element
+  return payload => props.onChange(undefined, props.name, payload)
+}
+
+export const removable = Component =>
+  class removable extends BaseComponent {
+    render() {
+      const { props } = this
+      return $(Component, {
+        ...props,
+        onRemove: props.onChange && lazyProperty(this, 'onRemove', onRemove),
+      })
+    }
+  }
