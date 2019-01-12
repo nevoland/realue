@@ -15,9 +15,63 @@
 - Enforces reusable components based on `{ value, name, onChange(value, name, payload?) }` properties.
 - Provides helpers for commonly used value types.
 
+## Contents
+
+<!-- MarkdownTOC autolink="true" levels="2" -->
+
+- [Installation](#installation)
+- [Import](#import)
+- [API](#api)
+- [Demo](#demo)
+
+<!-- /MarkdownTOC -->
+
+## Installation
+
+Install with the [Node Package Manager](https://www.npmjs.com/package/realue):
+
+```bash
+npm install realue
+```
+
+Alternatively, checkout this repository and install the development dependencies to build the module file:
+
+```bash
+git clone https://github.com/davidbonnet/realue.git
+cd realue
+npm install
+```
+
+## Import
+
+Everything is exported from the main entry-point.
+
+With JavaScript 6 modules:
+
+```js
+import { object } from 'realue'
+```
+
+With CommonJS:
+
+```js
+const { object } = require('realue')
+```
+
 ## API
 
-### Contents
+### Overview
+
+<details>
+  <summary>Caption</summary>
+
+- 🏗 Under construction: the implementation is subject to change soon
+- ⬆️ Used props: `{ required, optional? }`
+- ⬇️ Injected props: `{ always, optional? }`
+
+</details>
+
+The `realue` module exposes the following functions:
 
 <!-- MarkdownTOC autolink="true" levels="3,4" -->
 
@@ -58,12 +112,6 @@
   - [`same(a, b, properties, deep = false)`](#samea-b-properties-deep--false)
 
 <!-- /MarkdownTOC -->
-
-**Caption**
-
-- 🏗 Under construction: the implementation is subject to change soon
-- ⬆️ Used props: `{ required, optional? }`
-- ⬇️ Injected props: `{ always, optional? }`
 
 ### Value-based decorators
 
@@ -310,3 +358,14 @@ If `key` is `undefined`, returns the `object` untouched.
 Returns `true` if objects `a` and `b` have the same `properties`.
 Unless provided, `properties` are the combined set of property names from `a` and `b`.
 If `deep` is `true`, considers properties as paths (e.g., `p1.p2`).
+
+## Demo
+
+A demo application can be run in the browser with:
+
+```bash
+npm run build:watch
+open http://localhost:1234
+```
+
+You can then inspect and edit the code in the `demo/` folder.
