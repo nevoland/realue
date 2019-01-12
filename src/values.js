@@ -1,11 +1,5 @@
-import { createElement as $, PureComponent } from 'react'
-import {
-  compose,
-  branch,
-  withHandlers,
-  withPropsOnChange,
-  withProps,
-} from 'recompose'
+import { createElement as $, Component as BaseComponent } from 'react'
+import { compose, branch, withHandlers, withPropsOnChange } from 'recompose'
 import { memoize, get } from 'lodash'
 
 import {
@@ -17,12 +11,19 @@ import {
   cycledProp,
 } from './tools'
 
-export const defaultValue = branch(
-  hasProp('defaultValue'),
-  withProps(({ value, defaultValue }) => ({
-    value: value === undefined ? defaultValue : value,
-  })),
-)
+export const defaultValue = Component =>
+  function defaultValue({ value, defaultValue, ...props }) {
+    return $(Component, {
+      ...props,
+      defaultValue,
+      value:
+        defaultValue == null
+          ? value
+          : value === undefined
+          ? defaultValue
+          : value,
+    })
+  }
 
 export const transformable = compose(
   /*
@@ -53,7 +54,7 @@ export const filterable = compose(
   branch(
     hasProp('filterValue'),
     Component =>
-      class extends PureComponent {
+      class extends BaseComponent {
         static getDerivedStateFromProps({ value, filterValue }, state) {
           return state &&
             (value === state.value || !filterValue(value, state.value))
