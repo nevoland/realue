@@ -2,12 +2,16 @@
   "name": "realue",
   "version": "1.1.1",
   "description": "Value management for React components.",
-  "main": "lib/index.js",
+  "main": "dist/es5/index.js",
+  "module": "dist/module/index.js",
+  "jsnext:main": "dist/module/index.js",
+  "es": "src/index.js",
+  "main-es": "src/index.js",
   "scripts": {
     "start": "node scripts/server.js",
-    "build": "parcel build --public-url ./ src/index.html",
+    "build": "parcel build --out-dir dist/app --public-url ./ demo/index.html",
     "build:watch": "parcel demo/index.html",
-    "prepare": "babel --out-dir lib --ignore \"src/tests/**/*.js\",\"src/app/**/*.js\" src",
+    "prepare": "babel --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
     "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava --no-power-assert",
     "test:watch": "ava --no-power-assert --watch",
     "eslint": "eslint src/",
@@ -43,6 +47,7 @@
     "chalk": "^2.4.1",
     "codecov": "^3.1.0",
     "connect": "^3.6.6",
+    "cross-env": "^5.2.0",
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-import": "^2.14.0",
@@ -102,10 +107,6 @@
       "esm"
     ]
   },
-  "browserslist": [
-    ">0.5%",
-    "not dead"
-  ],
   "nyc": {
     "exclude": [
       "src/**/tests/*.js"
