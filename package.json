@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node scripts/server.js",
     "build": "parcel build --out-dir dist/app --public-url ./ demo/index.html",
-    "build:watch": "parcel demo/index.html",
+    "build:watch": "parcel watch --out-dir dist/app demo/index.html",
     "prepare": "babel --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
     "test": "eslint src/ && prettier \"{src,scripts}/**/*.js\" --list-different && nyc ava --no-power-assert",
     "test:watch": "ava --no-power-assert --watch",
