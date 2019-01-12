@@ -9,8 +9,7 @@
         ".esm-cache",
         ".cache",
         ".nyc_output",
-        "dist",
-        "lib"
+        "dist"
       ]
     }
   ],

@@ -9,7 +9,7 @@
 .travis.yml
 coverage
 doc
-dist
+dist/app
 node_modules
 package-lock.json
 scripts
