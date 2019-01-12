@@ -15,19 +15,59 @@
 - Enforces reusable components based on `{ value, name, onChange(value, name, payload?) }` properties.
 - Provides helpers for commonly used value types.
 
-# Decorators
+## API
 
-## Caption
+### Contents
 
-> 🏗 Under construction
+<!-- MarkdownTOC autolink="true" levels="3,4" -->
 
-> ⬆️ Used props: `{ required, optional? }`
+- [Value-based decorators](#value-based-decorators)
+  - [`defaultValue`](#defaultvalue)
+  - [`transformable`](#transformable)
+  - [`filterable`](#filterable)
+  - [`delayable`](#delayable)
+  - [`editable`](#editable)
+  - [`cyclable`](#cyclable)
+  - [`toggledEditing`](#toggledediting)
+  - [`fromValue(path)`](#fromvaluepath)
+- [Tooling decorators](#tooling-decorators)
+  - [`logProps(propNames, title?)`](#logpropspropnames-title)
+  - [`omitProps(propNames)`](#omitpropspropnames)
+  - [`onPropsChange(shouldHandleOrKeys, handler, callOnMount = true)`](#onpropschangeshouldhandleorkeys-handler-callonmount--true)
+  - [`delayedProp({ name, delayName, onPushName } | name)`](#delayedprop-name-delayname-onpushname--%7C-name)
+  - [`editableProp({ name, onChangeName? } | name)`](#editableprop-name-onchangename--%7C-name)
+  - [`syncedProp({ name, onChangeName?, onPullName? } | name)`](#syncedprop-name-onchangename-onpullname--%7C-name)
+  - [`cycledProp({ name, valuesName?, onCycleName?, onChangeName?, nameName? } | name)`](#cycledprop-name-valuesname-oncyclename-onchangename-namename--%7C-name)
+- [Type-oriented decorators](#type-oriented-decorators)
+  - [`object`](#object)
+  - [`splittable`](#splittable)
+  - [`array`](#array)
+  - [`removable`](#removable)
+  - [`boolean`](#boolean)
+  - [`string`](#string)
+  - [`number` 🏗](#number-%F0%9F%8F%97)
+  - [`date` 🏗](#date-%F0%9F%8F%97)
+- [DOM-based decorators](#dom-based-decorators)
+  - [`fromEvent(path)`](#fromeventpath)
+  - [`syncedFocus`](#syncedfocus)
+  - [`onKeysDown(keys)`](#onkeysdownkeys)
+  - [`withSelection` 🏗](#withselection-%F0%9F%8F%97)
+- [Utility functions](#utility-functions)
+  - [`setItem(array, index, value)`](#setitemarray-index-value)
+  - [`setProperty(object, key, value)`](#setpropertyobject-key-value)
+  - [`same(a, b, properties, deep = false)`](#samea-b-properties-deep--false)
 
-> ⬇️ Injected props: `{ always, optional? }`
+<!-- /MarkdownTOC -->
 
-## Value
+**Caption**
 
-### `defaultValue`
+- 🏗 Under construction: the implementation is subject to change soon
+- ⬆️ Used props: `{ required, optional? }`
+- ⬇️ Injected props: `{ always, optional? }`
+
+### Value-based decorators
+
+#### `defaultValue`
 
 > ⬆️ `{ defaultValue, value }`
 
@@ -35,7 +75,7 @@
 
 Sets `value` to `defaultValue` if `value` is `null`.
 
-### `transformable`
+#### `transformable`
 
 > ⬆️ `{ transformValue?, transformOnChange? }`
 
@@ -44,7 +84,7 @@ Sets `value` to `defaultValue` if `value` is `null`.
 Replaces `value` with the return value of `transformValue(value)`, if set.
 Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
 
-### `filterable`
+#### `filterable`
 
 > ⬆️ `{ filterValue?, filterOnChange? }`
 
@@ -53,7 +93,7 @@ Replaces `value` passed to `onChange(value, name, payload)` with the return valu
 Prevents `value` update if `filterValue(value, previousValue)` is set and returns `false`.
 Prevents `onChange` call if `filterOnChange(value, name, payload)` is set and returns `false`. Using `onPush` calls `onChange` unconditionally.
 
-### `delayable`
+#### `delayable`
 
 > ⬆️ `{ onChange, delay }`
 
@@ -62,7 +102,7 @@ Prevents `onChange` call if `filterOnChange(value, name, payload)` is set and re
 Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
 Renames undelayed `onChange` as `onPush`.
 
-### `editable`
+#### `editable`
 
 > ⬆️ `{ value, name, onChange, onPull(value, previousValue)? }`
 
@@ -73,7 +113,7 @@ The value can be updated with prop `onChange(value, name, payload)`, which trigg
 Calling `onPull()` sets the local value to the parent value.
 The return value of the optional parent prop `onPull(newValue, previousValue)` is used on `value` changes or when calling `onPull()`.
 
-### `cyclable`
+#### `cyclable`
 
 > ⬆️ `{ value, values?, name, onChange }`
 
@@ -81,7 +121,7 @@ The return value of the optional parent prop `onPull(newValue, previousValue)` i
 
 Injects prop `cycle(payload)` that cycles the `value` prop through the values of `values` prop, which default to `[false, true]`. Calls `onChange(value, name, payload)`.
 
-### `toggledEditing`
+#### `toggledEditing`
 
 > ⬆️ `{ editing?, onChange, onPush? }`
 
@@ -89,7 +129,7 @@ Injects prop `cycle(payload)` that cycles the `value` prop through the values of
 
 Sets the `editing` prop and enables its toggling through the `onToggleEditing()` prop.
 
-### `fromValue(path)`
+#### `fromValue(path)`
 
 > ⬆️ `{ name, onChange? }`
 
@@ -97,23 +137,23 @@ Sets the `editing` prop and enables its toggling through the `onToggleEditing()`
 
 Adapts `onChange` for components that call it by providing the `value` as a first argument. If the `path` is not `nil`, extracts the value from `get(value, path)`.
 
-## Tools
+### Tooling decorators
 
-### `logProps(propNames, title?)`
+#### `logProps(propNames, title?)`
 
 Logs the provided `propNames` whenever they change.
 Uses `title` as console group (defaults to decorated component name).
 
-### `omitProps(propNames)`
+#### `omitProps(propNames)`
 
 Removes provided `propNames`.
 
-### `onPropsChange(shouldHandleOrKeys, handler, callOnMount = true)`
+#### `onPropsChange(shouldHandleOrKeys, handler, callOnMount = true)`
 
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
 The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
 
-### `delayedProp({ name, delayName, onPushName } | name)`
+#### `delayedProp({ name, delayName, onPushName } | name)`
 
 > ⬆️ `{ [name], [delayName] }`
 
@@ -122,7 +162,7 @@ The `handler` is called when the component is first mounted if `callOnMount` is 
 Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call.
 Renames undelayed `[name]` as `onPushName`.
 
-### `editableProp({ name, onChangeName? } | name)`
+#### `editableProp({ name, onChangeName? } | name)`
 
 > ⬆️ `{ [name]? }`
 
@@ -131,7 +171,7 @@ Renames undelayed `[name]` as `onPushName`.
 Enables a value prop of a given `name` to be locally editable.
 The value can be updated with `onChangeName`.
 
-### `syncedProp({ name, onChangeName?, onPullName? } | name)`
+#### `syncedProp({ name, onChangeName?, onPullName? } | name)`
 
 > ⬆️ `{ [name]?, [onPullName]? }`
 
@@ -142,7 +182,7 @@ The prop can be updated with prop `[onChangeName](value, name, payload)`, which 
 Calling `[onPullName]()` sets the local value to the parent value.
 The return value of the optional parent prop `[onPullName](newValue, previousValue)` is used on prop `[name]` changes or when calling `[onPullName]()`.
 
-### `cycledProp({ name, valuesName?, onCycleName?, onChangeName?, nameName? } | name)`
+#### `cycledProp({ name, valuesName?, onCycleName?, onChangeName?, nameName? } | name)`
 
 > ⬆️ `{ [name]? }`
 
@@ -151,9 +191,9 @@ The return value of the optional parent prop `[onPullName](newValue, previousVal
 Injects prop `[onCycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
 Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameName]` or `name`.
 
-## Types
+### Type-oriented decorators
 
-### `object`
+#### `object`
 
 > ⬆️ `{ value?, name, onChange? }`
 
@@ -163,7 +203,7 @@ Provides `property(name, key?)` that returns the props for the child element res
 Also provides `onChangeProperty(value, name, payload?)` that sets the property `name` to the provided `value`.
 Sets `value` to `{}` if not set.
 
-### `splittable`
+#### `splittable`
 
 > ⬆️ `{ value?, name, onChange? }`
 
@@ -171,7 +211,7 @@ Sets `value` to `{}` if not set.
 
 Enables dispatching a subset of properties to a child element.
 
-### `array`
+#### `array`
 
 > ⬆️ `{ value?, name, onChange? }`
 
@@ -181,7 +221,7 @@ Provides `item(index, key = index)` that returns the props for the child element
 Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAdd(value, index, payload?)` that inserts an item with the provided `value` at `index`.
 Sets `value` to `[]` if not set.
 
-### `removable`
+#### `removable`
 
 > ⬆️ `{ name, onChange? }`
 
@@ -189,7 +229,7 @@ Sets `value` to `[]` if not set.
 
 Provides `onRemove(payload?)`, which sets the value to `undefined` and results in removing the item or property.
 
-### `boolean`
+#### `boolean`
 
 > ⬆️ `{ value? }`
 
@@ -197,7 +237,7 @@ Provides `onRemove(payload?)`, which sets the value to `undefined` and results i
 
 Sets `value` to `false` if not set.
 
-### `string`
+#### `string`
 
 > ⬆️ `{ value? }`
 
@@ -205,7 +245,7 @@ Sets `value` to `false` if not set.
 
 Sets `value` to `''` if not set.
 
-### `number` 🏗
+#### `number` 🏗
 
 > ⬆️ `{ value? }`
 
@@ -213,7 +253,7 @@ Sets `value` to `''` if not set.
 
 Sets `value` to `0` if not set.
 
-### `date` 🏗
+#### `date` 🏗
 
 > ⬆️ `{ value? }`
 
@@ -221,9 +261,9 @@ Sets `value` to `0` if not set.
 
 Sets `value` to `new Date(0)` if not set.
 
-## DOM
+### DOM-based decorators
 
-### `fromEvent(path)`
+#### `fromEvent(path)`
 
 > ⬆️ `{ name, onChange? }`
 
@@ -232,7 +272,7 @@ Sets `value` to `new Date(0)` if not set.
 Creates an `onChange` handler that takes the value from `get(event, path)`.
 If `path` is `nil`, the value is taken from the `value` prop instead.
 
-### `syncedFocus`
+#### `syncedFocus`
 
 > ⬆️ `{ focus }`
 
@@ -240,7 +280,7 @@ If `path` is `nil`, the value is taken from the `value` prop instead.
 
 Exposes the synced `focus` state of an element through the `onFocus()` and `onBlur()` callbacks.
 
-### `onKeysDown(keys)`
+#### `onKeysDown(keys)`
 
 > ⬆️ `{}`
 
@@ -248,24 +288,24 @@ Exposes the synced `focus` state of an element through the `onFocus()` and `onBl
 
 Triggers the specified `keys` handlers on key down. Each handler is called with the current `props`.
 
-### `withSelection` 🏗
+#### `withSelection` 🏗
 
-# Tools
+### Utility functions
 
-### `setItem(array, index, value)`
+#### `setItem(array, index, value)`
 
 Returns a new array with `array[index]` set to `value` if `array[index]` is strictly different from `value`. Otherwise, returns the provided `array`.
 If `value` is `undefined`, ensures that the returned array does not contain the `index`.
 If `index` is greater than `array.length`, appends `value` to the `array`.
 If `index` equals `-1` or is `undefined`, returns the `array` untouched.
 
-### `setProperty(object, key, value)`
+#### `setProperty(object, key, value)`
 
 Returns a new object with `object[key]` set to `value` if `object[key]` is strictly different from `value`. Otherwise, returns the provided `object`.
 If `value` is `undefined`, ensures that the returned object does not contain the `key`.
 If `key` is `undefined`, returns the `object` untouched.
 
-### `same(a, b, properties, deep = false)`
+#### `same(a, b, properties, deep = false)`
 
 Returns `true` if objects `a` and `b` have the same `properties`.
 Unless provided, `properties` are the combined set of property names from `a` and `b`.
