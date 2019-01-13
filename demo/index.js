@@ -134,6 +134,10 @@ const ItemCreator = compose(
   }),
   onKeysDown({
     Enter: ({ onPush }) => onPush(),
+    Escape: ({ onPull, onChangeFocus }) => {
+      onPull()
+      onChangeFocus(false)
+    },
   }),
   object,
 )(function ItemCreator({
