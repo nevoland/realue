@@ -12,16 +12,15 @@ import {
 } from './tools'
 
 export const defaultValue = Component =>
-  function defaultValue({ value, defaultValue, ...props }) {
+  /*
+  Sets `value` to `defaultValue` if `value` is `nil`.
+  */
+  function defaultValue(props) {
+    const { defaultValue, value } = props
     return $(Component, {
       ...props,
-      defaultValue,
       value:
-        defaultValue == null
-          ? value
-          : value === undefined
-          ? defaultValue
-          : value,
+        defaultValue == null ? value : value == null ? defaultValue : value,
     })
   }
 
