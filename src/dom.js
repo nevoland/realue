@@ -34,7 +34,7 @@ export const fromEvent = memoize(path => {
 
 export const syncedFocus = branch(
   /*
-  Exposes the synced `focus` state of an element through the `onFocus()` and `onBlur()` callbacks.
+  Exposes the synced `focus` state of an element through the `onFocus()` and `onBlur()` event listener callbacks.
   */
   hasProp('node'),
   compose(
