@@ -371,9 +371,10 @@ export function withChildren(
   childProps = DEFAULT_CHILDREN_PROPS,
   shouldUpdateOrKeys = DEFAULT_KEYS,
   valueName = 'value',
+  destination = 'children',
 ) {
   /*
-  Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `children` prop.
+  Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destination]` prop.
   The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
 
   Example:
@@ -384,7 +385,7 @@ export function withChildren(
     const List = withChildren(Item, () => value => ({ value }))('ul')
   */
   return withPropsOnChange(shouldUpdateOrKeys, props => ({
-    children: map(
+    [destination]: map(
       props[valueName],
       (childProps => (value, index) =>
         $(Component, {
@@ -399,13 +400,14 @@ export function withChild(
   Component,
   childProps = identity,
   shouldUpdateOrKeys = DEFAULT_KEYS,
+  destination = 'children',
 ) {
   /*
-  Builds a child from the provided `Component` with the props from `childProps(props)` and injects it as a `children` prop.
+  Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop.
   The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
   */
   return withPropsOnChange(shouldUpdateOrKeys, props => ({
-    children: $(Component, childProps(props)),
+    [destination]: $(Component, childProps(props)),
   }))
 }
 
