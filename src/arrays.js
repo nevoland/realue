@@ -1,6 +1,12 @@
 import { createElement as $, Component as BaseComponent } from 'react'
 
-import { setItem, insertItem, lazyProperty, EMPTY_ARRAY } from './tools'
+import {
+  setItem,
+  insertItem,
+  insertItems,
+  lazyProperty,
+  EMPTY_ARRAY,
+} from './tools'
 
 function item(element) {
   return (index, key = index) => {
@@ -36,6 +42,17 @@ function onAddItem(element) {
   }
 }
 
+function onAddItems(element) {
+  return (itemsValues, itemIndex, payload) => {
+    const { props } = element
+    return props.onChange(
+      insertItems(props.value, itemsValues, itemIndex),
+      props.name,
+      payload,
+    )
+  }
+}
+
 export const array = Component =>
   /*
   Provides `item(index, key = index)` that returns the props for the child element responsible of the item `index`.
@@ -62,6 +79,8 @@ export const array = Component =>
         onChangeItem:
           props.onChange && lazyProperty(this, 'onChangeItem', onChangeItem),
         onAddItem: props.onChange && lazyProperty(this, 'onAddItem', onAddItem),
+        onAddItems:
+          props.onChange && lazyProperty(this, 'onAddItems', onAddItems),
         item: lazyProperty(this, 'item', item),
       })
     }

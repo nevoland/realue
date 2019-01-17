@@ -69,6 +69,25 @@ export function insertItem(
     : [...slice(array, 0, index), value, ...slice(array, index)]
 }
 
+export function insertItems(
+  array,
+  value,
+  index = array == null ? 0 : array.length,
+) {
+  /*
+  Returns a new array with the `value` array merged into the `array` at the provided `index`, provided `value` is not `nil`, in which case the `array` is returned untouched.
+  If the `index` is not provided, the `value` array is appended to the `array`.
+  If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
+  */
+  return array == null
+    ? value == null
+      ? EMPTY_ARRAY
+      : value
+    : value == null
+    ? array
+    : [...slice(array, 0, index), ...value, ...slice(array, index)]
+}
+
 export function replaceItem(array, previousValue, value) {
   /*
   Returns a new array with the first occurence of the `previousValue` in `array` replaced by `value`.
