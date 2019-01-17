@@ -121,7 +121,7 @@ The `realue` module exposes the following functions:
 
 > ⬇️ `{ value? }`
 
-Sets `value` to `defaultValue` if `value` is `null`.
+Sets `value` to `defaultValue` if `value` is `nil`.
 
 #### `transformable`
 
@@ -196,6 +196,8 @@ Uses `title` as console group (defaults to decorated component name).
 
 Removes provided `propNames`.
 
+### Decorator constructors
+
 #### `onPropsChange(shouldHandleOrKeys, handler, callOnMount = true)`
 
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
@@ -238,6 +240,24 @@ The return value of the optional parent prop `[onPullName](newValue, previousVal
 
 Injects prop `[onCycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
 Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameName]` or `name`.
+
+#### `withChildren(Component, childProps?, shouldUpdateOrKeys?, valueName?)`
+
+> ⬆️ `{ [valueName]? }`
+
+> ⬇️ `{ children }`
+
+Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `children` prop.
+The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
+
+#### `withChild(Component, childProps?, shouldUpdateOrKeys?, valueName?)`
+
+> ⬆️ `{ [valueName]? }`
+
+> ⬇️ `{ children }`
+
+Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `children` prop.
+The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
 
 ### Type-oriented decorators
 

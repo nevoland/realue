@@ -5,7 +5,6 @@ import {
   every,
   get,
   indexOf,
-  isFunction,
   isString,
   keys,
   memoize,
@@ -13,6 +12,8 @@ import {
   slice,
   uniq,
   upperFirst,
+  map,
+  identity,
 } from 'lodash'
 import {
   branch,
@@ -199,9 +200,10 @@ export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
   Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
   The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
   */
-  const shouldHandle = isFunction(shouldHandleOrKeys)
-    ? shouldHandleOrKeys
-    : (props, nextProps) => !same(props, nextProps, shouldHandleOrKeys)
+  const shouldHandle =
+    typeof shouldHandleOrKeys === 'function'
+      ? shouldHandleOrKeys
+      : (props, nextProps) => !same(props, nextProps, shouldHandleOrKeys)
   return lifecycle({
     componentWillMount() {
       if (callOnMount) {
@@ -359,6 +361,52 @@ export function cycledProp(options) {
       onChange(values[index === values.length ? 0 : index], valueName, payload)
     },
   })
+}
+
+const DEFAULT_KEYS = ['value', 'name', 'onChange']
+const DEFAULT_CHILDREN_PROPS = ({ item }) => (value, index) => item(index)
+
+export function withChildren(
+  Component,
+  childProps = DEFAULT_CHILDREN_PROPS,
+  shouldUpdateOrKeys = DEFAULT_KEYS,
+  valueName = 'value',
+) {
+  /*
+  Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `children` prop.
+  The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
+
+  Example:
+
+    function Item({ value }) {
+      return $('li', null, value)
+    }
+    const List = withChildren(Item, () => value => ({ value }))('ul')
+  */
+  return withPropsOnChange(shouldUpdateOrKeys, props => ({
+    children: map(
+      props[valueName],
+      (childProps => (value, index) =>
+        $(Component, {
+          key: index,
+          ...childProps(value, index),
+        }))(childProps(props)),
+    ),
+  }))
+}
+
+export function withChild(
+  Component,
+  childProps = identity,
+  shouldUpdateOrKeys = DEFAULT_KEYS,
+) {
+  /*
+  Builds a child from the provided `Component` with the props from `childProps(props)` and injects it as a `children` prop.
+  The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
+  */
+  return withPropsOnChange(shouldUpdateOrKeys, props => ({
+    children: $(Component, childProps(props)),
+  }))
 }
 
 export function lazyProperty(object, propertyName, valueBuilder) {
