@@ -32,7 +32,9 @@ import {
   transformable,
   syncedFocus,
   logProps,
-} from '../'
+  withChildren,
+  withChild,
+} from '../src'
 
 const Text = compose(
   pure,
@@ -106,11 +108,12 @@ const Item = compose(
 const Items = compose(
   pure,
   array,
-)(function Items({ value, item, onAddItem }) {
+  withChildren(Item),
+)(function Items({ value, children, onAddItem }) {
   return $(
     'div',
     null,
-    $('ul', null, map(value, (value, index) => $(Item, item(index)))),
+    $('ul', null, children),
     onAddItem && $(ItemCreator, { onChange: onAddItem, name: value.length }),
   )
 })
@@ -177,7 +180,8 @@ const EditedItems = compose(
       onToggleEditing()
     },
   }),
-)(function EditedItems({ value, onChange, editing, onToggleEditing }) {
+  withChild(Items),
+)(function EditedItems({ children, editing, onToggleEditing }) {
   return $(
     'div',
     null,
@@ -186,7 +190,7 @@ const EditedItems = compose(
       onChange: onToggleEditing,
       label: 'Edit',
     }),
-    $(Items, { value, onChange }),
+    children,
   )
 })
 
