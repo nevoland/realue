@@ -1,6 +1,6 @@
 import { createElement as $ } from 'react'
 import { render } from 'react-dom'
-import { map, isString, stubFalse } from 'lodash'
+import { map, isString, stubFalse, times, constant } from 'lodash'
 import {
   compose,
   pure,
@@ -33,6 +33,7 @@ import {
   syncedFocus,
   withChildren,
   withChild,
+  EMPTY_OBJECT,
 } from '../src'
 
 const Text = compose(
@@ -104,16 +105,23 @@ const Item = compose(
   )
 })
 
+const ITEMS = times(3, constant(EMPTY_OBJECT))
+
 const Items = compose(
   pure,
   array,
   withChildren(Item),
-)(function Items({ value, children, onAddItem }) {
+  withHandlers({
+    onAddThree: ({ value, onAddItems }) => payload =>
+      onAddItems(ITEMS, value.length, payload),
+  }),
+)(function Items({ value, children, onAddItem, onAddThree }) {
   return $(
     'div',
     null,
     $('ul', null, children),
-    onAddItem && $(ItemCreator, { onChange: onAddItem, name: value.length }),
+    onAddItem &&
+      $(ItemCreator, { onChange: onAddItem, onAddThree, name: value.length }),
   )
 })
 
@@ -146,6 +154,7 @@ const ItemCreator = compose(
   value,
   onPush,
   onPull,
+  onAddThree,
   property,
   focus,
   onChangeFocus,
@@ -162,6 +171,7 @@ const ItemCreator = compose(
     }),
     $('button', { onClick: onPush, disabled: !value.label }, 'Add'),
     $('button', { onClick: onPull }, 'Cancel'),
+    $('button', { onClick: onAddThree }, 'Add 3'),
   )
 })
 
