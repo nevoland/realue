@@ -34,7 +34,9 @@ import {
   withChildren,
   withChild,
   EMPTY_OBJECT,
-} from '../src'
+} from '../../src'
+
+import { Resources } from './resources'
 
 const Text = compose(
   pure,
@@ -330,6 +332,8 @@ export const App = compose(
     'div',
     null,
     $('h1', null, 'Realue'),
+    $('h2', null, 'Resources'),
+    $(Resources),
     $('h2', null, 'Todos'),
     $(EditedItems, property('todos')),
     $('h2', null, 'Color'),

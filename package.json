@@ -9,8 +9,8 @@
   "main-es": "src/index.js",
   "scripts": {
     "start": "node scripts/server.js",
-    "build": "parcel build --out-dir dist/app --public-url ./ demo/index.html",
-    "build:watch": "parcel --out-dir dist/app demo/index.html",
+    "build": "parcel build --out-dir dist/app --public-url ./ demo/client/index.html",
+    "build:watch": "parcel --out-dir dist/app demo/client/index.html",
     "prepare": "babel --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
     "test": "eslint src/ && prettier --list-different \"{src,scripts}/**/*.js\" && nyc ava",
     "test:watch": "ava --watch",
@@ -43,6 +43,7 @@
     "@babel/preset-env": "^7.2.3",
     "ava": "^1.0.1",
     "chalk": "^2.4.1",
+    "chokidar": "^2.0.4",
     "codecov": "^3.1.0",
     "connect": "^3.6.6",
     "cross-env": "^5.2.0",
@@ -52,6 +53,7 @@
     "esm": "^3.0.84",
     "fast-glob": "2.2.4",
     "husky": "^1.1.2",
+    "koa": "^2.6.2",
     "nyc": "^13.1.0",
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.14.3",
@@ -87,13 +89,15 @@
       "sourceType": "module"
     },
     "globals": {
+      "__dirname": true,
+      "__filename": true,
       "console": true,
       "global": true,
+      "import": true,
       "module": true,
       "process": true,
       "require": true,
-      "window": true,
-      "__dirname": true
+      "window": true
     }
   },
   "ava": {
@@ -116,5 +120,11 @@
       "text"
     ]
   },
-  "esm": "auto"
+  "esm": {
+    "cjs": {
+      "cache": true,
+      "vars": true
+    },
+    "mode": "auto"
+  }
 }
