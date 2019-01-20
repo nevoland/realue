@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.6.2"></a>
+## [1.6.2](https://github.com/davidbonnet/realue/compare/v1.6.1...v1.6.2) (2019-01-20)
+
+
+### Bug Fixes
+
+* **setup:** remove unused direct dependency ([b8d6040](https://github.com/davidbonnet/realue/commit/b8d6040))
+
+
+
 <a name="1.6.1"></a>
 ## [1.6.1](https://github.com/davidbonnet/realue/compare/v1.6.0...v1.6.1) (2019-01-20)
 
