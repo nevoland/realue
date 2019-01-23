@@ -204,7 +204,7 @@ export function logProps(propNames, title) {
           Component.name ||
           arguments.callee.name,
       )
-      for (let name of propNames) {
+      for (let name of propNames || keys(props)) {
         console.log(name, props[name])
       }
       console.groupEnd()
