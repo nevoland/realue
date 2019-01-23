@@ -194,6 +194,8 @@ export function called(object, property) {
 export function logProps(propNames, title) {
   /*
   Logs the provided `propNames` whenever they change.
+  The `title` defaults to the component name.
+  If no `propNames` are provided, logs all props.
   */
   return Component =>
     onPropsChange(propNames, props => {
