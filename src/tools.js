@@ -146,7 +146,12 @@ export function logProps(propNames, title) {
   return Component =>
     onPropsChange(propNames, props => {
       /* eslint-disable no-console */
-      console.group(title || Component.displayName || Component.name)
+      console.group(
+        title ||
+          Component.displayName ||
+          Component.name ||
+          arguments.callee.name,
+      )
       for (let name of propNames) {
         console.log(name, props[name])
       }

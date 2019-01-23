@@ -31,6 +31,7 @@ import {
   toggledEditing,
   transformable,
   syncedFocus,
+  logProps,
 } from '../'
 
 const Text = compose(
@@ -306,6 +307,7 @@ export const App = compose(
   delayable,
   editable,
   object,
+  logProps(['value']),
 )(function App(props) {
   const { property } = props
   return $(
