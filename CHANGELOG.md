@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/davidbonnet/realue/compare/v1.6.2...v1.7.0) (2019-01-23)
+
+
+### Features
+
+* **logProps:** display all props by default ([#31](https://github.com/davidbonnet/realue/issues/31)) ([fbfa30b](https://github.com/davidbonnet/realue/commit/fbfa30b))
+
+
+
 <a name="1.6.2"></a>
 ## [1.6.2](https://github.com/davidbonnet/realue/compare/v1.6.1...v1.6.2) (2019-01-20)
 
