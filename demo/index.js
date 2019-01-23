@@ -325,6 +325,7 @@ export const App = compose(
   delayable,
   editable,
   object,
+  logProps(),
 )(function App(props) {
   const { property } = props
   return $(
