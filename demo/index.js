@@ -34,6 +34,7 @@ import {
   withChildren,
   withChild,
   EMPTY_OBJECT,
+  logProps,
 } from '../src'
 
 const Text = compose(
@@ -324,6 +325,7 @@ export const App = compose(
   delayable,
   editable,
   object,
+  logProps(),
 )(function App(props) {
   const { property } = props
   return $(
