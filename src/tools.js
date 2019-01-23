@@ -1,4 +1,4 @@
-import { createElement as $, PureComponent } from 'react'
+import { createElement as $, Component as BaseComponent } from 'react'
 import {
   concat,
   debounce,
@@ -277,7 +277,7 @@ export function editableProp(options) {
   const { onChangeName = `onChange${upperFirst(name)}` } =
     name === options ? EMPTY_OBJECT : options
   return Component =>
-    class extends PureComponent {
+    class editable extends BaseComponent {
       constructor(props) {
         super(props)
         this.state = {
@@ -309,7 +309,7 @@ export function syncedProp(options) {
     onPullName = `onPull${capitalizedName}`,
   } = name === options ? EMPTY_OBJECT : options
   return Component =>
-    class extends PureComponent {
+    class synced extends BaseComponent {
       constructor(props) {
         super(props)
         this.state = this.constructor.getDerivedStateFromProps(
