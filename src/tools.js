@@ -199,7 +199,7 @@ export function logProps(propNames, title) {
     onPropsChange(propNames, props => {
       /* eslint-disable no-console */
       console.group(title || Component.displayName || Component.name)
-      for (let name of propNames) {
+      for (let name of propNames || keys(props)) {
         console.log(name, props[name])
       }
       console.groupEnd()

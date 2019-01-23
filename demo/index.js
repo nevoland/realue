@@ -34,6 +34,7 @@ import {
   withChildren,
   withChild,
   EMPTY_OBJECT,
+  logProps,
 } from '../src'
 
 const Text = compose(
