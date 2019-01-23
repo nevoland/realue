@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/davidbonnet/realue/compare/v1.7.0...v1.8.0) (2019-01-23)
+
+
+### Bug Fixes
+
+* **tools:** add synced and editable names ([4e4f237](https://github.com/davidbonnet/realue/commit/4e4f237))
+
+
+### Features
+
+* **tools:** add promisedProp and promised ([eb382a4](https://github.com/davidbonnet/realue/commit/eb382a4))
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/davidbonnet/realue/compare/v1.6.2...v1.7.0) (2019-01-23)
 
