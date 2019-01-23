@@ -169,6 +169,17 @@ The return value of the optional parent prop `onPull(newValue, previousValue)` i
 
 Injects prop `cycle(payload)` that cycles the `value` prop through the values of `values` prop, which default to `[false, true]`. Calls `onChange(value, name, payload)`.
 
+#### `promised`
+
+> ⬆️ `{ value? }`
+
+> ⬇️ `{ value }`
+
+Replaces promise `value` with `{ done, error, value }`.
+Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
+If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+If a new promise is provided, the previously resolved `value` is kept until the new one resolves.
+
 #### `toggledEditing`
 
 > ⬆️ `{ editing?, onChange, onPush? }`
@@ -240,6 +251,17 @@ The return value of the optional parent prop `[onPullName](newValue, previousVal
 
 Injects prop `[onCycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
 Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameName]` or `name`.
+
+#### `promisedProp(name)`
+
+> ⬆️ `{ [name]? }`
+
+> ⬇️ `{ [name] }`
+
+Takes the promise from the prop `[name]` and injects prop `[name]` with `{ done, error, value }`.
+Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
+If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+If a new promise is provided to `[name]`, the previously resolved `value` is kept until the new one resolves.
 
 #### `withChildren(Component, childProps?, shouldUpdateOrKeys?, valueName?)`
 

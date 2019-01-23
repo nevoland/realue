@@ -9,6 +9,7 @@ import {
   syncedProp,
   editableProp,
   cycledProp,
+  promisedProp,
 } from './tools'
 
 export const defaultValue = Component =>
@@ -127,6 +128,8 @@ export const cyclable = branch(
     nameName: 'name',
   }),
 )
+
+export const promised = promisedProp('value')
 
 export const toggledEditing = branch(
   /*

@@ -443,3 +443,78 @@ export function lazyProperty(object, propertyName, valueBuilder) {
   }
   return (object[propertyName] = valueBuilder(object))
 }
+
+export function promisedProp(name) {
+  /*
+  Takes the promise from the prop `[name]` and injects prop `[name]` with `{ done, error, value }`.
+  Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
+  If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+  If a new promise is provided to `[name]`, the previously resolved `value` is kept until the new one resolves.
+  */
+  return Component =>
+    class promised extends BaseComponent {
+      constructor(props) {
+        super(props)
+        const promise = props[name]
+        this.state = this.constructor.getDerivedStateFromProps(props)
+        this.mounted = false
+        this.attachPromise(promise)
+      }
+
+      attachPromise(promise) {
+        return Promise.resolve(promise).then(
+          value => {
+            if (!this.mounted || this.state.promise !== promise) {
+              return
+            }
+            this.setState({ resource: { done: true, error: null, value } })
+          },
+          error => {
+            if (!this.mounted || this.state.promise !== promise) {
+              return
+            }
+            this.setState({
+              resource: { done: true, error, value: this.state.resource.value },
+            })
+          },
+        )
+      }
+
+      componentDidMount() {
+        this.mounted = true
+      }
+
+      static getDerivedStateFromProps(props, state) {
+        const promise = props[name]
+        if (state && state.promise === promise) {
+          return null
+        }
+        return {
+          promise,
+          resource: {
+            done: false,
+            error: null,
+            value: state ? state.resource.value : null,
+          },
+        }
+      }
+
+      componentDidUpdate(prevProps, prevState) {
+        const { promise } = this.state
+        if (promise !== prevState.promise) {
+          this.attachPromise(promise)
+        }
+      }
+
+      componentWillUnmount() {
+        this.mounted = false
+      }
+
+      render() {
+        return $(Component, {
+          ...this.props,
+          [name]: this.state.resource,
+        })
+      }
+    }
+}
