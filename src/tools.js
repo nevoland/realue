@@ -14,6 +14,7 @@ import {
   upperFirst,
   map,
   identity,
+  mapValues,
 } from 'lodash'
 import {
   branch,
@@ -427,10 +428,19 @@ export function withChild(
   Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop.
   The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
   */
+  if (typeof Component === 'function') {
+    return withPropsOnChange(shouldUpdateOrKeys, props => ({
+      [destination]: $(Component, childProps(props, null)),
+    }))
+  }
   return withPropsOnChange(shouldUpdateOrKeys, props => ({
-    [destination]: $(Component, childProps(props)),
+    [destination]: mapValues(Component, (Component, name) =>
+      $(Component, childProps(props, name)),
+    ),
   }))
 }
+
+export const withElement = withChild
 
 export function lazyProperty(object, propertyName, valueBuilder) {
   /*

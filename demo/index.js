@@ -35,6 +35,7 @@ import {
   withChild,
   EMPTY_OBJECT,
   logProps,
+  withElement,
 } from '../src'
 
 const Text = compose(
@@ -303,6 +304,31 @@ export const Toggle = compose(
   )
 })
 
+function Title() {
+  return $('h1', null, 'Composed children')
+}
+
+function Body({ value }) {
+  return $('p', null, 'body ' + value)
+}
+
+export const ComposedChildren = compose(
+  withProps({
+    value: { body: 'test' },
+  }),
+  withElement({ header: Title, body: Body }, (props, name) => ({
+    ...props,
+    value: props.value[name],
+  })),
+)(function ComposedChildren({ children = EMPTY_OBJECT }) {
+  return $(
+    'div',
+    null,
+    $('div', null, children.header),
+    $('div', null, children.body),
+  )
+})
+
 export const App = compose(
   withProps({
     value: {
@@ -325,7 +351,7 @@ export const App = compose(
   delayable,
   editable,
   object,
-  logProps(),
+  logProps(['value']),
 )(function App(props) {
   const { property } = props
   return $(
@@ -338,6 +364,7 @@ export const App = compose(
     $(Color, property('color')),
     $('h2', null, 'Delayed'),
     $(Toggle, { ...property('toggle'), delay: 2000 }),
+    $(ComposedChildren),
   )
 })
 
