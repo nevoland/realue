@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.9.0"></a>
+# [1.9.0](https://github.com/davidbonnet/realue/compare/v1.8.0...v1.9.0) (2019-01-24)
+
+
+### Features
+
+* **tools:** update withChild with Component map support ([8cfb547](https://github.com/davidbonnet/realue/commit/8cfb547))
+
+
+
 <a name="1.8.0"></a>
 # [1.8.0](https://github.com/davidbonnet/realue/compare/v1.7.0...v1.8.0) (2019-01-23)
 
