@@ -304,30 +304,16 @@ export const Toggle = compose(
   )
 })
 
-function Title() {
-  return $('h1', null, 'Composed children')
-}
-
-function Body({ value }) {
-  return $('p', null, 'body ' + value)
-}
-
-export const ComposedChildren = compose(
-  withProps({
-    value: { body: 'test' },
-  }),
-  withElement({ header: Title, body: Body }, (props, name) => ({
-    ...props,
-    value: props.value[name],
-  })),
-)(function ComposedChildren({ children = EMPTY_OBJECT }) {
-  return $(
+const Article = withElement({ header: 'h1', body: 'p' }, (props, name) => ({
+  children: props.value[name],
+}))(({ children = EMPTY_OBJECT }) =>
+  $(
     'div',
     null,
     $('div', null, children.header),
     $('div', null, children.body),
-  )
-})
+  ),
+)
 
 export const App = compose(
   withProps({
@@ -364,7 +350,7 @@ export const App = compose(
     $(Color, property('color')),
     $('h2', null, 'Delayed'),
     $(Toggle, { ...property('toggle'), delay: 2000 }),
-    $(ComposedChildren),
+    $(Article, { value: { header: 'Title', body: 'Content' } }),
   )
 })
 
