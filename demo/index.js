@@ -290,6 +290,7 @@ export const Toggle = compose(
   ),
   renameProp('onPush', 'onChange'),
   cyclable,
+  logProps(),
 )(function Toggle({ value, onCycle }) {
   return $(
     'div',
@@ -337,7 +338,6 @@ export const App = compose(
   delayable,
   editable,
   object,
-  logProps(),
 )(function App(props) {
   const { property } = props
   return $(
