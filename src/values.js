@@ -54,7 +54,7 @@ export const filterable = compose(
   branch(
     hasProp('filterValue'),
     Component =>
-      class extends BaseComponent {
+      class filterable extends BaseComponent {
         static getDerivedStateFromProps({ value, filterValue }, state) {
           return state &&
             (value === state.value || !filterValue(value, state.value))
@@ -64,7 +64,7 @@ export const filterable = compose(
         render() {
           return $(Component, {
             ...this.props,
-            ...this.state,
+            value: this.state.value,
           })
         }
       },
