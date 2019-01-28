@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.10.0"></a>
+# [1.10.0](https://github.com/davidbonnet/realue/compare/v1.9.0...v1.10.0) (2019-01-28)
+
+
+### Bug Fixes
+
+* **values:** name filterable HOC ([cdd38a5](https://github.com/davidbonnet/realue/commit/cdd38a5))
+
+
+### Features
+
+* **values:** add previous values to transformable ([0cb0ae9](https://github.com/davidbonnet/realue/commit/0cb0ae9))
+
+
+
+<a name="1.9.0"></a>
+# [1.9.0](https://github.com/davidbonnet/realue/compare/v1.8.0...v1.9.0) (2019-01-24)
+
+
+### Features
+
+* **tools:** update withChild with Component map support ([8cfb547](https://github.com/davidbonnet/realue/commit/8cfb547))
+
+
+
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/davidbonnet/realue/compare/v1.7.0...v1.8.0) (2019-01-23)
+
+
+### Bug Fixes
+
+* **tools:** add synced and editable names ([4e4f237](https://github.com/davidbonnet/realue/commit/4e4f237))
+
+
+### Features
+
+* **tools:** add promisedProp and promised ([eb382a4](https://github.com/davidbonnet/realue/commit/eb382a4))
+
+
+
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/davidbonnet/realue/compare/v1.6.2...v1.7.0) (2019-01-23)
+
+
+### Features
+
+* **logProps:** display all props by default ([#31](https://github.com/davidbonnet/realue/issues/31)) ([fbfa30b](https://github.com/davidbonnet/realue/commit/fbfa30b))
+
+
+
 <a name="1.6.2"></a>
 ## [1.6.2](https://github.com/davidbonnet/realue/compare/v1.6.1...v1.6.2) (2019-01-20)
 

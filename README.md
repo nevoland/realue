@@ -129,7 +129,7 @@ Sets `value` to `defaultValue` if `value` is `nil`.
 
 > ⬇️ `{ value?, onChange? }`
 
-Replaces `value` with the return value of `transformValue(value)`, if set.
+Replaces `value` with the return value of `transformValue(value, previous?: { transformedValue, value })`, if set. Note that `previous` is not provided when the component first mounts, since there are no previous prop values.
 Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
 
 #### `filterable`
@@ -168,6 +168,17 @@ The return value of the optional parent prop `onPull(newValue, previousValue)` i
 > ⬇️ `{ onCycle(payload?) }`
 
 Injects prop `cycle(payload)` that cycles the `value` prop through the values of `values` prop, which default to `[false, true]`. Calls `onChange(value, name, payload)`.
+
+#### `promised`
+
+> ⬆️ `{ value? }`
+
+> ⬇️ `{ value }`
+
+Replaces promise `value` with `{ done, error, value }`.
+Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
+If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+If a new promise is provided, the previously resolved `value` is kept until the new one resolves.
 
 #### `toggledEditing`
 
@@ -261,14 +272,30 @@ If a new promise is provided to `[name]`, the previously resolved `value` is kep
 Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `children` prop.
 The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
 
-#### `withChild(Component, childProps?, shouldUpdateOrKeys?, valueName?)`
+#### `withElement(Component || { key:Component }, childProps?, shouldUpdateOrKeys?, destination?)`
 
 > ⬆️ `{ [valueName]? }`
 
 > ⬇️ `{ children }`
 
-Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `children` prop.
+Builds an element from the provided `Component` with the props from `childProps(props,name?)` and injects it as a `children` prop.
+
+If `Component` is an object like `{key:Component, key2: Component2...}`, an element will be built for every key of the object. The childProps will be called for each of the keys with the `name` parameter containing the key itself
+
 The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
+
+```js
+const Article = withElement({ header: 'h1', body: 'p' }, (props, name) => ({
+  children: props.value[name],
+}))(({ children = EMPTY_OBJECT }) => (
+  <div>
+    {children.header}
+    {children.body}
+  </div>
+))
+
+<Article value={{ value: { header: 'Title', body: 'Content' } }} />
+```
 
 ### Type-oriented decorators
 

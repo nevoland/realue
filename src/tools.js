@@ -14,6 +14,7 @@ import {
   upperFirst,
   map,
   identity,
+  mapValues,
 } from 'lodash'
 import {
   branch,
@@ -194,12 +195,14 @@ export function called(object, property) {
 export function logProps(propNames, title) {
   /*
   Logs the provided `propNames` whenever they change.
+  The `title` defaults to the component name.
+  If no `propNames` are provided, logs all props.
   */
   return Component =>
     onPropsChange(propNames, props => {
       /* eslint-disable no-console */
       console.group(title || Component.displayName || Component.name)
-      for (let name of propNames) {
+      for (let name of propNames || keys(props)) {
         console.log(name, props[name])
       }
       console.groupEnd()
@@ -425,10 +428,19 @@ export function withChild(
   Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop.
   The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
   */
+  if (typeof Component === 'function') {
+    return withPropsOnChange(shouldUpdateOrKeys, props => ({
+      [destination]: $(Component, childProps(props, null)),
+    }))
+  }
   return withPropsOnChange(shouldUpdateOrKeys, props => ({
-    [destination]: $(Component, childProps(props)),
+    [destination]: mapValues(Component, (Component, name) =>
+      $(Component, childProps(props, name)),
+    ),
   }))
 }
+
+export const withElement = withChild
 
 export function lazyProperty(object, propertyName, valueBuilder) {
   /*
@@ -511,7 +523,7 @@ export function promisedProp(name) {
       render() {
         return $(Component, {
           ...this.props,
-          [propName]: this.state.resource,
+          [name]: this.state.resource,
         })
       }
     }

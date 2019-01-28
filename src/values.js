@@ -27,15 +27,28 @@ export const defaultValue = Component =>
 
 export const transformable = compose(
   /*
-  Replaces `value` with the return value of `transformValue(value)`, if set.
+  Replaces `value` with the return value of `transformValue(value, previous?: { transformedValue, value })`, if set. Note that `previous` is not provided when the component first mounts, since there are no previous prop values.
   Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
   */
   branch(
     hasProp('transformValue'),
-    withPropsOnChange(
-      ['transformValue', 'value'],
-      ({ transformValue, value }) => ({ value: transformValue(value) }),
-    ),
+    Component =>
+      class transformable extends BaseComponent {
+        static getDerivedStateFromProps({ value, transformValue }, state) {
+          return state && value === state.value
+            ? null
+            : {
+                transformedValue: transformValue(value, state),
+                value,
+              }
+        }
+        render() {
+          return $(Component, {
+            ...this.props,
+            value: this.state.transformedValue,
+          })
+        }
+      },
   ),
   branch(
     hasProps(['onChange', 'transformOnChange']),
@@ -54,7 +67,7 @@ export const filterable = compose(
   branch(
     hasProp('filterValue'),
     Component =>
-      class extends BaseComponent {
+      class filterable extends BaseComponent {
         static getDerivedStateFromProps({ value, filterValue }, state) {
           return state &&
             (value === state.value || !filterValue(value, state.value))
@@ -64,7 +77,7 @@ export const filterable = compose(
         render() {
           return $(Component, {
             ...this.props,
-            ...this.state,
+            value: this.state.value,
           })
         }
       },
