@@ -10,6 +10,8 @@ import {
   editableProp,
   cycledProp,
   promisedProp,
+  resilientProp,
+  EMPTY_OBJECT,
 } from './tools'
 
 export const defaultValue = Component =>
@@ -34,8 +36,16 @@ export const transformable = compose(
     hasProp('transformValue'),
     Component =>
       class transformable extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = this.constructor.getDerivedStateFromProps(
+            props,
+            EMPTY_OBJECT,
+          )
+        }
+
         static getDerivedStateFromProps({ value, transformValue }, state) {
-          return state && value === state.value
+          return value === state.value && state !== EMPTY_OBJECT
             ? null
             : {
                 transformedValue: transformValue(value, state),
@@ -142,7 +152,18 @@ export const cyclable = branch(
   }),
 )
 
+/*
+Replaces the promise at prop `value` with `{ done, error, value }`.
+Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
+If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+If the promise at prop `value` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
+*/
 export const promised = promisedProp('value')
+
+/*
+Keeps the last non-`nil` value of prop `value`. 
+*/
+export const resilient = resilientProp('value')
 
 export const toggledEditing = branch(
   /*
