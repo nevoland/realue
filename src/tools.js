@@ -196,10 +196,10 @@ export function logProps(propNames, title) {
   /*
   Logs the provided `propNames` whenever they change.
   The `title` defaults to the component name.
-  If no `propNames` are provided, logs all props.
+  If `propNames` is `nil`, logs all props.
   */
   return Component =>
-    onPropsChange(propNames, props => {
+    onPropsChange(propNames || undefined, props => {
       /* eslint-disable no-console */
       console.group(title || Component.displayName || Component.name)
       for (let name of propNames || keys(props)) {
