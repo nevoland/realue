@@ -8,18 +8,6 @@ import {
   EMPTY_ARRAY,
 } from './tools'
 
-function item(element) {
-  return (index, key = index) => {
-    const { props } = element
-    return {
-      key,
-      value: props.value && props.value[index],
-      name: index,
-      onChange: props.onChange && element.onChangeItem,
-    }
-  }
-}
-
 function onChangeItem(element) {
   return (itemValue, itemIndex, payload) => {
     const { props } = element
@@ -71,6 +59,18 @@ export const array = Component =>
     ))
   */
   class array extends BaseComponent {
+    constructor(props) {
+      super(props)
+      this.item = (index, key = index) => {
+        const { props } = this
+        return {
+          key,
+          value: props.value && props.value[index],
+          name: index,
+          onChange: props.onChange && this.onChangeItem,
+        }
+      }
+    }
     render() {
       const { props } = this
       return $(Component, {
@@ -81,7 +81,7 @@ export const array = Component =>
         onAddItem: props.onChange && lazyProperty(this, 'onAddItem', onAddItem),
         onAddItems:
           props.onChange && lazyProperty(this, 'onAddItems', onAddItems),
-        item: lazyProperty(this, 'item', item),
+        item: this.item,
       })
     }
   }

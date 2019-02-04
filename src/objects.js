@@ -4,18 +4,6 @@ import { compose, branch, withHandlers } from 'recompose'
 
 import { hasProp, setProperty, lazyProperty, EMPTY_OBJECT } from './tools'
 
-function property(element) {
-  return (name, key = name) => {
-    const { props } = element
-    return {
-      value: props.value && props.value[name],
-      key,
-      name,
-      onChange: props.onChange && element.onChangeProperty,
-    }
-  }
-}
-
 function onChangeProperty(element) {
   return (propertyValue, propertyName, payload) => {
     const { props } = element
@@ -34,6 +22,18 @@ export const object = Component =>
   Sets `value` to `{}` if not set.
   */
   class object extends BaseComponent {
+    constructor(props) {
+      super(props)
+      this.property = (name, key = name) => {
+        const { props } = this
+        return {
+          value: props.value && props.value[name],
+          key,
+          name,
+          onChange: props.onChange && this.onChangeProperty,
+        }
+      }
+    }
     render() {
       const { props } = this
       return $(Component, {
@@ -42,7 +42,7 @@ export const object = Component =>
         onChangeProperty:
           props.onChange &&
           lazyProperty(this, 'onChangeProperty', onChangeProperty),
-        property: lazyProperty(this, 'property', property),
+        property: this.property,
       })
     }
   }
