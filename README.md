@@ -394,6 +394,14 @@ Exposes the synced `focus` state of an element through the `onFocus()` and `onBl
 
 Triggers the specified `keys` handlers on key down. Each handler is called with the current `props`.
 
+#### `domProps`
+
+> ⬆️ `{...domProps, ...nonDomProps}`
+
+> ⬇️ `{...domProps}`
+
+Only keeps DOM properties.
+
 ### Immutability-oriented tools
 
 #### `EMPTY_ARRAY`
