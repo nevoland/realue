@@ -1,7 +1,8 @@
+import { createElement as $, Component as BaseComponent } from 'react'
 import { memoize, get, pickBy } from 'lodash'
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
-import { hasProp, syncedProp } from './tools'
+import { hasProp, syncedProp, EMPTY_OBJECT } from './tools'
 
 const PROP_NAMES = {
   accept: null,
@@ -135,6 +136,73 @@ Only keeps DOM properties.
 export const domProps = mapProps(props =>
   pickBy(props, (value, name) => name in PROP_NAMES),
 )
+
+class Refresher {
+  constructor() {
+    this.elements = []
+    this.refresh = false
+    const { requestAnimationFrame } = window
+    const state = EMPTY_OBJECT
+    this.tick = () => {
+      if (!this.refresh) {
+        return
+      }
+      const { elements } = this
+      const { length } = elements
+      for (let i = 0; i < length; i++) {
+        elements[i].setState(state)
+      }
+      requestAnimationFrame(this.tick)
+    }
+    this.start = () => {
+      this.refresh = true
+      requestAnimationFrame(this.tick)
+    }
+  }
+
+  add(element) {
+    const { elements } = this
+    if (elements.length === 0) {
+      this.start()
+    }
+    elements.push(element)
+  }
+
+  remove(element) {
+    const { elements } = this
+    const index = elements.indexOf(element)
+    if (index === -1) {
+      return
+    }
+    elements.splice(index, 1)
+    if (elements.length === 0) {
+      this.refresh = false
+    }
+  }
+}
+
+const refresher = new Refresher()
+
+export const refreshed = Component => {
+  /*
+  Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
+  */
+  return class refreshed extends BaseComponent {
+    constructor(props) {
+      super(props)
+      this.state = {}
+    }
+    componentDidMount() {
+      refresher.add(this)
+    }
+    componentWillUnmount() {
+      refresher.remove(this)
+    }
+    render() {
+      return $(Component, this.props)
+    }
+  }
+}
 
 function onChangeFromPath(path) {
   switch (path) {

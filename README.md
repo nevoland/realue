@@ -402,6 +402,14 @@ Triggers the specified `keys` handlers on key down. Each handler is called with 
 
 Only keeps DOM properties.
 
+#### `refreshed`
+
+> ⬆️ `{}`
+
+> ⬇️ `{}`
+
+Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
+
 ### Immutability-oriented tools
 
 #### `EMPTY_ARRAY`
