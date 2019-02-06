@@ -14,7 +14,7 @@ import {
   EMPTY_OBJECT,
 } from './tools'
 
-export const defaultValue = Component =>
+export const defaultValue = (Component) =>
   /*
   Sets `value` to `defaultValue` if `value` is `nil`.
   */
@@ -34,7 +34,7 @@ export const transformable = compose(
   */
   branch(
     hasProp('transformValue'),
-    Component =>
+    (Component) =>
       class transformable extends BaseComponent {
         constructor(props) {
           super(props)
@@ -76,7 +76,7 @@ export const filterable = compose(
   */
   branch(
     hasProp('filterValue'),
-    Component =>
+    (Component) =>
       class filterable extends BaseComponent {
         static getDerivedStateFromProps({ value, filterValue }, state) {
           return state &&
@@ -131,7 +131,7 @@ export const editable = branch(
     branch(
       hasProp('onPush'),
       withHandlers({
-        onPush: ({ value, name, onPush }) => payload =>
+        onPush: ({ value, name, onPush }) => (payload) =>
           onPush(value, name, payload),
       }),
     ),
@@ -184,13 +184,13 @@ function onChangeFromPath(path) {
   switch (path) {
     case undefined:
     case null:
-      return ({ onChange, name }) => value => onChange(value, name)
+      return ({ onChange, name }) => (value) => onChange(value, name)
     default:
-      return ({ onChange, name }) => value => onChange(get(value, path), name)
+      return ({ onChange, name }) => (value) => onChange(get(value, path), name)
   }
 }
 
-export const fromValue = memoize(path => {
+export const fromValue = memoize((path) => {
   /*
   Adapts `onChange` for components that call it by providing the `value` as a first argument. If the `path` is not `nil`, extracts the value from `get(value, path)`.
 

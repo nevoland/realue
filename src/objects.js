@@ -15,7 +15,7 @@ function onChangeProperty(element) {
   }
 }
 
-export const object = Component =>
+export const object = (Component) =>
   /*
   Provides `property(name, key = name)` that returns the props for the child element responsible of the property `name`.
   Also provides `onChangeProperty(value, name, payload?)` that sets the property `name` to the provided `value`.

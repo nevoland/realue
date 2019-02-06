@@ -38,12 +38,12 @@ export const EMPTY_OBJECT = {}
 /*
 Returns a function that checks if `props[name]` is not `nil`.
 */
-export const hasProp = memoize(name => ({ [name]: prop }) => prop != null)
+export const hasProp = memoize((name) => ({ [name]: prop }) => prop != null)
 
 /*
 Returns a function that checks if `props[name]` is `nil`.
 */
-export const hasNotProp = memoize(name => ({ [name]: prop }) => prop == null)
+export const hasNotProp = memoize((name) => ({ [name]: prop }) => prop == null)
 
 export class AbortError extends Error {
   /*
@@ -69,8 +69,8 @@ export const waitFor = (duration, signal) =>
 /*
 Returns a function that checks if every prop `name` in `names` is not `nil`.
 */
-export const hasProps = names => props =>
-  every(names, name => props[name] != null)
+export const hasProps = (names) => (props) =>
+  every(names, (name) => props[name] != null)
 
 export function insertItem(
   array,
@@ -219,8 +219,8 @@ export function logProps(propNames, title) {
   The `title` defaults to the component name.
   If `propNames` is `nil`, logs all props.
   */
-  return Component =>
-    onPropsChange(propNames || undefined, props => {
+  return (Component) =>
+    onPropsChange(propNames || undefined, (props) => {
       /* eslint-disable no-console */
       console.group(title || Component.displayName || Component.name)
       for (let name of propNames || keys(props)) {
@@ -235,7 +235,7 @@ export function omitProps(propNames) {
   /*
   Removes provided `propNames`.
   */
-  return mapProps(props => omit(props, propNames))
+  return mapProps((props) => omit(props, propNames))
 }
 
 export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
@@ -298,14 +298,14 @@ export function editableProp(options) {
   const name = isString(options) ? options : options.name
   const { onChangeName = `onChange${upperFirst(name)}` } =
     name === options ? EMPTY_OBJECT : options
-  return Component =>
+  return (Component) =>
     class editable extends BaseComponent {
       constructor(props) {
         super(props)
         this.state = {
           value: props[name],
         }
-        this.onChange = value => this.setState({ value })
+        this.onChange = (value) => this.setState({ value })
       }
       render() {
         return $(Component, {
@@ -330,7 +330,7 @@ export function syncedProp(options) {
     onChangeName = `onChange${capitalizedName}`,
     onPullName = `onPull${capitalizedName}`,
   } = name === options ? EMPTY_OBJECT : options
-  return Component =>
+  return (Component) =>
     class synced extends BaseComponent {
       constructor(props) {
         super(props)
@@ -399,7 +399,7 @@ export function cycledProp(options) {
       [valuesName]: values = [false, true],
       [onChangeName]: onChange,
       [nameName]: valueName = name,
-    }) => payload => {
+    }) => (payload) => {
       const index = indexOf(values, value) + 1
       onChange(values[index === values.length ? 0 : index], valueName, payload)
     },
@@ -427,10 +427,10 @@ export function withChildren(
     }
     const List = withChildren(Item, () => value => ({ value }))('ul')
   */
-  return withPropsOnChange(shouldUpdateOrKeys, props => ({
+  return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
     [destination]: map(
       props[valueName],
-      (childProps => (value, index) =>
+      ((childProps) => (value, index) =>
         $(Component, {
           key: index,
           ...childProps(value, index),
@@ -450,11 +450,11 @@ export function withChild(
   The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
   */
   if (typeof Component === 'function') {
-    return withPropsOnChange(shouldUpdateOrKeys, props => ({
+    return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
       [destination]: $(Component, childProps(props, null)),
     }))
   }
-  return withPropsOnChange(shouldUpdateOrKeys, props => ({
+  return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
     [destination]: mapValues(Component, (Component, name) =>
       $(Component, childProps(props, name)),
     ),
@@ -482,7 +482,7 @@ export function promisedProp(name) {
   If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
   If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
   */
-  return Component =>
+  return (Component) =>
     class promised extends BaseComponent {
       constructor(props) {
         super(props)
@@ -498,13 +498,13 @@ export function promisedProp(name) {
           return
         }
         return Promise.resolve(promise).then(
-          value => {
+          (value) => {
             if (!this.mounted || this.state.promise !== promise) {
               return
             }
             this.setState({ result: { done: true, error: null, value } })
           },
-          error => {
+          (error) => {
             if (!this.mounted || this.state.promise !== promise) {
               return
             }
@@ -559,7 +559,7 @@ export function resilientProp(name) {
   /*
   Keeps the last non-`nil` value of prop `[name]`.
   */
-  return Component =>
+  return (Component) =>
     class resiliant extends BaseComponent {
       constructor(props) {
         super(props)
@@ -582,7 +582,7 @@ export function withContext(provider, propName) {
   /*
   Injects a context `provider` that takes its value from `[propName]`.
   */
-  return Component =>
+  return (Component) =>
     function withContext(props) {
       return $(provider, { value: props[propName] }, $(Component, props))
     }
@@ -592,9 +592,9 @@ export function fromContext(consumer, propName) {
   /*
   Injects the value of the context `consumer` into `[propName]`.
   */
-  return Component =>
+  return (Component) =>
     function fromContext(props) {
-      return $(consumer, null, value =>
+      return $(consumer, null, (value) =>
         $(Component, { ...props, [propName]: value }),
       )
     }

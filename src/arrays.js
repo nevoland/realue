@@ -41,7 +41,7 @@ function onAddItems(element) {
   }
 }
 
-export const array = Component =>
+export const array = (Component) =>
   /*
   Provides `item(index, key = index)` that returns the props for the child element responsible of the item `index`.
   Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAddItem(value, index, payload?)` that inserts an item with the provided `value` at `index`.
@@ -88,10 +88,10 @@ export const array = Component =>
 
 function onRemove(element) {
   const { props } = element
-  return payload => props.onChange(undefined, props.name, payload)
+  return (payload) => props.onChange(undefined, props.name, payload)
 }
 
-export const removable = Component =>
+export const removable = (Component) =>
   class removable extends BaseComponent {
     render() {
       const { props } = this

@@ -36,10 +36,10 @@ export function retry({
   */
   delay -= delayDelta
   delayDelta *= 2
-  return next => query => {
+  return (next) => (query) => {
     let errorsLeft = amount
     const fetch = () =>
-      next(query).catch(error => {
+      next(query).catch((error) => {
         if (!(error instanceof QueryError)) {
           throw error
         }
@@ -66,7 +66,7 @@ export function split(condition, left, right = identity) {
       fetchJson(),
     )(identity)
   */
-  return next => query => (condition(query) ? left : right)(next)(query)
+  return (next) => (query) => (condition(query) ? left : right)(next)(query)
 }
 
 export function cache({
@@ -79,14 +79,14 @@ export function cache({
   Caches the result of a query if `serialize` returns a non-empty string key. The `engine` should follow the `Map` API. Elements are kept in the cache until the `duration` in milliseconds expires.
   Note that a `duration` set to `Infinity` indefinitely keeps items in the cache.
   */
-  return next => query => {
+  return (next) => (query) => {
     const key = serialize(query)
     if (!key) {
       return next(query)
     }
     const item = engine.get(key)
     if (item == null || item.expiration <= Date.now()) {
-      return next(query).then(result => {
+      return next(query).then((result) => {
         engine.set(key, { result, expiration: Date.now() + duration })
         return result
       })
@@ -99,7 +99,7 @@ export function aggregate({
   categorize = ({ type, method = 'get' }) => method === 'get' && type,
   serialize = ({ value = EMPTY_OBJECT }) => value.id,
   delay = 200,
-  reduce = queries => ({
+  reduce = (queries) => ({
     type: queries[0].type,
     method: 'list',
     filter: {
@@ -121,7 +121,7 @@ export function aggregate({
   When the aggregated query resolves, the result is dispatched back to each aggregatable query call of the category by dispatching the result for each query returned by `pick(result, query)`.`
   */
   const groups = new Map()
-  return next => query => {
+  return (next) => (query) => {
     const category = categorize(query)
     if (!category) {
       return next(query)
@@ -146,7 +146,7 @@ export function aggregate({
       return requests[key]
     }
     queries.push(query)
-    return (requests[key] = Promise.resolve(request).then(result =>
+    return (requests[key] = Promise.resolve(request).then((result) =>
       pick(result, query),
     ))
   }
@@ -163,7 +163,7 @@ export function toFetchQuery(routes, transform = identity) {
   Converts a `query` into a DOM Fetch query. The resulting `query` is passed onto `transform(query)` before sending it.
   To be used in conjunction with `fetchJson()`.
   */
-  return next => query => {
+  return (next) => (query) => {
     const { method = 'get' } = query
     const routeOrUrl = routes[query.type][method](query)
     const route = isString(routeOrUrl) ? { url: routeOrUrl } : routeOrUrl
@@ -214,7 +214,7 @@ export function fetchJson() {
   To be used in conjunction with `toFetchQuery()`.
   */
   const { fetch } = window
-  return () => query => {
+  return () => (query) => {
     if (query.body != null) {
       query.headers = setProperty(
         query.headers,
@@ -223,13 +223,13 @@ export function fetchJson() {
       )
     }
     return fetch(query.url, query).then(
-      response => {
+      (response) => {
         if (!response.ok) {
           throw new QueryError(response.statusText, response.status)
         }
         return response.json()
       },
-      error => {
+      (error) => {
         throw new QueryError(error.message)
       },
     )
@@ -240,17 +240,17 @@ export function logQuery(title = 'Query') {
   /*
   Logs the outgoing query and the incoming result or the error.
   */
-  return next => query => {
+  return (next) => (query) => {
     /* eslint-disable no-console */
     console.group(title)
     console.info('query', query)
     return next(query).then(
-      result => {
+      (result) => {
         console.log('result', result)
         console.groupEnd()
         return result
       },
-      error => {
+      (error) => {
         console.log('error', error)
         console.groupEnd()
         throw error
@@ -297,4 +297,3 @@ export const queried = queriedProp({
   valueName: 'value',
   onAbortName: 'onAbort',
 })
-

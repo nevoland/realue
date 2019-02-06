@@ -133,7 +133,7 @@ const PROP_NAMES = {
 /*
 Only keeps DOM properties.
 */
-export const domProps = mapProps(props =>
+export const domProps = mapProps((props) =>
   pickBy(props, (value, name) => name in PROP_NAMES),
 )
 
@@ -141,7 +141,9 @@ class Refresher {
   constructor() {
     this.elements = []
     this.refresh = false
-    const { requestAnimationFrame } = window
+    const {
+      requestAnimationFrame = (callback) => global.setTimeout(callback, 0),
+    } = typeof window === 'undefined' ? global : window
     const state = EMPTY_OBJECT
     this.tick = () => {
       if (!this.refresh) {
@@ -183,7 +185,7 @@ class Refresher {
 
 const refresher = new Refresher()
 
-export const refreshed = Component => {
+export const refreshed = (Component) => {
   /*
   Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
   */
@@ -207,22 +209,22 @@ export const refreshed = Component => {
 function onChangeFromPath(path) {
   switch (path) {
     case 'target.value':
-      return ({ onChange, name }) => event =>
+      return ({ onChange, name }) => (event) =>
         onChange(event.target.value, name, event)
     case 'target.checked':
-      return ({ onChange, name }) => event =>
+      return ({ onChange, name }) => (event) =>
         onChange(event.target.checked, name, event)
     case undefined:
     case null:
-      return ({ value, onChange, name }) => event =>
+      return ({ value, onChange, name }) => (event) =>
         onChange(value, name, event)
     default:
-      return ({ onChange, name }) => event =>
+      return ({ onChange, name }) => (event) =>
         onChange(get(event, path), name, event)
   }
 }
 
-export const fromEvent = memoize(path => {
+export const fromEvent = memoize((path) => {
   /*
   Creates an `onChange` handler that takes the value from `get(event, path)`.
   If `path` is `nil`, the value is taken from the `value` prop instead.
@@ -240,7 +242,7 @@ export const syncedFocus = branch(
   hasProp('node'),
   compose(
     withHandlers({
-      onPullFocus: ({ node }) => focus => {
+      onPullFocus: ({ node }) => (focus) => {
         node[focus ? 'focus' : 'blur']()
         return focus
       },
@@ -258,7 +260,7 @@ export function onKeysDown(keys) {
   Triggers the specified `keys` handlers on key down. Each handler is called with the current `props`.
   */
   return withHandlers({
-    onKeyDown: props => event => {
+    onKeyDown: (props) => (event) => {
       const handler = keys[event.key]
       if (handler == null) {
         return

@@ -6,7 +6,7 @@ import { object } from '../objects'
 
 import { ThrownValue } from './'
 
-test('returns a function', assert => {
+test('returns a function', (assert) => {
   assert.is(typeof object, 'function')
   assert.is(typeof object(Function.prototype), 'function')
 })
@@ -16,7 +16,7 @@ const Movie = object(({ property }) =>
   $('ul', null, $(Property, property('title')), $(Property, property('year'))),
 )
 
-test('decorates object component', assert => {
+test('decorates object component', (assert) => {
   assert.snapshot(
     render
       .create($(Movie, { value: { title: 'Serenity', year: 2005 } }))
@@ -24,11 +24,11 @@ test('decorates object component', assert => {
   )
 })
 
-test('handles null values', assert => {
+test('handles null values', (assert) => {
   assert.snapshot(render.create($(Movie)).toJSON())
 })
 
-test('sets properties in non-edition mode', assert => {
+test('sets properties in non-edition mode', (assert) => {
   const rendering = render.create($(Movie))
   const { root } = rendering
 
@@ -45,7 +45,7 @@ test('sets properties in non-edition mode', assert => {
   rendering.unmount()
 })
 
-test('sets properties in edition mode', assert => {
+test('sets properties in edition mode', (assert) => {
   const onChange = (value, name, payload) => {
     throw new ThrownValue({ value, name, payload })
   }
