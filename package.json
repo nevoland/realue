@@ -11,6 +11,7 @@
     "start": "node scripts/server.js",
     "build": "parcel build --out-dir dist/app --public-url ./ demo/client/index.html",
     "build:watch": "parcel --out-dir dist/app demo/client/index.html",
+    "start:api": "node --require esm demo/server/index.js",
     "prepare": "babel --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
     "test": "eslint src/ && prettier --list-different \"{src,scripts}/**/*.js\" && nyc ava",
     "test:watch": "ava --watch",
@@ -33,6 +34,7 @@
     "url": "https://github.com/davidbonnet/realue.git"
   },
   "dependencies": {
+    "koa-bodyparser": "^4.2.1",
     "lodash": "^4.17.11",
     "react": "^16.7.0",
     "recompose": "^0.30.0"
@@ -41,6 +43,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
+    "@koa/cors": "^2.2.3",
     "ava": "^1.0.1",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
@@ -54,6 +57,7 @@
     "fast-glob": "2.2.4",
     "husky": "^1.1.2",
     "koa": "^2.6.2",
+    "koa-router": "^7.4.0",
     "nyc": "^13.1.0",
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.14.3",

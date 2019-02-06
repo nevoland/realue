@@ -1,6 +1,18 @@
 import { createElement as $ } from 'react'
 import { render } from 'react-dom'
-import { map, isString, stubFalse, times, constant } from 'lodash'
+import {
+  map,
+  isString,
+  stubFalse,
+  times,
+  constant,
+  get,
+  last,
+  uniqBy,
+  upperFirst,
+  reverse,
+  slice,
+} from 'lodash'
 import {
   compose,
   pure,
@@ -8,6 +20,8 @@ import {
   withProps,
   defaultProps,
   renameProp,
+  flattenProp,
+  withPropsOnChange,
 } from 'recompose'
 
 import {
@@ -18,26 +32,33 @@ import {
   delayable,
   editable,
   editableProp,
+  EMPTY_OBJECT,
+  EMPTY_ARRAY,
   filterable,
   fromEvent,
+  logProps,
   number,
   object,
   omitProps,
   onKeysDown,
   onPropsChange,
   parseNumber,
+  queried,
+  refreshed,
   removable,
+  resilient,
   string,
+  syncedFocus,
   toggledEditing,
   transformable,
-  syncedFocus,
-  withChildren,
   withChild,
-  EMPTY_OBJECT,
-  logProps,
+  withChildren,
   withElement,
+  syncedProp,
+  setProperty,
 } from '../../src'
-import { Resources } from './resources'
+
+import { request } from './requests'
 
 const Text = compose(
   pure,
@@ -317,42 +338,327 @@ const Article = withElement({ header: 'h1', body: 'p' }, (props, name) => ({
   ),
 )
 
+const Timer = compose(
+  refreshed,
+  withProps(({ value = 0 }) => ({
+    children: ((Date.now() - value) / 1000) | 0,
+  })),
+)('div')
+
+const Resources = compose(
+  pure,
+  withProps({ onChange: Function.prototype }),
+  withProps({
+    value: { type: 'device', fields: ['id', 'name', 'performance'] },
+    values: [
+      { type: 'device', fields: ['id', 'name'] },
+      { type: 'device', fields: ['name'] },
+      { type: 'user', fields: ['id', 'name'] },
+      { type: 'user', fields: ['name'] },
+      { type: 'device', fields: ['id', 'name', 'performance'] },
+    ],
+  }),
+  editable,
+  cyclable,
+  object,
+)(function Resources({ value, onCycle, property }) {
+  return $(
+    'div',
+    null,
+    // Data table
+    $('button', { onClick: onCycle }, 'Switch query'),
+    $('br'),
+    'Limit items to: ',
+    $(Number, { ...property('limit'), defaultValue: 3, min: 1, max: 10 }),
+    $(Table, value),
+    $(Aggregations),
+  )
+})
+
+function countFirstValues(values, property) {
+  const { length } = values
+  let index = 0
+  const value = get(values[index], property)
+  if (value == null) {
+    return index
+  }
+  while (++index < length && get(values[index], property) === value) {
+    // Continue
+  }
+  return index
+}
+
+function countLastValues(values, property) {
+  const { length } = values
+  let index = length - 1
+  const value = get(values[index], property)
+  if (value == null) {
+    return index
+  }
+  while (index-- > 0 && get(values[index], property) === value) {
+    // Continue
+  }
+  return length - (index + 1)
+}
+
+const Table = compose(
+  pure,
+  withPropsOnChange(
+    ['type', 'fields', 'limit'],
+    ({ type, fields, limit = 3 }) => ({
+      request,
+      query: {
+        type,
+        method: 'list',
+        refresh: true,
+        fields,
+        start: 0,
+        limit,
+        filter: {
+          performance_gte: 2,
+        },
+        order: [{ key: 'performance', descending: false }],
+      },
+    }),
+  ),
+  syncedProp('query'),
+  queried,
+  flattenProp('value'),
+  resilient,
+  array,
+  withHandlers({
+    onRefresh: ({ onChangeQuery, query }) => () =>
+      onChangeQuery({
+        ...query,
+        refresh: true,
+        reversed: false,
+        start: 0,
+        order: [{ key: 'performance' }],
+        filter: {
+          ...query.filter,
+          performance_gte: 2,
+          performance_lte: null,
+        },
+      }),
+    concatValue: ({ query: { refresh, reversed, fields } }) => (
+      value,
+      { transformedValue = EMPTY_ARRAY },
+    ) => {
+      return refresh
+        ? value
+        : reversed
+        ? [
+            ...uniqBy(
+              [
+                ...reverse([...value]),
+                ...slice(transformedValue, 0, value.length),
+              ],
+              fields[0],
+            ),
+            ...slice(transformedValue, value.length),
+          ]
+        : [
+            ...slice(transformedValue, 0, -value.length),
+            ...uniqBy(
+              [...slice(transformedValue, -value.length), ...value],
+              fields[0],
+            ),
+          ]
+    },
+    replaceValue: ({ query: { reversed } }) => value =>
+      reversed ? reverse([...value]) : value,
+  }),
+  withProps(({ mode = 'concat', concatValue, replaceValue }) => ({
+    transformValue: mode === 'concat' ? concatValue : replaceValue,
+  })),
+  transformable,
+  withHandlers({
+    onQueryPrevious: ({ onChangeQuery, query, value }) => () =>
+      onChangeQuery({
+        ...query,
+        refresh: false,
+        reversed: true,
+        start: countFirstValues(value, 'performance'),
+        order: [{ key: 'performance', descending: true }],
+        filter: {
+          performance_lte: get(value[0], 'performance'),
+        },
+      }),
+    onQueryNext: ({ onChangeQuery, query, value }) => () =>
+      onChangeQuery({
+        ...query,
+        refresh: false,
+        reversed: false,
+        start: countLastValues(value, 'performance'),
+        order: [{ key: 'performance' }],
+        filter: {
+          performance_gte: get(last(value), 'performance'),
+        },
+      }),
+  }),
+)(function Table({
+  value,
+  type,
+  done,
+  fields,
+  onQueryPrevious,
+  onQueryNext,
+  onRefresh,
+  onAbort,
+}) {
+  const headerStyle = {
+    textAlign: 'left',
+    padding: 10,
+    opacity: done ? 1 : 0.25,
+  }
+  const rowStyle = {
+    borderTop: '1px solid #7f7f7f',
+    padding: 10,
+    opacity: done ? 1 : 0.25,
+  }
+  return $(
+    'table',
+    { style: { width: '100%' } },
+    $('caption', null, `${upperFirst(type)} count: ${value.length}`),
+    $(
+      'thead',
+      null,
+      $(
+        'tr',
+        null,
+        map(fields, (name, key) =>
+          $('th', { style: headerStyle, key }, upperFirst(name)),
+        ),
+      ),
+    ),
+    $(
+      'tbody',
+      null,
+      map(value, (value, key) =>
+        $(
+          'tr',
+          { key },
+          map(fields, (name, key) =>
+            $('td', { style: rowStyle, key }, value[name]),
+          ),
+        ),
+      ),
+      $(
+        'tr',
+        null,
+        $(
+          'td',
+          { colSpan: fields.length },
+          $('button', { onClick: onQueryPrevious }, 'Previous'),
+          $('button', { onClick: onQueryNext }, 'Next'),
+          $('button', { onClick: onRefresh }, 'Refresh'),
+          $('button', { disabled: done, onClick: onAbort }, 'Abort'),
+        ),
+      ),
+    ),
+  )
+})
+
+const Aggregations = pure(function Aggregations() {
+  return $(
+    'div',
+    null,
+    $('h4', null, 'Users'),
+    $(
+      'ul',
+      null,
+      $(User, { value: 1 }),
+      $(User, { value: 2 }),
+      $(User, { value: 3 }),
+      $(User, { value: 4 }),
+      $(User, { value: 4 }),
+      $(User, { value: 5 }),
+    ),
+    $('h4', null, 'Devices'),
+    $(
+      'ul',
+      null,
+      $(Device, { value: 1 }),
+      $(Device, { value: 2 }),
+      $(Device, { value: 3 }),
+    ),
+  )
+})
+
+const Request = compose(
+  pure,
+  withPropsOnChange(['value', 'type'], ({ value: id, type }) => ({
+    request,
+    query: {
+      type,
+      value: { id },
+    },
+  })),
+  queried,
+)(function Request({ value: { done, value, error }, onAbort }) {
+  return $(
+    'li',
+    null,
+    !done
+      ? ['Loading…', $('button', { onClick: onAbort, key: 'cancel' }, 'Cancel')]
+      : error
+      ? $('span', { style: { color: 'red' } }, error.message)
+      : value.name,
+  )
+})
+
+const User = withProps({ type: 'user' })(Request)
+const Device = withProps({ type: 'device' })(Request)
+
 export const App = compose(
   withProps({
-    value: {
-      todos: [
-        { done: false, label: 'eye' },
-        { done: false, label: 'touch' },
-        { done: false, label: 'ear' },
-      ],
-      color: {
-        r: 0,
-        g: 0,
-        b: 0,
-      },
-      toggle: false,
-    },
+    request,
+    query: { type: 'value' },
     delay: 500,
-    // eslint-disable-next-line no-console
-    onChange: value => console.log('value', value),
   }),
+  syncedProp('query'),
+  queried,
+  withHandlers({
+    onChange: ({ onChangeQuery }) => value =>
+      onChangeQuery({
+        type: 'value',
+        method: 'put',
+        value,
+      }),
+  }),
+  flattenProp('value'),
+  resilient,
   delayable,
   editable,
   object,
-)(function App(props) {
-  const { property } = props
+)(function App({ property, done, error }) {
   return $(
     'div',
     null,
     $('h1', null, 'Realue'),
-    $('h2', null, 'Resources'),
-    $(Resources),
+    $(
+      'p',
+      null,
+      !done
+        ? 'Loading…'
+        : error
+        ? [
+            'It looks like the API server is not running. Start it with: ',
+            $('code', null, 'npm run start:api'),
+          ]
+        : 'Ready.',
+    ),
+    $('h2', null, 'Timers'),
+    $(Timer, { value: Date.now() }),
     $('h2', null, 'Todos'),
     $(EditedItems, property('todos')),
     $('h2', null, 'Color'),
     $(Color, property('color')),
+    $('h2', null, 'Resources'),
+    $(Resources),
     $('h2', null, 'Delayed'),
     $(Toggle, { ...property('toggle'), delay: 2000 }),
+    $('h2', null, 'Children'),
     $(Article, { value: { header: 'Title', body: 'Content' } }),
   )
 })

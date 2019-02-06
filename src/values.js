@@ -29,7 +29,7 @@ export const defaultValue = Component =>
 
 export const transformable = compose(
   /*
-  Replaces `value` with the return value of `transformValue(value, previous?: { transformedValue, value })`, if set. Note that `previous` is not provided when the component first mounts, since there are no previous prop values.
+  Replaces `value` with the return value of `transformValue(value, previous: { transformedValue?, value? })`, if set. Note that `previous` is not provided when the component first mounts, since there are no previous prop values.
   Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
   */
   branch(

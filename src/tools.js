@@ -45,6 +45,27 @@ Returns a function that checks if `props[name]` is `nil`.
 */
 export const hasNotProp = memoize(name => ({ [name]: prop }) => prop == null)
 
+export class AbortError extends Error {
+  /*
+  Error to be thrown in case the query call is aborted.
+  */
+}
+
+/*
+Returns a promise that resolves after at least `duration` milliseconds.
+If a `signal` is provided, listens to it to reject 
+*/
+export const waitFor = (duration, signal) =>
+  new Promise((resolve, reject) => {
+    const timer = window.setTimeout(resolve, duration)
+    if (signal) {
+      signal.addEventListener('abort', () => {
+        window.clearTimeout(timer)
+        reject(new AbortError('Aborted'))
+      })
+    }
+  })
+
 /*
 Returns a function that checks if every prop `name` in `names` is not `nil`.
 */
@@ -544,7 +565,6 @@ export function resilientProp(name) {
         super(props)
         this.state = { [name]: props[name] }
       }
-
       static getDerivedStateFromProps(props, state) {
         const value = props[name]
         return value === state.value || value == null ? null : { value }
@@ -555,5 +575,27 @@ export function resilientProp(name) {
           [name]: this.state.value,
         })
       }
+    }
+}
+
+export function withContext(provider, propName) {
+  /*
+  Injects a context `provider` that takes its value from `[propName]`.
+  */
+  return Component =>
+    function withContext(props) {
+      return $(provider, { value: props[propName] }, $(Component, props))
+    }
+}
+
+export function fromContext(consumer, propName) {
+  /*
+  Injects the value of the context `consumer` into `[propName]`.
+  */
+  return Component =>
+    function fromContext(props) {
+      return $(consumer, null, value =>
+        $(Component, { ...props, [propName]: value }),
+      )
     }
 }

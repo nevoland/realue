@@ -410,6 +410,88 @@ Only keeps DOM properties.
 
 Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
 
+### Query helpers
+
+#### `Query` object
+
+- `type: string`: a string identifying the type object to fetch
+- `method: enum { 'get', 'list', 'post', 'put', 'patch', 'delete' }`: method to apply on the queried object
+- `value`: details of the object to fetch in case of `get`, or contents to save in case of `post`, `put`, and `patch`
+- `fields: string[]`: array of the field names of the object to fetch
+- `start: number`: in case of `list` method, start offset
+- `limit: number`: in case of `list` method, maximum amount of items to return
+- `filter: { [string]: string | boolean | number | object }`: values used to filter
+- `order: { key: string, descending: boolean }[]`: array of ordering parameters
+
+#### `queriedProp({ queryName, valueName?, onAbortName?, requestName? } | name)`
+
+> ⬆️ `{ [queryName], [requestName = 'request'] }`
+
+> ⬇️ `{ [valueName?], [onAbortName?] }`
+
+Calls `[requestName](query)` whenever the query at `[queryName]` changes and stores the result progress at `[valueName]`.
+An abortion method at `[onAbortName]` is injected. If called before the query resolves, it aborts it, sending the exception to `[valueName].error`.
+
+#### `queried`
+
+> ⬆️ `{ query, request }`
+
+> ⬇️ `{ value, onAbort }`
+
+Calls `request(query)` whenever the query at `query` changes and stores the result progress at `value`.
+An abortion method at `onAbort` is injected. If called before the query resolves, it aborts it, sending the exception to `value.error`.
+
+#### `retry({ amount?, delay?, delayDelta? })`
+
+Retries a failed query call up to `amount` times, with a given `delay` in milliseconds at ±`delayDelta` milliseconds.
+Note that an `amount` set to `Infinity` results in indefinitely trying to resolve a query call.
+Only instances of `QueryError` will result in new tries. Other errors will propagate immediately.
+
+#### `split(condition, left, right?)`
+
+Dispatches an incoming query to `left` if `condition(query)` returns a truthy value, `right` otherwise. This is helpful for sending queries to different resolvers.
+
+Example:
+
+const request = compose(
+split(query => query.protocol === 'gql', gqlHandlers),
+fetchJson(),
+)(identity)
+
+#### `cache({ serialize?, engine?, duration? })`
+
+Caches the result of a query if `serialize` returns a non-empty string key. The `engine` should follow the `Map` API. Elements are kept in the cache until the `duration` in milliseconds expires.
+Note that a `duration` set to `Infinity` indefinitely keeps items in the cache.
+
+#### `aggregate({ categorize?, serialize?, delay?, reduce?, pick? })`
+
+Aggregates multiple incoming query calls into one query.
+Queries are grouped according to the string key returned by `categorize(query)`. Inside a group, each query is identified with `serialize(query)`.
+The aggregated query is built from the object returned by `reduce(queries)`, after at least `delay` milliseconds after the first non-aggregated aggregatable query call.
+When the aggregated query resolves, the result is dispatched back to each aggregatable query call of the category by dispatching the result for each query returned by `pick(result, query)`.`
+
+#### `toFetchQuery(routes, transform?)`
+
+Converts a `query` into a DOM Fetch query. The resulting `query` is passed onto `transform(query)` before sending it.
+To be used in conjunction with `fetchJson()`.
+
+#### `fetchJson()`
+
+Calls the DOM Fetch `query`.
+To be used in conjunction with `toFetchQuery()`.
+
+#### `logQuery(title?)`
+
+Logs the outgoing query and the incoming result or the error.
+
+#### `queryString(values)`
+
+Returns a key-sorted query string from provided `values` object.
+
+#### `searchParams(query)`
+
+Returns an object containing all search parameters of a provided `query`.
+
 ### Immutability-oriented tools
 
 #### `EMPTY_ARRAY`

@@ -1,8 +1,10 @@
 // import path from 'path'
 import Koa from 'koa'
+import cors from '@koa/cors'
 import chokidar from 'chokidar'
+import bodyParser from 'koa-bodyparser'
 
-const PORT = 3000
+const PORT = 4000
 
 const watcher = chokidar.watch(__dirname)
 
@@ -19,6 +21,10 @@ watcher.on('ready', async () => {
 })
 
 const app = new Koa()
+
+app.use(cors())
+
+app.use(bodyParser())
 
 app.use(async (context, next) =>
   require('./middlewares').default(context, next),
