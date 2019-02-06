@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/davidbonnet/realue/compare/v1.10.0...v2.0.0) (2019-02-06)
+
+
+### Bug Fixes
+
+* **tools:** add synced and editable names ([ddf43ac](https://github.com/davidbonnet/realue/commit/ddf43ac))
+* do not use lazyProperty on necessary methods ([a82ae5a](https://github.com/davidbonnet/realue/commit/a82ae5a))
+* **tools:** better handle `null` propNames ([e603d23](https://github.com/davidbonnet/realue/commit/e603d23))
+* set esm setup back to auto ([cb551ee](https://github.com/davidbonnet/realue/commit/cb551ee))
+
+
+### Features
+
+* **dom:** add `domProps` decorator ([2bc741f](https://github.com/davidbonnet/realue/commit/2bc741f))
+* **resources:** prepare playground ([9efa347](https://github.com/davidbonnet/realue/commit/9efa347))
+* **tools:** add `refreshed` decorator ([dae213d](https://github.com/davidbonnet/realue/commit/dae213d))
+* **tools:** add `resilientProp` decorator ([489abc8](https://github.com/davidbonnet/realue/commit/489abc8))
+* **tools:** add promisedProp and promised ([b7bf152](https://github.com/davidbonnet/realue/commit/b7bf152))
+* add support for queries ([4e61201](https://github.com/davidbonnet/realue/commit/4e61201))
+
+
+### BREAKING CHANGES
+
+* **tools:** `promisedProp` and `promised` do not keep the last
+resolved value on promise update. Use `resilientProp` and `resilient`
+to enable this feature.
+
+
+
 <a name="1.10.0"></a>
 # [1.10.0](https://github.com/davidbonnet/realue/compare/v1.9.0...v1.10.0) (2019-01-28)
 
