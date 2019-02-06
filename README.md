@@ -63,13 +63,16 @@ const { object } = require('realue')
 ### Overview
 
 <details>
-  <summary>Caption</summary>
+  <summary>Show caption</summary>
 
 - 🏗 Under construction: the implementation is subject to change soon
+- ➡️ Arguments
 - ⬆️ Used props: `{ required, optional? }`
 - ⬇️ Injected props: `{ always, optional? }`
 
 </details>
+
+<br />
 
 The `realue` module exposes the following functions:
 
@@ -82,16 +85,21 @@ The `realue` module exposes the following functions:
   - [`delayable`](#delayable)
   - [`editable`](#editable)
   - [`cyclable`](#cyclable)
+  - [`promised`](#promised)
   - [`toggledEditing`](#toggledediting)
-  - [`fromValue(path)`](#fromvaluepath)
+  - [`fromValue()`](#fromvalue)
 - [Tooling decorators](#tooling-decorators)
-  - [`logProps(propNames, title?)`](#logpropspropnames-title)
-  - [`omitProps(propNames)`](#omitpropspropnames)
-  - [`onPropsChange(shouldHandleOrKeys, handler, callOnMount = true)`](#onpropschangeshouldhandleorkeys-handler-callonmount--true)
-  - [`delayedProp({ name, delayName, onPushName } | name)`](#delayedprop-name-delayname-onpushname--%7C-name)
-  - [`editableProp({ name, onChangeName? } | name)`](#editableprop-name-onchangename--%7C-name)
-  - [`syncedProp({ name, onChangeName?, onPullName? } | name)`](#syncedprop-name-onchangename-onpullname--%7C-name)
-  - [`cycledProp({ name, valuesName?, onCycleName?, onChangeName?, nameName? } | name)`](#cycledprop-name-valuesname-oncyclename-onchangename-namename--%7C-name)
+  - [`logProps()`](#logprops)
+  - [`omitProps()`](#omitprops)
+- [Decorator constructors](#decorator-constructors)
+  - [`onPropsChange()`](#onpropschange)
+  - [`delayedProp()`](#delayedprop)
+  - [`editableProp()`](#editableprop)
+  - [`syncedProp()`](#syncedprop)
+  - [`cycledProp()`](#cycledprop)
+  - [`promisedProp()`](#promisedprop)
+  - [`withChildren()`](#withchildren)
+  - [`withChild()`](#withchild)
 - [Type-oriented decorators](#type-oriented-decorators)
   - [`object`](#object)
   - [`splittable`](#splittable)
@@ -102,14 +110,36 @@ The `realue` module exposes the following functions:
   - [`number` 🏗](#number-%F0%9F%8F%97)
   - [`date` 🏗](#date-%F0%9F%8F%97)
 - [DOM-based decorators](#dom-based-decorators)
-  - [`fromEvent(path)`](#fromeventpath)
+  - [`fromEvent()`](#fromevent)
   - [`syncedFocus`](#syncedfocus)
-  - [`onKeysDown(keys)`](#onkeysdownkeys)
-  - [`withSelection` 🏗](#withselection-%F0%9F%8F%97)
-- [Utility functions](#utility-functions)
-  - [`setItem(array, index, value)`](#setitemarray-index-value)
-  - [`setProperty(object, key, value)`](#setpropertyobject-key-value)
-  - [`same(a, b, properties, deep = false)`](#samea-b-properties-deep--false)
+  - [`onKeysDown()`](#onkeysdown)
+  - [`domProps`](#domprops)
+  - [`refreshed`](#refreshed)
+- [Query helpers](#query-helpers)
+  - [`Query` object](#query-object)
+  - [`queriedProp()`](#queriedprop)
+  - [`queried`](#queried)
+  - [`retry()`](#retry)
+  - [`split()`](#split)
+  - [`cache()`](#cache)
+  - [`aggregate()`](#aggregate)
+  - [`toFetchQuery(routes, transform?)`](#tofetchqueryroutes-transform)
+  - [`fetchJson()`](#fetchjson)
+  - [`logQuery()`](#logquery)
+  - [`queryString()`](#querystring)
+  - [`searchParams()`](#searchparams)
+- [Immutability-oriented tools](#immutability-oriented-tools)
+  - [`EMPTY_ARRAY`](#empty_array)
+  - [`EMPTY_OBJECT`](#empty_object)
+  - [`insertItem()`](#insertitem)
+  - [`replaceItem()`](#replaceitem)
+  - [`setItem()`](#setitem)
+  - [`setProperty()`](#setproperty)
+- [Condition helpers](#condition-helpers)
+  - [`hasProp()`](#hasprop)
+  - [`hasNotProp()`](#hasnotprop)
+  - [`hasProps()`](#hasprops)
+  - [`same()`](#same)
 
 <!-- /MarkdownTOC -->
 
@@ -188,7 +218,9 @@ If a new promise is provided, the previously resolved `value` is kept until the 
 
 Sets the `editing` prop and enables its toggling through the `onToggleEditing()` prop.
 
-#### `fromValue(path)`
+#### `fromValue()`
+
+> ➡️ `(path)`
 
 > ⬆️ `{ name, onChange? }`
 
@@ -198,23 +230,31 @@ Adapts `onChange` for components that call it by providing the `value` as a firs
 
 ### Tooling decorators
 
-#### `logProps(propNames, title?)`
+#### `logProps()`
+
+> ➡️ `(propNames, title?)`
 
 Logs the provided `propNames` whenever they change.
 Uses `title` as console group (defaults to decorated component name).
 
-#### `omitProps(propNames)`
+#### `omitProps()`
+
+> ➡️ `(propNames)`
 
 Removes provided `propNames`.
 
 ### Decorator constructors
 
-#### `onPropsChange(shouldHandleOrKeys, handler, callOnMount = true)`
+#### `onPropsChange()`
+
+> ➡️ `(shouldHandleOrKeys, handler, callOnMount = true)`
 
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
 The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
 
-#### `delayedProp({ name, delayName, onPushName } | name)`
+#### `delayedProp()`
+
+> ➡️ `({ name, delayName, onPushName } | name)`
 
 > ⬆️ `{ [name], [delayName] }`
 
@@ -223,7 +263,9 @@ The `handler` is called when the component is first mounted if `callOnMount` is 
 Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call.
 Renames undelayed `[name]` as `onPushName`.
 
-#### `editableProp({ name, onChangeName? } | name)`
+#### `editableProp()`
+
+> ➡️ `({ name, onChangeName? } | name)`
 
 > ⬆️ `{ [name]? }`
 
@@ -232,7 +274,9 @@ Renames undelayed `[name]` as `onPushName`.
 Enables a value prop of a given `name` to be locally editable.
 The value can be updated with `onChangeName`.
 
-#### `syncedProp({ name, onChangeName?, onPullName? } | name)`
+#### `syncedProp()`
+
+> ➡️ `({ name, onChangeName?, onPullName? } | name)`
 
 > ⬆️ `{ [name]?, [onPullName]? }`
 
@@ -243,7 +287,9 @@ The prop can be updated with prop `[onChangeName](value, name, payload)`, which 
 Calling `[onPullName]()` sets the local value to the parent value.
 The return value of the optional parent prop `[onPullName](newValue, previousValue)` is used on prop `[name]` changes or when calling `[onPullName]()`.
 
-#### `cycledProp({ name, valuesName?, onCycleName?, onChangeName?, nameName? } | name)`
+#### `cycledProp()`
+
+> ➡️ `({ name, valuesName?, onCycleName?, onChangeName?, nameName? } | name)`
 
 > ⬆️ `{ [name]? }`
 
@@ -252,7 +298,9 @@ The return value of the optional parent prop `[onPullName](newValue, previousVal
 Injects prop `[onCycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
 Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameName]` or `name`.
 
-#### `promisedProp(name)`
+#### `promisedProp()`
+
+> ➡️ `(name)`
 
 > ⬆️ `{ [name]? }`
 
@@ -263,7 +311,9 @@ Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
 If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
 If a new promise is provided to `[name]`, the previously resolved `value` is kept until the new one resolves.
 
-#### `withChildren(Component, childProps?, shouldUpdateOrKeys?, valueName?)`
+#### `withChildren()`
+
+> ➡️ `(Component, childProps?, shouldUpdateOrKeys?, valueName?)`
 
 > ⬆️ `{ [valueName]? }`
 
@@ -272,7 +322,9 @@ If a new promise is provided to `[name]`, the previously resolved `value` is kep
 Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `children` prop.
 The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
 
-#### `withElement(Component || { key:Component }, childProps?, shouldUpdateOrKeys?, destination?)`
+#### `withChild()`
+
+> ➡️ `(Component || { key:Component }, childProps?, shouldUpdateOrKeys?, destination?)`
 
 > ⬆️ `{ [valueName]? }`
 
@@ -369,7 +421,9 @@ Sets `value` to `new Date(0)` if not set.
 
 ### DOM-based decorators
 
-#### `fromEvent(path)`
+#### `fromEvent()`
+
+> ➡️ `(path)`
 
 > ⬆️ `{ name, onChange? }`
 
@@ -386,7 +440,9 @@ If `path` is `nil`, the value is taken from the `value` prop instead.
 
 Exposes the synced `focus` state of an element through the `onFocus()` and `onBlur()` callbacks.
 
-#### `onKeysDown(keys)`
+#### `onKeysDown()`
+
+> ➡️ `(keys)`
 
 > ⬆️ `{}`
 
@@ -423,7 +479,9 @@ Re-renders the component at the browser refresh rate, using `requestAnimationFra
 - `filter: { [string]: string | boolean | number | object }`: values used to filter
 - `order: { key: string, descending: boolean }[]`: array of ordering parameters
 
-#### `queriedProp({ queryName, valueName?, onAbortName?, requestName? } | name)`
+#### `queriedProp()`
+
+> ➡️ `({ queryName, valueName?, onAbortName?, requestName? } | name)`
 
 > ⬆️ `{ [queryName], [requestName = 'request'] }`
 
@@ -441,13 +499,17 @@ An abortion method at `[onAbortName]` is injected. If called before the query re
 Calls `request(query)` whenever the query at `query` changes and stores the result progress at `value`.
 An abortion method at `onAbort` is injected. If called before the query resolves, it aborts it, sending the exception to `value.error`.
 
-#### `retry({ amount?, delay?, delayDelta? })`
+#### `retry()`
+
+> ➡️ `({ amount?, delay?, delayDelta? })`
 
 Retries a failed query call up to `amount` times, with a given `delay` in milliseconds at ±`delayDelta` milliseconds.
 Note that an `amount` set to `Infinity` results in indefinitely trying to resolve a query call.
 Only instances of `QueryError` will result in new tries. Other errors will propagate immediately.
 
-#### `split(condition, left, right?)`
+#### `split()`
+
+> ➡️ `(condition, left, right?)`
 
 Dispatches an incoming query to `left` if `condition(query)` returns a truthy value, `right` otherwise. This is helpful for sending queries to different resolvers.
 
@@ -458,12 +520,16 @@ split(query => query.protocol === 'gql', gqlHandlers),
 fetchJson(),
 )(identity)
 
-#### `cache({ serialize?, engine?, duration? })`
+#### `cache()`
+
+> ➡️ `({ serialize?, engine?, duration? })`
 
 Caches the result of a query if `serialize` returns a non-empty string key. The `engine` should follow the `Map` API. Elements are kept in the cache until the `duration` in milliseconds expires.
 Note that a `duration` set to `Infinity` indefinitely keeps items in the cache.
 
-#### `aggregate({ categorize?, serialize?, delay?, reduce?, pick? })`
+#### `aggregate()`
+
+> ➡️ `({ categorize?, serialize?, delay?, reduce?, pick? })`
 
 Aggregates multiple incoming query calls into one query.
 Queries are grouped according to the string key returned by `categorize(query)`. Inside a group, each query is identified with `serialize(query)`.
@@ -471,6 +537,8 @@ The aggregated query is built from the object returned by `reduce(queries)`, aft
 When the aggregated query resolves, the result is dispatched back to each aggregatable query call of the category by dispatching the result for each query returned by `pick(result, query)`.`
 
 #### `toFetchQuery(routes, transform?)`
+
+> ➡️ `(routes, transform?)`
 
 Converts a `query` into a DOM Fetch query. The resulting `query` is passed onto `transform(query)` before sending it.
 To be used in conjunction with `fetchJson()`.
@@ -480,15 +548,21 @@ To be used in conjunction with `fetchJson()`.
 Calls the DOM Fetch `query`.
 To be used in conjunction with `toFetchQuery()`.
 
-#### `logQuery(title?)`
+#### `logQuery()`
+
+> ➡️ `(title?)`
 
 Logs the outgoing query and the incoming result or the error.
 
-#### `queryString(values)`
+#### `queryString()`
+
+> ➡️ `(values)`
 
 Returns a key-sorted query string from provided `values` object.
 
-#### `searchParams(query)`
+#### `searchParams()`
+
+> ➡️ `(query)`
 
 Returns an object containing all search parameters of a provided `query`.
 
@@ -502,19 +576,25 @@ Empty array to be used in immutable values. Using this instead of `[]` avoids ha
 
 Empty object to be used in immutable values. Using this instead of `{}` avoids having several instances of immutable empty objects.
 
-#### `insertItem(array, value, index)`
+#### `insertItem()`
+
+> ➡️ `(array, value, index)`
 
 Returns a new array with the `value` inserted into the `array` at the provided `index`, provided `value` is not `undefined`, in which case the `array` is returned untouched.
 If the `index` is not provided, the `value` appended to the `array`.
 If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
 
-#### `replaceItem(array, previousValue, value)`
+#### `replaceItem()`
+
+> ➡️ `(array, previousValue, value)`
 
 Returns a new array with the first occurence of the `previousValue` in `array` replaced by `value`.
 Returns the same `array` if the `previousValue` is not found.
 If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
 
-#### `setItem(array, index, value)`
+#### `setItem()`
+
+> ➡️ `(array, index, value)`
 
 Returns a new array with `array[index]` set to `value` if `array[index]` is strictly different from `value`. Otherwise, returns the provided `array`.
 If `value` is `undefined`, ensures that the returned array does not contain the item found at `index`.
@@ -522,7 +602,9 @@ If `index` is greater than `array.length`, appends `value` to the `array`.
 If `index` equals `-1` or is `undefined`, returns the `array` untouched.
 If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
 
-#### `setProperty(object, key, value)`
+#### `setProperty()`
+
+> ➡️ `(object, key, value)`
 
 Returns a new object with `object[key]` set to `value` if `object[key]` is strictly different from `value`. Otherwise, returns the provided `object`.
 If `value` is `undefined`, ensures that the returned object does not contain the `key`.
@@ -531,19 +613,27 @@ If `object` is `nil`, it is considered as an `EMPTY_OBJECT`.
 
 ### Condition helpers
 
-#### `hasProp(name)`
+#### `hasProp()`
+
+> ➡️ `(name)`
 
 Returns a function that checks if `props[name]` is not `nil`.
 
-#### `hasNotProp(name)`
+#### `hasNotProp()`
+
+> ➡️ `(name)`
 
 Returns a function that checks if `props[name]` is `nil`.
 
-#### `hasProps(names)`
+#### `hasProps()`
+
+> ➡️ `(names)`
 
 Returns a function that checks if every prop `name` in `names` is not `nil`.
 
-#### `same(a, b, properties, deep = false)`
+#### `same()`
+
+> ➡️ `(a, b, properties, deep = false)`
 
 Returns `true` if objects `a` and `b` have the same `properties`.
 Unless provided, `properties` are the combined set of property names from `a` and `b`.
