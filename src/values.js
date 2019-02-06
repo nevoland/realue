@@ -10,9 +10,11 @@ import {
   editableProp,
   cycledProp,
   promisedProp,
+  resilientProp,
+  EMPTY_OBJECT,
 } from './tools'
 
-export const defaultValue = Component =>
+export const defaultValue = (Component) =>
   /*
   Sets `value` to `defaultValue` if `value` is `nil`.
   */
@@ -27,15 +29,23 @@ export const defaultValue = Component =>
 
 export const transformable = compose(
   /*
-  Replaces `value` with the return value of `transformValue(value, previous?: { transformedValue, value })`, if set. Note that `previous` is not provided when the component first mounts, since there are no previous prop values.
+  Replaces `value` with the return value of `transformValue(value, previous: { transformedValue?, value? })`, if set. Note that `previous` is not provided when the component first mounts, since there are no previous prop values.
   Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
   */
   branch(
     hasProp('transformValue'),
-    Component =>
+    (Component) =>
       class transformable extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = this.constructor.getDerivedStateFromProps(
+            props,
+            EMPTY_OBJECT,
+          )
+        }
+
         static getDerivedStateFromProps({ value, transformValue }, state) {
-          return state && value === state.value
+          return value === state.value && state !== EMPTY_OBJECT
             ? null
             : {
                 transformedValue: transformValue(value, state),
@@ -66,7 +76,7 @@ export const filterable = compose(
   */
   branch(
     hasProp('filterValue'),
-    Component =>
+    (Component) =>
       class filterable extends BaseComponent {
         static getDerivedStateFromProps({ value, filterValue }, state) {
           return state &&
@@ -121,7 +131,7 @@ export const editable = branch(
     branch(
       hasProp('onPush'),
       withHandlers({
-        onPush: ({ value, name, onPush }) => payload =>
+        onPush: ({ value, name, onPush }) => (payload) =>
           onPush(value, name, payload),
       }),
     ),
@@ -142,7 +152,18 @@ export const cyclable = branch(
   }),
 )
 
+/*
+Replaces the promise at prop `value` with `{ done, error, value }`.
+Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
+If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+If the promise at prop `value` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
+*/
 export const promised = promisedProp('value')
+
+/*
+Keeps the last non-`nil` value of prop `value`. 
+*/
+export const resilient = resilientProp('value')
 
 export const toggledEditing = branch(
   /*
@@ -163,13 +184,13 @@ function onChangeFromPath(path) {
   switch (path) {
     case undefined:
     case null:
-      return ({ onChange, name }) => value => onChange(value, name)
+      return ({ onChange, name }) => (value) => onChange(value, name)
     default:
-      return ({ onChange, name }) => value => onChange(get(value, path), name)
+      return ({ onChange, name }) => (value) => onChange(get(value, path), name)
   }
 }
 
-export const fromValue = memoize(path => {
+export const fromValue = memoize((path) => {
   /*
   Adapts `onChange` for components that call it by providing the `value` as a first argument. If the `path` is not `nil`, extracts the value from `get(value, path)`.
 

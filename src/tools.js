@@ -38,18 +38,39 @@ export const EMPTY_OBJECT = {}
 /*
 Returns a function that checks if `props[name]` is not `nil`.
 */
-export const hasProp = memoize(name => ({ [name]: prop }) => prop != null)
+export const hasProp = memoize((name) => ({ [name]: prop }) => prop != null)
 
 /*
 Returns a function that checks if `props[name]` is `nil`.
 */
-export const hasNotProp = memoize(name => ({ [name]: prop }) => prop == null)
+export const hasNotProp = memoize((name) => ({ [name]: prop }) => prop == null)
+
+export class AbortError extends Error {
+  /*
+  Error to be thrown in case the query call is aborted.
+  */
+}
+
+/*
+Returns a promise that resolves after at least `duration` milliseconds.
+If a `signal` is provided, listens to it to reject 
+*/
+export const waitFor = (duration, signal) =>
+  new Promise((resolve, reject) => {
+    const timer = window.setTimeout(resolve, duration)
+    if (signal) {
+      signal.addEventListener('abort', () => {
+        window.clearTimeout(timer)
+        reject(new AbortError('Aborted'))
+      })
+    }
+  })
 
 /*
 Returns a function that checks if every prop `name` in `names` is not `nil`.
 */
-export const hasProps = names => props =>
-  every(names, name => props[name] != null)
+export const hasProps = (names) => (props) =>
+  every(names, (name) => props[name] != null)
 
 export function insertItem(
   array,
@@ -196,10 +217,10 @@ export function logProps(propNames, title) {
   /*
   Logs the provided `propNames` whenever they change.
   The `title` defaults to the component name.
-  If no `propNames` are provided, logs all props.
+  If `propNames` is `nil`, logs all props.
   */
-  return Component =>
-    onPropsChange(propNames, props => {
+  return (Component) =>
+    onPropsChange(propNames || undefined, (props) => {
       /* eslint-disable no-console */
       console.group(title || Component.displayName || Component.name)
       for (let name of propNames || keys(props)) {
@@ -214,7 +235,7 @@ export function omitProps(propNames) {
   /*
   Removes provided `propNames`.
   */
-  return mapProps(props => omit(props, propNames))
+  return mapProps((props) => omit(props, propNames))
 }
 
 export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
@@ -277,14 +298,14 @@ export function editableProp(options) {
   const name = isString(options) ? options : options.name
   const { onChangeName = `onChange${upperFirst(name)}` } =
     name === options ? EMPTY_OBJECT : options
-  return Component =>
+  return (Component) =>
     class editable extends BaseComponent {
       constructor(props) {
         super(props)
         this.state = {
           value: props[name],
         }
-        this.onChange = value => this.setState({ value })
+        this.onChange = (value) => this.setState({ value })
       }
       render() {
         return $(Component, {
@@ -309,7 +330,7 @@ export function syncedProp(options) {
     onChangeName = `onChange${capitalizedName}`,
     onPullName = `onPull${capitalizedName}`,
   } = name === options ? EMPTY_OBJECT : options
-  return Component =>
+  return (Component) =>
     class synced extends BaseComponent {
       constructor(props) {
         super(props)
@@ -378,7 +399,7 @@ export function cycledProp(options) {
       [valuesName]: values = [false, true],
       [onChangeName]: onChange,
       [nameName]: valueName = name,
-    }) => payload => {
+    }) => (payload) => {
       const index = indexOf(values, value) + 1
       onChange(values[index === values.length ? 0 : index], valueName, payload)
     },
@@ -406,10 +427,10 @@ export function withChildren(
     }
     const List = withChildren(Item, () => value => ({ value }))('ul')
   */
-  return withPropsOnChange(shouldUpdateOrKeys, props => ({
+  return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
     [destination]: map(
       props[valueName],
-      (childProps => (value, index) =>
+      ((childProps) => (value, index) =>
         $(Component, {
           key: index,
           ...childProps(value, index),
@@ -429,11 +450,11 @@ export function withChild(
   The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
   */
   if (typeof Component === 'function') {
-    return withPropsOnChange(shouldUpdateOrKeys, props => ({
+    return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
       [destination]: $(Component, childProps(props, null)),
     }))
   }
-  return withPropsOnChange(shouldUpdateOrKeys, props => ({
+  return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
     [destination]: mapValues(Component, (Component, name) =>
       $(Component, childProps(props, name)),
     ),
@@ -456,35 +477,39 @@ export function lazyProperty(object, propertyName, valueBuilder) {
 
 export function promisedProp(name) {
   /*
-  Takes the promise from the prop `[name]` and injects prop `[name]` with `{ done, error, value }`.
+  Replaces the promise at prop `[name]` with `{ done, error, value }`.
   Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
   If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
-  If a new promise is provided to `[name]`, the previously resolved `value` is kept until the new one resolves.
+  If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
   */
-  return Component =>
+  return (Component) =>
     class promised extends BaseComponent {
       constructor(props) {
         super(props)
-        const promise = props[name]
-        this.state = this.constructor.getDerivedStateFromProps(props)
+        this.state = this.constructor.getDerivedStateFromProps(
+          props,
+          EMPTY_OBJECT,
+        )
         this.mounted = false
-        this.attachPromise(promise)
       }
 
       attachPromise(promise) {
+        if (promise == null) {
+          return
+        }
         return Promise.resolve(promise).then(
-          value => {
+          (value) => {
             if (!this.mounted || this.state.promise !== promise) {
               return
             }
-            this.setState({ resource: { done: true, error: null, value } })
+            this.setState({ result: { done: true, error: null, value } })
           },
-          error => {
+          (error) => {
             if (!this.mounted || this.state.promise !== promise) {
               return
             }
             this.setState({
-              resource: { done: true, error, value: this.state.resource.value },
+              result: { done: true, error, value: null },
             })
           },
         )
@@ -492,19 +517,20 @@ export function promisedProp(name) {
 
       componentDidMount() {
         this.mounted = true
+        this.attachPromise(this.state.promise)
       }
 
       static getDerivedStateFromProps(props, state) {
         const promise = props[name]
-        if (state && state.promise === promise) {
+        if (promise === state.promise && state !== EMPTY_OBJECT) {
           return null
         }
         return {
           promise,
-          resource: {
+          result: {
             done: false,
             error: null,
-            value: state ? state.resource.value : null,
+            value: null,
           },
         }
       }
@@ -523,8 +549,53 @@ export function promisedProp(name) {
       render() {
         return $(Component, {
           ...this.props,
-          [name]: this.state.resource,
+          [name]: this.state.result,
         })
       }
+    }
+}
+
+export function resilientProp(name) {
+  /*
+  Keeps the last non-`nil` value of prop `[name]`.
+  */
+  return (Component) =>
+    class resiliant extends BaseComponent {
+      constructor(props) {
+        super(props)
+        this.state = { [name]: props[name] }
+      }
+      static getDerivedStateFromProps(props, state) {
+        const value = props[name]
+        return value === state.value || value == null ? null : { value }
+      }
+      render() {
+        return $(Component, {
+          ...this.props,
+          [name]: this.state.value,
+        })
+      }
+    }
+}
+
+export function withContext(provider, propName) {
+  /*
+  Injects a context `provider` that takes its value from `[propName]`.
+  */
+  return (Component) =>
+    function withContext(props) {
+      return $(provider, { value: props[propName] }, $(Component, props))
+    }
+}
+
+export function fromContext(consumer, propName) {
+  /*
+  Injects the value of the context `consumer` into `[propName]`.
+  */
+  return (Component) =>
+    function fromContext(props) {
+      return $(consumer, null, (value) =>
+        $(Component, { ...props, [propName]: value }),
+      )
     }
 }

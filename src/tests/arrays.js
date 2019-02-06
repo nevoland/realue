@@ -8,7 +8,7 @@ import { array, removable } from '../arrays'
 
 import { ThrownValue } from './'
 
-test('returns a function', assert => {
+test('returns a function', (assert) => {
   assert.is(typeof array, 'function')
   assert.is(typeof array(Function.prototype), 'function')
 })
@@ -33,15 +33,15 @@ const Numbers = array(({ value, item, onAddItem }) =>
   ),
 )
 
-test('decorates array component', assert => {
+test('decorates array component', (assert) => {
   assert.snapshot(render.create($(Numbers, { value: [1, 2, 3] })).toJSON())
 })
 
-test('handles null values', assert => {
+test('handles null values', (assert) => {
   assert.snapshot(render.create($(Numbers)).toJSON())
 })
 
-test('sets properties in non-edition mode', assert => {
+test('sets properties in non-edition mode', (assert) => {
   const rendering = render.create($(Numbers, { value: [1, 2] }))
   const { root } = rendering
 
@@ -58,7 +58,7 @@ test('sets properties in non-edition mode', assert => {
   rendering.unmount()
 })
 
-test('sets properties in edition mode', assert => {
+test('sets properties in edition mode', (assert) => {
   const onChange = (value, name, payload) => {
     throw new ThrownValue({ value, name, payload })
   }

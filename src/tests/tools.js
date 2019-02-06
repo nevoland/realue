@@ -16,7 +16,7 @@ function similar(assert, base, value, expected, message) {
   assert.not(value, base, 'does not mutate')
 }
 
-test('hasProp', assert => {
+test('hasProp', (assert) => {
   assert.is(typeof hasProp, 'function')
   assert.is(typeof hasProp('onChange'), 'function')
   assert.is(hasProp('onChange'), hasProp('onChange'), 'memoizes')
@@ -24,7 +24,7 @@ test('hasProp', assert => {
   assert.false(hasProp('onChange')({}), 'detects missing onChange')
 })
 
-test('hasNotProp', assert => {
+test('hasNotProp', (assert) => {
   assert.is(typeof hasNotProp, 'function')
   assert.is(typeof hasNotProp('onChange'), 'function')
   assert.is(hasNotProp('onChange'), hasNotProp('onChange'), 'memoizes')
@@ -35,7 +35,7 @@ test('hasNotProp', assert => {
   assert.true(hasNotProp('onChange')({}), 'detects missing onChange')
 })
 
-test('insertItem', assert => {
+test('insertItem', (assert) => {
   assert.is(typeof insertItem, 'function')
   const base = [0, 1, 2]
   similar(
@@ -64,7 +64,7 @@ test('insertItem', assert => {
   similar(assert, null, insertItem(null, 3), [3], 'creates array with value')
 })
 
-test('setItem', assert => {
+test('setItem', (assert) => {
   assert.is(typeof setItem, 'function')
   const base = [0, 1, 2]
   similar(
@@ -97,7 +97,7 @@ test('setItem', assert => {
   similar(assert, base, setItem(base, 0), [1, 2], 'removes item if undefined')
 })
 
-test('setProperty', assert => {
+test('setProperty', (assert) => {
   assert.is(typeof setProperty, 'function')
   const base = { a: 1 }
   similar(
@@ -144,7 +144,7 @@ test('setProperty', assert => {
   )
 })
 
-test('isValidDate', assert => {
+test('isValidDate', (assert) => {
   assert.is(typeof isValidDate, 'function')
   assert.true(isValidDate(new Date()), 'detects valid date')
   assert.true(isValidDate(new Date('1984-01-01')), 'detects valid date')
