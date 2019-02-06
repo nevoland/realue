@@ -125,11 +125,5 @@
       "text"
     ]
   },
-  "esm": {
-    "cjs": {
-      "cache": true,
-      "vars": true
-    },
-    "mode": "auto"
-  }
+  "esm": "auto"
 }
