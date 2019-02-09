@@ -1,7 +1,8 @@
 import { replace, trim } from 'lodash'
 import { branch, withProps } from 'recompose'
 
-import { hasNotProp, escapeRegex, EMPTY_OBJECT } from './tools'
+import { hasNotProp, escapeRegex } from './tools'
+import { EMPTY_OBJECT } from './immutables'
 
 export const number = branch(
   /*

@@ -1,12 +1,7 @@
 import { createElement as $, Component as BaseComponent } from 'react'
 
-import {
-  setItem,
-  insertItem,
-  insertItems,
-  lazyProperty,
-  EMPTY_ARRAY,
-} from './tools'
+import { lazyProperty } from './tools'
+import { setItem, insertItem, insertItems, EMPTY_ARRAY } from './immutables'
 
 function onChangeItem(element) {
   return (itemValue, itemIndex, payload) => {

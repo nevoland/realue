@@ -2,7 +2,9 @@ import { createElement as $, Component as BaseComponent } from 'react'
 import { memoize, get, pickBy } from 'lodash'
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
-import { hasProp, syncedProp, EMPTY_OBJECT } from './tools'
+import { syncedProp } from './properties'
+import { hasProp } from './tools'
+import { EMPTY_OBJECT } from './immutables'
 
 const PROP_NAMES = {
   accept: null,

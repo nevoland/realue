@@ -10,7 +10,9 @@ import {
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
-import { EMPTY_OBJECT, waitFor, setProperty, promisedProp } from './tools'
+import { waitFor } from './promises'
+import { EMPTY_OBJECT, setProperty } from './immutables'
+import { promisedProp } from './properties'
 
 export class QueryError extends Error {
   /*
@@ -70,8 +72,8 @@ export function split(condition, left, right = identity) {
 }
 
 export function cache({
-  serialize = ({ value = EMPTY_OBJECT, method = 'get', type }) =>
-    method === 'get' && value.id && `${type}/${value.id}`,
+  serialize = ({ value = EMPTY_OBJECT, method = 'get', type, refresh }) =>
+    !refresh && method === 'get' && value.id && `${type}/${value.id}`,
   engine = new Map(),
   duration = 10 * 60 * 1000,
 } = EMPTY_OBJECT) {
@@ -188,7 +190,7 @@ export function queryString(values) {
   Returns a key-sorted query string from provided `values` object.
   */
   const result = new window.URLSearchParams()
-  for (let name in values) {
+  for (const name in values) {
     const value = values[name]
     if (value == null) {
       continue

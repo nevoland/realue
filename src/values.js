@@ -2,17 +2,16 @@ import { createElement as $, Component as BaseComponent } from 'react'
 import { compose, branch, withHandlers, withPropsOnChange } from 'recompose'
 import { memoize, get } from 'lodash'
 
+import { hasProp, hasProps } from './tools'
 import {
-  hasProp,
-  hasProps,
   delayedProp,
   syncedProp,
   editableProp,
   cycledProp,
   promisedProp,
   resilientProp,
-  EMPTY_OBJECT,
-} from './tools'
+} from './properties'
+import { EMPTY_OBJECT } from './immutables'
 
 export const defaultValue = (Component) =>
   /*

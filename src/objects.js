@@ -2,7 +2,8 @@ import { createElement as $, Component as BaseComponent } from 'react'
 import { reduce, join, pick } from 'lodash'
 import { compose, branch, withHandlers } from 'recompose'
 
-import { hasProp, setProperty, lazyProperty, EMPTY_OBJECT } from './tools'
+import { setProperty, EMPTY_OBJECT } from './immutables'
+import { hasProp, lazyProperty } from './tools'
 
 function onChangeProperty(element) {
   return (propertyValue, propertyName, payload) => {
