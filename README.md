@@ -472,6 +472,7 @@ Re-renders the component at the browser refresh rate, using `requestAnimationFra
 
 - `type: string`: a string identifying the type object to fetch
 - `method: enum { 'get', 'list', 'post', 'put', 'patch', 'delete' }`: method to apply on the queried object
+- `refresh: boolean`: if `true`, bypasses any cache
 - `value`: details of the object to fetch in case of `get`, or contents to save in case of `post`, `put`, and `patch`
 - `fields: string[]`: array of the field names of the object to fetch
 - `start: number`: in case of `list` method, start offset
