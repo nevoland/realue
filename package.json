@@ -103,6 +103,48 @@
       "process": true,
       "require": true,
       "window": true
+    },
+    "rules": {
+      "curly": "error",
+      "default-case": "error",
+      "import/no-duplicates": "error",
+      "import/order": [
+        "error",
+        {
+          "newlines-between": "always"
+        }
+      ],
+      "line-comment-position": [
+        "error",
+        {
+          "position": "above"
+        }
+      ],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ],
+      "no-irregular-whitespace": [
+        "error",
+        {
+          "skipStrings": true,
+          "skipTemplates": true
+        }
+      ],
+      "no-unused-vars": [
+        "error",
+        {
+          "args": "none",
+          "ignoreRestSiblings": true
+        }
+      ],
+      "no-var": "error",
+      "prefer-const": "error"
     }
   },
   "ava": {
