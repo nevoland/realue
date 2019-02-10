@@ -57,4 +57,7 @@ export function withChild(
   }))
 }
 
+/*
+DEPRECATED: Alias for `withChild`. 
+*/
 export const withElement = withChild
