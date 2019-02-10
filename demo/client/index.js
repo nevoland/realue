@@ -326,9 +326,13 @@ export const Toggle = compose(
   )
 })
 
-const Article = withChild({ header: 'h1', body: 'p' }, (props, name) => ({
-  children: props.value[name],
-}))(({ children = EMPTY_OBJECT }) =>
+const Article = withChild(
+  { header: 'h1', body: 'p' },
+  ({ value }, name) => ({
+    children: value[name],
+  }),
+  ['value'],
+)(({ children = EMPTY_OBJECT }) =>
   $(
     'div',
     null,

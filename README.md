@@ -319,27 +319,31 @@ If a new promise is provided to `[name]`, the previously resolved `value` is kep
 
 > ⬇️ `{ children }`
 
-Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `children` prop.
-The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
+Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destination]` prop (`children` by default).
+The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
 
 #### `withChild()`
 
-> ➡️ `(Component || { key:Component }, childProps?, shouldUpdateOrKeys?, destination?)`
+> ➡️ `(Component || { [string]: Component }, childProps?, shouldUpdateOrKeys?, destination?)`
 
 > ⬆️ `{ [valueName]? }`
 
 > ⬇️ `{ children }`
 
-Builds an element from the provided `Component` with the props from `childProps(props,name?)` and injects it as a `children` prop.
+Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop (`children` by default).
+The element is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the element is updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
 
-If `Component` is an object like `{key:Component, key2: Component2...}`, an element will be built for every key of the object. The childProps will be called for each of the keys with the `name` parameter containing the key itself
+<details>
+  <summary>Example</summary>
 
-The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
-
-```js
-const Article = withElement({ header: 'h1', body: 'p' }, (props, name) => ({
-  children: props.value[name],
-}))(({ children = EMPTY_OBJECT }) => (
+```jsx
+const Article = withChild(
+  { header: 'h1', body: 'p' },
+  ({ value }, name) => ({
+    children: value[name],
+  }),
+  ['value'],
+)(({ children = EMPTY_OBJECT }) => (
   <div>
     {children.header}
     {children.body}
@@ -348,6 +352,8 @@ const Article = withElement({ header: 'h1', body: 'p' }, (props, name) => ({
 
 <Article value={{ value: { header: 'Title', body: 'Content' } }} />
 ```
+
+</details>
 
 ### Type-oriented decorators
 

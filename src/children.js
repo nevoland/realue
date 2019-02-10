@@ -13,15 +13,15 @@ export function withChildren(
   destination = 'children',
 ) {
   /*
-  Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destination]` prop.
-  The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
+  Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destination]` prop (`children` by default).
+  The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
 
   Example:
 
     function Item({ value }) {
       return $('li', null, value)
     }
-    const List = withChildren(Item, () => value => ({ value }))('ul')
+    const List = withChildren(Item, () => value => ({ value }), ['value'])('ul')
   */
   return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
     [destination]: map(
@@ -42,8 +42,8 @@ export function withChild(
   destination = 'children',
 ) {
   /*
-  Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop.
-  The prop is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes.
+  Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop (`children` by default).
+  The element is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the element is updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
   */
   if (typeof Component === 'function') {
     return withPropsOnChange(shouldUpdateOrKeys, (props) => ({
