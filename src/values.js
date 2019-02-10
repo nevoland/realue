@@ -8,9 +8,9 @@ import {
   syncedProp,
   editableProp,
   cycledProp,
-  promisedProp,
   resilientProp,
 } from './properties'
+import { promisedProp } from './promises'
 import { EMPTY_OBJECT } from './immutables'
 
 export const defaultValue = (Component) =>

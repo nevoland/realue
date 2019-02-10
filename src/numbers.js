@@ -1,16 +1,20 @@
+import { createElement as $ } from 'react'
 import { replace, trim } from 'lodash'
-import { branch, withProps } from 'recompose'
 
-import { hasNotProp, escapeRegex } from './tools'
+import { setWrapperName, escapeRegex } from './tools'
 import { EMPTY_OBJECT } from './immutables'
 
-export const number = branch(
+export const number = (Component) =>
   /*
-  Sets `value` to `0` if not set.
+  Sets `value` to `0` if `nil`.
   */
-  hasNotProp('value'),
-  withProps({ value: 0 }),
-)
+  setWrapperName(Component, function number(props) {
+    const { value } = props
+    return $(Component, {
+      ...props,
+      value: value == null ? 0 : value,
+    })
+  })
 
 export function parseNumber(
   value,

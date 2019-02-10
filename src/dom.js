@@ -3,7 +3,7 @@ import { memoize, get, pickBy } from 'lodash'
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
 import { syncedProp } from './properties'
-import { hasProp } from './tools'
+import { hasProp, setWrapperName } from './tools'
 import { EMPTY_OBJECT } from './immutables'
 
 const PROP_NAMES = {
@@ -144,7 +144,8 @@ class Refresher {
     this.elements = []
     this.refresh = false
     const {
-      requestAnimationFrame = (callback) => global.setTimeout(callback, 0),
+      setTimeout,
+      requestAnimationFrame = (callback) => setTimeout(callback, 0),
     } = typeof window === 'undefined' ? global : window
     const state = EMPTY_OBJECT
     this.tick = () => {
@@ -185,28 +186,31 @@ class Refresher {
   }
 }
 
-const refresher = new Refresher()
-
-export const refreshed = (Component) => {
-  /*
-  Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
-  */
-  return class refreshed extends BaseComponent {
-    constructor(props) {
-      super(props)
-      this.state = {}
-    }
-    componentDidMount() {
-      refresher.add(this)
-    }
-    componentWillUnmount() {
-      refresher.remove(this)
-    }
-    render() {
-      return $(Component, this.props)
-    }
-  }
-}
+export const refreshed = (() => {
+  const refresher = new Refresher()
+  return (Component) =>
+    /*
+    Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
+    */
+    setWrapperName(
+      Component,
+      class refreshed extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = {}
+        }
+        componentDidMount() {
+          refresher.add(this)
+        }
+        componentWillUnmount() {
+          refresher.remove(this)
+        }
+        render() {
+          return $(Component, this.props)
+        }
+      },
+    )
+})()
 
 function onChangeFromPath(path) {
   switch (path) {

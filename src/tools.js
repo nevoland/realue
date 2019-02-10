@@ -1,4 +1,5 @@
 import { every, memoize } from 'lodash'
+import { wrapDisplayName, getDisplayName } from 'recompose'
 
 /*
 Returns a function that checks if `props[name]` is not `nil`.
@@ -44,4 +45,12 @@ export function lazyProperty(object, propertyName, valueBuilder) {
     return value
   }
   return (object[propertyName] = valueBuilder(object))
+}
+
+export function setWrapperName(Component, Wrapper) {
+  if (process.env.NODE_ENV === 'production') {
+    return Wrapper
+  }
+  Wrapper.displayName = wrapDisplayName(Component, getDisplayName(Wrapper))
+  return Wrapper
 }

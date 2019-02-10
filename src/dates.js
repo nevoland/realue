@@ -1,11 +1,15 @@
-import { branch, withProps } from 'recompose'
+import { createElement as $ } from 'react'
 
-import { hasNotProp } from './tools'
+import { setWrapperName } from './tools'
 
-export const date = branch(
+export const date = (Component) =>
   /*
-  Sets `value` to `new Date(0)` if not set.
+  Sets `value` to `new Date(0)` if `nil`.
   */
-  hasNotProp('value'),
-  withProps({ value: new Date(0) }),
-)
+  setWrapperName(Component, function date(props) {
+    const { value } = props
+    return $(Component, {
+      ...props,
+      value: value == null ? new Date(0) : value,
+    })
+  })

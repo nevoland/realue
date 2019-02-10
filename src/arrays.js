@@ -1,6 +1,6 @@
 import { createElement as $, Component as BaseComponent } from 'react'
 
-import { lazyProperty } from './tools'
+import { lazyProperty, setWrapperName } from './tools'
 import { setItem, insertItem, insertItems, EMPTY_ARRAY } from './immutables'
 
 function onChangeItem(element) {
@@ -40,7 +40,7 @@ export const array = (Component) =>
   /*
   Provides `item(index, key = index)` that returns the props for the child element responsible of the item `index`.
   Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAddItem(value, index, payload?)` that inserts an item with the provided `value` at `index`.
-  Sets `value` to `[]` if not set.
+  Sets `value` to `[]` if `nil`.
 
   Example:
 
@@ -53,33 +53,37 @@ export const array = (Component) =>
       </ul>
     ))
   */
-  class array extends BaseComponent {
-    constructor(props) {
-      super(props)
-      this.item = (index, key = index) => {
-        const { props } = this
-        return {
-          key,
-          value: props.value && props.value[index],
-          name: index,
-          onChange: props.onChange && this.onChangeItem,
+  setWrapperName(
+    Component,
+    class array extends BaseComponent {
+      constructor(props) {
+        super(props)
+        this.item = (index, key = index) => {
+          const { props } = this
+          return {
+            key,
+            value: props.value && props.value[index],
+            name: index,
+            onChange: props.onChange && this.onChangeItem,
+          }
         }
       }
-    }
-    render() {
-      const { props } = this
-      return $(Component, {
-        ...props,
-        value: props.value == null ? EMPTY_ARRAY : props.value,
-        onChangeItem:
-          props.onChange && lazyProperty(this, 'onChangeItem', onChangeItem),
-        onAddItem: props.onChange && lazyProperty(this, 'onAddItem', onAddItem),
-        onAddItems:
-          props.onChange && lazyProperty(this, 'onAddItems', onAddItems),
-        item: this.item,
-      })
-    }
-  }
+      render() {
+        const { props } = this
+        return $(Component, {
+          ...props,
+          value: props.value == null ? EMPTY_ARRAY : props.value,
+          onChangeItem:
+            props.onChange && lazyProperty(this, 'onChangeItem', onChangeItem),
+          onAddItem:
+            props.onChange && lazyProperty(this, 'onAddItem', onAddItem),
+          onAddItems:
+            props.onChange && lazyProperty(this, 'onAddItems', onAddItems),
+          item: this.item,
+        })
+      }
+    },
+  )
 
 function onRemove(element) {
   const { props } = element
@@ -87,12 +91,15 @@ function onRemove(element) {
 }
 
 export const removable = (Component) =>
-  class removable extends BaseComponent {
-    render() {
-      const { props } = this
-      return $(Component, {
-        ...props,
-        onRemove: props.onChange && lazyProperty(this, 'onRemove', onRemove),
-      })
-    }
-  }
+  setWrapperName(
+    Component,
+    class removable extends BaseComponent {
+      render() {
+        const { props } = this
+        return $(Component, {
+          ...props,
+          onRemove: props.onChange && lazyProperty(this, 'onRemove', onRemove),
+        })
+      }
+    },
+  )

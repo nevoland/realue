@@ -10,7 +10,7 @@ import {
 } from 'recompose'
 
 import { EMPTY_OBJECT, same } from './immutables'
-import { hasProps } from './tools'
+import { hasProps, setWrapperName } from './tools'
 
 export function logProps(propNames, title) {
   /*
@@ -98,22 +98,25 @@ export function editableProp(options) {
   const { onChangeName = `onChange${upperFirst(name)}` } =
     name === options ? EMPTY_OBJECT : options
   return (Component) =>
-    class editable extends BaseComponent {
-      constructor(props) {
-        super(props)
-        this.state = {
-          value: props[name],
+    setWrapperName(
+      Component,
+      class editable extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = {
+            value: props[name],
+          }
+          this.onChange = (value) => this.setState({ value })
         }
-        this.onChange = (value) => this.setState({ value })
-      }
-      render() {
-        return $(Component, {
-          ...this.props,
-          [name]: this.state.value,
-          [onChangeName]: this.onChange,
-        })
-      }
-    }
+        render() {
+          return $(Component, {
+            ...this.props,
+            [name]: this.state.value,
+            [onChangeName]: this.onChange,
+          })
+        }
+      },
+    )
 }
 
 export function syncedProp(options) {
@@ -130,53 +133,58 @@ export function syncedProp(options) {
     onPullName = `onPull${capitalizedName}`,
   } = name === options ? EMPTY_OBJECT : options
   return (Component) =>
-    class synced extends BaseComponent {
-      constructor(props) {
-        super(props)
-        this.state = this.constructor.getDerivedStateFromProps(
-          props,
-          EMPTY_OBJECT,
-        )
-        this.onChange = (value, name, payload) => {
-          if (value === this.state.value) {
-            return
-          }
-          const { [onChangeName]: onChange } = this.props
-          return this.setState(
-            { value },
-            onChange == null ? undefined : () => onChange(value, name, payload),
+    setWrapperName(
+      Component,
+      class synced extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = this.constructor.getDerivedStateFromProps(
+            props,
+            EMPTY_OBJECT,
           )
+          this.onChange = (value, name, payload) => {
+            if (value === this.state.value) {
+              return
+            }
+            const { [onChangeName]: onChange } = this.props
+            return this.setState(
+              { value },
+              onChange == null
+                ? undefined
+                : () => onChange(value, name, payload),
+            )
+          }
+          this.onPull = () => {
+            const {
+              props: { onPull },
+              state: { value, originalValue },
+            } = this
+            this.setState({
+              value:
+                onPull == null ? originalValue : onPull(originalValue, value),
+            })
+          }
         }
-        this.onPull = () => {
-          const {
-            props: { onPull },
-            state: { value, originalValue },
-          } = this
-          this.setState({
-            value:
-              onPull == null ? originalValue : onPull(originalValue, value),
+        static getDerivedStateFromProps(props, state) {
+          const { [name]: value, [onPullName]: onPull } = props
+          if (value === state.originalValue && state !== EMPTY_OBJECT) {
+            return null
+          }
+          return {
+            value: onPull == null ? value : onPull(value, state.value),
+            originalValue: value,
+          }
+        }
+        render() {
+          return $(Component, {
+            ...this.props,
+            [name]: this.state.value,
+            [onChangeName]: this.onChange,
+            [onPullName]: this.onPull,
           })
         }
-      }
-      static getDerivedStateFromProps(props, state) {
-        const { [name]: value, [onPullName]: onPull } = props
-        if (value === state.originalValue && state !== EMPTY_OBJECT) {
-          return null
-        }
-        return {
-          value: onPull == null ? value : onPull(value, state.value),
-          originalValue: value,
-        }
-      }
-      render() {
-        return $(Component, {
-          ...this.props,
-          [name]: this.state.value,
-          [onChangeName]: this.onChange,
-          [onPullName]: this.onPull,
-        })
-      }
-    }
+      },
+    )
 }
 
 export function cycledProp(options) {
@@ -205,105 +213,28 @@ export function cycledProp(options) {
   })
 }
 
-export function promisedProp(name) {
-  /*
-  Replaces the promise at prop `[name]` with `{ done, error, value }`.
-  Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
-  If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
-  If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
-  */
-  return (Component) =>
-    class promised extends BaseComponent {
-      constructor(props) {
-        super(props)
-        this.state = this.constructor.getDerivedStateFromProps(
-          props,
-          EMPTY_OBJECT,
-        )
-        this.mounted = false
-      }
-
-      attachPromise(promise) {
-        if (promise == null) {
-          return
-        }
-        return Promise.resolve(promise).then(
-          (value) => {
-            if (!this.mounted || this.state.promise !== promise) {
-              return
-            }
-            this.setState({ result: { done: true, error: null, value } })
-          },
-          (error) => {
-            if (!this.mounted || this.state.promise !== promise) {
-              return
-            }
-            this.setState({
-              result: { done: true, error, value: null },
-            })
-          },
-        )
-      }
-
-      componentDidMount() {
-        this.mounted = true
-        this.attachPromise(this.state.promise)
-      }
-
-      static getDerivedStateFromProps(props, state) {
-        const promise = props[name]
-        if (promise === state.promise && state !== EMPTY_OBJECT) {
-          return null
-        }
-        return {
-          promise,
-          result: {
-            done: false,
-            error: null,
-            value: null,
-          },
-        }
-      }
-
-      componentDidUpdate(prevProps, prevState) {
-        const { promise } = this.state
-        if (promise !== prevState.promise) {
-          this.attachPromise(promise)
-        }
-      }
-
-      componentWillUnmount() {
-        this.mounted = false
-      }
-
-      render() {
-        return $(Component, {
-          ...this.props,
-          [name]: this.state.result,
-        })
-      }
-    }
-}
-
 export function resilientProp(name) {
   /*
   Keeps the last non-`nil` value of prop `[name]`.
   */
   return (Component) =>
-    class resiliant extends BaseComponent {
-      constructor(props) {
-        super(props)
-        this.state = { [name]: props[name] }
-      }
-      static getDerivedStateFromProps(props, state) {
-        const value = props[name]
-        return value === state.value || value == null ? null : { value }
-      }
-      render() {
-        return $(Component, {
-          ...this.props,
-          [name]: this.state.value,
-        })
-      }
-    }
+    setWrapperName(
+      Component,
+      class resiliant extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = { [name]: props[name] }
+        }
+        static getDerivedStateFromProps(props, state) {
+          const value = props[name]
+          return value === state.value || value == null ? null : { value }
+        }
+        render() {
+          return $(Component, {
+            ...this.props,
+            [name]: this.state.value,
+          })
+        }
+      },
+    )
 }

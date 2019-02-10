@@ -1,11 +1,15 @@
-import { branch, withProps } from 'recompose'
+import { createElement as $ } from 'react'
 
-import { hasNotProp } from './tools'
+import { setWrapperName } from './tools'
 
-export const boolean = branch(
+export const boolean = (Component) =>
   /*
-  Sets `value` to `false` if not set.
+  Sets `value` to `false` if `nil`.
   */
-  hasNotProp('value'),
-  withProps({ value: false }),
-)
+  setWrapperName(Component, function boolean(props) {
+    const { value } = props
+    return $(Component, {
+      ...props,
+      value: value == null ? false : value,
+    })
+  })

@@ -10,9 +10,8 @@ import {
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
-import { waitFor } from './promises'
+import { waitFor, promisedProp } from './promises'
 import { EMPTY_OBJECT, setProperty } from './immutables'
-import { promisedProp } from './properties'
 
 export class QueryError extends Error {
   /*
