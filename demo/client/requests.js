@@ -1,5 +1,5 @@
 import { compose } from 'recompose'
-import { map } from 'lodash'
+import { map, identity } from 'lodash'
 
 import {
   cache,
@@ -9,7 +9,7 @@ import {
   queryString,
   searchParams,
   aggregate,
-} from '../../src/queries'
+} from '../../src'
 
 function updateParams(params) {
   if (!params.order) {
@@ -29,7 +29,6 @@ function qs(query) {
 }
 
 export const request = compose(
-  cache(),
   aggregate(),
   retry(),
   toFetchQuery(
@@ -39,17 +38,21 @@ export const request = compose(
         put: () => '/value',
       },
       device: {
-        get: query => `/device/${query.value.id}`,
-        list: query => `/device?${qs(query)}`,
+        get: (query) => `/device/${query.value.id}`,
+        list: (query) => `/device?${qs(query)}`,
       },
       user: {
-        get: query => `/user/${query.value.id}`,
-        list: query => `/user?${qs(query)}`,
+        get: (query) => `/user/${query.value.id}`,
+        list: (query) => `/user?${qs(query)}`,
       },
     },
-    query => {
+    (query) => {
       query.url = `http://localhost:4000${query.url}`
       return query
     },
   ),
-)(fetchJson()())
+  cache({
+    serialize: (query) => query.method === 'GET' && query.url,
+  }),
+  fetchJson(),
+)(identity)

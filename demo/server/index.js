@@ -12,7 +12,7 @@ watcher.on('ready', async () => {
   watcher.on('all', (event, path) => {
     // eslint-disable-next-line no-console
     console.log(`Updated "${path}"`)
-    Object.keys(require.cache).forEach(id => {
+    Object.keys(require.cache).forEach((id) => {
       if (id !== __filename && id.startsWith(__dirname)) {
         delete require.cache[id]
       }

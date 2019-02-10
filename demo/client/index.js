@@ -53,9 +53,7 @@ import {
   transformable,
   withChild,
   withChildren,
-  withElement,
   syncedProp,
-  setProperty,
 } from '../../src'
 
 import { request } from './requests'
@@ -136,7 +134,7 @@ const Items = compose(
   array,
   withChildren(Item),
   withHandlers({
-    onAddThree: ({ value, onAddItems }) => payload =>
+    onAddThree: ({ value, onAddItems }) => (payload) =>
       onAddItems(ITEMS, value.length, payload),
   }),
 )(function Items({ value, children, onAddItem, onAddThree }) {
@@ -206,7 +204,7 @@ const EditedItems = compose(
   filterable,
   editable,
   withHandlers({
-    onToggleEditing: ({ onPush, editing, onToggleEditing }) => payload => {
+    onToggleEditing: ({ onPush, editing, onToggleEditing }) => (payload) => {
       if (editing) {
         onPush(payload)
       }
@@ -241,7 +239,7 @@ const Color = compose(
         backgroundColor: `rgb(${value.r || 0},${value.g || 0},${value.b || 0})`,
       },
     }),
-    map(['r', 'g', 'b'], name =>
+    map(['r', 'g', 'b'], (name) =>
       $(ColorProperty, {
         ...property(name, name),
         type: 'number',
@@ -260,8 +258,9 @@ const Number = compose(
     placeholder: '0',
   }),
   withProps({
-    transformOnChange: value => (value === '' ? undefined : parseNumber(value)),
-    filterOnChange: value => value === '' || !isString(parseNumber(value)),
+    transformOnChange: (value) =>
+      value === '' ? undefined : parseNumber(value),
+    filterOnChange: (value) => value === '' || !isString(parseNumber(value)),
   }),
   transformable,
   filterable,
@@ -327,7 +326,7 @@ export const Toggle = compose(
   )
 })
 
-const Article = withElement({ header: 'h1', body: 'p' }, (props, name) => ({
+const Article = withChild({ header: 'h1', body: 'p' }, (props, name) => ({
   children: props.value[name],
 }))(({ children = EMPTY_OBJECT }) =>
   $(
@@ -465,7 +464,7 @@ const Table = compose(
             ),
           ]
     },
-    replaceValue: ({ query: { reversed } }) => value =>
+    replaceValue: ({ query: { reversed } }) => (value) =>
       reversed ? reverse([...value]) : value,
   }),
   withProps(({ mode = 'concat', concatValue, replaceValue }) => ({
@@ -619,7 +618,7 @@ export const App = compose(
   syncedProp('query'),
   queried,
   withHandlers({
-    onChange: ({ onChangeQuery }) => value =>
+    onChange: ({ onChangeQuery }) => (value) =>
       onChangeQuery({
         type: 'value',
         method: 'put',

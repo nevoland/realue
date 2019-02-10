@@ -1,7 +1,8 @@
+const path = require('path')
+const http = require('http')
+
 const connect = require('connect')
 const serveStatic = require('serve-static')
-const http = require('http')
-const path = require('path')
 const chalk = require('chalk')
 
 const ROOT_DIR = path.join(__dirname, '../dist')
