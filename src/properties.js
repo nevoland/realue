@@ -156,7 +156,7 @@ export function syncedProp(options) {
           }
           this.onPull = () => {
             const {
-              props: { onPull },
+              props: { [onPullName]: onPull },
               state: { value, originalValue },
             } = this
             this.setState({
