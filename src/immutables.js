@@ -10,6 +10,14 @@ Empty object to be used in immutable values. Using this instead of `{}` avoids h
 */
 export const EMPTY_OBJECT = {}
 
+export function stubArray() {
+  return EMPTY_ARRAY
+}
+
+export function stubObject() {
+  return EMPTY_OBJECT
+}
+
 export function insertItem(
   array,
   value,
@@ -131,4 +139,8 @@ export function same(
     }
   }
   return true
+}
+
+export function different(a, b, properties, deep = false) {
+  return !same(a, b, properties, deep)
 }

@@ -28,7 +28,9 @@ function attachPromise(element, promise) {
       if (!element.mounted || element.state.promise !== promise) {
         return
       }
-      element.setState({ result: { done: true, error: null, value } })
+      element.setState({
+        result: { done: true, error: null, value },
+      })
     },
     (error) => {
       if (!element.mounted || element.state.promise !== promise) {

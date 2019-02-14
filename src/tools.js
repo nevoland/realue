@@ -54,3 +54,7 @@ export function setWrapperName(Component, Wrapper) {
   Wrapper.displayName = wrapDisplayName(Component, getDisplayName(Wrapper))
   return Wrapper
 }
+
+export function stubNull() {
+  return null
+}

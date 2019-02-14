@@ -57,6 +57,7 @@ import {
 } from '../../src'
 
 import { request } from './requests'
+import { Hooks } from './hooks'
 
 const Text = compose(
   pure,
@@ -311,7 +312,7 @@ export const Toggle = compose(
   ),
   renameProp('onPush', 'onChange'),
   cyclable,
-  logProps(),
+  // logProps(),
 )(function Toggle({ value, onCycle }) {
   return $(
     'div',
@@ -471,8 +472,9 @@ const Table = compose(
     replaceValue: ({ query: { reversed } }) => (value) =>
       reversed ? reverse([...value]) : value,
   }),
-  withProps(({ mode = 'concat', concatValue, replaceValue }) => ({
+  withProps(({ query, mode = 'concat', concatValue, replaceValue, value }) => ({
     transformValue: mode === 'concat' ? concatValue : replaceValue,
+    hasMore: value.length === query.limit,
   })),
   transformable,
   withHandlers({
@@ -508,6 +510,7 @@ const Table = compose(
   onQueryNext,
   onRefresh,
   onAbort,
+  hasMore,
 }) {
   const headerStyle = {
     textAlign: 'left',
@@ -553,7 +556,7 @@ const Table = compose(
           'td',
           { colSpan: fields.length },
           $('button', { onClick: onQueryPrevious }, 'Previous'),
-          $('button', { onClick: onQueryNext }, 'Next'),
+          $('button', { onClick: onQueryNext, disabled: !hasMore }, 'Next'),
           $('button', { onClick: onRefresh }, 'Refresh'),
           $('button', { disabled: done, onClick: onAbort }, 'Abort'),
         ),
@@ -651,6 +654,8 @@ export const App = compose(
           ]
         : 'Ready.',
     ),
+    $('h2', null, 'Hooks'),
+    $(Hooks),
     $('h2', null, 'Timers'),
     $(Timer, { value: Date.now() }),
     $('h2', null, 'Todos'),
