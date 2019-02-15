@@ -65,7 +65,7 @@
     "react-dom": "^16.7.0",
     "react-test-renderer": "^16.6.0",
     "serve-static": "^1.13.2",
-    "standard-version": "^4.4.0"
+    "standard-version": "^5.0.0"
   },
   "prettier": {
     "arrowParens": "always",
