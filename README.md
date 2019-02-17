@@ -98,8 +98,11 @@ The `realue` module exposes the following functions:
   - [`syncedProp()`](#syncedprop)
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
+  - [`withArrayChildren()`](#witharraychildren)
+  - [`withObjectChildren()`](#withobjectchildren)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
+  - [`withElement()`](#withelement)
 - [Type-oriented decorators](#type-oriented-decorators)
   - [`object`](#object)
   - [`splittable`](#splittable)
@@ -359,7 +362,7 @@ Builds an object mapping the keys of the provided `options` with the result of `
   const Article = withObjectChildren({
     header: ['h2', ['value'], ({ value }) => ({ children: value.header })],
     body: ['p', ['value'], ({ value }) => ({ children: value.body })],
-  })
+  })(ArticleView)
   <Article value={{ header: 'Title', body: 'Text' }} />
 ```
 
