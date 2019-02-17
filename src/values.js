@@ -42,7 +42,6 @@ export const transformable = compose(
             EMPTY_OBJECT,
           )
         }
-
         static getDerivedStateFromProps({ value, transformValue }, state) {
           return value === state.value && state !== EMPTY_OBJECT
             ? null

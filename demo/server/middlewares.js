@@ -81,20 +81,20 @@ router.get('/:type', (context, next) => {
             filter(
               filter(
                 map(DATABASE[type]),
-                item => ids.length === 0 || indexOf(ids, `${item.id}`) !== -1,
+                (item) => ids.length === 0 || indexOf(ids, `${item.id}`) !== -1,
               ),
-              item =>
+              (item) =>
                 item.performance == null ||
                 (performanceGTE <= item.performance &&
                   item.performance <= performanceLTE),
             ),
-            map(orders, key => trimStart(key, '-')),
-            map(orders, key => (key[0] === '-' ? 'desc' : 'asc')),
+            map(orders, (key) => trimStart(key, '-')),
+            map(orders, (key) => (key[0] === '-' ? 'desc' : 'asc')),
           ),
           start,
           start + limit,
         ),
-        item => (only.length === 0 ? item : pick(item, only)),
+        (item) => (only.length === 0 ? item : pick(item, only)),
       ),
     )
     return next()
