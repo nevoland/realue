@@ -311,24 +311,88 @@ Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
 If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
 If a new promise is provided to `[name]`, the previously resolved `value` is kept until the new one resolves.
 
-#### `withChildren()`
+#### `withArrayChildren()`
 
-> ➡️ `(Component, childProps?, shouldUpdateOrKeys?, valueName?)`
+> ➡️ `(Component, shouldUpdateOrKeys?, childProps?, valueName?, destination?)`
 
 > ⬆️ `{ [valueName]? }`
 
 > ⬇️ `{ children }`
+
+Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)} />` and injects it as a `[destination]` prop (`children` by default).
+The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
+
+<details>
+  <summary>Example</summary>
+
+```jsx
+function Item({ value }) {
+  return $('li', null, value)
+}
+const List = withChildren(Item, ['value'], () => (value) => ({ value }))('ul')
+```
+
+</details>
+
+#### `withObjectChildren()`
+
+> ➡️ `({ [key]: Component | [ Component, shouldUpdateOrKeys, childProps ] }, destination?)`
+
+> ⬆️ `{ [valueName]? }`
+
+> ⬇️ `{ children }`
+
+Builds an object mapping the keys of the provided `options` with the result of `<Component {...childProps(props, name)}/>` whenever `shouldUpdateOrKeys(props, nextProps)` returns `true`.
+
+<details>
+  <summary>Example</summary>
+
+```jsx
+  function ArticleView({ children }) {
+    return (
+      <div>
+        {children.header}
+        {children.body}
+      </div>
+    )
+  }
+  const Article = withObjectChildren({
+    header: ['h2', ['value'], ({ value }) => ({ children: value.header })],
+    body: ['p', ['value'], ({ value }) => ({ children: value.body })],
+  })
+  <Article value={{ header: 'Title', body: 'Text' }} />
+```
+
+Note that the above `Article` could be defined as:
+
+```jsx
+const Article = withObjectChildren({ header: 'h2', body: 'p' })
+```
+
+</details>
+
+#### `withChildren()`
+
+> ➡️ `(Component, childProps?, shouldUpdateOrKeys?, valueName?, destination?)`
+
+> ⬆️ `{ [valueName]? }`
+
+> ⬇️ `{ children }`
+
+⚠️ DEPRECATED: Use `withArrayChildren` instead.
 
 Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destination]` prop (`children` by default).
 The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
 
 #### `withChild()`
 
-> ➡️ `(Component || { [string]: Component }, childProps?, shouldUpdateOrKeys?, destination?)`
+> ➡️ `(Component | { [string]: Component }, childProps?, shouldUpdateOrKeys?, destination?)`
 
 > ⬆️ `{ [valueName]? }`
 
 > ⬇️ `{ children }`
+
+⚠️ DEPRECATED: `Component` as a map of components will not be supported. Use `withArrayChildren` instead.
 
 Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop (`children` by default).
 The element is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the element is updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
@@ -354,6 +418,10 @@ const Article = withChild(
 ```
 
 </details>
+
+#### `withElement()`
+
+⚠️ DEPRECATED: Alias for `withChild`. Will be removed.
 
 ### Type-oriented decorators
 

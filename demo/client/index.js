@@ -52,8 +52,9 @@ import {
   toggledEditing,
   transformable,
   withChild,
-  withChildren,
+  withArrayChildren,
   syncedProp,
+  withObjectChildren,
 } from '../../src'
 
 import { request } from './requests'
@@ -132,7 +133,7 @@ const ITEMS = times(3, constant(EMPTY_OBJECT))
 const Items = compose(
   pure,
   array,
-  withChildren(Item),
+  withArrayChildren(Item),
   withHandlers({
     onAddThree: ({ value, onAddItems }) => (payload) =>
       onAddItems(ITEMS, value.length, payload),
@@ -326,13 +327,16 @@ export const Toggle = compose(
   )
 })
 
-const Article = withChild(
-  { header: 'h1', body: 'p' },
-  ({ value }, name) => ({
-    children: value[name],
-  }),
-  ['value'],
-)(({ children = EMPTY_OBJECT }) =>
+const Article = withObjectChildren({
+  header: [
+    'h1',
+    ['value'],
+    ({ value }, name) => ({
+      children: value[name],
+    }),
+  ],
+  body: ['p', ['value'], ({ value }, name) => ({ children: value[name] })],
+})(({ children = EMPTY_OBJECT }) =>
   $(
     'div',
     null,
