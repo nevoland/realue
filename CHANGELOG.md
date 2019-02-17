@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/davidbonnet/realue/compare/v2.0.5...v2.1.0) (2019-02-17)
+
+
+### Features
+
+* **children:** add `withArrayChildren` and `withObjectChildren` ([3f52e03](https://github.com/davidbonnet/realue/commit/3f52e03))
+* **properties:** add `makeShouldHandle` ([5279378](https://github.com/davidbonnet/realue/commit/5279378))
+
+
+
 <a name="2.0.5"></a>
 ## [2.0.5](https://github.com/davidbonnet/realue/compare/v2.0.4...v2.0.5) (2019-02-14)
 
