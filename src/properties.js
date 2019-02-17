@@ -37,15 +37,18 @@ export function omitProps(propNames) {
   return mapProps((props) => omit(props, propNames))
 }
 
+export function makeShouldHandle(shouldHandleOrKeys) {
+  return typeof shouldHandleOrKeys === 'function'
+    ? shouldHandleOrKeys
+    : (props, nextProps) => !same(props, nextProps, shouldHandleOrKeys)
+}
+
 export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
   /*
   Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
   The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
   */
-  const shouldHandle =
-    typeof shouldHandleOrKeys === 'function'
-      ? shouldHandleOrKeys
-      : (props, nextProps) => !same(props, nextProps, shouldHandleOrKeys)
+  const shouldHandle = makeShouldHandle(shouldHandleOrKeys)
   return lifecycle({
     componentWillMount() {
       if (callOnMount) {
