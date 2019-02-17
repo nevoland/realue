@@ -66,7 +66,7 @@ export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
 export function delayedProp(options) {
   /*
   Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call.
-  Renames undelayed `[name]` as `onPushName`.
+  Renames undelayed `[name]` as `['onPush' + name]`.
   */
   const name = isString(options) ? options : options.name
   const capitalizedName = upperFirst(name)
