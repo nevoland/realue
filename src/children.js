@@ -134,7 +134,7 @@ export function withObjectChildren(options, destination = 'children') {
   )
   const properties = keys(formattedOptions)
   return (Component) =>
-    class withChildrenProperties extends BaseComponent {
+    class withObjectChildren extends BaseComponent {
       constructor(props) {
         super(props)
         this.state = this.constructor.getDerivedStateFromProps(
@@ -146,13 +146,13 @@ export function withObjectChildren(options, destination = 'children') {
         const { length } = properties
         const {
           children: prevChildren = EMPTY_OBJECT,
-          props: prevProps = EMPTY_OBJECT,
+          props: prevProps,
         } = state
         let children = prevChildren
         for (let i = 0; i < length; i++) {
           const name = properties[i]
           const setup = formattedOptions[name]
-          if (setup[1](prevProps, props)) {
+          if (prevProps == null || setup[1](prevProps, props)) {
             if (children === prevChildren) {
               children = { ...prevChildren }
             }
