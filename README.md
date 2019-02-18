@@ -390,7 +390,7 @@ The children are only updated if `shouldUpdateOrKeys` returns `true` or if a pro
 
 > ⬇️ `{ children }`
 
-⚠️ DEPRECATED: `Component` as a map of components will not be supported. Use `withArrayChildren` instead.
+⚠️ DEPRECATED: `Component` as a map of components will not be supported. Use `withObjectChildren` instead.
 
 Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop (`children` by default).
 The element is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the element is updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
