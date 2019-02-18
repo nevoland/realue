@@ -351,19 +351,14 @@ Builds an object mapping the keys of the provided `options` with the result of `
   <summary>Example</summary>
 
 ```jsx
-  function ArticleView({ children }) {
-    return (
-      <div>
-        {children.header}
-        {children.body}
-      </div>
-    )
-  }
-  const Article = withObjectChildren({
-    header: ['h2', ['value'], ({ value }) => ({ children: value.header })],
-    body: ['p', ['value'], ({ value }) => ({ children: value.body })],
-  })(ArticleView)
-  <Article value={{ header: 'Title', body: 'Text' }} />
+function ArticleView({ children }) {
+  return $('div', null, children.header, children.body)
+}
+const Article = withObjectChildren({
+  header: ['h2', ['value'], ({ value }) => ({ children: value.header })],
+  body: ['p', ['value'], ({ value }) => ({ children: value.body })],
+})(ArticleView)
+$(Article, { value: { header: 'Title', body: 'Text' } })
 ```
 
 Note that the above `Article` could be defined as:
