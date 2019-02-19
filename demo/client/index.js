@@ -348,6 +348,7 @@ const Article = withObjectChildren({
 const Timer = compose(
   refreshed,
   withProps(({ value = 0 }) => ({
+    style: { opacity: Math.abs(((Date.now() - value) % 1000) - 500) / 1000 },
     children: ((Date.now() - value) / 1000) | 0,
   })),
 )('div')
