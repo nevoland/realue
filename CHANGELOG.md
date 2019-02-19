@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/davidbonnet/realue/compare/v2.1.1...v2.2.0) (2019-02-19)
+
+
+### Features
+
+* **properties:** add `callOnUnmount` option ([784384c](https://github.com/davidbonnet/realue/commit/784384c))
+* **properties:** add `sideEffect` decorator ([2731e28](https://github.com/davidbonnet/realue/commit/2731e28))
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/davidbonnet/realue/compare/v2.1.0...v2.1.1) (2019-02-18)
 
