@@ -19,6 +19,9 @@ export const hasProps = (names) => (props) =>
 
 const REGEX_CHARS_PATTERN = /[.?*+^$[\]\\(){}|-]/g
 export function escapeRegex(pattern) {
+  /*
+  Escapes special characters of a given regular expresion `pattern`.
+  */
   return (pattern + '').replace(REGEX_CHARS_PATTERN, '\\$&')
 }
 

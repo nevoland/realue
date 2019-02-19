@@ -17,14 +17,10 @@
 
 ## Contents
 
-<!-- MarkdownTOC autolink="true" levels="2" -->
-
 - [Installation](#installation)
 - [Import](#import)
 - [API](#api)
 - [Demo](#demo)
-
-<!-- /MarkdownTOC -->
 
 ## Installation
 
@@ -92,6 +88,7 @@ The `realue` module exposes the following functions:
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
 - [Decorator constructors](#decorator-constructors)
+  - [`withEffect()`](#witheffect)
   - [`onPropsChange()`](#onpropschange)
   - [`delayedProp()`](#delayedprop)
   - [`editableProp()`](#editableprop)
@@ -143,6 +140,8 @@ The `realue` module exposes the following functions:
   - [`hasNotProp()`](#hasnotprop)
   - [`hasProps()`](#hasprops)
   - [`same()`](#same)
+- [Formatters](#formatters)
+  - [`escapeRegex()`](#escaperegex)
 
 <!-- /MarkdownTOC -->
 
@@ -247,6 +246,29 @@ Uses `title` as console group (defaults to decorated component name).
 Removes provided `propNames`.
 
 ### Decorator constructors
+
+#### `withEffect()`
+
+> ➡️ `(shouldHandleOrKeys, handler)`
+
+Similar to `useEffect`. Runs `handler(props)` at mount and on update when `shouldHandleOrKeys`, in case it is an array of prop names, mentions a prop name whose value changed, or, in case of a function, returns `true` when called with `(prevProps, nextProps)`.
+If the handler returns a callback, it is called on update before the `handler` or on unmount.
+
+<details>
+  <summary>Example</summary>
+
+```jsx
+// Listens for a given event and updates whenever `event` or `listener` changes
+const withListener = withEffect(
+  ['event', 'listener'],
+  ({ event: eventName, listener }) => {
+    window.addEventListener(eventName, listener)
+    return () => window.removeEventListener(eventName, listener)
+  },
+)
+```
+
+</details>
 
 #### `onPropsChange()`
 
@@ -711,6 +733,14 @@ Returns a function that checks if every prop `name` in `names` is not `nil`.
 Returns `true` if objects `a` and `b` have the same `properties`.
 Unless provided, `properties` are the combined set of property names from `a` and `b`.
 If `deep` is `true`, considers properties as paths (e.g., `p1.p2`).
+
+### Formatters
+
+#### `escapeRegex()`
+
+> ➡️ `(pattern)`
+
+Escapes special characters of a given regular expresion `pattern`.
 
 ## Demo
 

@@ -2,7 +2,6 @@ import { createElement as $, Component as BaseComponent } from 'react'
 import { keys, omit, isString, upperFirst, debounce, indexOf } from 'lodash'
 import {
   mapProps,
-  lifecycle,
   branch,
   compose,
   withPropsOnChange,
@@ -45,7 +44,7 @@ export function makeShouldHandle(shouldHandleOrKeys) {
 
 export function withEffect(shouldHandleOrKeys, handler) {
   /*
-  Runs `handler(props)` at mount and on update when `shouldHandleOrKeys`, in case it is an array of prop names, mentions a prop name whose value changed, or, in case of a function, returns `true` when called with `(prevProps, nextProps)`.
+  Similar to `useEffect`. Runs `handler(props)` at mount and on update when `shouldHandleOrKeys`, in case it is an array of prop names, mentions a prop name whose value changed, or, in case of a function, returns `true` when called with `(prevProps, nextProps)`.
   If the handler returns a callback, it is called on update before the `handler` or on unmount.
 
   Example:
