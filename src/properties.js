@@ -43,24 +43,46 @@ export function makeShouldHandle(shouldHandleOrKeys) {
     : (props, nextProps) => !same(props, nextProps, shouldHandleOrKeys)
 }
 
-export function onPropsChange(shouldHandleOrKeys, handler, callOnMount = true) {
+export function onPropsChange(
+  shouldHandleOrKeys,
+  handler,
+  callOnMount = true,
+  callOnUnmount = false,
+) {
   /*
-  Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
-  The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
+  Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props and that the `handler` is called with `(props, prevProps, mountState)`, with `mountState` set to `true` on mount, `null` on update and `false` on unmount.
+  It is called when the component is first mounted if `callOnMount` is `true` (default value) and also when the component will unmount if `callOnUnmount` is `true` (`false` by default).
   */
   const shouldHandle = makeShouldHandle(shouldHandleOrKeys)
-  return lifecycle({
-    componentWillMount() {
-      if (callOnMount) {
-        handler(this.props, this.props)
-      }
-    },
-    componentWillReceiveProps(nextProps) {
-      if (shouldHandle(this.props, nextProps)) {
-        handler(nextProps, this.props)
-      }
-    },
-  })
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class onPropsChange extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = { props }
+        }
+        componentDidMount() {
+          if (callOnMount) {
+            handler(this.props, this.props, true)
+          }
+        }
+        static getDerivedStateFromProps(props, state) {
+          if (shouldHandle(state.props, props)) {
+            handler(props, state.props)
+          }
+          return { props }
+        }
+        componentWillUnmount() {
+          if (callOnUnmount) {
+            handler(this.props, this.props, false)
+          }
+        }
+        render() {
+          return $(Component, this.props)
+        }
+      },
+    )
 }
 
 export function delayedProp(options) {
