@@ -1,5 +1,13 @@
 import { createElement as $, Component as BaseComponent } from 'react'
-import { keys, omit, isString, upperFirst, debounce, indexOf } from 'lodash'
+import {
+  keys,
+  omit,
+  isString,
+  upperFirst,
+  debounce,
+  throttle,
+  indexOf,
+} from 'lodash'
 import {
   mapProps,
   branch,
@@ -135,7 +143,7 @@ export function onPropsChange(
 
 export function delayedProp(options) {
   /*
-  Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call.
+  Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`.
   Renames undelayed `[name]` as `['onPush' + name]`.
   */
   const name = isString(options) ? options : options.name
@@ -143,20 +151,25 @@ export function delayedProp(options) {
   const {
     delayName = `delay${capitalizedName}`,
     onPushName = `onPush${capitalizedName}`,
+    mode = 'debounce',
   } = name === options ? EMPTY_OBJECT : options
   const propNames = [name, delayName]
+  const debouncer =
+    mode === 'debounce' ? debounce : mode === 'throttle' ? throttle : null
+  if (process.env.NODE_ENV !== 'production') {
+    if (!debouncer) {
+      throw new Error(`Unknown debounce mode supplied: "${mode}"`)
+    }
+  }
   return branch(
     hasProps(propNames),
     compose(
       withPropsOnChange(
         propNames,
-        ({ [name]: callable, [delayName]: delay }) => {
-          const debouncedCallable = debounce(callable, delay)
-          return {
-            [name]: debouncedCallable,
-            [onPushName]: callable,
-          }
-        },
+        ({ [name]: callable, [delayName]: delay }) => ({
+          [name]: debouncer(callable, delay),
+          [onPushName]: callable,
+        }),
       ),
     ),
   )

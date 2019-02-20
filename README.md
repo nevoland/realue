@@ -279,14 +279,14 @@ The `handler` is called when the component is first mounted if `callOnMount` is 
 
 #### `delayedProp()`
 
-> ➡️ `({ name, delayName, onPushName } | name)`
+> ➡️ `({ name, delayName?, onPushName?, mode? } | name)`
 
 > ⬆️ `{ [name], [delayName] }`
 
 > ⬇️ `{ [name], [onPushName] }`
 
-Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call.
-Renames undelayed `[name]` as `onPushName`.
+Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`.
+Renames undelayed `[name]` as `['onPush' + name]`.
 
 #### `editableProp()`
 
