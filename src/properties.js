@@ -224,10 +224,11 @@ export function syncedProp(options) {
       class synced extends BaseComponent {
         constructor(props) {
           super(props)
-          this.state = this.constructor.getDerivedStateFromProps(
-            props,
-            EMPTY_OBJECT,
-          )
+          const { value } = props
+          this.state = {
+            value,
+            originalValue: value,
+          }
           this.onChange = (value, name, payload) => {
             if (value === this.state.value) {
               return
@@ -253,7 +254,7 @@ export function syncedProp(options) {
         }
         static getDerivedStateFromProps(props, state) {
           const { [name]: value, [onPullName]: onPull } = props
-          if (value === state.originalValue && state !== EMPTY_OBJECT) {
+          if (value === state.originalValue) {
             return null
           }
           return {
