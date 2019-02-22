@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { hasProp, hasNotProp, isValidDate } from '../tools'
+import { hasProp, hasNotProp, isValidDate, escapeRegex } from '../tools'
 
 test('hasProp', (assert) => {
   assert.is(typeof hasProp, 'function')
@@ -27,4 +27,12 @@ test('isValidDate', (assert) => {
   assert.true(isValidDate(new Date('1984-01-01')), 'detects valid date')
   assert.false(isValidDate(new Date('')), 'detects invalid date')
   assert.false(isValidDate(new Date('wrong')), 'detects invalid date')
+})
+
+test('escapeRegex', (assert) => {
+  assert.is(typeof escapeRegex, 'function')
+  assert.is(
+    escapeRegex('[.?*+^$[]\\/(){}|-]'),
+    '\\[\\.\\?\\*\\+\\^\\$\\[\\]\\\\/\\(\\)\\{\\}\\|\\-\\]',
+  )
 })
