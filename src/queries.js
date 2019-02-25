@@ -212,9 +212,11 @@ export function searchParams(query) {
   return assign(pick(query, QUERY_SEARCH_PARAMS), query.filter)
 }
 
-export function fetchJson() {
+const DEFAULT_RESPONSE_HANDLER = (response) => response.json()
+
+export function fetchJson(responseHandler = DEFAULT_RESPONSE_HANDLER) {
   /*
-  Calls the DOM Fetch `query`.
+  Calls the DOM Fetch `query` and processes the successful response with the provided `responseHandler`, which defaults to requesting the parsed `json()` response.
   To be used in conjunction with `toFetchQuery()`.
   */
   const { fetch } = window
@@ -231,7 +233,7 @@ export function fetchJson() {
         if (!response.ok) {
           throw new QueryError(response.statusText, response.status)
         }
-        return response.json()
+        return responseHandler(response)
       },
       (error) => {
         throw new QueryError(error.message)

@@ -695,7 +695,7 @@ To be used in conjunction with `fetchJson()`.
 
 #### `fetchJson()`
 
-Calls the DOM Fetch `query`.
+Calls the DOM Fetch `query` and processes the successful response with the provided `responseHandler`, which defaults to requesting the parsed `json()` response.
 To be used in conjunction with `toFetchQuery()`.
 
 #### `logQuery()`
