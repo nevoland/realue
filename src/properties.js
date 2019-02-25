@@ -8,16 +8,10 @@ import {
   throttle,
   indexOf,
 } from 'lodash'
-import {
-  mapProps,
-  branch,
-  compose,
-  withPropsOnChange,
-  withHandlers,
-} from 'recompose'
+import { mapProps, withHandlers } from 'recompose'
 
 import { EMPTY_OBJECT, same } from './immutables'
-import { hasProps, setWrapperName } from './tools'
+import { setWrapperName, getGlobal } from './tools'
 
 export function logProps(propNames, title) {
   /*
@@ -114,20 +108,16 @@ export function onPropsChange(
     setWrapperName(
       Component,
       class onPropsChange extends BaseComponent {
-        constructor(props) {
-          super(props)
-          this.state = { props }
-        }
         componentDidMount() {
           if (callOnMount) {
             handler(this.props, this.props, true)
           }
         }
-        static getDerivedStateFromProps(props, state) {
-          if (shouldHandle(state.props, props)) {
-            handler(props, state.props)
+        componentDidUpdate(prevProps, prevState) {
+          const { props } = this
+          if (shouldHandle(prevProps, props)) {
+            handler(props, prevProps)
           }
-          return { props }
         }
         componentWillUnmount() {
           if (callOnUnmount) {
@@ -195,10 +185,98 @@ export function initialProp(options) {
       },
     )
 }
+
+const { setTimeout, clearTimeout } = getGlobal()
+
+export function suspendedProp(options) {
+  /*
+  Suspends `[name]` changes for `[delayName]` milliseconds. Subsequent `[name]` or `[delayName]` changes cancel previous suspensions. Last suspension is canceled if `[name]` is set to the value prior the start of the suspension.
+  Calling the injected method `[onPullName]` immediately sets `[name]` to the latest value.
+  If `[delayName]` is falsy, no suspension occurs, nor the injection of `[onPullName]`.
+  */
+  const name = isString(options) ? options : options.name
+  const capitalizedName = upperFirst(name)
+  const {
+    delayName = `delay${capitalizedName}`,
+    onPullName = `onPull${capitalizedName}`,
+  } = name === options ? EMPTY_OBJECT : options
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class suspendedProp extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = {
+            value: props[name],
+          }
+          this.timer = null
+          this.onPull = () => {
+            if (!this.mounted) {
+              return
+            }
+            const { props } = this
+            if (this.timer) {
+              clearTimeout(this.timer)
+              this.timer = null
+            }
+            if (props[name] === this.state.value) {
+              return
+            }
+            this.setState({
+              value: props[name],
+            })
+          }
+        }
+        componentDidMount() {
+          this.mounted = true
+        }
+        static getDerivedStateFromProps(props, state) {
+          if (props[delayName] || props[name] === state.value) {
+            return null
+          }
+          return { value: props[name] }
+        }
+        componentDidUpdate(prevProps, prevState) {
+          const { props } = this
+          if (
+            props[name] === prevProps[name] &&
+            props[delayName] === prevProps[delayName]
+          ) {
+            return
+          }
+          if (this.timer !== null) {
+            clearTimeout(this.timer)
+            this.timer = null
+          }
+          if (props[delayName]) {
+            this.timer = setTimeout(this.onPull, props[delayName])
+          }
+        }
+        componentWillUnmount() {
+          this.mounted = false
+        }
+        render() {
+          const { props } = this
+          return $(
+            Component,
+            !props[delayName]
+              ? props
+              : {
+                  ...props,
+                  [name]: this.state.value,
+                  [onPullName]: this.onPull,
+                },
+          )
+        }
+      },
+    )
+}
+
 export function delayedProp(options) {
   /*
-  Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`.
+  Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`. The `mode` can also be a function that returns a callback based from the `([name], [delayName])` arguments.
   Renames undelayed `[name]` as `['onPush' + name]`.
+  If `[delayName]` is falsy, no delay occurs nor the injection of `[onPushName]`.
   */
   const name = isString(options) ? options : options.name
   const capitalizedName = upperFirst(name)
@@ -207,26 +285,52 @@ export function delayedProp(options) {
     onPushName = `onPush${capitalizedName}`,
     mode = 'debounce',
   } = name === options ? EMPTY_OBJECT : options
-  const propNames = [name, delayName]
   const debouncer =
-    mode === 'debounce' ? debounce : mode === 'throttle' ? throttle : null
+    mode === 'debounce' ? debounce : mode === 'throttle' ? throttle : mode
   if (process.env.NODE_ENV !== 'production') {
-    if (!debouncer) {
+    if (typeof debouncer !== 'function') {
       throw new Error(`Unknown debounce mode supplied: "${mode}"`)
     }
   }
-  return branch(
-    hasProps(propNames),
-    compose(
-      withPropsOnChange(
-        propNames,
-        ({ [name]: callable, [delayName]: delay }) => ({
-          [name]: debouncer(callable, delay),
-          [onPushName]: callable,
-        }),
-      ),
-    ),
-  )
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class delayedProp extends BaseComponent {
+        constructor(props) {
+          super(props)
+          const { [name]: value, [delayName]: delay } = props
+          this.state = {
+            value,
+            delay,
+            debouncedValue: delay ? null : debouncer(value, delay),
+          }
+        }
+        static getDerivedStateFromProps(props, state) {
+          const { [name]: value, [delayName]: delay } = props
+          if (!delay || (value === state.value && delay === state.delay)) {
+            return null
+          }
+          return {
+            value,
+            delay,
+            debouncedValue: debouncer(value, delay),
+          }
+        }
+        render() {
+          const { props } = this
+          return $(
+            Component,
+            !props[delayName]
+              ? props
+              : {
+                  ...props,
+                  [name]: this.state.debouncedValue,
+                  [onPushName]: props[name],
+                },
+          )
+        }
+      },
+    )
 }
 
 export function editableProp(options) {

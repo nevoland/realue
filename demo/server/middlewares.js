@@ -1,6 +1,8 @@
 import Router from 'koa-router'
 import lodash from 'lodash'
 
+import { waitFor } from '../../src'
+
 const {
   map,
   filter,
@@ -15,6 +17,7 @@ const {
 
 const DATABASE = {
   value: {
+    delay: 2000,
     todos: [
       { done: false, label: 'eye' },
       { done: false, label: 'touch' },
@@ -46,10 +49,12 @@ const DATABASE = {
 }
 
 const router = new Router()
-router.get('/value', (context, next) => {
+router.get('/value', async (context, next) => {
+  await waitFor(DATABASE.value.delay)
   context.response.body = JSON.stringify(DATABASE.value)
 })
-router.put('/value', (context, next) => {
+router.put('/value', async (context, next) => {
+  await waitFor(DATABASE.value.delay)
   const value = context.request.body
   DATABASE.value = value
   context.response.body = JSON.stringify(value)

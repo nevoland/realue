@@ -1,4 +1,4 @@
-import { createElement as $ } from 'react'
+import { createElement as $, Fragment } from 'react'
 import { render } from 'react-dom'
 import {
   map,
@@ -12,6 +12,7 @@ import {
   upperFirst,
   reverse,
   slice,
+  isEmpty,
 } from 'lodash'
 import {
   compose,
@@ -36,7 +37,6 @@ import {
   EMPTY_ARRAY,
   filterable,
   fromEvent,
-  logProps,
   number,
   object,
   omitProps,
@@ -55,6 +55,9 @@ import {
   withArrayChildren,
   syncedProp,
   withObjectChildren,
+  logProps,
+  initialValue,
+  suspendable,
 } from '../../src'
 
 import { request } from './requests'
@@ -618,6 +621,29 @@ const Request = compose(
 const User = withProps({ type: 'user' })(Request)
 const Device = withProps({ type: 'device' })(Request)
 
+export const Progress = compose(
+  pure,
+  withProps(({ value, delay }) => ({
+    delay: value ? (delay / 2) | 0 : delay,
+    initialValue: true,
+  })),
+  initialValue,
+  suspendable,
+)(function Progress({ value, error }) {
+  return $(
+    'p',
+    null,
+    !value
+      ? 'Loading…'
+      : error
+      ? [
+          'It looks like the API server is not running. Start it with: ',
+          $('code', null, 'npm run start:api'),
+        ]
+      : ' ',
+  )
+})
+
 export const App = compose(
   withProps({
     request,
@@ -639,35 +665,32 @@ export const App = compose(
   delayable,
   editable,
   object,
-)(function App({ property, done, error }) {
+)(function App({ value, property, done, error, delay }) {
   return $(
     'div',
     null,
     $('h1', null, 'Realue'),
-    $(
-      'p',
-      null,
-      !done
-        ? 'Loading…'
-        : error
-        ? [
-            'It looks like the API server is not running. Start it with: ',
-            $('code', null, 'npm run start:api'),
-          ]
-        : 'Ready.',
-    ),
-    $('h2', null, 'Timers'),
-    $(Timer, { value: Date.now() }),
-    $('h2', null, 'Todos'),
-    $(EditedItems, property('todos')),
-    $('h2', null, 'Color'),
-    $(Color, property('color')),
-    $('h2', null, 'Resources'),
-    $(Resources),
-    $('h2', null, 'Delayed'),
-    $(Toggle, { ...property('toggle'), delay: 2000 }),
-    $('h2', null, 'Children'),
-    $(Article, { value: { header: 'Title', body: 'Content' } }),
+    $(Progress, { value: done, error, delay }),
+    isEmpty(value)
+      ? null
+      : $(
+          Fragment,
+          null,
+          $('h2', null, 'Delay'),
+          $(Number, { ...property('delay'), min: 0, max: 5000 }),
+          $('h2', null, 'Color'),
+          $(Color, property('color')),
+          $('h2', null, 'Timers'),
+          $(Timer, { value: Date.now() }),
+          $('h2', null, 'Todos'),
+          $(EditedItems, property('todos')),
+          $('h2', null, 'Resources'),
+          $(Resources),
+          $('h2', null, 'Delayed'),
+          $(Toggle, { ...property('toggle'), delay: 2000 }),
+          $('h2', null, 'Children'),
+          $(Article, { value: { header: 'Title', body: 'Content' } }),
+        ),
   )
 })
 

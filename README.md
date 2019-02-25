@@ -76,9 +76,11 @@ The `realue` module exposes the following functions:
 
 - [Value-based decorators](#value-based-decorators)
   - [`defaultValue`](#defaultvalue)
+  - [`initialValue`](#initialvalue)
   - [`transformable`](#transformable)
   - [`filterable`](#filterable)
   - [`delayable`](#delayable)
+  - [`suspendable`](#suspendable)
   - [`editable`](#editable)
   - [`cyclable`](#cyclable)
   - [`promised`](#promised)
@@ -90,6 +92,9 @@ The `realue` module exposes the following functions:
 - [Decorator constructors](#decorator-constructors)
   - [`withEffect()`](#witheffect)
   - [`onPropsChange()`](#onpropschange)
+  - [`defaultProp()`](#defaultprop)
+  - [`initialProp()`](#initialprop)
+  - [`suspendedProp()`](#suspendedprop)
   - [`delayedProp()`](#delayedprop)
   - [`editableProp()`](#editableprop)
   - [`syncedProp()`](#syncedprop)
@@ -149,7 +154,15 @@ The `realue` module exposes the following functions:
 
 #### `defaultValue`
 
-> ⬆️ `{ defaultValue, value }`
+> ⬆️ `{ defaultValue?, value? }`
+
+> ⬇️ `{ value? }`
+
+Sets `value` to `defaultValue` if `value` is `nil`.
+
+#### `initialValue`
+
+> ⬆️ `{ initialValue?, value? }`
 
 > ⬇️ `{ value? }`
 
@@ -178,6 +191,15 @@ Prevents `onChange` call if `filterOnChange(value, name, payload)` is set and re
 > ⬆️ `{ onChange, delay }`
 
 > ⬇️ `{ onChange, onPush(value, name, payload?) }`
+
+Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
+Renames undelayed `onChange` as `onPush`.
+
+#### `suspendable`
+
+> ⬆️ `{ value, delay? }`
+
+> ⬇️ `{ value? }`
 
 Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
 Renames undelayed `onChange` as `onPush`.
@@ -297,6 +319,18 @@ Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
 
 Sets `[name]` to `[initialName]` on first render if `[initialName]` is not `nil`, then to `[name]` for subsequent renders.
 
+#### `suspendedProp()`
+
+> ➡️ `({ name, delayName?, onPullName? } | name)`
+
+> ⬆️ `{ [name], [delayName] }`
+
+> ⬇️ `{ [name], [onPullName] }`
+
+Suspends `[name]` changes for `[delayName]` milliseconds. Subsequent `[name]` changes cancel previous suspensions.
+Calling the injected method `[onPullName]` immediately sets `[name]` to the latest value.
+If `[delayName]` is falsy, no suspension occurs, nor the injection of `[onPullName]`.
+
 #### `delayedProp()`
 
 > ➡️ `({ name, delayName?, onPushName?, mode? } | name)`
@@ -305,8 +339,9 @@ Sets `[name]` to `[initialName]` on first render if `[initialName]` is not `nil`
 
 > ⬇️ `{ [name], [onPushName] }`
 
-Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`.
+Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`. The `mode` can also be a function that returns a callback based from the `([name], [delayName])` arguments.
 Renames undelayed `[name]` as `['onPush' + name]`.
+If `[delayName]` is falsy, no delay occurs nor the injection of `[onPushName]`.
 
 #### `editableProp()`
 
