@@ -141,6 +141,60 @@ export function onPropsChange(
     )
 }
 
+export function defaultProp(options) {
+  /*
+  Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
+  */
+  const name = isString(options) ? options : options.name
+  const { defaultName = `initial${upperFirst(name)}` } =
+    name === options ? EMPTY_OBJECT : options
+  return (Component) =>
+    setWrapperName(Component, function defaultProp(props) {
+      const { [defaultName]: defaultValue, [name]: value } = props
+      return $(
+        Component,
+        defaultValue == null
+          ? props
+          : {
+              ...props,
+              value: value == null ? defaultValue : value,
+            },
+      )
+    })
+}
+
+export function initialProp(options) {
+  /*
+  Sets `[name]` to `[initialName]` on first render if `[initialName]` is not `nil`, then to `[name]` for subsequent renders.
+  */
+  const name = isString(options) ? options : options.name
+  const { initialName = `initial${upperFirst(name)}` } =
+    name === options ? EMPTY_OBJECT : options
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class suspendedProp extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = { initial: true }
+        }
+        componentDidMount() {
+          if (this.state.initial) {
+            this.setState({ initial: false })
+          }
+        }
+        render() {
+          const { props } = this
+          return $(
+            Component,
+            this.state.initial
+              ? { ...props, [name]: props[initialName] }
+              : props,
+          )
+        }
+      },
+    )
+}
 export function delayedProp(options) {
   /*
   Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`.

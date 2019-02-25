@@ -277,6 +277,26 @@ const withListener = withEffect(
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
 The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
 
+#### `defaultProp()`
+
+> ➡️ `({ name, defaultName? } | name)`
+
+> ⬆️ `{ [name]?, [defaultName]? }`
+
+> ⬇️ `{ [name]? }`
+
+Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
+
+#### `initialProp()`
+
+> ➡️ `({ name, initialName? } | name)`
+
+> ⬆️ `{ [name]?, [initialName]? }`
+
+> ⬇️ `{ [name]? }`
+
+Sets `[name]` to `[initialName]` on first render if `[initialName]` is not `nil`, then to `[name]` for subsequent renders.
+
 #### `delayedProp()`
 
 > ➡️ `({ name, delayName?, onPushName?, mode? } | name)`

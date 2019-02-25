@@ -9,22 +9,21 @@ import {
   editableProp,
   cycledProp,
   resilientProp,
+  defaultProp,
+  initialProp,
 } from './properties'
 import { promisedProp } from './promises'
 import { EMPTY_OBJECT } from './immutables'
 
-export const defaultValue = (Component) =>
-  /*
-  Sets `value` to `defaultValue` if `value` is `nil`.
-  */
-  function defaultValue(props) {
-    const { defaultValue, value } = props
-    return $(Component, {
-      ...props,
-      value:
-        defaultValue == null ? value : value == null ? defaultValue : value,
-    })
-  }
+/*
+Sets `value` to `defaultValue` if `value` is `nil`.
+*/
+export const defaultValue = defaultProp('value')
+
+/*
+Sets `value` to `initialValue` on first render, if `initialValue` is not `nil`, then to `value` for subsequent renders.
+*/
+export const initialValue = initialProp('value')
 
 export const transformable = compose(
   /*
