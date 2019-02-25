@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [2.5.0](https://github.com/davidbonnet/realue/compare/v2.4.0...v2.5.0) (2019-02-25)
+
+
+### Features
+
+* **queries:** add json response handler ([819e164](https://github.com/davidbonnet/realue/commit/819e164))
+
+
+
 <a name="2.4.0"></a>
 # [2.4.0](https://github.com/davidbonnet/realue/compare/v2.3.1...v2.4.0) (2019-02-25)
 
