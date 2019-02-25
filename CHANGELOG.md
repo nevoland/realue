@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/davidbonnet/realue/compare/v2.3.1...v2.4.0) (2019-02-25)
+
+
+### Bug Fixes
+
+* use `getGlobal` to allow universal render ([2205ffe](https://github.com/davidbonnet/realue/commit/2205ffe))
+
+
+### Features
+
+* add `defaultProp` and `initialProp` ([3810f75](https://github.com/davidbonnet/realue/commit/3810f75))
+* add `suspendedProp` and `suspendable` ([3ff659b](https://github.com/davidbonnet/realue/commit/3ff659b))
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/davidbonnet/realue/compare/v2.3.0...v2.3.1) (2019-02-22)
 
