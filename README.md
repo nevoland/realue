@@ -81,6 +81,7 @@ The `realue` module exposes the following functions:
   - [`filterable`](#filterable)
   - [`delayable`](#delayable)
   - [`suspendable`](#suspendable)
+  - [`synced`](#synced)
   - [`editable`](#editable)
   - [`cyclable`](#cyclable)
   - [`promised`](#promised)
@@ -203,6 +204,17 @@ Renames undelayed `onChange` as `onPush`.
 
 Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
 Renames undelayed `onChange` as `onPush`.
+
+#### `synced`
+
+> ⬆️ `{ value?, onPull? }`
+
+> ⬇️ `{ value, onChange, onPull? }`
+
+Enables prop `value` to be locally editable while staying in sync with its parent value.
+The prop can be updated with prop `onChange(value, name, payload)`, which triggers the optional parent prop `onChange`.
+Calling `onPull()` sets the local value to the parent value.
+The return value of the optional parent prop `onPull(newValue, previousValue)` is used on prop `value` changes or when calling `onPull()`.
 
 #### `editable`
 
@@ -360,7 +372,7 @@ The value can be updated with `onChangeName`.
 
 > ⬆️ `{ [name]?, [onPullName]? }`
 
-> ⬇️ `{ [onChangeName], [onPullName] }`
+> ⬇️ `{ [name], [onChangeName], [onPullName]? }`
 
 Enables a prop with a given `name` to be locally editable while staying in sync with its parent value.
 The prop can be updated with prop `[onChangeName](value, name, payload)`, which triggers the optional parent prop `[onChangeName]`.
