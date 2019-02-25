@@ -12,6 +12,7 @@ import { compose, withPropsOnChange } from 'recompose'
 
 import { waitFor, promisedProp } from './promises'
 import { EMPTY_OBJECT, setProperty } from './immutables'
+import { getGlobal } from './tools'
 
 export class QueryError extends Error {
   /*
@@ -184,11 +185,13 @@ export function toFetchQuery(routes, transform = identity) {
   }
 }
 
+const { URLSearchParams } = getGlobal()
+
 export function queryString(values) {
   /*
   Returns a key-sorted query string from provided `values` object.
   */
-  const result = new window.URLSearchParams()
+  const result = new URLSearchParams()
   for (const name in values) {
     const value = values[name]
     if (value == null) {

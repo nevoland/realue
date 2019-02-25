@@ -57,3 +57,7 @@ export function setWrapperName(Component, Wrapper) {
   Wrapper.displayName = wrapDisplayName(Component, getDisplayName(Wrapper))
   return Wrapper
 }
+
+export function getGlobal() {
+  return typeof window === 'undefined' ? global : window
+}

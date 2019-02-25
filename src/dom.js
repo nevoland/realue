@@ -3,7 +3,7 @@ import { memoize, get, pickBy } from 'lodash'
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
 import { syncedProp } from './properties'
-import { hasProp, setWrapperName } from './tools'
+import { hasProp, setWrapperName, getGlobal } from './tools'
 import { EMPTY_OBJECT } from './immutables'
 
 const PROP_NAMES = {
@@ -146,7 +146,7 @@ class Refresher {
     const {
       setTimeout,
       requestAnimationFrame = (callback) => setTimeout(callback, 0),
-    } = typeof window === 'undefined' ? global : window
+    } = getGlobal()
     const state = EMPTY_OBJECT
     this.tick = () => {
       if (!this.refresh) {

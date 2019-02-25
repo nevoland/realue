@@ -1,8 +1,9 @@
 import { createElement as $, Component as BaseComponent } from 'react'
 
-import { EMPTY_OBJECT } from './immutables'
 import { AbortError } from './errors'
-import { setWrapperName } from './tools'
+import { setWrapperName, getGlobal } from './tools'
+
+const { setTimeout, clearTimeout } = getGlobal()
 
 /*
 Returns a promise that resolves after at least `duration` milliseconds.
@@ -10,10 +11,10 @@ If a `signal` is provided, listens to it to reject
 */
 export const waitFor = (duration, signal) =>
   new Promise((resolve, reject) => {
-    const timer = window.setTimeout(resolve, duration)
+    const timer = setTimeout(resolve, duration)
     if (signal) {
       signal.addEventListener('abort', () => {
-        window.clearTimeout(timer)
+        clearTimeout(timer)
         reject(new AbortError('Aborted'))
       })
     }
@@ -54,10 +55,14 @@ export function promisedProp(name) {
       class promised extends BaseComponent {
         constructor(props) {
           super(props)
-          this.state = this.constructor.getDerivedStateFromProps(
-            props,
-            EMPTY_OBJECT,
-          )
+          this.state = {
+            promise: props[name],
+            result: {
+              done: false,
+              error: null,
+              value: null,
+            },
+          }
           this.mounted = false
         }
         componentDidMount() {
@@ -66,7 +71,7 @@ export function promisedProp(name) {
         }
         static getDerivedStateFromProps(props, state) {
           const promise = props[name]
-          if (promise === state.promise && state !== EMPTY_OBJECT) {
+          if (promise === state.promise) {
             return null
           }
           return {
