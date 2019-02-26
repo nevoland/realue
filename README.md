@@ -620,6 +620,14 @@ Triggers the specified `keys` handlers on key down. Each handler is called with 
 
 Only keeps DOM properties.
 
+#### `withNode`
+
+> ⬆️ `{}`
+
+> ⬇️ `{ node }`
+
+Injects a `node` reference created with `React.createRef()` to be applied on any element through the `ref` attribute.
+
 #### `refreshed`
 
 > ⬆️ `{}`

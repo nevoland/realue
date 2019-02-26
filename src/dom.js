@@ -1,4 +1,8 @@
-import { createElement as $, Component as BaseComponent } from 'react'
+import {
+  createElement as $,
+  Component as BaseComponent,
+  createRef,
+} from 'react'
 import { memoize, get, pickBy } from 'lodash'
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
@@ -275,3 +279,20 @@ export function onKeysDown(keys) {
     },
   })
 }
+
+export const withNode = (Component) =>
+  /*
+  Injects a `node` reference created with `React.createRef()` to be applied on any element through the `ref` attribute.
+  */
+  setWrapperName(
+    Component,
+    class withNode extends BaseComponent {
+      constructor(props) {
+        super(props)
+        this.node = createRef()
+      }
+      render() {
+        return $(Component, { ...this.props, node: this.node })
+      }
+    },
+  )
