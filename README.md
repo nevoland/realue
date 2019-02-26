@@ -610,7 +610,7 @@ Exposes the synced `focus` state of an element through the `onFocus()` and `onBl
 
 > ⬇️ `{ onKeyDown }`
 
-Triggers the specified `keys` handlers on key down. Each handler is called with the current `props`.
+Triggers the specified `keys` handlers on key down. Each handler is called with the current `(props, event)`.
 
 #### `domProps`
 

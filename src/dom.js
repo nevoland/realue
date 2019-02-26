@@ -263,7 +263,7 @@ export const syncedFocus = branch(
 
 export function onKeysDown(keys) {
   /*
-  Triggers the specified `keys` handlers on key down. Each handler is called with the current `props`.
+  Triggers the specified `keys` handlers on key down. Each handler is called with the current `(props, event)`.
   */
   return withHandlers({
     onKeyDown: (props) => (event) => {
@@ -271,7 +271,7 @@ export function onKeysDown(keys) {
       if (handler == null) {
         return
       }
-      handler(props)
+      handler(props, event)
     },
   })
 }
