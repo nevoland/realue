@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [2.6.0](https://github.com/davidbonnet/realue/compare/v2.5.0...v2.6.0) (2019-02-25)
+# [2.7.0](https://github.com/davidbonnet/realue/compare/v2.6.0...v2.7.0) (2019-02-26)
 
 
 ### Features
 
-* **value:** add `synced` decorator ([791e884](https://github.com/davidbonnet/realue/commit/791e884))
+* **tools:** add `different` ([0771f0a](https://github.com/davidbonnet/realue/commit/0771f0a))
 
 
 
