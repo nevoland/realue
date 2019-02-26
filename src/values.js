@@ -143,11 +143,7 @@ export const editable = branch(
   */
   hasProp('onChange'),
   compose(
-    syncedProp({
-      name: 'value',
-      onChangeName: 'onChange',
-      onPullName: 'onPull',
-    }),
+    synced,
     branch(
       hasProp('onPush'),
       withHandlers({

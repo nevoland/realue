@@ -302,7 +302,7 @@ export function delayedProp(options) {
           this.state = {
             value,
             delay,
-            debouncedValue: delay ? null : debouncer(value, delay),
+            debouncedValue: !delay ? null : debouncer(value, delay),
           }
         }
         static getDerivedStateFromProps(props, state) {
