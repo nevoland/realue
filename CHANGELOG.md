@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.9.0"></a>
+# [2.9.0](https://github.com/davidbonnet/realue/compare/v2.8.0...v2.9.0) (2019-02-26)
+
+
+### Features
+
+* **dom:** add `withNode` ([d4f11e2](https://github.com/davidbonnet/realue/commit/d4f11e2))
+
+
+
 <a name="2.8.0"></a>
 # [2.8.0](https://github.com/davidbonnet/realue/compare/v2.7.1...v2.8.0) (2019-02-26)
 
