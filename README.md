@@ -146,6 +146,7 @@ The `realue` module exposes the following functions:
   - [`hasNotProp()`](#hasnotprop)
   - [`hasProps()`](#hasprops)
   - [`same()`](#same)
+  - [`different()`](#different)
 - [Formatters](#formatters)
   - [`escapeRegex()`](#escaperegex)
 
@@ -800,6 +801,25 @@ Returns a function that checks if every prop `name` in `names` is not `nil`.
 Returns `true` if objects `a` and `b` have the same `properties`.
 Unless provided, `properties` are the combined set of property names from `a` and `b`.
 If `deep` is `true`, considers properties as paths (e.g., `p1.p2`).
+
+#### `different()`
+
+> ➡️ `(properties, deep = true)`
+
+Returns a function that returns `true` if one of the `properties` of the objects `(a, b)` differs. This is usefull when deep-nested comparisons are required.
+
+<details>
+  <summary>Example</summary>
+
+```jsx
+// Extracts the name from a `value` prop and updates it only if it changes
+const withName = withPropsOnChange(
+  different(['value.name']),
+  ({ value: { name } }) => ({ name }),
+)
+```
+
+</details>
 
 ### Formatters
 
