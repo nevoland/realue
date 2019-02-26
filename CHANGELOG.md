@@ -2,12 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.7.0"></a>
 # [2.7.0](https://github.com/davidbonnet/realue/compare/v2.6.0...v2.7.0) (2019-02-26)
 
 
 ### Features
 
 * **tools:** add `different` ([0771f0a](https://github.com/davidbonnet/realue/commit/0771f0a))
+
+
+<a name="2.6.0"></a>
+# [2.6.0](https://github.com/davidbonnet/realue/compare/v2.5.0...v2.6.0) (2019-02-25)
+
+
+### Features
+
+* **value:** add `synced` decorator ([791e884](https://github.com/davidbonnet/realue/commit/791e884))
+
+
+
+<a name="2.5.0"></a>
+# [2.5.0](https://github.com/davidbonnet/realue/compare/v2.4.0...v2.5.0) (2019-02-25)
+
+
+### Features
+
+* **queries:** add json response handler ([819e164](https://github.com/davidbonnet/realue/commit/819e164))
 
 
 
