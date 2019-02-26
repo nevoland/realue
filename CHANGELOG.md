@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.8.0"></a>
+# [2.8.0](https://github.com/davidbonnet/realue/compare/v2.7.1...v2.8.0) (2019-02-26)
+
+
+### Features
+
+* **dom:** add event param to key handler ([508238b](https://github.com/davidbonnet/realue/commit/508238b))
+
+
+
 <a name="2.7.1"></a>
 ## [2.7.1](https://github.com/davidbonnet/realue/compare/v2.7.0...v2.7.1) (2019-02-26)
 
