@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.7.1"></a>
+## [2.7.1](https://github.com/davidbonnet/realue/compare/v2.7.0...v2.7.1) (2019-02-26)
+
+
+### Bug Fixes
+
+* **properties:** apply debouncer in `delayedProp` ([af54f3b](https://github.com/davidbonnet/realue/commit/af54f3b))
+* **setup:** revert standard-version back to v4.4 ([84be875](https://github.com/davidbonnet/realue/commit/84be875))
+
+
+
 <a name="2.7.0"></a>
 # [2.7.0](https://github.com/davidbonnet/realue/compare/v2.6.0...v2.7.0) (2019-02-26)
 
