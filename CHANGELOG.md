@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.9.1"></a>
+## [2.9.1](https://github.com/davidbonnet/realue/compare/v2.9.0...v2.9.1) (2019-02-27)
+
+
+### Bug Fixes
+
+* **queries:** do not request falsy queries ([29a147c](https://github.com/davidbonnet/realue/commit/29a147c))
+
+
+
 <a name="2.9.0"></a>
 # [2.9.0](https://github.com/davidbonnet/realue/compare/v2.8.0...v2.9.0) (2019-02-26)
 
