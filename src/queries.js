@@ -285,7 +285,8 @@ export function queriedProp(options) {
       ({ [queryName]: query, [requestName]: request }) => {
         const controller = new window.AbortController()
         return {
-          [valueName]: request({ ...query, signal: controller.signal }),
+          [valueName]:
+            query && request({ ...query, signal: controller.signal }),
           [onAbortName]: () => controller.abort(),
         }
       },
