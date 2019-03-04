@@ -403,7 +403,7 @@ Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameN
 > ⬇️ `{ [name] }`
 
 Takes the promise from the prop `[name]` and injects prop `[name]` with `{ done, error, value }`.
-Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
+Before the promise resolves, `done` is `false`, and becomes `true` afterwards. If the value is not a promise, it is immediately resolved (`done` is immediately `true` and `value` is set to the value).
 If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
 If a new promise is provided to `[name]`, the previously resolved `value` is kept until the new one resolves.
 
