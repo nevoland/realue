@@ -61,3 +61,11 @@ export function setWrapperName(Component, Wrapper) {
 export function getGlobal() {
   return typeof window === 'undefined' ? global : window
 }
+
+export function isPromise(value) {
+  return (
+    value != null &&
+    typeof value === 'object' &&
+    typeof value.then === 'function'
+  )
+}
