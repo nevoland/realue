@@ -106,6 +106,21 @@ export function setProperty(object, key, value) {
     : { ...object, [key]: value }
 }
 
+export function setProperties(object, values) {
+  /*
+  Returns a new object with the properties of `values` merged into `object`.
+  */
+  return values == null
+    ? object == null
+      ? EMPTY_OBJECT
+      : object
+    : object == null
+    ? values
+    : same(object, values, keys(values))
+    ? object
+    : { ...object, ...values }
+}
+
 export function same(
   a,
   b,

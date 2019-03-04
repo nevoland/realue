@@ -38,7 +38,7 @@ export function called(object, property) {
   return object
 }
 
-export function lazyProperty(object, propertyName, valueBuilder) {
+export function lazyProperty(object, propertyName, valueBuilder, ...options) {
   /*
   Returns `object[propertyName]` if not `nil`, otherwise sets the result of `valueBuilder(object)` to it and returns it.
   This enables setting properties only when it is first fetched.
@@ -47,7 +47,7 @@ export function lazyProperty(object, propertyName, valueBuilder) {
   if (value != null) {
     return value
   }
-  return (object[propertyName] = valueBuilder(object))
+  return (object[propertyName] = valueBuilder(object, ...options))
 }
 
 export function setWrapperName(Component, Wrapper) {

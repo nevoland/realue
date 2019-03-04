@@ -108,6 +108,7 @@ The `realue` module exposes the following functions:
   - [`withElement()`](#withelement)
 - [Type-oriented decorators](#type-oriented-decorators)
   - [`object`](#object)
+  - [`objectProp()`](#objectprop)
   - [`splittable`](#splittable)
   - [`array`](#array)
   - [`removable`](#removable)
@@ -120,6 +121,7 @@ The `realue` module exposes the following functions:
   - [`syncedFocus`](#syncedfocus)
   - [`onKeysDown()`](#onkeysdown)
   - [`domProps`](#domprops)
+  - [`withNode`](#withnode)
   - [`refreshed`](#refreshed)
 - [Query helpers](#query-helpers)
   - [`Query` object](#query-object)
@@ -141,6 +143,7 @@ The `realue` module exposes the following functions:
   - [`replaceItem()`](#replaceitem)
   - [`setItem()`](#setitem)
   - [`setProperty()`](#setproperty)
+- [`setProperties()`](#setproperties)
 - [Condition helpers](#condition-helpers)
   - [`hasProp()`](#hasprop)
   - [`hasNotProp()`](#hasnotprop)
@@ -523,6 +526,18 @@ Provides `property(name, key?)` that returns the props for the child element res
 Also provides `onChangeProperty(value, name, payload?)` that sets the property `name` to the provided `value`.
 Sets `value` to `{}` if not set.
 
+#### `objectProp()`
+
+Provides `[propertyName](name, key = name)` that returns the props for the child element responsible of the property `name` of the object at `[name]`.
+If `[onChangeName]` is set, also provides `[onChangePropertyName](value, name, payload?)` that sets the property `name` of the object at `[name]` to the provided `value`, and `[onChangePropertiesName](values, payload?)` that merges the provided `values` into the object at `[name]`.
+Sets `[name]` to `{}` if `nil`.
+
+> ➡️ `(name | { name, onChangeName?, onChangePropertyName?, onChangePropertiesName?, propertyName?, nameName? })`
+
+> ⬆️ `{ [name]?, [onChangeName]? }`
+
+> ⬇️ `{ [name], [propertyName], [onChangePropertyName]?, [onChangePropertiesName]? }`
+
 #### `splittable`
 
 > ⬆️ `{ value?, name, onChange? }`
@@ -781,6 +796,12 @@ Returns a new object with `object[key]` set to `value` if `object[key]` is stric
 If `value` is `undefined`, ensures that the returned object does not contain the `key`.
 If `key` is `undefined`, returns the `object` untouched.
 If `object` is `nil`, it is considered as an `EMPTY_OBJECT`.
+
+### `setProperties()`
+
+> ➡️ `(object, values)`
+>
+> Returns a new object with the properties of `values` merged into `object`.
 
 ### Condition helpers
 
