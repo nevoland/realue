@@ -1,7 +1,7 @@
 import { createElement as $, Component as BaseComponent } from 'react'
 
 import { AbortError } from './errors'
-import { setWrapperName, getGlobal } from './tools'
+import { setWrapperName, getGlobal, isPromise } from './tools'
 
 const { setTimeout, clearTimeout } = getGlobal()
 
@@ -21,10 +21,7 @@ export const waitFor = (duration, signal) =>
   })
 
 function attachPromise(element, promise) {
-  if (promise == null) {
-    return
-  }
-  return Promise.resolve(promise).then(
+  return promise.then(
     (value) => {
       if (!element.mounted || element.state.promise !== promise) {
         return
@@ -42,6 +39,18 @@ function attachPromise(element, promise) {
   )
 }
 
+function stateFromPromise(promise) {
+  const done = !isPromise(promise)
+  return {
+    promise,
+    result: {
+      done,
+      error: null,
+      value: done ? promise : null,
+    },
+  }
+}
+
 export function promisedProp(name) {
   /*
   Replaces the promise at prop `[name]` with `{ done, error, value }`.
@@ -55,38 +64,27 @@ export function promisedProp(name) {
       class promised extends BaseComponent {
         constructor(props) {
           super(props)
-          this.state = {
-            promise: props[name],
-            result: {
-              done: false,
-              error: null,
-              value: null,
-            },
-          }
+          this.state = stateFromPromise(props[name])
           this.mounted = false
         }
         componentDidMount() {
           this.mounted = true
-          attachPromise(this, this.state.promise)
+          const { state } = this
+          if (!state.result.done) {
+            attachPromise(this, state.promise)
+          }
         }
         static getDerivedStateFromProps(props, state) {
           const promise = props[name]
           if (promise === state.promise) {
             return null
           }
-          return {
-            promise,
-            result: {
-              done: false,
-              error: null,
-              value: null,
-            },
-          }
+          return stateFromPromise(promise)
         }
         componentDidUpdate(prevProps, prevState) {
-          const { promise } = this.state
-          if (promise !== prevState.promise) {
-            attachPromise(this, promise)
+          const { state } = this
+          if (state.promise !== prevState.promise && !state.result.done) {
+            attachPromise(this, state.promise)
           }
         }
         componentWillUnmount() {
