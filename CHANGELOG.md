@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.11.0"></a>
+# [2.11.0](https://github.com/davidbonnet/realue/compare/v2.10.0...v2.11.0) (2019-03-04)
+
+
+### Bug Fixes
+
+* **promises:** only attach promise values ([5276c93](https://github.com/davidbonnet/realue/commit/5276c93))
+
+
+### Features
+
+* **tools:** add `isPromise` ([5113c1f](https://github.com/davidbonnet/realue/commit/5113c1f))
+
+
+
 <a name="2.10.0"></a>
 # [2.10.0](https://github.com/davidbonnet/realue/compare/v2.9.1...v2.10.0) (2019-03-04)
 
