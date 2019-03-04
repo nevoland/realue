@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.11.2"></a>
+## [2.11.2](https://github.com/davidbonnet/realue/compare/v2.11.1...v2.11.2) (2019-03-04)
+
+
+### Bug Fixes
+
+* **dom:** add missing DOM props to `domProps` ([333f8aa](https://github.com/davidbonnet/realue/commit/333f8aa))
+
+
+
 <a name="2.11.1"></a>
 ## [2.11.1](https://github.com/davidbonnet/realue/compare/v2.11.0...v2.11.1) (2019-03-04)
 
