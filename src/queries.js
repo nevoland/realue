@@ -137,7 +137,9 @@ export function aggregate({
       groups.set(category, {
         request: waitFor(delay).then(() => {
           groups.delete(category)
-          return next(reduce(queries, category))
+          return queries.length === 1
+            ? next(queries[0])
+            : next(reduce(queries, category))
         }),
         requests: {},
         queries,
@@ -149,7 +151,7 @@ export function aggregate({
     }
     queries.push(query)
     return (requests[key] = Promise.resolve(request).then((result) =>
-      pick(result, query),
+      queries.length === 1 ? result : pick(result, query),
     ))
   }
 }
