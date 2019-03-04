@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.10.0"></a>
+# [2.10.0](https://github.com/davidbonnet/realue/compare/v2.9.1...v2.10.0) (2019-03-04)
+
+
+### Features
+
+* **object:** add `objectProp` and `setProperties` ([039f43a](https://github.com/davidbonnet/realue/commit/039f43a))
+
+
+
 <a name="2.9.1"></a>
 ## [2.9.1](https://github.com/davidbonnet/realue/compare/v2.9.0...v2.9.1) (2019-02-27)
 
