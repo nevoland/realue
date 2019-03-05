@@ -136,7 +136,7 @@ export function defaultProp(options) {
   Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
   */
   const name = isString(options) ? options : options.name
-  const { defaultName = `initial${upperFirst(name)}` } =
+  const { defaultName = `default${upperFirst(name)}` } =
     name === options ? EMPTY_OBJECT : options
   return (Component) =>
     setWrapperName(Component, function defaultProp(props) {
