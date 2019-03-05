@@ -7,9 +7,13 @@ export const boolean = (Component) =>
   Sets `value` to `false` if `nil`.
   */
   setWrapperName(Component, function boolean(props) {
-    const { value } = props
-    return $(Component, {
-      ...props,
-      value: value == null ? false : value,
-    })
+    return $(
+      Component,
+      props.value != null
+        ? props
+        : {
+            ...props,
+            value: false,
+          },
+    )
   })

@@ -7,9 +7,13 @@ export const date = (Component) =>
   Sets `value` to `new Date(0)` if `nil`.
   */
   setWrapperName(Component, function date(props) {
-    const { value } = props
-    return $(Component, {
-      ...props,
-      value: value == null ? new Date(0) : value,
-    })
+    return $(
+      Component,
+      props.value != null
+        ? props
+        : {
+            ...props,
+            value: new Date(0),
+          },
+    )
   })

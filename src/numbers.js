@@ -9,11 +9,15 @@ export const number = (Component) =>
   Sets `value` to `0` if `nil`.
   */
   setWrapperName(Component, function number(props) {
-    const { value } = props
-    return $(Component, {
-      ...props,
-      value: value == null ? 0 : value,
-    })
+    return $(
+      Component,
+      props.value != null
+        ? props
+        : {
+            ...props,
+            value: 0,
+          },
+    )
   })
 
 export function parseNumber(
