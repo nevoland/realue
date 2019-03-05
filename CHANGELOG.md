@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.11.4"></a>
+## [2.11.4](https://github.com/davidbonnet/realue/compare/v2.11.3...v2.11.4) (2019-03-05)
+
+
+### Bug Fixes
+
+* **strings:** remove branch usage for stability ([98bd806](https://github.com/davidbonnet/realue/commit/98bd806))
+* only update props when necessary ([d3a1a41](https://github.com/davidbonnet/realue/commit/d3a1a41))
+
+
+
 <a name="2.11.3"></a>
 ## [2.11.3](https://github.com/davidbonnet/realue/compare/v2.11.2...v2.11.3) (2019-03-05)
 
