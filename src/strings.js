@@ -1,11 +1,19 @@
-import { branch, withProps } from 'recompose'
+import { createElement as $ } from 'react'
 
-import { hasNotProp } from './tools'
+import { setWrapperName } from './tools'
 
-export const string = branch(
+export const string = (Component) =>
   /*
   Sets `value` to `''` if not set.
   */
-  hasNotProp('value'),
-  withProps({ value: '' }),
-)
+  setWrapperName(Component, function string(props) {
+    return $(
+      Component,
+      props.value != null
+        ? props
+        : {
+            ...props,
+            value: '',
+          },
+    )
+  })
