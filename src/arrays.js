@@ -86,8 +86,10 @@ export const array = (Component) =>
   )
 
 function onRemove(element) {
-  const { props } = element
-  return (payload) => props.onChange(undefined, props.name, payload)
+  return (payload) => {
+    const { props } = element
+    return props.onChange(undefined, props.name, payload)
+  }
 }
 
 export const removable = (Component) =>
