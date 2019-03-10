@@ -2,9 +2,13 @@ import test from 'ava'
 
 import {
   insertItem,
+  insertItems,
   setItem,
+  replaceItem,
   setProperty,
   setProperties,
+  same,
+  different,
   EMPTY_ARRAY,
   EMPTY_OBJECT,
 } from '../immutables'
@@ -17,6 +21,8 @@ function similar(assert, base, value, expected, message) {
 test('insertItem', (assert) => {
   assert.is(typeof insertItem, 'function')
   const base = [0, 1, 2]
+  assert.is(insertItem(), EMPTY_ARRAY, 'returns empty array with no arguments')
+  assert.is(insertItem(base), base, 'returns array with no extra arguments')
   similar(
     assert,
     base,
@@ -43,9 +49,47 @@ test('insertItem', (assert) => {
   similar(assert, null, insertItem(null, 3), [3], 'creates array with value')
 })
 
+test('insertItems', (assert) => {
+  assert.is(typeof insertItems, 'function')
+  const base = [0, 1, 2]
+  assert.is(insertItems(), EMPTY_ARRAY, 'return empty array if no arguments')
+  assert.is(insertItems(null, base), base, 'return same values if no array')
+  assert.is(insertItems(base), base, 'return same array if no values')
+  similar(
+    assert,
+    base,
+    insertItems(base, [3, 4]),
+    [0, 1, 2, 3, 4],
+    'inserts items at tail',
+  )
+})
+
+test('replaceItem', (assert) => {
+  assert.is(typeof replaceItem, 'function')
+  const base = [0, 1, 2]
+  similar(
+    assert,
+    base,
+    replaceItem(base, 1, 3),
+    [0, 3, 2],
+    'replace item inside',
+  )
+})
+
 test('setItem', (assert) => {
   assert.is(typeof setItem, 'function')
   const base = [0, 1, 2]
+  assert.is(setItem(null, 0), EMPTY_ARRAY, 'returns empty array if no value')
+  assert.is(
+    setItem(base, 3, undefined),
+    base,
+    'returns same array if index to remove is out of bounds',
+  )
+  assert.is(
+    setItem(base, 2, 2),
+    base,
+    'returns same array if same value at index',
+  )
   similar(
     assert,
     base,
@@ -79,6 +123,7 @@ test('setItem', (assert) => {
 test('setProperty', (assert) => {
   assert.is(typeof setProperty, 'function')
   const base = { a: 1 }
+  assert.is(base, setProperty(base), 'returns same object if no key provided')
   similar(
     assert,
     base,
@@ -126,6 +171,7 @@ test('setProperty', (assert) => {
 test('setProperties', (assert) => {
   assert.is(typeof setProperties, 'function')
   const base = { a: 1 }
+  assert.is(setProperties(base), base, 'returns same object if values are nil')
   similar(
     assert,
     base,
@@ -178,4 +224,29 @@ test('setProperties', (assert) => {
     base,
     'returns same object if key to remove is non-existent',
   )
+})
+
+test('same', (assert) => {
+  assert.is(typeof same, 'function')
+  const a = { a: 1, b: 2 }
+  const b = { a: 1, b: 1 }
+  assert.true(same(a, a), 'same object')
+  assert.true(same(a, { a: 1, b: 2 }), 'similar object')
+  assert.false(same(a, b), 'different object')
+  assert.true(same({ a }, { a }, ['a.b'], true), 'deeply similar object')
+  assert.false(
+    same({ a }, { a: { b: 1 } }, ['a.b'], true),
+    'deeply dissimilar object',
+  )
+})
+
+test('different', (assert) => {
+  assert.is(typeof different, 'function')
+  assert.is(typeof different(['a.b']), 'function')
+  const a = { a: 1, b: 2 }
+  const b = { a: 1, b: 1 }
+  assert.true(different(['a.b'])({ a }, { a: b }), 'deeply different')
+  assert.false(different(['a.a'])({ a }, { a: b }), 'are not deeply different')
+  assert.true(different(['b'], false)(a, b), 'different')
+  assert.false(different(['a'], false)(a, b), 'not different')
 })

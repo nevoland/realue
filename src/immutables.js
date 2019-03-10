@@ -143,7 +143,7 @@ export function setProperties(object, values) {
 export function same(
   a,
   b,
-  properties = uniq(concat(keys(a), keys(b))),
+  properties = a !== b && uniq(concat(keys(a), keys(b))),
   deep = false,
 ) {
   /*
@@ -151,6 +151,9 @@ export function same(
   Unless provided, `properties` are the combined set of property names from `a` and `b`.
   If `deep` is `true`, considers properties as paths (e.g., `p1.p2`).
   */
+  if (a === b) {
+    return true
+  }
   const { length } = properties
   for (let i = 0; i < length; i++) {
     const property = properties[i]
