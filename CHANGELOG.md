@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.12.1"></a>
+## [2.12.1](https://github.com/davidbonnet/realue/compare/v2.12.0...v2.12.1) (2019-03-10)
+
+
+### Bug Fixes
+
+* **query:** set bad request status for fetch issue ([209d919](https://github.com/davidbonnet/realue/commit/209d919))
+
+
+
 <a name="2.12.0"></a>
 # [2.12.0](https://github.com/davidbonnet/realue/compare/v2.11.5...v2.12.0) (2019-03-10)
 
