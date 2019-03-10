@@ -146,7 +146,7 @@ export function aggregate({
       })
     }
     const { request, requests, queries } = groups.get(category)
-    if (key in requests) {
+    if (requests[key]) {
       return requests[key]
     }
     queries.push(query)
@@ -238,7 +238,7 @@ export function fetchJson(responseHandler = DEFAULT_RESPONSE_HANDLER) {
         return responseHandler(response)
       },
       (error) => {
-        throw new QueryError(error.message)
+        throw new QueryError(error.message, 400)
       },
     )
   }
