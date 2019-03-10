@@ -1,9 +1,14 @@
 import { Component as BaseComponent } from 'react'
 
-import { AbortError } from './errors'
 import { $, setWrapperName, getGlobal, isPromise } from './tools'
 
 const { setTimeout, clearTimeout } = getGlobal()
+
+export class AbortError extends Error {
+  /*
+  Error to be thrown in case the query call is aborted.
+  */
+}
 
 /*
 Returns a promise that resolves after at least `duration` milliseconds.
