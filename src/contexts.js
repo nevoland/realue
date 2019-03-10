@@ -1,6 +1,6 @@
 import { $ } from './tools'
 
-export function withContext(provider, propName) {
+export function withContext(provider, propName = 'value') {
   /*
   Injects a context `provider` that takes its value from `[propName]`.
   */
@@ -10,7 +10,7 @@ export function withContext(provider, propName) {
     }
 }
 
-export function fromContext(consumer, propName) {
+export function fromContext(consumer, propName = 'value') {
   /*
   Injects the value of the context `consumer` into `[propName]`.
   */

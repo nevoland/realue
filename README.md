@@ -93,6 +93,8 @@ The `realue` module exposes the following functions:
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
 - [Decorator constructors](#decorator-constructors)
+  - [`fromContext()`](#fromcontext)
+  - [`withContext()`](#withcontext)
   - [`withEffect()`](#witheffect)
   - [`onPropsChange()`](#onpropschange)
   - [`defaultProp()`](#defaultprop)
@@ -310,6 +312,26 @@ Uses `title` as console group (defaults to decorated component name).
 Removes provided `propNames`.
 
 ### Decorator constructors
+
+#### `fromContext()`
+
+> ➡️ `(provider, propName = 'value')`
+
+> ⬆️ `{}`
+
+> ⬇️ `{ [propName] }`
+
+Injects a context `provider` that takes its value from `[propName]`.
+
+#### `withContext()`
+
+> ➡️ `(consumer, propName = 'value')`
+
+> ⬆️ `{}`
+
+> ⬇️ `{ [propName] }`
+
+Injects the value of the context `consumer` into `[propName]`.
 
 #### `withEffect()`
 
