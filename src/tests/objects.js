@@ -1,7 +1,7 @@
 import test from 'ava'
-import { createElement as $ } from 'react'
 import render from 'react-test-renderer'
 
+import { $ } from '../tools'
 import { object } from '../objects'
 
 import { ThrownValue } from './'
@@ -11,9 +11,9 @@ test('returns a function', (assert) => {
   assert.is(typeof object(Function.prototype), 'function')
 })
 
-const Property = ({ value, name }) => $('li', null, name, ': ', value)
+const Property = ({ value, name }) => $('li', name, ': ', value)
 const Movie = object(({ property }) =>
-  $('ul', null, $(Property, property('title')), $(Property, property('year'))),
+  $('ul', $(Property, property('title')), $(Property, property('year'))),
 )
 
 test('decorates object component', (assert) => {

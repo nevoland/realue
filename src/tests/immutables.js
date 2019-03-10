@@ -4,6 +4,7 @@ import {
   insertItem,
   setItem,
   setProperty,
+  setProperties,
   EMPTY_ARRAY,
   EMPTY_OBJECT,
 } from '../immutables'
@@ -92,7 +93,7 @@ test('setProperty', (assert) => {
     { a: 1, b: 2 },
     'adds new key',
   )
-  similar(assert, base, setProperty(base, 'a'), {}, 'removes key')
+  similar(assert, base, setProperty(base, 'a'), EMPTY_OBJECT, 'removes key')
   similar(
     assert,
     null,
@@ -117,6 +118,63 @@ test('setProperty', (assert) => {
   assert.is(setProperty(base, 'a', 1), base, 'returns same object if no change')
   assert.is(
     setProperty(base, 'b'),
+    base,
+    'returns same object if key to remove is non-existent',
+  )
+})
+
+test('setProperties', (assert) => {
+  assert.is(typeof setProperties, 'function')
+  const base = { a: 1 }
+  similar(
+    assert,
+    base,
+    setProperties(base, { a: 2 }),
+    { a: 2 },
+    'replaces existing key',
+  )
+  similar(
+    assert,
+    base,
+    setProperties(base, { b: 2 }),
+    { a: 1, b: 2 },
+    'adds new key',
+  )
+  similar(
+    assert,
+    base,
+    setProperties(base, { a: undefined }),
+    EMPTY_OBJECT,
+    'removes key',
+  )
+  similar(
+    assert,
+    null,
+    setProperties(null, { a: 1 }),
+    { a: 1 },
+    'creates object with key',
+  )
+  similar(
+    assert,
+    null,
+    setProperties(null, { a: undefined }),
+    EMPTY_OBJECT,
+    'creates empty object',
+  )
+  similar(
+    assert,
+    null,
+    setProperties(),
+    EMPTY_OBJECT,
+    'creates empty object if no arguments',
+  )
+  assert.is(
+    setProperties(base, { a: 1 }),
+    base,
+    'returns same object if no change',
+  )
+  assert.is(
+    setProperties(base, { b: undefined }),
     base,
     'returns same object if key to remove is non-existent',
   )

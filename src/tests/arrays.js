@@ -1,8 +1,8 @@
 import test from 'ava'
-import { createElement as $ } from 'react'
 import render from 'react-test-renderer'
 import { map } from 'lodash'
 
+import { $ } from '../tools'
 import { fromEvent } from '../dom'
 import { array, removable } from '../arrays'
 
@@ -14,7 +14,7 @@ test('returns a function', (assert) => {
 })
 
 const Item = removable(({ value, onRemove }) =>
-  $('li', null, value, $('button', { onClick: onRemove })),
+  $('li', value, $('button', { onClick: onRemove })),
 )
 const ItemCreator = fromEvent()(({ onChange }) =>
   $('button', { onClick: onChange }),
@@ -22,7 +22,6 @@ const ItemCreator = fromEvent()(({ onChange }) =>
 const Numbers = array(({ value, item, onAddItem }) =>
   $(
     'ul',
-    null,
     map(value, (value, index) => $(Item, item(index))),
     onAddItem &&
       $(ItemCreator, {

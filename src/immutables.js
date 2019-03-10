@@ -1,4 +1,14 @@
-import { concat, get, indexOf, keys, omit, slice, uniq } from 'lodash'
+import {
+  concat,
+  get,
+  indexOf,
+  keys,
+  omit,
+  slice,
+  uniq,
+  omitBy,
+  isUndefined,
+} from 'lodash'
 
 /*
 Empty array to be used in immutable values. Using this instead of `[]` avoids having several instances of immutable empty arrays.
@@ -106,6 +116,15 @@ export function setProperty(object, key, value) {
     : { ...object, [key]: value }
 }
 
+function omitUndefined(object) {
+  for (const name in object) {
+    if (object[name] === undefined) {
+      return omitBy(object, isUndefined)
+    }
+  }
+  return object
+}
+
 export function setProperties(object, values) {
   /*
   Returns a new object with the properties of `values` merged into `object`.
@@ -115,10 +134,10 @@ export function setProperties(object, values) {
       ? EMPTY_OBJECT
       : object
     : object == null
-    ? values
+    ? omitUndefined(values, isUndefined)
     : same(object, values, keys(values))
     ? object
-    : { ...object, ...values }
+    : omitUndefined({ ...object, ...values })
 }
 
 export function same(
