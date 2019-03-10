@@ -1,6 +1,4 @@
-import { createElement as $ } from 'react'
-
-import { setWrapperName } from './tools'
+import { $, setWrapperName } from './tools'
 
 export const date = (Component) =>
   /*

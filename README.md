@@ -74,6 +74,8 @@ The `realue` module exposes the following functions:
 
 <!-- MarkdownTOC autolink="true" levels="3,4" -->
 
+- [Element creator](#element-creator)
+  - [`$()`](#%24)
 - [Value-based decorators](#value-based-decorators)
   - [`defaultValue`](#defaultvalue)
   - [`initialValue`](#initialvalue)
@@ -154,6 +156,30 @@ The `realue` module exposes the following functions:
   - [`escapeRegex()`](#escaperegex)
 
 <!-- /MarkdownTOC -->
+
+### Element creator
+
+#### `$()`
+
+> ➡️ `(component, propsOrChild, ...children)`
+
+Creates a react element from the provided `component`, setting its props to `propsOrChild` if it is an object or `null`, and its children to `propsOrChild` if it is not an object and the rest of the provided `children`.
+
+Similar to a reduced version of [hyperscript](https://github.com/hyperhype/hyperscript).
+
+<details>
+  <summary>Example</summary>
+
+```js
+$(
+  'div',
+  $('h1', 'Realue'),
+  $('p', 'A simple set of tools and decorators for React.'),
+  $('p', { style: { color: 'gold' } }, 'Watchout, it is very addictive.'),
+)
+```
+
+</details>
 
 ### Value-based decorators
 
@@ -295,7 +321,7 @@ If the handler returns a callback, it is called on update before the next `handl
 <details>
   <summary>Example</summary>
 
-```jsx
+```js
 // Listens for a given event and updates whenever `event` or `listener` changes
 const withListener = withEffect(
   ['event', 'listener'],
@@ -421,9 +447,9 @@ The children are only updated if `shouldUpdateOrKeys` returns `true` or if a pro
 <details>
   <summary>Example</summary>
 
-```jsx
+```js
 function Item({ value }) {
-  return $('li', null, value)
+  return $('li', value)
 }
 const List = withChildren(Item, ['value'], () => (value) => ({ value }))('ul')
 ```
@@ -443,9 +469,9 @@ Builds an object mapping the keys of the provided `options` with the result of `
 <details>
   <summary>Example</summary>
 
-```jsx
+```js
 function ArticleView({ children }) {
-  return $('div', null, children.header, children.body)
+  return $('div', children.header, children.body)
 }
 const Article = withObjectChildren({
   header: ['h2', ['value'], ({ value }) => ({ children: value.header })],
@@ -456,7 +482,7 @@ $(Article, { value: { header: 'Title', body: 'Text' } })
 
 Note that the above `Article` could be defined as:
 
-```jsx
+```js
 const Article = withObjectChildren({ header: 'h2', body: 'p' })
 ```
 
@@ -491,21 +517,16 @@ The element is only updated if `shouldUpdateOrKeys` returns `true` or if a prop 
 <details>
   <summary>Example</summary>
 
-```jsx
+```js
 const Article = withChild(
   { header: 'h1', body: 'p' },
   ({ value }, name) => ({
     children: value[name],
   }),
   ['value'],
-)(({ children = EMPTY_OBJECT }) => (
-  <div>
-    {children.header}
-    {children.body}
-  </div>
-))
+)(({ children = EMPTY_OBJECT }) => $('div', children.header, children.body))
 
-<Article value={{ value: { header: 'Title', body: 'Content' } }} />
+$(Article, { value: { header: 'Title', body: 'Content' } })
 ```
 
 </details>
@@ -840,7 +861,7 @@ Returns a function that returns `true` if one of the `properties` of the objects
 <details>
   <summary>Example</summary>
 
-```jsx
+```js
 // Extracts the name from a `value` prop and updates it only if it changes
 const withName = withPropsOnChange(
   different(['value.name']),

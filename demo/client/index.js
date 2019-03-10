@@ -1,4 +1,4 @@
-import { createElement as $, Fragment } from 'react'
+import { Fragment } from 'react'
 import { render } from 'react-dom'
 import {
   map,
@@ -26,6 +26,7 @@ import {
 } from 'recompose'
 
 import {
+  $,
   array,
   boolean,
   cyclable,
@@ -102,14 +103,13 @@ const Checkbox = compose(
 )(function Checkbox({ value, onChange, label }) {
   return $(
     'label',
-    null,
     $('input', {
       type: 'checkbox',
       checked: value,
       onChange,
       disabled: !onChange,
     }),
-    label == null ? null : $('span', null, ' ', label),
+    label == null ? null : $('span', ' ', label),
   )
 })
 
@@ -120,7 +120,6 @@ const Item = compose(
 )(function Item({ property, onRemove }) {
   return $(
     'li',
-    null,
     $(Checkbox, { ...property('done'), defaultValue: false }),
     ' ',
     $(Text, {
@@ -188,7 +187,6 @@ const ItemCreator = compose(
 }) {
   return $(
     'ul',
-    null,
     $(Text, {
       ...property('label'),
       focus,
@@ -219,7 +217,6 @@ const EditedItems = compose(
 )(function EditedItems({ children, editing, onToggleEditing }) {
   return $(
     'div',
-    null,
     $(Checkbox, {
       value: editing,
       onChange: onToggleEditing,
@@ -235,7 +232,6 @@ const Color = compose(
 )(function Color({ property, value }) {
   return $(
     'ul',
-    null,
     $('div', {
       style: {
         width: 30,
@@ -290,7 +286,6 @@ const ColorProperty = compose(pure)(function ColorProperty({
 }) {
   return $(
     'li',
-    null,
     name,
     ': ',
     $(Number, { value, name, onChange, min, max }),
@@ -319,14 +314,12 @@ export const Toggle = compose(
 )(function Toggle({ value, onCycle }) {
   return $(
     'div',
-    null,
     $(
       'p',
-      null,
       'Clicking this button will switch the value to "ON" for 2 seconds only.',
     ),
     $('button', { onClick: onCycle }, 'Toggle'),
-    $('p', null, value ? 'ON' : 'OFF'),
+    $('p', value ? 'ON' : 'OFF'),
   )
 })
 
@@ -340,12 +333,7 @@ const Article = withObjectChildren({
   ],
   body: ['p', ['value'], ({ value }, name) => ({ children: value[name] })],
 })(({ children = EMPTY_OBJECT }) =>
-  $(
-    'div',
-    null,
-    $('div', null, children.header),
-    $('div', null, children.body),
-  ),
+  $('div', $('div', children.header), $('div', children.body)),
 )
 
 const Timer = compose(
@@ -375,7 +363,6 @@ const Resources = compose(
 )(function Resources({ value, onCycle, property }) {
   return $(
     'div',
-    null,
     // Data table
     $('button', { onClick: onCycle }, 'Switch query'),
     $('br'),
@@ -530,13 +517,11 @@ const Table = compose(
   return $(
     'table',
     { style: { width: '100%' } },
-    $('caption', null, `${upperFirst(type)} count: ${value.length}`),
+    $('caption', `${upperFirst(type)} count: ${value.length}`),
     $(
       'thead',
-      null,
       $(
         'tr',
-        null,
         map(fields, (name, key) =>
           $('th', { style: headerStyle, key }, upperFirst(name)),
         ),
@@ -544,7 +529,6 @@ const Table = compose(
     ),
     $(
       'tbody',
-      null,
       map(value, (value, key) =>
         $(
           'tr',
@@ -556,7 +540,6 @@ const Table = compose(
       ),
       $(
         'tr',
-        null,
         $(
           'td',
           { colSpan: fields.length },
@@ -573,11 +556,9 @@ const Table = compose(
 const Aggregations = pure(function Aggregations() {
   return $(
     'div',
-    null,
-    $('h4', null, 'Users'),
+    $('h4', 'Users'),
     $(
       'ul',
-      null,
       $(User, { value: 1 }),
       $(User, { value: 2 }),
       $(User, { value: 3 }),
@@ -585,10 +566,9 @@ const Aggregations = pure(function Aggregations() {
       $(User, { value: 4 }),
       $(User, { value: 5 }),
     ),
-    $('h4', null, 'Devices'),
+    $('h4', 'Devices'),
     $(
       'ul',
-      null,
       $(Device, { value: 1 }),
       $(Device, { value: 2 }),
       $(Device, { value: 3 }),
@@ -609,7 +589,6 @@ const Request = compose(
 )(function Request({ value: { done, value, error }, onAbort }) {
   return $(
     'li',
-    null,
     !done
       ? ['Loading…', $('button', { onClick: onAbort, key: 'cancel' }, 'Cancel')]
       : error
@@ -632,13 +611,12 @@ export const Progress = compose(
 )(function Progress({ value, error }) {
   return $(
     'p',
-    null,
     !value
       ? 'Loading…'
       : error
       ? [
           'It looks like the API server is not running. Start it with: ',
-          $('code', null, 'npm run start:api'),
+          $('code', 'npm run start:api'),
         ]
       : ' ',
   )
@@ -668,7 +646,6 @@ export const App = compose(
 )(function App({ value, property, done, error, delay }) {
   return $(
     'div',
-    null,
     $('h1', null, 'Realue'),
     $(Progress, { value: done, error, delay }),
     isEmpty(value)
@@ -676,19 +653,19 @@ export const App = compose(
       : $(
           Fragment,
           null,
-          $('h2', null, 'Delay'),
+          $('h2', 'Delay'),
           $(Number, { ...property('delay'), min: 0, max: 5000 }),
-          $('h2', null, 'Color'),
+          $('h2', 'Color'),
           $(Color, property('color')),
-          $('h2', null, 'Timers'),
+          $('h2', 'Timers'),
           $(Timer, { value: Date.now() }),
-          $('h2', null, 'Todos'),
+          $('h2', 'Todos'),
           $(EditedItems, property('todos')),
-          $('h2', null, 'Resources'),
+          $('h2', 'Resources'),
           $(Resources),
-          $('h2', null, 'Delayed'),
+          $('h2', 'Delayed'),
           $(Toggle, { ...property('toggle'), delay: 2000 }),
-          $('h2', null, 'Children'),
+          $('h2', 'Children'),
           $(Article, { value: { header: 'Title', body: 'Content' } }),
         ),
   )

@@ -1,4 +1,4 @@
-import { createElement as $, Component as BaseComponent } from 'react'
+import { Component as BaseComponent } from 'react'
 import {
   keys,
   omit,
@@ -11,7 +11,7 @@ import {
 import { mapProps, withHandlers } from 'recompose'
 
 import { EMPTY_OBJECT, same } from './immutables'
-import { setWrapperName, getGlobal } from './tools'
+import { $, setWrapperName, getGlobal } from './tools'
 
 export function logProps(propNames, title) {
   /*

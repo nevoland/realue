@@ -1,6 +1,6 @@
-import { createElement as $, Component as BaseComponent } from 'react'
+import { Component as BaseComponent } from 'react'
 
-import { lazyProperty, setWrapperName } from './tools'
+import { $, lazyProperty, setWrapperName } from './tools'
 import { setItem, insertItem, insertItems, EMPTY_ARRAY } from './immutables'
 
 function onChangeItem(element) {

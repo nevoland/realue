@@ -1,7 +1,6 @@
-import { createElement as $ } from 'react'
 import { replace, trim } from 'lodash'
 
-import { setWrapperName, escapeRegex } from './tools'
+import { $, setWrapperName, escapeRegex } from './tools'
 import { EMPTY_OBJECT } from './immutables'
 
 export const number = (Component) =>

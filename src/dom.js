@@ -1,13 +1,9 @@
-import {
-  createElement as $,
-  Component as BaseComponent,
-  createRef,
-} from 'react'
+import { Component as BaseComponent, createRef } from 'react'
 import { memoize, get, pickBy } from 'lodash'
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
 import { syncedProp } from './properties'
-import { hasProp, setWrapperName, getGlobal } from './tools'
+import { $, hasProp, setWrapperName, getGlobal } from './tools'
 import { EMPTY_OBJECT } from './immutables'
 
 const PROP_NAMES = {

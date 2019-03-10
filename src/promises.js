@@ -1,7 +1,7 @@
-import { createElement as $, Component as BaseComponent } from 'react'
+import { Component as BaseComponent } from 'react'
 
 import { AbortError } from './errors'
-import { setWrapperName, getGlobal, isPromise } from './tools'
+import { $, setWrapperName, getGlobal, isPromise } from './tools'
 
 const { setTimeout, clearTimeout } = getGlobal()
 

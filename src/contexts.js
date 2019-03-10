@@ -1,4 +1,4 @@
-import { createElement as $ } from 'react'
+import { $ } from './tools'
 
 export function withContext(provider, propName) {
   /*

@@ -1,6 +1,40 @@
 import test from 'ava'
+import render from 'react-test-renderer'
 
-import { hasProp, hasNotProp, isValidDate, escapeRegex } from '../tools'
+import { $, hasProp, hasNotProp, isValidDate, escapeRegex } from '../tools'
+
+test('$', (assert) => {
+  const p1 = render.create($('p', 'Text'))
+  assert.deepEqual(p1.root.props, { children: 'Text' }, 'child as props')
+  const p2 = render.create($('p', { id: 'text' }, 'Text'))
+  assert.deepEqual(
+    p2.root.props,
+    { id: 'text', children: 'Text' },
+    'props and child',
+  )
+  const p3 = render.create($('p', null, 'Text'))
+  assert.deepEqual(p3.root.props, { children: 'Text' }, 'no props')
+  const p4 = render.create($('p', 'Text', 'More text'))
+  assert.deepEqual(
+    p4.root.props,
+    { children: ['Text', 'More text'] },
+    'two children',
+  )
+  const p5 = render.create($('p', ['Text', 'More text', 'Even more text']))
+  assert.deepEqual(
+    p5.root.props,
+    { children: ['Text', 'More text', 'Even more text'] },
+    'three children',
+  )
+  const p6 = render.create(
+    $('p', null, ['Text', 'More text', 'Even more text']),
+  )
+  assert.deepEqual(
+    p6.root.props,
+    { children: ['Text', 'More text', 'Even more text'] },
+    'three children no props',
+  )
+})
 
 test('hasProp', (assert) => {
   assert.is(typeof hasProp, 'function')

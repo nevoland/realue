@@ -1,7 +1,8 @@
-import { createElement as $, Component as BaseComponent } from 'react'
+import { Component as BaseComponent } from 'react'
 import { identity, mapValues, map, keys, isArray } from 'lodash'
 import { withPropsOnChange } from 'recompose'
 
+import { $ } from './tools'
 import { makeShouldHandle } from './properties'
 import { setItem, EMPTY_OBJECT } from './immutables'
 

@@ -1,8 +1,8 @@
-import { createElement as $, Component as BaseComponent } from 'react'
+import { Component as BaseComponent } from 'react'
 import { compose, branch, withHandlers, withPropsOnChange } from 'recompose'
 import { memoize, get } from 'lodash'
 
-import { hasProp, hasProps } from './tools'
+import { $, hasProp, hasProps } from './tools'
 import {
   delayedProp,
   syncedProp,

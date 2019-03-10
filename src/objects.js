@@ -1,9 +1,9 @@
-import { createElement as $, Component as BaseComponent } from 'react'
+import { Component as BaseComponent } from 'react'
 import { reduce, join, pick, isString, upperFirst } from 'lodash'
 import { compose, branch, withHandlers } from 'recompose'
 
 import { setProperty, setProperties, EMPTY_OBJECT } from './immutables'
-import { hasProp, lazyProperty, setWrapperName } from './tools'
+import { $, hasProp, lazyProperty, setWrapperName } from './tools'
 
 function onChangeProperty(element, name, nameName, onChangeName) {
   return (propertyValue, propertyName, payload) => {
