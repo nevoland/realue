@@ -42,7 +42,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
-    "@koa/cors": "^2.2.3",
+    "@koa/cors": "^3.0.0",
     "ava": "^1.0.1",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
