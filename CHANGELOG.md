@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.13.0"></a>
+# [2.13.0](https://github.com/davidbonnet/realue/compare/v2.12.1...v2.13.0) (2019-03-11)
+
+
+### Features
+
+* **promises:** add `timeout` and `interval` ([c982237](https://github.com/davidbonnet/realue/commit/c982237))
+
+
+
 <a name="2.12.1"></a>
 ## [2.12.1](https://github.com/davidbonnet/realue/compare/v2.12.0...v2.12.1) (2019-03-10)
 
