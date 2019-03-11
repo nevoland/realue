@@ -2,7 +2,7 @@ import { Component as BaseComponent } from 'react'
 
 import { $, setWrapperName, getGlobal, isPromise } from './tools'
 
-const { setTimeout, clearTimeout } = getGlobal()
+const { setTimeout, clearTimeout, setInterval, clearInterval } = getGlobal()
 
 export class AbortError extends Error {
   /*
@@ -10,12 +10,12 @@ export class AbortError extends Error {
   */
 }
 
-/*
-Returns a promise that resolves after at least `duration` milliseconds.
-If a `signal` is provided, listens to it to reject 
-*/
-export const waitFor = (duration, signal) =>
-  new Promise((resolve, reject) => {
+export function waitFor(duration, signal) {
+  /*
+  Returns a promise that resolves after at least `duration` milliseconds.
+  If a `signal` is provided, listens to it to cancel the promise.
+  */
+  return new Promise((resolve, reject) => {
     const timer = setTimeout(resolve, duration)
     if (signal) {
       signal.addEventListener('abort', () => {
@@ -24,6 +24,33 @@ export const waitFor = (duration, signal) =>
       })
     }
   })
+}
+
+function future(set, clear) {
+  return (duration, callback) => {
+    let done = false
+    const timer = set(() => {
+      done = true
+      callback()
+    }, duration)
+    return () => {
+      if (done) {
+        return
+      }
+      clear(timer)
+    }
+  }
+}
+
+/*
+Calls `callback` after at least `duration` milliseconds. Returns a function that cancels the future call of `callback`, if not already called.
+*/
+export const timeout = future(setTimeout, clearTimeout)
+
+/*
+Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`.
+*/
+export const interval = future(setInterval, clearInterval)
 
 function attachPromise(element, promise) {
   return promise.then(

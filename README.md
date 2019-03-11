@@ -148,6 +148,9 @@ The `realue` module exposes the following functions:
   - [`setItem()`](#setitem)
   - [`setProperty()`](#setproperty)
 - [`setProperties()`](#setproperties)
+- [Asynchronous helpers](#asynchronous-helpers)
+  - [`timeout()`](#timeout)
+  - [`interval()`](#interval)
 - [Condition helpers](#condition-helpers)
   - [`hasProp()`](#hasprop)
   - [`hasNotProp()`](#hasnotprop)
@@ -845,6 +848,20 @@ If `object` is `nil`, it is considered as an `EMPTY_OBJECT`.
 > ➡️ `(object, values)`
 >
 > Returns a new object with the properties of `values` merged into `object`.
+
+### Asynchronous helpers
+
+#### `timeout()`
+
+> ➡️ `(duration, callback)`
+
+Calls `callback` after at least `duration` milliseconds. Returns a function that cancels the future call of `callback`, if not already called.
+
+#### `interval()`
+
+> ➡️ `(duration, callback)`
+
+Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`.
 
 ### Condition helpers
 
