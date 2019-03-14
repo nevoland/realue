@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.13.1"></a>
+## [2.13.1](https://github.com/davidbonnet/realue/compare/v2.13.0...v2.13.1) (2019-03-14)
+
+
+### Bug Fixes
+
+* **properties:** set correct name for initialProp ([c8a190e](https://github.com/davidbonnet/realue/commit/c8a190e))
+
+
+
 <a name="2.13.0"></a>
 # [2.13.0](https://github.com/davidbonnet/realue/compare/v2.12.1...v2.13.0) (2019-03-11)
 
