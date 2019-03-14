@@ -70,7 +70,6 @@ export function withEffect(shouldHandleOrKeys, handler) {
           this.cleanup = null
         }
         componentDidMount() {
-          // No state update necessary here
           this.cleanup = handler(this.props)
         }
         componentDidUpdate(prevProps, prevState) {
@@ -163,7 +162,7 @@ export function initialProp(options) {
   return (Component) =>
     setWrapperName(
       Component,
-      class suspendedProp extends BaseComponent {
+      class initialProp extends BaseComponent {
         constructor(props) {
           super(props)
           this.state = { initial: true }
