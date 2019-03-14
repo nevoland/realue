@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.13.2"></a>
+## [2.13.2](https://github.com/davidbonnet/realue/compare/v2.13.1...v2.13.2) (2019-03-14)
+
+
+### Bug Fixes
+
+* **properties:** cancel delayed prop on change ([8de7ea1](https://github.com/davidbonnet/realue/commit/8de7ea1))
+
+
+
 <a name="2.13.1"></a>
 ## [2.13.1](https://github.com/davidbonnet/realue/compare/v2.13.0...v2.13.1) (2019-03-14)
 
