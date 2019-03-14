@@ -306,13 +306,23 @@ export function delayedProp(options) {
         }
         static getDerivedStateFromProps(props, state) {
           const { [name]: value, [delayName]: delay } = props
-          if (!delay || (value === state.value && delay === state.delay)) {
+          if (value === state.value && delay === state.delay) {
             return null
+          }
+          const { debouncedValue } = state
+          if (debouncedValue && typeof debouncedValue.cancel === 'function') {
+            debouncedValue.cancel()
           }
           return {
             value,
             delay,
             debouncedValue: debouncer(value, delay),
+          }
+        }
+        componentWillUnmount() {
+          const { debouncedValue } = this.state
+          if (debouncedValue && typeof debouncedValue.cancel === 'function') {
+            debouncedValue.cancel()
           }
         }
         render() {
