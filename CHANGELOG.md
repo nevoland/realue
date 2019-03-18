@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.13.3"></a>
+## [2.13.3](https://github.com/davidbonnet/realue/compare/v2.13.2...v2.13.3) (2019-03-18)
+
+
+### Bug Fixes
+
+* **properties:** correctly set names ([c6d85e4](https://github.com/davidbonnet/realue/commit/c6d85e4))
+* **queries:** use provided route method if any ([24eb6c8](https://github.com/davidbonnet/realue/commit/24eb6c8))
+
+
+
 <a name="2.13.2"></a>
 ## [2.13.2](https://github.com/davidbonnet/realue/compare/v2.13.1...v2.13.2) (2019-03-14)
 
