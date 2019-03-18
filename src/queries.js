@@ -7,6 +7,7 @@ import {
   assign,
   pick,
   upperFirst,
+  lowerCase,
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
@@ -171,11 +172,13 @@ export function toFetchQuery(routes, transform = identity) {
     const { method = 'get' } = query
     const routeOrUrl = routes[query.type][method](query)
     const route = isString(routeOrUrl) ? { url: routeOrUrl } : routeOrUrl
+    const { method: fetchMethod = method } = route
     return next(
       transform(
         {
-          body: BODY_METHODS[method] && JSON.stringify(query.value),
-          method: method === 'list' ? 'GET' : upperCase(method),
+          body:
+            BODY_METHODS[lowerCase(fetchMethod)] && JSON.stringify(query.value),
+          method: fetchMethod === 'list' ? 'GET' : upperCase(fetchMethod),
           mode: 'cors',
           cache: 'no-store',
           signal: query.signal,
