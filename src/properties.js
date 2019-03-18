@@ -353,7 +353,7 @@ export function editableProp(options) {
   return (Component) =>
     setWrapperName(
       Component,
-      class editable extends BaseComponent {
+      class editableProp extends BaseComponent {
         constructor(props) {
           super(props)
           this.state = {
@@ -388,7 +388,7 @@ export function syncedProp(options) {
   return (Component) =>
     setWrapperName(
       Component,
-      class synced extends BaseComponent {
+      class syncedProp extends BaseComponent {
         constructor(props) {
           super(props)
           const { value } = props
@@ -474,7 +474,7 @@ export function resilientProp(name) {
   return (Component) =>
     setWrapperName(
       Component,
-      class resiliant extends BaseComponent {
+      class resilientProp extends BaseComponent {
         constructor(props) {
           super(props)
           this.state = { [name]: props[name] }
