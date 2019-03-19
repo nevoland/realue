@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.13.4"></a>
+## [2.13.4](https://github.com/davidbonnet/realue/compare/v2.13.3...v2.13.4) (2019-03-19)
+
+
+### Bug Fixes
+
+* **promises:** set unresolved value to undefined ([76d9f1f](https://github.com/davidbonnet/realue/commit/76d9f1f))
+
+
+
 <a name="2.13.3"></a>
 ## [2.13.3](https://github.com/davidbonnet/realue/compare/v2.13.2...v2.13.3) (2019-03-18)
 
