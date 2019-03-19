@@ -78,7 +78,7 @@ function stateFromPromise(promise) {
     result: {
       done,
       error: null,
-      value: done ? promise : null,
+      value: done ? promise : undefined,
     },
   }
 }
@@ -86,8 +86,8 @@ function stateFromPromise(promise) {
 export function promisedProp(name) {
   /*
   Replaces the promise at prop `[name]` with `{ done, error, value }`.
-  Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
-  If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+  Before the promise resolves, `done` is `false` and `value` is `undefined`.
+  If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value amd `done` is `true`.
   If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
   */
   return (Component) =>

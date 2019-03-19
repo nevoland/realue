@@ -147,7 +147,7 @@ The `realue` module exposes the following functions:
   - [`replaceItem()`](#replaceitem)
   - [`setItem()`](#setitem)
   - [`setProperty()`](#setproperty)
-- [`setProperties()`](#setproperties)
+  - [`setProperties()`](#setproperties)
 - [Asynchronous helpers](#asynchronous-helpers)
   - [`timeout()`](#timeout)
   - [`interval()`](#interval)
@@ -277,8 +277,8 @@ Injects prop `cycle(payload)` that cycles the `value` prop through the values of
 > ⬇️ `{ value }`
 
 Replaces promise `value` with `{ done, error, value }`.
-Before the promise resolves, `done` is `false`, and becomes `true` afterwards.
-If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
+Before the promise resolves, `done` is `false` and `value` is `undefined`.
+If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value and `done` is `true`.
 If a new promise is provided, the previously resolved `value` is kept until the new one resolves.
 
 #### `toggledEditing`
@@ -453,10 +453,10 @@ Calls `[onChangeName](value, name, payload)` with `name` taken from prop `[nameN
 
 > ⬇️ `{ [name] }`
 
-Takes the promise from the prop `[name]` and injects prop `[name]` with `{ done, error, value }`.
-Before the promise resolves, `done` is `false`, and becomes `true` afterwards. If the value is not a promise, it is immediately resolved (`done` is immediately `true` and `value` is set to the value).
-If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value.
-If a new promise is provided to `[name]`, the previously resolved `value` is kept until the new one resolves.
+Replaces the promise at prop `[name]` with `{ done, error, value }`.
+Before the promise resolves, `done` is `false` and `value` is `undefined`.
+If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value amd `done` is `true`.
+If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
 
 #### `withArrayChildren()`
 
@@ -843,11 +843,11 @@ If `value` is `undefined`, ensures that the returned object does not contain the
 If `key` is `undefined`, returns the `object` untouched.
 If `object` is `nil`, it is considered as an `EMPTY_OBJECT`.
 
-### `setProperties()`
+#### `setProperties()`
 
 > ➡️ `(object, values)`
->
-> Returns a new object with the properties of `values` merged into `object`.
+
+Returns a new object with the properties of `values` merged into `object`.
 
 ### Asynchronous helpers
 
