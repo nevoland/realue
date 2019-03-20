@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.14.2"></a>
+## [2.14.2](https://github.com/davidbonnet/realue/compare/v2.14.1...v2.14.2) (2019-03-20)
+
+
+### Bug Fixes
+
+* **queries:** disable logging in production ([cdece9a](https://github.com/davidbonnet/realue/commit/cdece9a))
+
+
+
 <a name="2.14.1"></a>
 ## [2.14.1](https://github.com/davidbonnet/realue/compare/v2.14.0...v2.14.1) (2019-03-20)
 
