@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.14.0"></a>
+# [2.14.0](https://github.com/davidbonnet/realue/compare/v2.13.5...v2.14.0) (2019-03-20)
+
+
+### Bug Fixes
+
+* **properties:** log properties on mount ([bdc5ebe](https://github.com/davidbonnet/realue/commit/bdc5ebe))
+
+
+### Features
+
+* **properties:** enhance logProps ([ff8d840](https://github.com/davidbonnet/realue/commit/ff8d840))
+
+
+
 <a name="2.13.5"></a>
 ## [2.13.5](https://github.com/davidbonnet/realue/compare/v2.13.4...v2.13.5) (2019-03-20)
 
