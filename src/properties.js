@@ -42,7 +42,7 @@ function wrapProps(
             console.log(parameter)
           }
           console.groupEnd()
-          value(...parameters)
+          return value(...parameters)
         }
       }
       console.group(name)
