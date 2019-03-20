@@ -58,14 +58,14 @@ function attachPromise(element, promise) {
       if (!element.mounted || element.state.promise !== promise) {
         return
       }
-      element.setState({ result: { done: true, error: null, value } })
+      element.setState({ result: { done: true, error: undefined, value } })
     },
     (error) => {
       if (!element.mounted || element.state.promise !== promise) {
         return
       }
       element.setState({
-        result: { done: true, error, value: null },
+        result: { done: true, error, value: undefined },
       })
     },
   )
@@ -77,7 +77,7 @@ function stateFromPromise(promise) {
     promise,
     result: {
       done,
-      error: null,
+      error: undefined,
       value: done ? promise : undefined,
     },
   }
