@@ -491,10 +491,12 @@ export function syncedProp(options) {
               props: { [onPullName]: onPull },
               state: { value, originalValue },
             } = this
+            const nextValue =
+              onPull == null ? originalValue : onPull(originalValue, value)
             this.setState({
-              value:
-                onPull == null ? originalValue : onPull(originalValue, value),
+              value: nextValue,
             })
+            return nextValue
           }
         }
         static getDerivedStateFromProps(props, state) {
