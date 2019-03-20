@@ -251,6 +251,9 @@ export function logQuery(title = 'Query') {
   /*
   Logs the outgoing query and the incoming result or the error.
   */
+  if (process.env.NODE_ENV === 'production') {
+    return identity
+  }
   return (next) => (query) => {
     /* eslint-disable no-console */
     console.group(title)
