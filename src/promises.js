@@ -93,7 +93,7 @@ export function promisedProp(name) {
   return (Component) =>
     setWrapperName(
       Component,
-      class promised extends BaseComponent {
+      class promisedProp extends BaseComponent {
         constructor(props) {
           super(props)
           this.state = stateFromPromise(props[name])
