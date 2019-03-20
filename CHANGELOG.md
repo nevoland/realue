@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.14.1"></a>
+## [2.14.1](https://github.com/davidbonnet/realue/compare/v2.14.0...v2.14.1) (2019-03-20)
+
+
+### Bug Fixes
+
+* **properties:** correctly name promisedProp ([b9507fb](https://github.com/davidbonnet/realue/commit/b9507fb))
+* **properties:** return pulled value in synced ([1fc5578](https://github.com/davidbonnet/realue/commit/1fc5578))
+* **properties:** return value in wrapped method ([05d86f3](https://github.com/davidbonnet/realue/commit/05d86f3))
+
+
+
 <a name="2.14.0"></a>
 # [2.14.0](https://github.com/davidbonnet/realue/compare/v2.13.5...v2.14.0) (2019-03-20)
 
