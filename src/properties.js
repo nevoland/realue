@@ -20,15 +20,19 @@ export function logProps(propNames, title) {
   If `propNames` is `nil`, logs all props.
   */
   return (Component) =>
-    onPropsChange(propNames || undefined, (props) => {
-      /* eslint-disable no-console */
-      console.group(title || Component.displayName || Component.name)
-      for (const name of propNames || keys(props)) {
-        console.log(name, props[name])
-      }
-      console.groupEnd()
-      /* eslint-enable no-console */
-    })(Component)
+    onPropsChange(
+      propNames || undefined,
+      (props) => {
+        /* eslint-disable no-console */
+        console.group(title || Component.displayName || Component.name)
+        for (const name of propNames || keys(props)) {
+          console.log(name, props[name])
+        }
+        console.groupEnd()
+        /* eslint-enable no-console */
+      },
+      true,
+    )(Component)
 }
 
 export function omitProps(propNames) {
