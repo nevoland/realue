@@ -13,13 +13,13 @@
     "build:watch": "parcel --out-dir dist/app demo/client/index.html",
     "start:api": "node --require esm demo/server/index.js",
     "prepare": "babel --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
-    "test": "eslint src/ && prettier --list-different \"{src,scripts}/**/*.js\" && nyc ava",
+    "test": "eslint src/ && prettier --list-different \"{src,scripts}/**/*.js\" && ava --reset-cache && nyc ava",
     "test:watch": "ava --watch",
     "eslint": "eslint src/",
     "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
     "release": "standard-version",
-    "deploy": "ava --reset-cache && git push --follow-tags origin master && npm publish"
+    "deploy": "git push --follow-tags origin master && npm publish"
   },
   "keywords": [
     "react",
