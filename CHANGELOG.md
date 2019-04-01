@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.16.0"></a>
+# [2.16.0](https://github.com/davidbonnet/realue/compare/v2.15.1...v2.16.0) (2019-04-01)
+
+
+### Features
+
+* **properties:** add scoped decorators ([1b8be46](https://github.com/davidbonnet/realue/commit/1b8be46))
+* **tools:** add picked() helper ([de4347c](https://github.com/davidbonnet/realue/commit/de4347c))
+
+
+
 <a name="2.15.1"></a>
 ## [2.15.1](https://github.com/davidbonnet/realue/compare/v2.15.0...v2.15.1) (2019-04-01)
 
