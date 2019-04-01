@@ -155,7 +155,8 @@ The `realue` module exposes the following functions:
 - [Asynchronous helpers](#asynchronous-helpers)
   - [`timeout()`](#timeout)
   - [`interval()`](#interval)
-- [Condition helpers](#condition-helpers)
+- [Prop helpers](#prop-helpers)
+  - [`picked()`](#picked)
   - [`hasProp()`](#hasprop)
   - [`hasNotProp()`](#hasnotprop)
   - [`hasProps()`](#hasprops)
@@ -880,7 +881,31 @@ Calls `callback` after at least `duration` milliseconds. Returns a function that
 
 Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`.
 
-### Condition helpers
+### Prop helpers
+
+#### `picked()`
+
+> ➡️ `(propNamesOrMap)`
+
+Returns a function that returns a subset of the provided object or a mapping of selected property paths.
+
+<details>
+  <summary>Examples</summary>
+
+```js
+// Only keeps the `value` prop
+mapProps(picked(['value']))
+
+// Only keeps the `value` prop renamed to `user`
+mapProps(picked({ user: 'value' }))
+
+// Injects selected properties of `value`
+withProps(
+  picked({ done: 'value.done', error: 'value.error', value: 'value.value' }),
+)
+```
+
+</details>
 
 #### `hasProp()`
 
