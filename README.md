@@ -163,6 +163,7 @@ The `realue` module exposes the following functions:
   - [`different()`](#different)
 - [Formatters](#formatters)
   - [`escapeRegex()`](#escaperegex)
+  - [`replaceAll()`](#replaceall)
 
 <!-- /MarkdownTOC -->
 
@@ -933,6 +934,12 @@ const withName = withPropsOnChange(
 > ➡️ `(pattern)`
 
 Escapes special characters of a given regular expresion `pattern`.
+
+#### `replaceAll()`
+
+> ➡️ `(string, find, replace)`
+
+Replaces all occurrences of `find` by `replace` in the provided `string`.
 
 ## Demo
 
