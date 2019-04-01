@@ -66,7 +66,7 @@ export const transformable = (Component) =>
       }
       render() {
         const { props, state } = this
-        const { transformValue, transformOnChange } = this
+        const { transformValue, transformOnChange } = props
         return $(
           Component,
           !(transformValue || transformOnChange)
