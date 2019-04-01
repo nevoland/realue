@@ -9,6 +9,7 @@ import {
   queryString,
   searchParams,
   aggregate,
+  logQuery,
 } from '../../src'
 
 function updateParams(params) {
@@ -29,6 +30,7 @@ function qs(query) {
 }
 
 export const request = compose(
+  logQuery(),
   aggregate(),
   retry(),
   toFetchQuery(
