@@ -9,7 +9,7 @@ import {
   indexOf,
   identity,
 } from 'lodash'
-import { mapProps, withHandlers } from 'recompose'
+import { compose, mapProps, withHandlers, withProps } from 'recompose'
 
 import { EMPTY_OBJECT, same } from './immutables'
 import { $, setWrapperName, getGlobal } from './tools'
@@ -152,7 +152,7 @@ export function withEffect(shouldHandleOrKeys, handler) {
         componentDidMount() {
           this.cleanup = handler(this.props)
         }
-        componentDidUpdate(prevProps, prevState) {
+        componentDidUpdate(prevProps) {
           if (shouldHandle(prevProps, this.props)) {
             if (typeof this.cleanup === 'function') {
               this.cleanup()
@@ -227,7 +227,7 @@ export function onPropsChange(
             handler(this.props, this.props, true)
           }
         }
-        componentDidUpdate(prevProps, prevState) {
+        componentDidUpdate(prevProps) {
           const { props } = this
           if (shouldHandle(prevProps, props)) {
             handler(props, prevProps)
@@ -350,7 +350,7 @@ export function suspendedProp(options) {
           }
           return { value: props[name] }
         }
-        componentDidUpdate(prevProps, prevState) {
+        componentDidUpdate(prevProps) {
           const { props } = this
           if (
             props[name] === prevProps[name] &&
@@ -485,6 +485,50 @@ export function editableProp(options) {
         }
       },
     )
+}
+
+const SCOPE = '__scope'
+const RETURN = '__return'
+
+export function scoped(...decorators) {
+  /*
+  Processes the `decorators` in an isolated props scope so as to avoid poluting the passed props.
+
+  Example:
+  
+    compose(
+      withProps({ value: 1 }),
+      scoped(
+        withProps({ value: 2, otherValue: 3 })
+      ),
+      // Logs unique prop `value` that equals `1`
+      logProps()
+    )
+
+  */
+  const composition = compose(
+    mapProps((props) => ({ ...props, [SCOPE]: props })),
+    ...decorators,
+    mapProps((props) =>
+      props[RETURN] ? { ...props[SCOPE], ...props[RETURN] } : props[SCOPE],
+    ),
+  )
+  return (Component) => {
+    const DecoratedComponent = composition(Component)
+    return (props) => $(DecoratedComponent, props)
+  }
+}
+
+export function returned(propsMapper) {
+  /*
+  Enables the injection of props from an isolated scope.
+
+  Example:
+
+    scoped(...decorators, returned(picked({ user: 'value' })))
+
+  */
+  return withProps((props) => ({ [RETURN]: propsMapper(props) }))
 }
 
 export function syncedProp(options) {

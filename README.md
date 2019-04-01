@@ -99,6 +99,9 @@ The `realue` module exposes the following functions:
   - [`withEffect()`](#witheffect)
   - [`withImmediateEffect()`](#withimmediateeffect)
   - [`onPropsChange()`](#onpropschange)
+- [Scoped-based decorators](#scoped-based-decorators)
+  - [`scoped()`](#scoped)
+  - [`returned()`](#returned)
 - [Property-based decorators](#property-based-decorators)
   - [`defaultProp()`](#defaultprop)
   - [`initialProp()`](#initialprop)
@@ -379,6 +382,51 @@ Similar to `withEffect`, except that it runs the `handler` at component construc
 
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
 The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
+
+### Scoped-based decorators
+
+#### `scoped()`
+
+> ➡️ `(decorators)`
+
+> ⬆️ `{ [any] }`
+
+> ⬇️ `{}`
+
+Processes the `decorators` in an isolated props scope so as to avoid poluting the passed props.
+
+<details>
+  <summary>Example</summary>
+
+```js
+compose(
+  withProps({ value: 1 }),
+  scoped(withProps({ value: 2, otherValue: 3 })),
+  // Logs unique prop `value` that equals `1`
+  logProps(),
+)
+```
+
+</details>
+
+#### `returned()`
+
+> ➡️ `(propsMapper)`
+
+> ⬆️ `{ [any] }`
+
+> ⬇️ `{ __return }`
+
+Enables the injection of props from an isolated scope.
+
+<details>
+  <summary>Example</summary>
+
+```js
+scoped(...decorators, returned(picked({ user: 'value' })))
+```
+
+</details>
 
 ### Property-based decorators
 
