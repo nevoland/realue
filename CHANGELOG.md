@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.15.1"></a>
+## [2.15.1](https://github.com/davidbonnet/realue/compare/v2.15.0...v2.15.1) (2019-04-01)
+
+
+### Bug Fixes
+
+* **values:** correctly pick transforms from props ([0bfab1d](https://github.com/davidbonnet/realue/commit/0bfab1d))
+
+
+
 <a name="2.15.0"></a>
 # [2.15.0](https://github.com/davidbonnet/realue/compare/v2.14.2...v2.15.0) (2019-04-01)
 
