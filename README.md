@@ -92,11 +92,14 @@ The `realue` module exposes the following functions:
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
-- [Decorator constructors](#decorator-constructors)
+- [Context](#context)
   - [`fromContext()`](#fromcontext)
   - [`withContext()`](#withcontext)
+- [Lifecycle](#lifecycle)
   - [`withEffect()`](#witheffect)
+  - [`withImmediateEffect()`](#withimmediateeffect)
   - [`onPropsChange()`](#onpropschange)
+- [Property-based decorators](#property-based-decorators)
   - [`defaultProp()`](#defaultprop)
   - [`initialProp()`](#initialprop)
   - [`suspendedProp()`](#suspendedprop)
@@ -105,6 +108,7 @@ The `realue` module exposes the following functions:
   - [`syncedProp()`](#syncedprop)
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
+- [Children-based decorators](#children-based-decorators)
   - [`withArrayChildren()`](#witharraychildren)
   - [`withObjectChildren()`](#withobjectchildren)
   - [`withChildren()`](#withchildren)
@@ -314,7 +318,7 @@ Uses `title` as console group (defaults to decorated component name).
 
 Removes provided `propNames`.
 
-### Decorator constructors
+### Context
 
 #### `fromContext()`
 
@@ -335,6 +339,8 @@ Injects a context `provider` that takes its value from `[propName]`.
 > ⬇️ `{ [propName] }`
 
 Injects the value of the context `consumer` into `[propName]`.
+
+### Lifecycle
 
 #### `withEffect()`
 
@@ -359,12 +365,20 @@ const withListener = withEffect(
 
 </details>
 
+#### `withImmediateEffect()`
+
+> ➡️ `(shouldHandleOrKeys, handler)`
+
+Similar to `withEffect`, except that it runs the `handler` at component construction and before each render if `shouldHandleOrKeys` returns `true`.
+
 #### `onPropsChange()`
 
 > ➡️ `(shouldHandleOrKeys, handler, callOnMount = true)`
 
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
 The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
+
+### Property-based decorators
 
 #### `defaultProp()`
 
@@ -457,6 +471,8 @@ Replaces the promise at prop `[name]` with `{ done, error, value }`.
 Before the promise resolves, `done` is `false` and `value` is `undefined`.
 If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value amd `done` is `true`.
 If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
+
+### Children-based decorators
 
 #### `withArrayChildren()`
 
