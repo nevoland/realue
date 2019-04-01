@@ -52,7 +52,9 @@ function wrapProps(
     }
   }
   if (!updated) {
-    console.warn('Element got re-rendered with no property changes')
+    console[propNames ? 'log' : 'warn'](
+      'Element got re-rendered with no property changes',
+    )
   }
   console.groupEnd()
   for (const name in wrappedMethods) {
