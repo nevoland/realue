@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.15.0"></a>
+# [2.15.0](https://github.com/davidbonnet/realue/compare/v2.14.2...v2.15.0) (2019-04-01)
+
+
+### Bug Fixes
+
+* **logProps:** only warn when useless render ([1f3a023](https://github.com/davidbonnet/realue/commit/1f3a023))
+
+
+### Features
+
+* **lifecycle:** add withImmediateEffect ([a5837ce](https://github.com/davidbonnet/realue/commit/a5837ce))
+* **tools:** add replaceAll ([a874e1a](https://github.com/davidbonnet/realue/commit/a874e1a))
+* **values:** optimize transformable ([0600eee](https://github.com/davidbonnet/realue/commit/0600eee))
+
+
+
 <a name="2.14.2"></a>
 ## [2.14.2](https://github.com/davidbonnet/realue/compare/v2.14.1...v2.14.2) (2019-03-20)
 
