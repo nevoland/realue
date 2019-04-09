@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.16.1"></a>
+## [2.16.1](https://github.com/davidbonnet/realue/compare/v2.16.0...v2.16.1) (2019-04-09)
+
+
+### Bug Fixes
+
+* **array:** ensure item names are numbers ([70e0462](https://github.com/davidbonnet/realue/commit/70e0462))
+
+
+
 <a name="2.16.0"></a>
 # [2.16.0](https://github.com/davidbonnet/realue/compare/v2.15.1...v2.16.0) (2019-04-01)
 
