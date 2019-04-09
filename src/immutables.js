@@ -75,6 +75,13 @@ export function setItem(array, index, value) {
   If `index` equals `-1` or is `undefined`, returns the `array` untouched.
   If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
   */
+  if (process.env.NODE_ENV !== 'production') {
+    if (index != null && !isFinite(index)) {
+      throw new Error(
+        `Expected "index" to be a number, but is of type "${typeof index}" instead`,
+      )
+    }
+  }
   return index === -1 || index == null
     ? array == null
       ? EMPTY_ARRAY

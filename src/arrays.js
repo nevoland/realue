@@ -64,7 +64,9 @@ export const array = (Component) =>
             key,
             value: props.value && props.value[index],
             name: index,
-            onChange: props.onChange && this.onChangeItem,
+            onChange:
+              props.onChange &&
+              lazyProperty(this, 'onChangeItem', onChangeItem),
           }
         }
       }
