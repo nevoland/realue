@@ -1,5 +1,5 @@
 import test from 'ava'
-import render from 'react-test-renderer'
+import { create } from 'react-test-renderer'
 
 import { $ } from '../tools'
 import { object } from '../objects'
@@ -18,18 +18,16 @@ const Movie = object(({ property }) =>
 
 test('decorates object component', (assert) => {
   assert.snapshot(
-    render
-      .create($(Movie, { value: { title: 'Serenity', year: 2005 } }))
-      .toJSON(),
+    create($(Movie, { value: { title: 'Serenity', year: 2005 } })).toJSON(),
   )
 })
 
 test('handles null values', (assert) => {
-  assert.snapshot(render.create($(Movie)).toJSON())
+  assert.snapshot(create($(Movie)).toJSON())
 })
 
 test('sets properties in non-edition mode', (assert) => {
-  const rendering = render.create($(Movie))
+  const rendering = create($(Movie))
   const { root } = rendering
 
   const properties = root.findAllByType(Property)
@@ -49,7 +47,7 @@ test('sets properties in edition mode', (assert) => {
   const onChange = (value, name, payload) => {
     throw new ThrownValue({ value, name, payload })
   }
-  const rendering = render.create($(Movie, { onChange, name: 'movie' }))
+  const rendering = create($(Movie, { onChange, name: 'movie' }))
   const { root } = rendering
 
   const properties = root.findAllByType(Property)

@@ -155,6 +155,7 @@ The `realue` module exposes the following functions:
   - [`setItem()`](#setitem)
   - [`setProperty()`](#setproperty)
   - [`setProperties()`](#setproperties)
+  - [`setPath()`](#setpath)
 - [Asynchronous helpers](#asynchronous-helpers)
   - [`timeout()`](#timeout)
   - [`interval()`](#interval)
@@ -914,6 +915,13 @@ If `object` is `nil`, it is considered as an `EMPTY_OBJECT`.
 > ➡️ `(object, values)`
 
 Returns a new object with the properties of `values` merged into `object`.
+
+#### `setPath()`
+
+> ➡️ `(target, path, value)`
+
+Returns a new object or array based on `target` with its `path` set to `value`.
+Recursively uses `setItem` and `setProperty` based on the type of each `path` item (`number` and `object`, respectively).
 
 ### Asynchronous helpers
 

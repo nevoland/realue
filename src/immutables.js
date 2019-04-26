@@ -8,6 +8,8 @@ import {
   uniq,
   omitBy,
   isUndefined,
+  isArray,
+  isPlainObject,
 } from 'lodash'
 
 /*
@@ -145,6 +147,31 @@ export function setProperties(object, values) {
     : same(object, values, keys(values))
     ? object
     : omitUndefined({ ...object, ...values })
+}
+
+export function setPath(target, path, value, index = 0) {
+  /*
+  Returns a new object or array based on `target` with its `path` set to `value`.
+  Recursively uses `setItem` and `setProperty` based on the type of each `path` item (`number` and `object`, respectively).
+  */
+  if (index === path.length) {
+    return value
+  }
+  const key = path[index]
+  const setter = typeof key === 'number' ? setItem : setProperty
+  return setter(
+    !target
+      ? null
+      : setter === setItem
+      ? !isArray(target)
+        ? null
+        : target
+      : !isPlainObject(target)
+      ? null
+      : target,
+    key,
+    setPath(target && target[key], path, value, index + 1),
+  )
 }
 
 export function same(
