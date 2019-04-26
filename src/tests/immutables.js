@@ -231,6 +231,10 @@ test('setPath', (assert) => {
     }),
     'converts array to object',
   )
+  assert.true(
+    similar(arrayBase, setPath(arrayBase, null, 1), 1),
+    'handle undefined path',
+  )
 })
 
 test('same', (assert) => {

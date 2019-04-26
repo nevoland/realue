@@ -922,6 +922,7 @@ Returns a new object with the properties of `values` merged into `object`.
 
 Returns a new object or array based on `target` with its `path` set to `value`.
 Recursively uses `setItem` and `setProperty` based on the type of each `path` item (`number` and `object`, respectively).
+If `path` is `nil`, returns `value`.
 
 ### Asynchronous helpers
 
