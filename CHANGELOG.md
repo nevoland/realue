@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.17.1"></a>
+## [2.17.1](https://github.com/davidbonnet/realue/compare/v2.17.0...v2.17.1) (2019-04-26)
+
+
+### Bug Fixes
+
+* **immutables:** handle nil path in setPath() ([d09c629](https://github.com/davidbonnet/realue/commit/d09c629))
+
+
+
 <a name="2.17.0"></a>
 # [2.17.0](https://github.com/davidbonnet/realue/compare/v2.16.1...v2.17.0) (2019-04-26)
 
