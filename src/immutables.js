@@ -77,6 +77,7 @@ export function setItem(array, index, value) {
   If `index` equals `-1` or is `undefined`, returns the `array` untouched.
   If the `array` is `nil`, it is considered as an `EMPTY_ARRAY`.
   */
+  /* istanbul ignore next */
   if (process.env.NODE_ENV !== 'production') {
     if (index != null && !isFinite(index)) {
       throw new Error(
