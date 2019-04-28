@@ -13,14 +13,14 @@ import {
 } from 'lodash'
 
 /*
-Empty array to be used in immutable values. Using this instead of `[]` avoids having several instances of immutable empty arrays.
+Immutable empty array. Using this instead of `[]` avoids having several instances of immutable empty arrays.
 */
-export const EMPTY_ARRAY = []
+export const EMPTY_ARRAY = Object.freeze([])
 
 /*
-Empty object to be used in immutable values. Using this instead of `{}` avoids having several instances of immutable empty objects.
+Immutable empty object. Using this instead of `{}` avoids having several instances of immutable empty objects.
 */
-export const EMPTY_OBJECT = {}
+export const EMPTY_OBJECT = Object.freeze(Object.create(null))
 
 export function insertItem(
   array,

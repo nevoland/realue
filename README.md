@@ -869,7 +869,7 @@ Returns an object containing all search parameters of a provided `query`.
 
 #### `EMPTY_ARRAY`
 
-Empty array to be used in immutable values. Using this instead of `[]` avoids having several instances of immutable empty arrays.
+Immutable empty array. Using this instead of `[]` avoids having several instances of immutable empty arrays.
 
 #### `EMPTY_OBJECT`
 
