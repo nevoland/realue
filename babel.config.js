@@ -1,4 +1,4 @@
-module.exports = api => {
+module.exports = (api) => {
   api.cache.never()
   switch (process.env.BABEL_MODE) {
     case 'module':

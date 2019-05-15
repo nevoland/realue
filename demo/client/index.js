@@ -40,7 +40,7 @@ import {
   fromEvent,
   number,
   object,
-  omitProps,
+  domProps,
   onKeysDown,
   onPropsChange,
   parseNumber,
@@ -54,6 +54,7 @@ import {
   transformable,
   withChild,
   withArrayChildren,
+  synced,
   syncedProp,
   withObjectChildren,
   logProps,
@@ -71,37 +72,38 @@ const Text = compose(
   fromEvent('target.value'),
   editableProp('node'),
   syncedFocus,
-)(function Text({
-  value,
-  placeholder,
-  onChange,
-  onFocus,
-  onBlur,
-  onChangeNode,
-  onKeyDown,
-  className,
-}) {
-  return !onChange
-    ? $('span', { className }, value)
-    : $('input', {
-        ref: onChangeNode,
-        value,
-        placeholder,
-        onChange,
-        onFocus,
-        onBlur,
-        onKeyDown,
-        className,
-      })
-})
+)(
+  ({
+    value,
+    placeholder,
+    onChange,
+    onFocus,
+    onBlur,
+    onChangeNode,
+    onKeyDown,
+    className,
+  }) =>
+    !onChange
+      ? $('span', { className }, value)
+      : $('input', {
+          ref: onChangeNode,
+          value,
+          placeholder,
+          onChange,
+          onFocus,
+          onBlur,
+          onKeyDown,
+          className,
+        }),
+)
 
 const Checkbox = compose(
   pure,
   defaultValue,
   boolean,
   fromEvent('target.checked'),
-)(function Checkbox({ value, onChange, label }) {
-  return $(
+)(({ value, onChange, label }) =>
+  $(
     'label',
     $('input', {
       type: 'checkbox',
@@ -110,16 +112,17 @@ const Checkbox = compose(
       disabled: !onChange,
     }),
     label == null ? null : $('span', ' ', label),
-  )
-})
+  ),
+)
 
 const Item = compose(
   pure,
   object,
   removable,
-)(function Item({ property, onRemove }) {
-  return $(
+)(({ property, onRemove }) =>
+  $(
     'li',
+    'GRIMBALDI',
     $(Checkbox, { ...property('done'), defaultValue: false }),
     ' ',
     $(Text, {
@@ -127,8 +130,8 @@ const Item = compose(
       placeholder: 'Untitled item',
     }),
     onRemove && $('button', { onClick: onRemove }, 'Remove'),
-  )
-})
+  ),
+)
 
 const ITEMS = times(3, constant(EMPTY_OBJECT))
 
@@ -140,15 +143,15 @@ const Items = compose(
     onAddThree: ({ value, onAddItems }) => (payload) =>
       onAddItems(ITEMS, value.length, payload),
   }),
-)(function Items({ value, children, onAddItem, onAddThree }) {
-  return $(
+)(({ value, children, onAddItem, onAddThree }) =>
+  $(
     'div',
     null,
     $('ul', null, children),
     onAddItem &&
       $(ItemCreator, { onChange: onAddItem, onAddThree, name: value.length }),
-  )
-})
+  ),
+)
 
 const ItemCreator = compose(
   pure,
@@ -175,29 +178,30 @@ const ItemCreator = compose(
     },
   }),
   object,
-)(function ItemCreator({
-  value,
-  onPush,
-  onPull,
-  onAddThree,
-  property,
-  focus,
-  onChangeFocus,
-  onKeyDown,
-}) {
-  return $(
-    'ul',
-    $(Text, {
-      ...property('label'),
-      focus,
-      onChangeFocus,
-      onKeyDown,
-    }),
-    $('button', { onClick: onPush, disabled: !value.label }, 'Add'),
-    $('button', { onClick: onPull }, 'Cancel'),
-    $('button', { onClick: onAddThree }, 'Add 3'),
-  )
-})
+)(
+  ({
+    value,
+    onPush,
+    onPull,
+    onAddThree,
+    property,
+    focus,
+    onChangeFocus,
+    onKeyDown,
+  }) =>
+    $(
+      'ul',
+      $(Text, {
+        ...property('label'),
+        focus,
+        onChangeFocus,
+        onKeyDown,
+      }),
+      $('button', { onClick: onPush, disabled: !value.label }, 'Add'),
+      $('button', { onClick: onPull }, 'Cancel'),
+      $('button', { onClick: onAddThree }, 'Add 3'),
+    ),
+)
 
 const EditedItems = compose(
   pure,
@@ -214,8 +218,8 @@ const EditedItems = compose(
     },
   }),
   withChild(Items),
-)(function EditedItems({ children, editing, onToggleEditing }) {
-  return $(
+)(({ children, editing, onToggleEditing }) =>
+  $(
     'div',
     $(Checkbox, {
       value: editing,
@@ -223,14 +227,14 @@ const EditedItems = compose(
       label: 'Edit',
     }),
     children,
-  )
-})
+  ),
+)
 
 const Color = compose(
   pure,
   object,
-)(function Color({ property, value }) {
-  return $(
+)(({ property, value }) =>
+  $(
     'ul',
     $('div', {
       style: {
@@ -247,8 +251,8 @@ const Color = compose(
         max: 255,
       }),
     ),
-  )
-})
+  ),
+)
 
 const Number = compose(
   pure,
@@ -256,6 +260,7 @@ const Number = compose(
     type: 'number',
     defaultValue: '',
     placeholder: '0',
+    autoComplete: 'off',
   }),
   withProps({
     transformOnChange: (value) =>
@@ -268,23 +273,11 @@ const Number = compose(
   defaultValue,
   number,
   fromEvent('target.value'),
-  omitProps([
-    'transformOnChange',
-    'filterOnChange',
-    'defaultValue',
-    'onPull',
-    'onPush',
-  ]),
+  domProps,
 )('input')
 
-const ColorProperty = compose(pure)(function ColorProperty({
-  value,
-  name,
-  onChange,
-  min,
-  max,
-}) {
-  return $(
+const ColorProperty = compose(pure)(({ value, name, onChange, min, max }) =>
+  $(
     'li',
     name,
     ': ',
@@ -298,8 +291,8 @@ const ColorProperty = compose(pure)(function ColorProperty({
       min,
       max,
     }),
-  )
-})
+  ),
+)
 
 export const Toggle = compose(
   pure,
@@ -311,8 +304,8 @@ export const Toggle = compose(
   renameProp('onPush', 'onChange'),
   cyclable,
   logProps(),
-)(function Toggle({ value, onCycle }) {
-  return $(
+)(({ value, onCycle }) =>
+  $(
     'div',
     $(
       'p',
@@ -320,8 +313,8 @@ export const Toggle = compose(
     ),
     $('button', { onClick: onCycle }, 'Toggle'),
     $('p', value ? 'ON' : 'OFF'),
-  )
-})
+  ),
+)
 
 const Article = withObjectChildren({
   header: [
@@ -360,8 +353,8 @@ const Resources = compose(
   editable,
   cyclable,
   object,
-)(function Resources({ value, onCycle, property }) {
-  return $(
+)(({ value, onCycle, property }) =>
+  $(
     'div',
     // Data table
     $('button', { onClick: onCycle }, 'Switch query'),
@@ -370,8 +363,8 @@ const Resources = compose(
     $(Number, { ...property('limit'), defaultValue: 3, min: 1, max: 10 }),
     $(Table, value),
     $(Aggregations),
-  )
-})
+  ),
+)
 
 function countFirstValues(values, property) {
   const { length } = values
@@ -494,67 +487,69 @@ const Table = compose(
         },
       }),
   }),
-)(function Table({
-  value,
-  type,
-  done,
-  fields,
-  onQueryPrevious,
-  onQueryNext,
-  onRefresh,
-  onAbort,
-}) {
-  const headerStyle = {
-    textAlign: 'left',
-    padding: 10,
-    opacity: done ? 1 : 0.25,
-  }
-  const rowStyle = {
-    borderTop: '1px solid #7f7f7f',
-    padding: 10,
-    opacity: done ? 1 : 0.25,
-  }
-  return $(
-    'table',
-    { style: { width: '100%' } },
-    $('caption', `${upperFirst(type)} count: ${value.length}`),
-    $(
-      'thead',
+)(
+  ({
+    value,
+    type,
+    done,
+    fields,
+    onQueryPrevious,
+    onQueryNext,
+    onRefresh,
+    onAbort,
+  }) => {
+    const headerStyle = {
+      textAlign: 'left',
+      padding: 10,
+      opacity: done ? 1 : 0.25,
+    }
+    const rowStyle = {
+      borderTop: '1px solid #7f7f7f',
+      padding: 10,
+      opacity: done ? 1 : 0.25,
+    }
+    return $(
+      'table',
+      { style: { width: '100%' } },
+      $('caption', `${upperFirst(type)} count: ${value.length}`),
       $(
-        'tr',
-        map(fields, (name, key) =>
-          $('th', { style: headerStyle, key }, upperFirst(name)),
-        ),
-      ),
-    ),
-    $(
-      'tbody',
-      map(value, (value, key) =>
+        'thead',
         $(
           'tr',
-          { key },
           map(fields, (name, key) =>
-            $('td', { style: rowStyle, key }, value[name]),
+            $('th', { style: headerStyle, key }, upperFirst(name)),
           ),
         ),
       ),
       $(
-        'tr',
+        'tbody',
+        map(value, (value, key) =>
+          $(
+            'tr',
+            { key },
+            map(fields, (name, key) =>
+              $('td', { style: rowStyle, key }, value[name]),
+            ),
+          ),
+        ),
         $(
-          'td',
-          { colSpan: fields.length },
-          $('button', { onClick: onQueryPrevious }, 'Previous'),
-          $('button', { onClick: onQueryNext }, 'Next'),
-          $('button', { onClick: onRefresh }, 'Refresh'),
-          $('button', { disabled: done, onClick: onAbort }, 'Abort'),
+          'tr',
+          $(
+            'td',
+            { colSpan: fields.length },
+            $('button', { onClick: onQueryPrevious }, 'Previous'),
+            $('button', { onClick: onQueryNext }, 'Next'),
+            $('button', { onClick: onRefresh }, 'Refresh'),
+            $('button', { disabled: done, onClick: onAbort }, 'Abort'),
+          ),
         ),
       ),
-    ),
-  )
-})
+    )
+  },
+)
 
-const Aggregations = pure(function Aggregations() {
-  return $(
+const Aggregations = pure(() =>
+  $(
     'div',
     $('h4', 'Users'),
     $(
@@ -573,8 +568,8 @@ const Aggregations = pure(function Aggregations() {
       $(Device, { value: 2 }),
       $(Device, { value: 3 }),
     ),
-  )
-})
+  ),
+)
 
 const Request = compose(
   pure,
@@ -586,16 +581,16 @@ const Request = compose(
     },
   })),
   queried,
-)(function Request({ value: { done, value, error }, onAbort }) {
-  return $(
+)(({ value: { done, value, error }, onAbort }) =>
+  $(
     'li',
     !done
       ? ['Loading…', $('button', { onClick: onAbort, key: 'cancel' }, 'Cancel')]
       : error
       ? $('span', { style: { color: 'red' } }, error.message)
       : value.name,
-  )
-})
+  ),
+)
 
 const User = withProps({ type: 'user' })(Request)
 const Device = withProps({ type: 'device' })(Request)
@@ -608,8 +603,8 @@ export const Progress = compose(
   })),
   initialValue,
   suspendable,
-)(function Progress({ value, error }) {
-  return $(
+)(({ value, error }) =>
+  $(
     'p',
     !value
       ? 'Loading…'
@@ -619,8 +614,23 @@ export const Progress = compose(
           $('code', 'npm run start:api'),
         ]
       : ' ',
-  )
-})
+  ),
+)
+
+export const Compute = compose(
+  withProps({ defaultValue: { a: 1, b: 2 } }),
+  defaultValue,
+  pure,
+  synced,
+  object,
+)(({ value: { a = 0, b = 0 }, property }) =>
+  $(
+    'div',
+    $(Number, property('a')),
+    $(Number, property('b')),
+    $('p', `${a} + ${b} = ${a + b}`),
+  ),
+)
 
 export const App = compose(
   withProps({
@@ -643,33 +653,34 @@ export const App = compose(
   delayable,
   editable,
   object,
-)(function App({ value, property, done, error, delay }) {
-  return $(
+)(({ value, property, done, error, delay }) =>
+  $(
     'div',
     $('h1', null, 'Realue'),
     $(Progress, { value: done, error, delay }),
-    isEmpty(value)
-      ? null
-      : $(
-          Fragment,
-          null,
-          $('h2', 'Delay'),
-          $(Number, { ...property('delay'), min: 0, max: 5000 }),
-          $('h2', 'Color'),
-          $(Color, property('color')),
-          $('h2', 'Timers'),
-          $(Timer, { value: Date.now() }),
-          $('h2', 'Todos'),
-          $(EditedItems, property('todos')),
-          $('h2', 'Resources'),
-          $(Resources),
-          $('h2', 'Delayed'),
-          $(Toggle, { ...property('toggle'), delay: 2000 }),
-          $('h2', 'Children'),
-          $(Article, { value: { header: 'Title', body: 'Content' } }),
-        ),
-  )
-})
+    !isEmpty(value) &&
+      $(
+        Fragment,
+        null,
+        $('h2', 'Delay'),
+        $(Number, { ...property('delay'), min: 0, max: 5000 }),
+        $('h2', 'Compute'),
+        $(Compute),
+        $('h2', 'Color'),
+        $(Color, property('color')),
+        $('h2', 'Timers'),
+        $(Timer, { value: Date.now() }),
+        $('h2', 'Todos'),
+        $(EditedItems, property('todos')),
+        $('h2', 'Resources'),
+        $(Resources),
+        $('h2', 'Delayed'),
+        $(Toggle, { ...property('toggle'), delay: 2000 }),
+        $('h2', 'Children'),
+        $(Article, { value: { header: 'Title', body: 'Content' } }),
+      ),
+  ),
+)
 
 /* istanbul ignore next */
 function start(App) {
