@@ -3,6 +3,18 @@ module.exports = (api) => {
   switch (process.env.BABEL_MODE) {
     case 'module':
       return {
+        plugins: [
+          [
+            '@babel/plugin-transform-runtime',
+            {
+              absoluteRuntime: false,
+              corejs: false,
+              helpers: true,
+              regenerator: true,
+              useESModules: true,
+            },
+          ],
+        ],
         presets: [
           [
             '@babel/preset-env',
@@ -15,6 +27,18 @@ module.exports = (api) => {
       }
     default:
       return {
+        plugins: [
+          [
+            '@babel/plugin-transform-runtime',
+            {
+              absoluteRuntime: false,
+              corejs: false,
+              helpers: true,
+              regenerator: true,
+              useESModules: false,
+            },
+          ],
+        ],
         presets: [
           [
             '@babel/preset-env',
