@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.17.3"></a>
+## [2.17.3](https://github.com/davidbonnet/realue/compare/v2.17.2...v2.17.3) (2019-05-15)
+
+
+### Bug Fixes
+
+* **setup:** use Babel helpers ([4aa4a03](https://github.com/davidbonnet/realue/commit/4aa4a03))
+
+
+
 <a name="2.17.2"></a>
 ## [2.17.2](https://github.com/davidbonnet/realue/compare/v2.17.1...v2.17.2) (2019-04-28)
 
