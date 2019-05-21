@@ -60,6 +60,8 @@ import {
   logProps,
   initialValue,
   suspendable,
+  withBounds,
+  withNode,
 } from '../../src'
 
 import { request } from './requests'
@@ -122,7 +124,6 @@ const Item = compose(
 )(({ property, onRemove }) =>
   $(
     'li',
-    'GRIMBALDI',
     $(Checkbox, { ...property('done'), defaultValue: false }),
     ' ',
     $(Text, {
@@ -230,12 +231,31 @@ const EditedItems = compose(
   ),
 )
 
+export const Bounds = compose(
+  withNode,
+  withBounds(['width', 'height', 'top', 'left']),
+)(({ width, height, top, left, node }) =>
+  $(
+    'div',
+    {
+      ref: node,
+      style: {
+        margin: 32,
+        padding: 16,
+        backgroundColor: '#e6e6e6',
+      },
+    },
+    $('div', `Dimensions: ${width}x${height}`),
+    $('div', `Location: ${top},${left}`),
+  ),
+)
+
 const Color = compose(
   pure,
   object,
 )(({ property, value }) =>
   $(
-    'ul',
+    'div',
     $('div', {
       style: {
         width: 30,
@@ -243,13 +263,16 @@ const Color = compose(
         backgroundColor: `rgb(${value.r || 0},${value.g || 0},${value.b || 0})`,
       },
     }),
-    map(['r', 'g', 'b'], (name) =>
-      $(ColorProperty, {
-        ...property(name, name),
-        type: 'number',
-        min: 0,
-        max: 255,
-      }),
+    $(
+      'ul',
+      map(['r', 'g', 'b'], (name) =>
+        $(ColorProperty, {
+          ...property(name, name),
+          type: 'number',
+          min: 0,
+          max: 255,
+        }),
+      ),
     ),
   ),
 )
@@ -666,6 +689,8 @@ export const App = compose(
         $(Number, { ...property('delay'), min: 0, max: 5000 }),
         $('h2', 'Compute'),
         $(Compute),
+        $('h2', 'Bounds'),
+        $(Bounds),
         $('h2', 'Color'),
         $(Color, property('color')),
         $('h2', 'Timers'),

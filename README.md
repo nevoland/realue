@@ -7,7 +7,7 @@
 [![DevDependency Status](https://david-dm.org/davidbonnet/realue/dev-status.svg)](https://david-dm.org/davidbonnet/realue?type=dev)
 [![Greenkeeper](https://badges.greenkeeper.io/davidbonnet/realue.svg)](https://greenkeeper.io/)
 
-⚙️ Simple value management for React components.
+⚛️ Simple value management for React components.
 
 ### Features
 
@@ -133,6 +133,7 @@ The `realue` module exposes the following functions:
   - [`onKeysDown()`](#onkeysdown)
   - [`domProps`](#domprops)
   - [`withNode`](#withnode)
+  - [`withBounds()`](#withbounds)
   - [`refreshed`](#refreshed)
 - [Query helpers](#query-helpers)
   - [`Query` object](#query-object)
@@ -762,6 +763,27 @@ Injects a `node` reference created with `React.createRef()` to be applied on any
 ```js
 const Example = withNode(({ node }) =>
   $('div', { ref: node }, node.current ? 'Referenced' : 'Not referenced'),
+)
+```
+
+</details>
+
+#### `withBounds()`
+
+> ➡️ `(properties = ['height', 'width', 'top', 'left'], offset?)`
+
+> ⬆️ `{ node, delay? }`
+
+> ⬇️ `{ top?, left?, width?, height?, pullBounds }`
+
+Injects bounds `properties` returned from `offset(node.current)`, and `updateBounds` which triggers a bounds update.
+
+<details>
+  <summary>Example</summary>
+
+```js
+withBounds(['width', 'height'])(({ width, height }) =>
+  $('div', null, 'Dimensions: ', width, ' x ', height),
 )
 ```
 
