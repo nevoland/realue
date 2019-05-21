@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.18.1"></a>
+## [2.18.1](https://github.com/davidbonnet/realue/compare/v2.18.0...v2.18.1) (2019-05-21)
+
+
+### Bug Fixes
+
+* **dom:** also consider `node` as an `element` ([d000479](https://github.com/davidbonnet/realue/commit/d000479))
+
+
+
 <a name="2.18.0"></a>
 # [2.18.0](https://github.com/davidbonnet/realue/compare/v2.17.3...v2.18.0) (2019-05-21)
 
