@@ -663,10 +663,10 @@ Enables dispatching a subset of properties to a child element.
 
 > ⬆️ `{ value?, name, onChange? }`
 
-> ⬇️ `{ value?, item(index, key = index), onChangeItem(value, index, payload?), onAdd(item, index, payload) }`
+> ⬇️ `{ value?, item(index, key = index), onChangeItem(value, index, payload?), onAddItem(item, index, payload) }`
 
 Provides `item(index, key = index)` that returns the props for the child element responsible of the item `index`.
-Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAdd(value, index, payload?)` that inserts an item with the provided `value` at `index`.
+Also provides `onChangeItem(value, index, payload?)` that sets the item `index` to the provided `value`, and `onAddItem(value, index, payload?)` that inserts an item with the provided `value` at `index`.
 Sets `value` to `[]` if not set.
 
 #### `removable`
