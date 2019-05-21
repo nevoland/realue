@@ -756,6 +756,17 @@ Only keeps DOM properties.
 
 Injects a `node` reference created with `React.createRef()` to be applied on any element through the `ref` attribute.
 
+<details>
+  <summary>Example</summary>
+
+```js
+const Example = withNode(({ node }) =>
+  $('div', { ref: node }, node.current ? 'Referenced' : 'Not referenced'),
+)
+```
+
+</details>
+
 #### `refreshed`
 
 > ⬆️ `{}`
