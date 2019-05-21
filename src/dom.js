@@ -415,11 +415,13 @@ export function withBounds(
           const { delay = 0 } = props
           this.state = defaultState
           this.updateBounds = debounce(() => {
-            const { current: node } = this.props.node
-            if (node == null) {
+            const { node } = this.props
+            const element =
+              node == null ? node : node.current ? node.current : node
+            if (element == null) {
               return
             }
-            const state = pick(offset(node), properties)
+            const state = pick(offset(element), properties)
             if (!same(state, this.state, properties)) {
               this.setState(state)
             }
