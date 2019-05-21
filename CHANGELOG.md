@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.18.0"></a>
+# [2.18.0](https://github.com/davidbonnet/realue/compare/v2.17.3...v2.18.0) (2019-05-21)
+
+
+### Bug Fixes
+
+* **docs:** correctly mention `onAddItem` ([e82815d](https://github.com/davidbonnet/realue/commit/e82815d))
+
+
+### Features
+
+* **dom:** add `withBounds` ([bec72b1](https://github.com/davidbonnet/realue/commit/bec72b1))
+
+
+
 <a name="2.17.3"></a>
 ## [2.17.3](https://github.com/davidbonnet/realue/compare/v2.17.2...v2.17.3) (2019-05-15)
 
