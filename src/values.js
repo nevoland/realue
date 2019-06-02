@@ -1,5 +1,11 @@
 import { Component as BaseComponent } from 'react'
-import { compose, branch, withHandlers, withPropsOnChange } from 'recompose'
+import {
+  compose,
+  branch,
+  withHandlers,
+  withPropsOnChange,
+  flattenProp,
+} from 'recompose'
 import { memoize, get } from 'lodash'
 
 import { $, hasProp, hasProps, lazyProperty, setWrapperName } from './tools'
@@ -244,3 +250,8 @@ export const fromValue = memoize((path) => {
     withHandlers({ onChange: onChangeFromPath(path) }),
   )
 })
+
+/*
+Merges the properties of the `value` object prop into the props.
+*/
+export const flattenValue = flattenProp('value')

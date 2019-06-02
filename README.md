@@ -89,6 +89,7 @@ The `realue` module exposes the following functions:
   - [`promised`](#promised)
   - [`toggledEditing`](#toggledediting)
   - [`fromValue()`](#fromvalue)
+  - [`flattenValue`](#flattenvalue)
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
@@ -311,6 +312,14 @@ Sets the `editing` prop and enables its toggling through the `onToggleEditing()`
 > ⬇️ `{ onChange(value) }`
 
 Adapts `onChange` for components that call it by providing the `value` as a first argument. If the `path` is not `nil`, extracts the value from `get(value, path)`.
+
+#### `flattenValue`
+
+> ⬆️ `{ value }`
+
+> ⬇️ `{ ...value }`
+
+Merges the properties of the `value` object prop into the props.
 
 ### Tooling decorators
 
