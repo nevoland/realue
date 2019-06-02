@@ -36,7 +36,7 @@ function transformedOnChange(element) {
   return (value, name, payload) => {
     const { props } = element
     return props.onChange(
-      props.transformOnChange(value, name, payload),
+      props.transformOnChange(value, name, payload, element.state),
       name,
       payload,
     )
@@ -46,7 +46,7 @@ function transformedOnChange(element) {
 export const transformable = (Component) =>
   /*
   Replaces `value` with the return value of `transformValue(value, previous: { transformedValue?, value? })`, if set. Note that `previous` is not provided when the component first mounts, since there are no previous prop values.
-  Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload)`, if set.
+  Replaces `value` passed to `onChange(value, name, payload)` with the return value of `transformOnChange(value, name, payload, previous: { transformedValue?, value? })`, if set.
   */
   setWrapperName(
     Component,
