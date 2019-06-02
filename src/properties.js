@@ -180,7 +180,7 @@ export function withImmediateEffect(shouldHandleOrKeys, handler) {
   return (Component) =>
     setWrapperName(
       Component,
-      class withEffect extends BaseComponent {
+      class withImmediateEffect extends BaseComponent {
         constructor(props) {
           super(props)
           this.state = { props, cleanup: handler(this.props) }
