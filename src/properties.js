@@ -231,6 +231,9 @@ export function withGlobalEffect(handler) {
             cleanup = null
           }
         }
+        render() {
+          return $(Component, this.props)
+        }
       },
     )
 }
@@ -259,6 +262,9 @@ export function withImmediateGlobalEffect(handler) {
             cleanup()
             cleanup = null
           }
+        }
+        render() {
+          return $(Component, this.props)
         }
       },
     )
