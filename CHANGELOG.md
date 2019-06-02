@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.19.0"></a>
+# [2.19.0](https://github.com/davidbonnet/realue/compare/v2.18.1...v2.19.0) (2019-06-02)
+
+
+### Bug Fixes
+
+* **properties:** correctly name setImmediateEffect ([2cb26eb](https://github.com/davidbonnet/realue/commit/2cb26eb))
+
+
+### Features
+
+* **properties:** add withGlobalEffect decorators ([699fecc](https://github.com/davidbonnet/realue/commit/699fecc))
+* **values:** add flattenValue decorator ([e5237ec](https://github.com/davidbonnet/realue/commit/e5237ec))
+* **values:** provide state to transformOnChange ([98cee83](https://github.com/davidbonnet/realue/commit/98cee83))
+
+
+
 <a name="2.18.1"></a>
 ## [2.18.1](https://github.com/davidbonnet/realue/compare/v2.18.0...v2.18.1) (2019-05-21)
 
