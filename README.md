@@ -98,6 +98,8 @@ The `realue` module exposes the following functions:
 - [Lifecycle](#lifecycle)
   - [`withEffect()`](#witheffect)
   - [`withImmediateEffect()`](#withimmediateeffect)
+  - [`withGlobalEffect()`](#withglobaleffect)
+  - [`withImmediateGlobalEffect()`](#withimmediateglobaleffect)
   - [`onPropsChange()`](#onpropschange)
 - [Scoped-based decorators](#scoped-based-decorators)
   - [`scoped()`](#scoped)
@@ -377,6 +379,20 @@ const withListener = withEffect(
 > ➡️ `(shouldHandleOrKeys, handler)`
 
 Similar to `withEffect`, except that it runs the `handler` at component construction and before each render if `shouldHandleOrKeys` returns `true`.
+
+#### `withGlobalEffect()`
+
+> ➡️ `(handler)`
+
+Runs `handler()` when the first element of this component is mounted.
+If the handler returns a callback, it is called when the last element of this component is unmounted.
+
+#### `withImmediateGlobalEffect()`
+
+> ➡️ `(handler)`
+
+Runs `handler()` when the first element of this component is constructed (that is, before it mounts).
+If the handler returns a callback, it is called when the last element of this component is unmounted.
 
 #### `onPropsChange()`
 

@@ -207,6 +207,63 @@ export function withImmediateEffect(shouldHandleOrKeys, handler) {
     )
 }
 
+export function withGlobalEffect(handler) {
+  /*
+  Runs `handler()` when the first element of this component is mounted.
+  If the handler returns a callback, it is called when the last element of this component is unmounted.
+  */
+  let elementsCount = 0
+  let cleanup = null
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class withGlobalEffect extends BaseComponent {
+        componentDidMount() {
+          if (elementsCount === 0) {
+            cleanup = handler()
+          }
+          elementsCount += 1
+        }
+        componentWillUnmount() {
+          elementsCount -= 1
+          if (elementsCount === 0 && typeof cleanup === 'function') {
+            cleanup()
+            cleanup = null
+          }
+        }
+      },
+    )
+}
+
+export function withImmediateGlobalEffect(handler) {
+  /*
+  Runs `handler()` when the first element of this component is constructed (that is, before it mounts).
+  If the handler returns a callback, it is called when the last element of this component is unmounted.
+  */
+  let elementsCount = 0
+  let cleanup = null
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class withImmediateGlobalEffect extends BaseComponent {
+        constructor(props) {
+          super(props)
+          if (elementsCount === 0) {
+            cleanup = handler()
+          }
+          elementsCount += 1
+        }
+        componentWillUnmount() {
+          elementsCount -= 1
+          if (elementsCount === 0 && typeof cleanup === 'function') {
+            cleanup()
+            cleanup = null
+          }
+        }
+      },
+    )
+}
+
 export function onPropsChange(
   shouldHandleOrKeys,
   handler,
