@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.19.1"></a>
+## [2.19.1](https://github.com/davidbonnet/realue/compare/v2.19.0...v2.19.1) (2019-06-02)
+
+
+### Bug Fixes
+
+* **properties:** render decorated components ([1b85008](https://github.com/davidbonnet/realue/commit/1b85008))
+
+
+
 <a name="2.19.0"></a>
 # [2.19.0](https://github.com/davidbonnet/realue/compare/v2.18.1...v2.19.0) (2019-06-02)
 
