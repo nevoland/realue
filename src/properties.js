@@ -211,6 +211,7 @@ export function withGlobalEffect(handler) {
   /*
   Runs `handler()` when the first element of this component is mounted.
   If the handler returns a callback, it is called when the last element of this component is unmounted.
+  If the handler returns `false`, it will never be run again for this component.
   */
   let elementsCount = 0
   let cleanup = null
@@ -219,7 +220,7 @@ export function withGlobalEffect(handler) {
       Component,
       class withGlobalEffect extends BaseComponent {
         componentDidMount() {
-          if (elementsCount === 0) {
+          if (elementsCount === 0 && cleanup !== false) {
             cleanup = handler()
           }
           elementsCount += 1
@@ -242,6 +243,7 @@ export function withImmediateGlobalEffect(handler) {
   /*
   Runs `handler()` when the first element of this component is constructed (that is, before it mounts).
   If the handler returns a callback, it is called when the last element of this component is unmounted.
+  If the handler returns `false`, it will never be run again for this component.
   */
   let elementsCount = 0
   let cleanup = null
@@ -251,7 +253,7 @@ export function withImmediateGlobalEffect(handler) {
       class withImmediateGlobalEffect extends BaseComponent {
         constructor(props) {
           super(props)
-          if (elementsCount === 0) {
+          if (elementsCount === 0 && cleanup !== false) {
             cleanup = handler()
           }
           elementsCount += 1

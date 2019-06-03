@@ -395,6 +395,7 @@ Similar to `withEffect`, except that it runs the `handler` at component construc
 
 Runs `handler()` when the first element of this component is mounted.
 If the handler returns a callback, it is called when the last element of this component is unmounted.
+If the handler returns `false`, it will never be run again for this component.
 
 #### `withImmediateGlobalEffect()`
 
@@ -402,6 +403,7 @@ If the handler returns a callback, it is called when the last element of this co
 
 Runs `handler()` when the first element of this component is constructed (that is, before it mounts).
 If the handler returns a callback, it is called when the last element of this component is unmounted.
+If the handler returns `false`, it will never be run again for this component.
 
 #### `onPropsChange()`
 
