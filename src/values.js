@@ -80,13 +80,14 @@ export const transformable = (Component) =>
             : {
                 ...props,
                 value: transformValue ? state.transformedValue : props.value,
-                onChange: transformOnChange
-                  ? lazyProperty(
-                      this,
-                      'transformedOnChange',
-                      transformedOnChange,
-                    )
-                  : props.onChange,
+                onChange:
+                  transformOnChange && props.onChange
+                    ? lazyProperty(
+                        this,
+                        'transformedOnChange',
+                        transformedOnChange,
+                      )
+                    : props.onChange,
               },
         )
       }
