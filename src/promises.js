@@ -2,7 +2,14 @@ import { Component as BaseComponent } from 'react'
 
 import { $, setWrapperName, getGlobal, isPromise } from './tools'
 
-const { setTimeout, clearTimeout, setInterval, clearInterval } = getGlobal()
+const {
+  setTimeout,
+  clearTimeout,
+  setInterval,
+  clearInterval,
+  requestAnimationFrame,
+  cancelAnimationFrame,
+} = getGlobal()
 
 export class AbortError extends Error {
   /*
@@ -26,31 +33,53 @@ export function waitFor(duration, signal) {
   })
 }
 
-function future(set, clear) {
-  return (duration, callback) => {
-    let done = false
-    const timer = set(() => {
-      done = true
-      callback()
-    }, duration)
+/*
+Calls `callback` after at least `duration` milliseconds. Returns a function that cancels the future call of `callback`, if not already called.
+*/
+export function timeout(duration, callback) {
+  if (!duration && requestAnimationFrame && cancelAnimationFrame) {
+    const timer = requestAnimationFrame(callback)
     return () => {
-      if (done) {
-        return
-      }
-      clear(timer)
+      cancelAnimationFrame(timer)
     }
+  }
+  let timer = setTimeout(() => {
+    timer = null
+    callback()
+  }, duration)
+  return () => {
+    if (timer == null) {
+      return
+    }
+    clearTimeout(timer)
+    timer = null
   }
 }
 
 /*
-Calls `callback` after at least `duration` milliseconds. Returns a function that cancels the future call of `callback`, if not already called.
-*/
-export const timeout = future(setTimeout, clearTimeout)
-
-/*
 Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`.
 */
-export const interval = future(setInterval, clearInterval)
+export function interval(duration, callback) {
+  if (!duration && requestAnimationFrame && cancelAnimationFrame) {
+    let timer
+    const update = () => {
+      if (timer == null) {
+        return
+      }
+      callback()
+      timer = requestAnimationFrame(update)
+    }
+    timer = requestAnimationFrame(update)
+    return () => {
+      cancelAnimationFrame(timer)
+      timer = null
+    }
+  }
+  const timer = setInterval(callback, duration)
+  return () => {
+    clearInterval(timer)
+  }
+}
 
 function attachPromise(element, promise) {
   return promise.then(
