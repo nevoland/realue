@@ -1,6 +1,6 @@
 {
   "name": "realue",
-  "version": "2.20.1",
+  "version": "2.20.2",
   "description": "Value management for React components.",
   "main": "dist/es5/index.js",
   "module": "dist/module/index.js",

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.20.2"></a>
+## [2.20.2](https://github.com/davidbonnet/realue/compare/v2.20.1...v2.20.2) (2019-06-10)
+
+
+### Bug Fixes
+
+* **promises:** Allow interval to be interrupted ([bb15ad6](https://github.com/davidbonnet/realue/commit/bb15ad6))
+
+
+
 <a name="2.20.1"></a>
 ## [2.20.1](https://github.com/davidbonnet/realue/compare/v2.20.0...v2.20.1) (2019-06-03)
 
