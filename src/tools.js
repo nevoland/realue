@@ -1,5 +1,5 @@
 import { createElement, isValidElement } from 'react'
-import { every, memoize, pick, mapValues, get } from 'lodash'
+import { every, memoize, pick, mapValues, get,omit } from 'lodash'
 import { wrapDisplayName, getDisplayName } from 'recompose'
 
 const { isArray } = Array
@@ -73,7 +73,6 @@ export function omited(propNamesOrMap) {
   if (isArray(propNamesOrMap)) {
     return (props) => omit(props, propNamesOrMap)
   }
-  return props
 }
 
 export function picked(propNamesOrMap) {
