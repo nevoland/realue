@@ -1,5 +1,5 @@
 import { createElement, isValidElement } from 'react'
-import { every, memoize, pick, mapValues, get,omit } from 'lodash'
+import { every, memoize, pick, mapValues, get, omit } from 'lodash'
 import { wrapDisplayName, getDisplayName } from 'recompose'
 
 const { isArray } = Array
