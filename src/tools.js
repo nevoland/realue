@@ -62,7 +62,7 @@ export function isValidDate(date) {
 
 export function omitted(propNames) {
   /*
-  Returns a function that returns all props without the ones whose name is in `propNames.
+  Returns a function that returns all props without the ones whose name is in `propNames`.
 
   Example:
 
