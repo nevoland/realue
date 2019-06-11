@@ -165,6 +165,7 @@ The `realue` module exposes the following functions:
   - [`interval()`](#interval)
 - [Prop helpers](#prop-helpers)
   - [`picked()`](#picked)
+  - [`omitted()`](#omitted)  
   - [`hasProp()`](#hasprop)
   - [`hasNotProp()`](#hasnotprop)
   - [`hasProps()`](#hasprops)
@@ -1023,6 +1024,21 @@ withProps(
 ```
 
 </details>
+
+#### `omitted()`
+
+ > ➡️ `(propNames)`
+ Returns a function that returns all props without the ones whose name is in `propNames`.
+
+ <details>
+  <summary>Example</summary>
+
+ ```js
+// Only omit the `value` prop
+mapProps(omitted(['value']))
+```
+
+ </details>
 
 #### `hasProp()`
 
