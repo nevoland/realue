@@ -60,6 +60,22 @@ export function isValidDate(date) {
   return !isNaN(date.getTime())
 }
 
+export function omited(propNamesOrMap) {
+  /*
+  Returns a function that returns all props without a subset of the provided object.
+
+  Examples:
+
+    // Only omit the `value` prop
+    mapProps(omited(['value']))
+    
+  */
+  if (isArray(propNamesOrMap)) {
+    return (props) => omit(props, propNamesOrMap)
+  }
+  return props
+}
+
 export function picked(propNamesOrMap) {
   /*
   Returns a function that returns a subset of the provided object or a mapping of selected property paths.
