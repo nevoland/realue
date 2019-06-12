@@ -84,13 +84,12 @@ export function picked(propNamesOrMap) {
 
 export function omitted(propNames) {
   /*
-	 Returns a function that returns all props without the ones whose name is in `propNames`.
+	Returns a function that returns all props without the ones whose name is in `propNames`.
 
   Example :
 
-  // Only omit the `value` prop
-  returned(omitted(['value']))
-
+    // Only omit the `value` prop
+    returned(omitted(['value']))
   */
   return (props) => omit(props, propNames)
 }
