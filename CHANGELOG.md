@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.22.0"></a>
+# [2.22.0](https://github.com/davidbonnet/realue/compare/v2.21.0...v2.22.0) (2019-06-12)
+
+
+### Bug Fixes
+
+* **docs:** explain `delay` for `withBounds` ([b4d720d](https://github.com/davidbonnet/realue/commit/b4d720d))
+
+
+### Features
+
+* **tools:** add `omitted()` tool ([a3653c3](https://github.com/davidbonnet/realue/commit/a3653c3))
+
+
+
 <a name="2.21.0"></a>
 # [2.21.0](https://github.com/davidbonnet/realue/compare/v2.20.2...v2.21.0) (2019-06-12)
 
