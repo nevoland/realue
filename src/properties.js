@@ -693,21 +693,31 @@ export function cycledProp(options) {
   })
 }
 
-export function resilientProp(name) {
+export function resilientProp(options) {
   /*
   Keeps the last non-`nil` value of prop `[name]`.
+  If `constantName` is provided, keeps the last non-`nil` value of prop `[name]` only if prop `[constantName]` did change.
   */
+  const name = isString(options) ? options : options.name
+  const { constantName = null } = name === options ? EMPTY_OBJECT : options
   return (Component) =>
     setWrapperName(
       Component,
       class resilientProp extends BaseComponent {
         constructor(props) {
           super(props)
-          this.state = { [name]: props[name] }
+          this.state = {
+            value: props[name],
+            constant: constantName ? props[constantName] : null,
+          }
         }
         static getDerivedStateFromProps(props, state) {
           const value = props[name]
-          return value === state.value || value == null ? null : { value }
+          return value === state.value ||
+            ((value == null && !constantName) ||
+              props[constantName] === state.constant)
+            ? null
+            : { value, constant: constantName ? props[constantName] : null }
         }
         render() {
           return $(Component, {

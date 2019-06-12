@@ -507,13 +507,14 @@ If `[delayName]` is falsy, no suspension occurs, nor the injection of `[onPullNa
 
 #### `resilientProp()`
 
-> ➡️ `(name)`
+> ➡️ `({ name, constantName } | name)`
 
 > ⬆️ `{ [name]? }`
 
 > ⬇️ `{ [name] }`
 
 Keeps the last non-`nil` value of prop `[name]`.
+If `constantName` is provided, keeps the last non-`nil` value of prop `[name]` only if prop `[constantName]` did change.
 
 #### `delayedProp()`
 
