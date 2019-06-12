@@ -1,5 +1,5 @@
 import { createElement, isValidElement } from 'react'
-import { every, memoize, pick, mapValues, get } from 'lodash'
+import { every, memoize, pick, mapValues, get, omit } from 'lodash'
 import { wrapDisplayName, getDisplayName } from 'recompose'
 
 const { isArray } = Array
@@ -80,6 +80,18 @@ export function picked(propNamesOrMap) {
     return (props) => pick(props, propNamesOrMap)
   }
   return (props) => mapValues(propNamesOrMap, (path) => get(props, path))
+}
+
+export function omitted(propNames) {
+  /*
+  Returns a function that returns all props without the ones whose name is in `propNames`.
+
+  Example :
+
+    // Only omit the `value` prop
+    returned(omitted(['value']))
+  */
+  return (props) => omit(props, propNames)
 }
 
 export function pickValue({ value }) {

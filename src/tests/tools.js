@@ -1,7 +1,16 @@
 import test from 'ava'
 import render from 'react-test-renderer'
+import { isEqual } from 'lodash'
 
-import { $, hasProp, hasNotProp, isValidDate, escapeRegex } from '../tools'
+import {
+  $,
+  hasProp,
+  hasNotProp,
+  isValidDate,
+  escapeRegex,
+  picked,
+  omitted,
+} from '../tools'
 
 test('$', (assert) => {
   const p1 = render.create($('p', 'Text'))
@@ -69,4 +78,23 @@ test('escapeRegex', (assert) => {
     escapeRegex('[.?*+^$[]\\/(){}|-]'),
     '\\[\\.\\?\\*\\+\\^\\$\\[\\]\\\\/\\(\\)\\{\\}\\|\\-\\]',
   )
+})
+
+test('picked', (assert) => {
+  const base = { a: 1, b: 2, c: 3, d: 4 }
+  assert.true(
+    isEqual(picked(['a', 'b'])(base), { a: 1, b: 2 }),
+    'picked props with a table',
+  )
+  assert.true(
+    isEqual(picked({ e: 'a' })(base), { e: 1 }),
+    'picked props with an object',
+  )
+  assert.false(picked(['a'])(base) === base, 'returns a new object')
+})
+
+test('omitted', (assert) => {
+  const base = { a: 1, b: 2 }
+  assert.true(isEqual(omitted(['a'])(base), { b: 2 }), 'omits props')
+  assert.false(omitted(['a'])(base) === base, 'returns a new object')
 })
