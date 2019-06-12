@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, memo } from 'react'
 import { render } from 'react-dom'
 import {
   map,
@@ -16,7 +16,6 @@ import {
 } from 'lodash'
 import {
   compose,
-  pure,
   withHandlers,
   withProps,
   defaultProps,
@@ -53,10 +52,9 @@ import {
   toggledEditing,
   transformable,
   withChild,
-  withArrayChildren,
+  withChildren,
   synced,
   syncedProp,
-  withObjectChildren,
   logProps,
   initialValue,
   suspendable,
@@ -67,7 +65,7 @@ import {
 import { request } from './requests'
 
 const Text = compose(
-  pure,
+  memo,
   defaultProps({ defaultValue: '', focus: false }),
   defaultValue,
   string,
@@ -100,7 +98,7 @@ const Text = compose(
 )
 
 const Checkbox = compose(
-  pure,
+  memo,
   defaultValue,
   boolean,
   fromEvent('target.checked'),
@@ -118,7 +116,7 @@ const Checkbox = compose(
 )
 
 const Item = compose(
-  pure,
+  memo,
   object,
   removable,
 )(({ property, onRemove }) =>
@@ -137,9 +135,9 @@ const Item = compose(
 const ITEMS = times(3, constant(EMPTY_OBJECT))
 
 const Items = compose(
-  pure,
+  memo,
   array,
-  withArrayChildren(Item),
+  withChildren(Item),
   withHandlers({
     onAddThree: ({ value, onAddItems }) => (payload) =>
       onAddItems(ITEMS, value.length, payload),
@@ -155,7 +153,7 @@ const Items = compose(
 )
 
 const ItemCreator = compose(
-  pure,
+  memo,
   withProps({
     value: { done: false },
     filterOnChange: stubFalse,
@@ -205,7 +203,7 @@ const ItemCreator = compose(
 )
 
 const EditedItems = compose(
-  pure,
+  memo,
   withProps({ filterOnChange: stubFalse, editing: false }),
   toggledEditing,
   filterable,
@@ -251,7 +249,7 @@ export const Bounds = compose(
 )
 
 const Color = compose(
-  pure,
+  memo,
   object,
 )(({ property, value }) =>
   $(
@@ -278,7 +276,7 @@ const Color = compose(
 )
 
 const Number = compose(
-  pure,
+  memo,
   defaultProps({
     type: 'number',
     defaultValue: '',
@@ -299,7 +297,7 @@ const Number = compose(
   domProps,
 )('input')
 
-const ColorProperty = compose(pure)(({ value, name, onChange, min, max }) =>
+const ColorProperty = compose(memo)(({ value, name, onChange, min, max }) =>
   $(
     'li',
     name,
@@ -318,7 +316,7 @@ const ColorProperty = compose(pure)(({ value, name, onChange, min, max }) =>
 )
 
 export const Toggle = compose(
-  pure,
+  memo,
   delayable,
   onPropsChange(
     ['value'],
@@ -339,20 +337,22 @@ export const Toggle = compose(
   ),
 )
 
-const Article = withObjectChildren({
+const Article = withChild({
   header: [
     'h1',
-    ['value'],
     ({ value }, name) => ({
       children: value[name],
     }),
   ],
-  body: ['p', ['value'], ({ value }, name) => ({ children: value[name] })],
+  body: ['p', ({ value }, name) => ({ children: value[name] })],
 })(({ children = EMPTY_OBJECT }) =>
   $('div', $('div', children.header), $('div', children.body)),
 )
 
 const Timer = compose(
+  withProps({
+    delay: 500,
+  }),
   refreshed,
   withProps(({ value = 0 }) => ({
     style: { opacity: Math.abs(((Date.now() - value) % 1000) - 500) / 1000 },
@@ -361,7 +361,7 @@ const Timer = compose(
 )('div')
 
 const Resources = compose(
-  pure,
+  memo,
   withProps({ onChange: Function.prototype }),
   withProps({
     value: { type: 'device', fields: ['id', 'name', 'performance'] },
@@ -416,7 +416,7 @@ function countLastValues(values, property) {
 }
 
 const Table = compose(
-  pure,
+  memo,
   withPropsOnChange(
     ['type', 'fields', 'limit'],
     ({ type, fields, limit = 3 }) => ({
@@ -571,7 +571,7 @@ const Table = compose(
   },
 )
 
-const Aggregations = pure(() =>
+const Aggregations = memo(() =>
   $(
     'div',
     $('h4', 'Users'),
@@ -595,7 +595,7 @@ const Aggregations = pure(() =>
 )
 
 const Request = compose(
-  pure,
+  memo,
   withPropsOnChange(['value', 'type'], ({ value: id, type }) => ({
     request,
     query: {
@@ -619,7 +619,7 @@ const User = withProps({ type: 'user' })(Request)
 const Device = withProps({ type: 'device' })(Request)
 
 export const Progress = compose(
-  pure,
+  memo,
   withProps(({ value, delay }) => ({
     delay: value ? (delay / 2) | 0 : delay,
     initialValue: true,
@@ -643,7 +643,7 @@ export const Progress = compose(
 export const Compute = compose(
   withProps({ defaultValue: { a: 1, b: 2 } }),
   defaultValue,
-  pure,
+  memo,
   synced,
   object,
 )(({ value: { a = 0, b = 0 }, property }) =>
