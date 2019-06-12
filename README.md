@@ -165,6 +165,7 @@ The `realue` module exposes the following functions:
   - [`interval()`](#interval)
 - [Prop helpers](#prop-helpers)
   - [`picked()`](#picked)
+  - [`omitted()`](#omitted)
   - [`hasProp()`](#hasprop)
   - [`hasNotProp()`](#hasnotprop)
   - [`hasProps()`](#hasprops)
@@ -449,10 +450,12 @@ compose(
 Enables the injection of props from an isolated scope.
 
 <details>
-  <summary>Example</summary>
+  <summary>Examples</summary>
 
 ```js
 scoped(...decorators, returned(picked({ user: 'value' })))
+
+scoped(...decorators, returned(omitted(['value'])))
 ```
 
 </details>
@@ -1020,6 +1023,22 @@ mapProps(picked({ user: 'value' }))
 withProps(
   picked({ done: 'value.done', error: 'value.error', value: 'value.value' }),
 )
+```
+
+</details>
+
+#### `omitted()`
+
+> ➡️ `(propNames)`
+
+Returns a function that returns all props without the ones whose name is in `propNames`.
+
+<details>
+  <summary>Example</summary>
+
+```js
+// Only omit the `value` prop
+returned(omitted(['value']))
 ```
 
 </details>
