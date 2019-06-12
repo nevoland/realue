@@ -79,6 +79,7 @@ The `realue` module exposes the following functions:
 - [Value-based decorators](#value-based-decorators)
   - [`defaultValue`](#defaultvalue)
   - [`initialValue`](#initialvalue)
+  - [`resilient`](#resilient)
   - [`transformable`](#transformable)
   - [`filterable`](#filterable)
   - [`delayable`](#delayable)
@@ -217,6 +218,14 @@ Sets `value` to `defaultValue` if `value` is `nil`.
 > ⬇️ `{ value? }`
 
 Sets `value` to `defaultValue` if `value` is `nil`.
+
+#### `resilient`
+
+> ⬆️ `{ value? }`
+
+> ⬇️ `{ value }`
+
+Keeps the last non-`nil` value of prop `value`.
 
 #### `transformable`
 
