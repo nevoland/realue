@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.21.0"></a>
+# [2.21.0](https://github.com/davidbonnet/realue/compare/v2.20.2...v2.21.0) (2019-06-12)
+
+
+### Bug Fixes
+
+* **docs:** add `resilient` documentation ([903586d](https://github.com/davidbonnet/realue/commit/903586d))
+* **docs:** add `resilientProp` documentation ([8b59482](https://github.com/davidbonnet/realue/commit/8b59482))
+
+
+### Features
+
+* **dom:** add `refreshable`, update `refreshed` ([c3228d0](https://github.com/davidbonnet/realue/commit/c3228d0))
+
+
+
 <a name="2.20.2"></a>
 ## [2.20.2](https://github.com/davidbonnet/realue/compare/v2.20.1...v2.20.2) (2019-06-10)
 
