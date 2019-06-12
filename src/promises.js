@@ -57,7 +57,7 @@ export function timeout(duration, callback) {
 }
 
 /*
-Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`.
+Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`. If `duration` is falsy, uses `requestAnimationFrame`.
 */
 export function interval(duration, callback) {
   if (!duration && requestAnimationFrame && cancelAnimationFrame) {

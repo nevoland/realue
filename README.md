@@ -135,11 +135,12 @@ The `realue` module exposes the following functions:
 - [DOM-based decorators](#dom-based-decorators)
   - [`fromEvent()`](#fromevent)
   - [`syncedFocus`](#syncedfocus)
+  - [`refreshable`](#refreshable)
+  - [`refreshed`](#refreshed)
   - [`onKeysDown()`](#onkeysdown)
   - [`domProps`](#domprops)
   - [`withNode`](#withnode)
   - [`withBounds()`](#withbounds)
-  - [`refreshed`](#refreshed)
 - [Query helpers](#query-helpers)
   - [`Query` object](#query-object)
   - [`queriedProp()`](#queriedprop)
@@ -778,6 +779,20 @@ If `path` is `nil`, the value is taken from the `value` prop instead.
 
 Exposes the synced `focus` state of an element through the `onFocus()` and `onBlur()` callbacks.
 
+#### `refreshable`
+
+> ⬇️ `{ onRefresh() }`
+
+Adds an `onRefresh()` prop that enables refreshing the component.
+
+#### `refreshed`
+
+> ⬆️ `{ delay? }`
+
+> ⬇️ `{ onRefresh }`
+
+Refreshes the component at a given `delay` interval. See `interval` for the behavior based on `delay`.
+
 #### `onKeysDown()`
 
 > ➡️ `(keys)`
@@ -835,14 +850,6 @@ withBounds(['width', 'height'])(({ width, height }) =>
 ```
 
 </details>
-
-#### `refreshed`
-
-> ⬆️ `{}`
-
-> ⬇️ `{}`
-
-Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
 
 ### Query helpers
 
@@ -1016,7 +1023,7 @@ Calls `callback` after at least `duration` milliseconds. Returns a function that
 
 > ➡️ `(duration, callback)`
 
-Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`.
+Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`. If `duration` is falsy, uses `requestAnimationFrame`.
 
 ### Prop helpers
 

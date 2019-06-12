@@ -12,9 +12,10 @@ import {
 } from 'lodash'
 import { compose, branch, withHandlers, mapProps } from 'recompose'
 
-import { syncedProp } from './properties'
+import { syncedProp, withEffect } from './properties'
 import { $, hasProp, setWrapperName, getGlobal } from './tools'
-import { same, EMPTY_OBJECT } from './immutables'
+import { interval } from './promises'
+import { same } from './immutables'
 
 const PROP_NAMES = {
   accept: true,
@@ -228,78 +229,30 @@ export const domProps = mapProps((props) =>
   pickBy(props, (value, name) => PROP_NAMES[name] === true),
 )
 
-class Refresher {
-  constructor() {
-    this.elements = []
-    this.refresh = false
-    const {
-      setTimeout,
-      requestAnimationFrame = (callback) => setTimeout(callback, 0),
-    } = getGlobal()
-    const state = EMPTY_OBJECT
-    this.tick = () => {
-      if (!this.refresh) {
-        return
+export const refreshable = (Component) =>
+  /*
+  Adds an `onRefresh` prop that enables refreshing the component.
+  */
+  setWrapperName(
+    Component,
+    class withRefresh extends BaseComponent {
+      constructor(props) {
+        super(props)
+        this.onRefresh = (callback) => this.forceUpdate(callback)
       }
-      const { elements } = this
-      const { length } = elements
-      for (let i = 0; i < length; i++) {
-        elements[i].setState(state)
+      render() {
+        return $(Component, { ...this.props, onRefresh: this.onRefresh })
       }
-      requestAnimationFrame(this.tick)
-    }
-    this.start = () => {
-      this.refresh = true
-      requestAnimationFrame(this.tick)
-    }
-  }
+    },
+  )
 
-  add(element) {
-    const { elements } = this
-    if (elements.length === 0) {
-      this.start()
-    }
-    elements.push(element)
-  }
-
-  remove(element) {
-    const { elements } = this
-    const index = elements.indexOf(element)
-    if (index === -1) {
-      return
-    }
-    elements.splice(index, 1)
-    if (elements.length === 0) {
-      this.refresh = false
-    }
-  }
-}
-
-export const refreshed = (() => {
-  const refresher = new Refresher()
-  return (Component) =>
-    /*
-    Re-renders the component at the browser refresh rate, using `requestAnimationFrame`.
-    */
-    setWrapperName(
-      Component,
-      class refreshed extends BaseComponent {
-        constructor(props) {
-          super(props)
-          this.state = {}
-        }
-        componentDidMount() {
-          refresher.add(this)
-        }
-        componentWillUnmount() {
-          refresher.remove(this)
-        }
-        render() {
-          return $(Component, this.props)
-        }
-      },
-    )
-})()
+export const refreshed = compose(
+  /*
+  Refreshes the component at a given `delay` interval. See `interval` for the behavior based on `delay`.
+  */
+  refreshable,
+  withEffect(['delay'], ({ delay, onRefresh }) => interval(delay, onRefresh)),
+)
 
 function onChangeFromPath(path) {
   switch (path) {
