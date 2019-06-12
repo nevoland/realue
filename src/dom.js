@@ -350,12 +350,12 @@ export function withBounds(
   offset = DEFAULT_OFFSET,
 ) {
   /*
-  Injects bounds `properties` returned from `offset(node.current)`.
+  Injects bounds `properties` returned from `offset(node.current)`, and `updateBounds` which triggers a bounds update. Uses the optional `delay` prop as a debounce duration when reading element bounds.
 
   Example:
 
     withBounds(['width', 'height'])(({ width, height }) =>
-      $('div', null, 'Dimensions: ', width, ' x ', height),
+      $('div', 'Dimensions: ', width, ' x ', height),
     )
   */
   const defaultState = fromPairs(map(properties, (property) => [property, 0]))

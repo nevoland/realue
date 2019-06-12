@@ -838,14 +838,14 @@ const Example = withNode(({ node }) =>
 
 > ⬇️ `{ top?, left?, width?, height?, pullBounds }`
 
-Injects bounds `properties` returned from `offset(node.current)`, and `updateBounds` which triggers a bounds update.
+Injects bounds `properties` returned from `offset(node.current)`, and `updateBounds` which triggers a bounds update. Uses the optional `delay` prop as a debounce duration when reading element bounds.
 
 <details>
   <summary>Example</summary>
 
 ```js
 withBounds(['width', 'height'])(({ width, height }) =>
-  $('div', null, 'Dimensions: ', width, ' x ', height),
+  $('div', 'Dimensions: ', width, ' x ', height),
 )
 ```
 
