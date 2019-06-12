@@ -110,6 +110,7 @@ The `realue` module exposes the following functions:
   - [`defaultProp()`](#defaultprop)
   - [`initialProp()`](#initialprop)
   - [`suspendedProp()`](#suspendedprop)
+  - [`resilientProp()`](#resilientprop)
   - [`delayedProp()`](#delayedprop)
   - [`editableProp()`](#editableprop)
   - [`syncedProp()`](#syncedprop)
@@ -499,6 +500,16 @@ Sets `[name]` to `[initialName]` on first render if `[initialName]` is not `nil`
 Suspends `[name]` changes for `[delayName]` milliseconds. Subsequent `[name]` changes cancel previous suspensions.
 Calling the injected method `[onPullName]` immediately sets `[name]` to the latest value.
 If `[delayName]` is falsy, no suspension occurs, nor the injection of `[onPullName]`.
+
+#### `resilientProp()`
+
+> ➡️ `(name)`
+
+> ⬆️ `{ [name]? }`
+
+> ⬇️ `{ [name] }`
+
+Keeps the last non-`nil` value of prop `[name]`.
 
 #### `delayedProp()`
 
