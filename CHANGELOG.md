@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.0"></a>
+# [3.0.0-beta.0](https://github.com/davidbonnet/realue/compare/v2.22.0...v3.0.0-beta.0) (2019-06-14)
+
+
+### Features
+
+* **children:** update children decorators ([80dfe3f](https://github.com/davidbonnet/realue/commit/80dfe3f))
+* **properties:** add constant prop to resiliant ([11ed434](https://github.com/davidbonnet/realue/commit/11ed434))
+
+
+### BREAKING CHANGES
+
+* **children:** Children decorators have been reduced down to:
+- withChildren
+- withChild
+See examples to understand how to migrate.
+
+
+
 <a name="2.22.0"></a>
 # [2.22.0](https://github.com/davidbonnet/realue/compare/v2.21.0...v2.22.0) (2019-06-12)
 
