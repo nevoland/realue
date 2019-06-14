@@ -117,11 +117,8 @@ The `realue` module exposes the following functions:
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
 - [Children-based decorators](#children-based-decorators)
-  - [`withArrayChildren()`](#witharraychildren)
-  - [`withObjectChildren()`](#withobjectchildren)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
-  - [`withElement()`](#withelement)
 - [Type-oriented decorators](#type-oriented-decorators)
   - [`object`](#object)
   - [`objectProp()`](#objectprop)
@@ -578,16 +575,15 @@ If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset
 
 ### Children-based decorators
 
-#### `withArrayChildren()`
+#### `withChildren()`
 
-> ➡️ `(Component, shouldUpdateOrKeys?, childProps?, valueName?, destination?)`
+> ➡️ `(Component, childProps?, { valueName?, destinationName? })`
 
 > ⬆️ `{ [valueName]? }`
 
 > ⬇️ `{ children }`
 
-Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)} />` and injects it as a `[destination]` prop (`children` by default).
-The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
+Builds an array that maps every item from the `[valueName]` prop (`'value'` by default) with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destinationName]` prop (`'children'` by default).
 
 <details>
   <summary>Example</summary>
@@ -596,89 +592,47 @@ The children are only updated if `shouldUpdateOrKeys` returns `true` or if a pro
 function Item({ value }) {
   return $('li', value)
 }
-const List = withChildren(Item, ['value'], () => (value) => ({ value }))('ul')
+const List = compose(
+  array,
+  withChildren(Item),
+)('ul')
+const element = $(List, { value: [1, 2, 3] })
 ```
 
 </details>
-
-#### `withObjectChildren()`
-
-> ➡️ `({ [key]: Component | [ Component, shouldUpdateOrKeys, childProps ] }, destination?)`
-
-> ⬆️ `{ [valueName]? }`
-
-> ⬇️ `{ children }`
-
-Builds an object mapping the keys of the provided `options` with the result of `<Component {...childProps(props, name)}/>` whenever `shouldUpdateOrKeys(props, nextProps)` returns `true`.
-
-<details>
-  <summary>Example</summary>
-
-```js
-function ArticleView({ children }) {
-  return $('div', children.header, children.body)
-}
-const Article = withObjectChildren({
-  header: ['h2', ['value'], ({ value }) => ({ children: value.header })],
-  body: ['p', ['value'], ({ value }) => ({ children: value.body })],
-})(ArticleView)
-$(Article, { value: { header: 'Title', body: 'Text' } })
-```
-
-Note that the above `Article` could be defined as:
-
-```js
-const Article = withObjectChildren({ header: 'h2', body: 'p' })
-```
-
-</details>
-
-#### `withChildren()`
-
-> ➡️ `(Component, childProps?, shouldUpdateOrKeys?, valueName?, destination?)`
-
-> ⬆️ `{ [valueName]? }`
-
-> ⬇️ `{ children }`
-
-⚠️ DEPRECATED: Use `withArrayChildren` instead.
-
-Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destination]` prop (`children` by default).
-The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
 
 #### `withChild()`
 
-> ➡️ `(Component | { [string]: Component }, childProps?, shouldUpdateOrKeys?, destination?)`
+> ➡️ `(Component | { [string]: Component }, childProps?, { destinationName? })`
 
 > ⬆️ `{ [valueName]? }`
 
 > ⬇️ `{ children }`
 
-⚠️ DEPRECATED: `Component` as a map of components will not be supported. Use `withObjectChildren` instead.
+If `ChildComponentOrMap` is a component, builds an element from the provided `ChildComponentOrMap` with the props from `childProps(props)` and injects it as a `[destinationName]` prop (`'children'` by default).
 
-Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop (`children` by default).
-The element is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the element is updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
+Otherwise, if `ChildComponentOrMap` is a mapping of `name: [Component, childProps()] | Component`, transforms this mapping into `name: $(Component, childProps(props, name))` and injects it into the props at `destinationName` (`'children'` by default). If `childProps` is not defined, defaults to returning the result of `props.property(name)` merged into the props, if `props.property` is defined, or just the `props`.
 
 <details>
-  <summary>Example</summary>
+  <summary>Examples</summary>
 
 ```js
-const Article = withChild(
-  { header: 'h1', body: 'p' },
-  ({ value }, name) => ({
-    children: value[name],
+const Person = compose(
+  withChild({
+    name: StringInput,
+    lastName: StringInput,
+    age: NumberInput,
   }),
-  ['value'],
-)(({ children = EMPTY_OBJECT }) => $('div', children.header, children.body))
+)(({ children }) => $('div', children.name, children.lastName, children.age))
+```
 
-$(Article, { value: { header: 'Title', body: 'Content' } })
+```js
+const Article = compose(withChild(Toolbar))(({ value, children }) =>
+  $('div', $('p', value), children),
+)
 ```
 
 </details>
-
-#### `withElement()`
-
-⚠️ DEPRECATED: Alias for `withChild`. Will be removed.
 
 ### Type-oriented decorators
 
