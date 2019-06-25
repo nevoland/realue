@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.1"></a>
+# [3.0.0-beta.1](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.0...v3.0.0-beta.1) (2019-06-25)
+
+
+### Bug Fixes
+
+* **children:** Use default childProps ([122d875](https://github.com/davidbonnet/realue/commit/122d875))
+
+
+
 <a name="3.0.0-beta.0"></a>
 # [3.0.0-beta.0](https://github.com/davidbonnet/realue/compare/v2.22.0...v3.0.0-beta.0) (2019-06-14)
 
