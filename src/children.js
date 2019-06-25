@@ -48,18 +48,19 @@ export function withChildren(
 }
 
 const DEFAULT_CHILD_PROPS = (props, name) =>
-  props.property ? { ...props, ...props.property(name) } : props
+  props.property && name ? { ...props, ...props.property(name) } : props
 
 export function withChild(
   ChildComponentOrMap,
-  childProps = identity,
+  childProps = DEFAULT_CHILD_PROPS,
   { destinationName = 'children' } = EMPTY_OBJECT,
 ) {
   /*
-  If `ChildComponentOrMap` is a component, builds an element from the provided `ChildComponentOrMap` with the props from `childProps(props)` and injects it as a `[destinationName]` prop (`'children'` by default).
-  Otherwise, if `ChildComponentOrMap` is a mapping of `name: [Component, childProps()] | Component`, transforms this mapping into `name: $(Component, childProps(props, name))` and injects it into the props at `destinationName` (`'children'` by default). If `childProps` is not defined, defaults to returning the result of `props.property(name)` merged into the props, if `props.property` is defined, or just the `props`.
+  If `ChildComponentOrMap` is a component, builds an element from the provided `ChildComponentOrMap` with the props from `childProps(props, undefined)` and injects it as a `[destinationName]` prop (`'children'` by default).
+  Otherwise, if `ChildComponentOrMap` is a mapping of `name: [Component, childProps()] | Component`, transforms this mapping into `name: $(Component, childProps(props, name))` and injects it into the props at `destinationName` (`'children'` by default).
+  If `childProps` is not defined, defaults to returning the result of `props.property(name)` merged into the props, if `props.property` and `name` are defined. Otherwise, all `props` are provided.
 
-  Example:
+  Examples:
 
     const Person = compose(
       withChild({
@@ -68,6 +69,10 @@ export function withChild(
         age: NumberInput,
       }),
     )(({ children }) => $('div', children.name, children.lastName, children.age))
+
+    const Article = compose(withChild(Toolbar))(({ value, children }) =>
+      $('div', $('p', value), children),
+    )
   */
   if (
     typeof ChildComponentOrMap === 'function' ||
@@ -89,7 +94,7 @@ export function withChild(
       )
   }
   const components = mapValues(ChildComponentOrMap, (value) =>
-    isArray(value) ? value : [value, DEFAULT_CHILD_PROPS],
+    isArray(value) ? value : [value, childProps],
   )
   return (Component) =>
     setWrapperName(

@@ -603,15 +603,15 @@ const element = $(List, { value: [1, 2, 3] })
 
 #### `withChild()`
 
-> ➡️ `(Component | { [string]: Component }, childProps?, { destinationName? })`
+> ➡️ `(Component | { [string]: Component }, childProps(props, name?)?, { destinationName? })`
 
 > ⬆️ `{ [valueName]? }`
 
 > ⬇️ `{ children }`
 
-If `ChildComponentOrMap` is a component, builds an element from the provided `ChildComponentOrMap` with the props from `childProps(props)` and injects it as a `[destinationName]` prop (`'children'` by default).
-
-Otherwise, if `ChildComponentOrMap` is a mapping of `name: [Component, childProps()] | Component`, transforms this mapping into `name: $(Component, childProps(props, name))` and injects it into the props at `destinationName` (`'children'` by default). If `childProps` is not defined, defaults to returning the result of `props.property(name)` merged into the props, if `props.property` is defined, or just the `props`.
+If `ChildComponentOrMap` is a component, builds an element from the provided `ChildComponentOrMap` with the props from `childProps(props, undefined)` and injects it as a `[destinationName]` prop (`'children'` by default).
+Otherwise, if `ChildComponentOrMap` is a mapping of `name: [Component, childProps()] | Component`, transforms this mapping into `name: $(Component, childProps(props, name))` and injects it into the props at `destinationName` (`'children'` by default).
+If `childProps` is not defined, defaults to returning the result of `props.property(name)` merged into the props, if `props.property` and `props.name` are defined. Otherwise, all `props` are provided.
 
 <details>
   <summary>Examples</summary>
