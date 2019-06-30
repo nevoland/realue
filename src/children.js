@@ -1,5 +1,5 @@
 import { Component as BaseComponent } from 'react'
-import { identity, mapValues, map, isString, isArray } from 'lodash'
+import { mapValues, map, isString, isArray } from 'lodash'
 
 import { $, setWrapperName } from './tools'
 import { EMPTY_OBJECT } from './immutables'
