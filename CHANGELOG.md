@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.2"></a>
+# [3.0.0-beta.2](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2019-07-04)
+
+
+### Bug Fixes
+
+* **dom:** use node.current if null ([7bd44d4](https://github.com/davidbonnet/realue/commit/7bd44d4))
+
+
+
 <a name="3.0.0-beta.1"></a>
 # [3.0.0-beta.1](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.0...v3.0.0-beta.1) (2019-06-25)
 
