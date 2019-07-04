@@ -370,7 +370,7 @@ export function withBounds(
           this.updateBounds = debounce(() => {
             const { node } = this.props
             const element =
-              node == null ? node : node.current ? node.current : node
+              node == null ? node : 'current' in node ? node.current : node
             if (element == null) {
               return
             }
