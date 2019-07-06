@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.22.1"></a>
+## [2.22.1](https://github.com/davidbonnet/realue/compare/v2.22.0...v2.22.1) (2019-07-06)
+
+
+### Bug Fixes
+
+* **dom:** use node.current if null ([b7cc7e0](https://github.com/davidbonnet/realue/commit/b7cc7e0))
+
+
+
 <a name="2.22.0"></a>
 # [2.22.0](https://github.com/davidbonnet/realue/compare/v2.21.0...v2.22.0) (2019-06-12)
 
