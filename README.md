@@ -93,6 +93,7 @@ The `realue` module exposes the following functions:
   - [`flattenValue`](#flattenvalue)
 - [Promised-based tools](#promised-based-tools)
   - [`on()`](#on)
+  - [`waitUntil()`](#waituntil)
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
@@ -341,6 +342,13 @@ Merges the properties of the `value` object prop into the props.
 Listens for `event` on `target`, calling `listener(event)` at each incoming `event`. The provided `options` are identical to those provided to `addEventListener`.
 Returns a function that removes the `listener` from the `target` for the specified `event`.
 If `listener` is not defined, returns a function that accepts the remaining `(listener, options)` arguments.
+
+#### `waitUntil()`
+
+> ➡️ `(register, signal, sentinel = stubTrue)`
+
+Listens for an event with the provided `register` function until `sentinel(event)` returns a truthy value.
+If a `signal` is provided, listens to it to cancel the promise.
 
 ### Tooling decorators
 

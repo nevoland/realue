@@ -1,4 +1,5 @@
 import { Component as BaseComponent } from 'react'
+import { stubTrue } from 'lodash'
 
 import { $, setWrapperName, getGlobal, isPromise } from './tools'
 
@@ -36,20 +37,42 @@ export function waitFor(duration, signal) {
   If a `signal` is provided, listens to it to cancel the promise.
   */
   return new Promise((resolve, reject) => {
-    const timer = setTimeout(resolve, duration)
+    const cancelTimer = timeout(duration, resolve)
     if (signal) {
       signal.addEventListener('abort', () => {
-        clearTimeout(timer)
+        cancelTimer()
         reject(new AbortError('Aborted'))
       })
     }
   })
 }
 
-/*
-Calls `callback` after at least `duration` milliseconds. Returns a function that cancels the future call of `callback`, if not already called.
-*/
+export function waitUntil(register, signal, sentinel = stubTrue) {
+  /*
+  Listens for an event with the provided `register` function until `sentinel(event)` returns a truthy value.
+  If a `signal` is provided, listens to it to cancel the promise.
+  */
+  return new Promise((resolve, reject) => {
+    const unregister = register((result) => {
+      if (!sentinel(result)) {
+        return
+      }
+      unregister()
+      resolve(result)
+    })
+    if (signal) {
+      signal.addEventListener('abort', () => {
+        unregister()
+        reject(new AbortError('Aborted'))
+      })
+    }
+  })
+}
+
 export function timeout(duration, callback) {
+  /*
+  Calls `callback` after at least `duration` milliseconds. Returns a function that cancels the future call of `callback`, if not already called.
+  */
   if (!duration && requestAnimationFrame && cancelAnimationFrame) {
     const timer = requestAnimationFrame(callback)
     return () => {
@@ -69,10 +92,10 @@ export function timeout(duration, callback) {
   }
 }
 
-/*
-Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`. If `duration` is falsy, uses `requestAnimationFrame`.
-*/
 export function interval(duration, callback) {
+  /*
+  Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`. If `duration` is falsy, uses `requestAnimationFrame`.
+  */
   if (!duration && requestAnimationFrame && cancelAnimationFrame) {
     let timer
     const update = () => {
