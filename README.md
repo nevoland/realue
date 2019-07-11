@@ -91,6 +91,8 @@ The `realue` module exposes the following functions:
   - [`toggledEditing`](#toggledediting)
   - [`fromValue()`](#fromvalue)
   - [`flattenValue`](#flattenvalue)
+- [Promised-based tools](#promised-based-tools)
+  - [`on()`](#on)
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
@@ -329,6 +331,16 @@ Adapts `onChange` for components that call it by providing the `value` as a firs
 > ⬇️ `{ ...value }`
 
 Merges the properties of the `value` object prop into the props.
+
+### Promised-based tools
+
+#### `on()`
+
+> ➡️ `(target, event, listener?, options?)`
+
+Listens for `event` on `target`, calling `listener(event)` at each incoming `event`. The provided `options` are identical to those provided to `addEventListener`.
+Returns a function that removes the `listener` from the `target` for the specified `event`.
+If `listener` is not defined, returns a function that accepts the remaining `(listener, options)` arguments.
 
 ### Tooling decorators
 
