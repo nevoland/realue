@@ -87,7 +87,7 @@ export function retry({
   }
 }
 
-export function branch(condition, left, right = identity) {
+export function branchQuery(condition, left, right = identity) {
   /*
   Dispatches an incoming query to `left` if `condition(query)` returns a truthy value, `right` otherwise. This is helpful for sending queries to different resolvers.
 
