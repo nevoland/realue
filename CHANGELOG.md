@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.4"></a>
+# [3.0.0-beta.4](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2019-07-12)
+
+
+### Bug Fixes
+
+* **queries:** rename `branch` ([4e87aa2](https://github.com/davidbonnet/realue/commit/4e87aa2))
+
+
+### BREAKING CHANGES
+
+* **queries:** Rename `branch` into `branchQuery` and export
+all query middlewares.
+
+
+
 <a name="3.0.0-beta.3"></a>
 # [3.0.0-beta.3](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2019-07-12)
 
