@@ -8,10 +8,12 @@ import {
   pick,
   upperFirst,
   lowerCase,
+  split,
+  isPlainObject,
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
-import { waitFor, promisedProp } from './promises'
+import { waitFor, promisedProp, on, waitUntil } from './promises'
 import { EMPTY_OBJECT, setProperty } from './immutables'
 import { getGlobal } from './tools'
 
@@ -19,10 +21,27 @@ export class QueryError extends Error {
   /*
   Error to be thrown in case there is an issue with the query call. Only instances of this error will be caught by the `retry()` middleware. 
   */
-  constructor(message, status) {
+  constructor(message, status, response) {
     super(message)
+    if (isPlainObject(message)) {
+      this.value = message
+    }
     this.status = status
+    this.response = response
   }
+}
+
+function getHostname() {
+  const { location } = getGlobal()
+  return !location ? 'localhost' : location.hostname
+}
+
+function isLocal(url, hostname) {
+  return (
+    url &&
+    ((url[0] === '/' && hostname === 'localhost') ||
+      split(split(url, '/')[2], ':')[0] === 'localhost')
+  )
 }
 
 // Middlewares
@@ -39,12 +58,22 @@ export function retry({
   */
   delay -= delayDelta
   delayDelta *= 2
+  const { navigator, window } = getGlobal()
+  const hostname = getHostname()
   return (next) => (query) => {
     let errorsLeft = amount
     const fetch = () =>
       next(query).catch((error) => {
-        if (!(error instanceof QueryError)) {
+        if (
+          !(error instanceof QueryError) ||
+          error.status < 500 ||
+          isLocal(query.url, hostname)
+        ) {
           throw error
+        }
+        if (window && navigator && !navigator.onLine) {
+          errorsLeft = amount
+          return waitUntil(on(window, 'online'), query.signal).then(fetch)
         }
         if (--errorsLeft > 0) {
           return waitFor(
@@ -58,7 +87,7 @@ export function retry({
   }
 }
 
-export function split(condition, left, right = identity) {
+export function branch(condition, left, right = identity) {
   /*
   Dispatches an incoming query to `left` if `condition(query)` returns a truthy value, `right` otherwise. This is helpful for sending queries to different resolvers.
 
@@ -217,31 +246,58 @@ export function searchParams(query) {
   return assign(pick(query, QUERY_SEARCH_PARAMS), query.filter)
 }
 
-const DEFAULT_RESPONSE_HANDLER = (response) => response.json()
+export const json = (next) => (query) => {
+  if (query.body != null) {
+    query.headers = setProperty(
+      query.headers,
+      'content-type',
+      'application/json',
+    )
+  }
+  return next(query).then(
+    (response) => response.json(),
+    (error) => {
+      if (error.response) {
+        return error.response.json().then((result) => {
+          throw new QueryError(result, error.status)
+        })
+      }
+      throw error
+    },
+  )
+}
 
-export function fetchJson(responseHandler = DEFAULT_RESPONSE_HANDLER) {
+export const text = (next) => (query) =>
+  next(query).then(
+    (response) => response.text(),
+    (error) => {
+      if (error.response) {
+        return error.response.text().then((result) => {
+          throw new QueryError(result, error.status)
+        })
+      }
+      throw error
+    },
+  )
+
+export function fetch(fetch = getGlobal().fetch) {
   /*
-  Calls the DOM Fetch `query` and processes the successful response with the provided `responseHandler`, which defaults to requesting the parsed `json()` response.
+  Calls the provided `fetch`, which defaults to the DON `fetch` function, with the incoming `query`.
   To be used in conjunction with `toFetchQuery()`.
   */
-  const { fetch } = window
+  if (process.env.NODE_ENV !== 'production' && !fetch) {
+    console.error('Could not find a global `fetch` function')
+  }
   return () => (query) => {
-    if (query.body != null) {
-      query.headers = setProperty(
-        query.headers,
-        'content-type',
-        'application/json',
-      )
-    }
     return fetch(query.url, query).then(
       (response) => {
         if (!response.ok) {
-          throw new QueryError(response.statusText, response.status)
+          throw new QueryError(response.statusText, response.status, response)
         }
-        return responseHandler(response)
+        return response
       },
       (error) => {
-        throw new QueryError(error.message, 400)
+        throw new QueryError(error.message, error.status || 500)
       },
     )
   }
@@ -284,19 +340,24 @@ export function queriedProp(options) {
   const queryName = isString(options) ? options : options.queryName
   const {
     valueName = queryName,
-    onAbortName = `onAbort${upperFirst(queryName)}`,
     requestName = 'request',
+    onAbortName = `onAbort${upperFirst(queryName)}`,
+    AbortController = getGlobal().AbortController,
   } = queryName === options ? EMPTY_OBJECT : options
   return compose(
     withPropsOnChange(
       [queryName],
       ({ [queryName]: query, [requestName]: request }) => {
-        const controller = new window.AbortController()
-        return {
-          [valueName]:
-            query && request({ ...query, signal: controller.signal }),
-          [onAbortName]: () => controller.abort(),
-        }
+        const controller = AbortController && new AbortController()
+        return controller
+          ? {
+              [valueName]:
+                query && request({ ...query, signal: controller.signal }),
+              [onAbortName]: () => controller.abort(),
+            }
+          : {
+              [valueName]: query && request(query),
+            }
       },
     ),
     promisedProp(valueName),

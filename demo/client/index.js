@@ -583,6 +583,7 @@ const Aggregations = memo(() =>
       $(User, { value: 4 }),
       $(User, { value: 4 }),
       $(User, { value: 5 }),
+      $(Request, { type: 'person', value: 42 }),
     ),
     $('h4', 'Devices'),
     $(
@@ -590,6 +591,7 @@ const Aggregations = memo(() =>
       $(Device, { value: 1 }),
       $(Device, { value: 2 }),
       $(Device, { value: 3 }),
+      $(Request, { type: 'something' }),
     ),
   ),
 )
@@ -610,7 +612,11 @@ const Request = compose(
     !done
       ? ['Loading…', $('button', { onClick: onAbort, key: 'cancel' }, 'Cancel')]
       : error
-      ? $('span', { style: { color: 'red' } }, error.message)
+      ? $(
+          'span',
+          { style: { color: 'red' } },
+          error.value ? JSON.stringify(error.value) : error.message,
+        )
       : value.name,
   ),
 )

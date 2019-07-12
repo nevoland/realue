@@ -48,6 +48,8 @@ const DATABASE = {
   },
 }
 
+let RETRIES = 0
+
 const router = new Router()
 router.get('/value', async (context, next) => {
   await waitFor(DATABASE.value.delay)
@@ -58,6 +60,16 @@ router.put('/value', async (context, next) => {
   const value = context.request.body
   DATABASE.value = value
   context.response.body = JSON.stringify(value)
+})
+router.get('/something', (context, next) => {
+  const { response } = context
+  if (!(++RETRIES % 5)) {
+    RETRIES = 0
+    response.body = JSON.stringify({ value: 'Something!' })
+    return
+  }
+  response.body = 'Internal server error'
+  response.status = 500
 })
 router.get('/:type', (context, next) => {
   const {
@@ -104,7 +116,7 @@ router.get('/:type', (context, next) => {
     )
     return next()
   }
-  response.body = JSON.stringify({ error: 'Not found' })
+  response.body = JSON.stringify({ error: `Could not find ${type}` })
   response.status = 404
   return next()
 })
@@ -117,7 +129,9 @@ router.get('/:type/:id', (context, next) => {
     response.body = JSON.stringify(DATABASE[type][id])
     return next()
   }
-  response.body = JSON.stringify({ error: 'Not found' })
+  response.body = JSON.stringify({
+    error: `Could not find ${type} with id "${id}"`,
+  })
   response.status = 404
   return next()
 })
