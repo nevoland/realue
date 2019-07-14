@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.5"></a>
+# [3.0.0-beta.5](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.4...v3.0.0-beta.5) (2019-07-14)
+
+
+### Features
+
+* **children:** add `switchChild` ([257bb15](https://github.com/davidbonnet/realue/commit/257bb15))
+
+
+
 <a name="3.0.0-beta.4"></a>
 # [3.0.0-beta.4](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2019-07-12)
 
