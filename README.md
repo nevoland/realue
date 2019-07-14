@@ -122,6 +122,7 @@ The `realue` module exposes the following functions:
 - [Children-based decorators](#children-based-decorators)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
+  - [`switchChild()`](#switchchild)
 - [Type-oriented decorators](#type-oriented-decorators)
   - [`object`](#object)
   - [`objectProp()`](#objectprop)
@@ -599,7 +600,7 @@ If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset
 
 > ➡️ `(Component, childProps?, { valueName?, destinationName? })`
 
-> ⬆️ `{ [valueName]? }`
+> ⬆️ `{ [valueName]?, item? }`
 
 > ⬇️ `{ children }`
 
@@ -623,9 +624,9 @@ const element = $(List, { value: [1, 2, 3] })
 
 #### `withChild()`
 
-> ➡️ `(Component | { [string]: Component }, childProps(props, name?)?, { destinationName? })`
+> ➡️ `(Component | { [string]: [Component, childProps()] | Component }, childProps(props, name?)?, { destinationName? })`
 
-> ⬆️ `{ [valueName]? }`
+> ⬆️ `{ [valueName]?, property? }`
 
 > ⬇️ `{ children }`
 
@@ -650,6 +651,35 @@ const Person = compose(
 const Article = compose(withChild(Toolbar))(({ value, children }) =>
   $('div', $('p', value), children),
 )
+```
+
+</details>
+
+#### `switchChild()`
+
+> ➡️ `(propNameOrPicker, { [string]: [Component, childProps()] | Component }, { destinationName? })`
+
+> ⬆️ `props | { [propNameOrPicker]? }`
+
+> ⬇️ `{ children }`
+
+Builds the element from `componentMap[key]`, with `key` being the value of the prop name `propNameOrPicker`, if `propNameOrPicker` is a string, or of the value returned by `propNameOrPicker(props)`, if `propNameOrPicker` is a function.
+The `componentMap` values are either a `[Component, childProps()]` couple or just a `Component`.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const EntityName = compose(
+  switchChild('type', {
+    user: UserName,
+    device: DeviceName,
+    setting: SettingName,
+    invoice: InvoiceName,
+  }),
+)(Children)
+
+const name = $(EntityName, { type: 'user', id: '42' })
 ```
 
 </details>

@@ -60,6 +60,7 @@ import {
   suspendable,
   withBounds,
   withNode,
+  switchChild,
 } from '../../src'
 
 import { request } from './requests'
@@ -335,6 +336,24 @@ export const Toggle = compose(
     $('button', { onClick: onCycle }, 'Toggle'),
     $('p', value ? 'ON' : 'OFF'),
   ),
+)
+
+export const Switch = compose(
+  memo,
+  withProps({
+    values: ['a', 'b', 'c'],
+    defaultValue: 'a',
+  }),
+  synced,
+  defaultValue,
+  cyclable,
+  switchChild('value', {
+    a: () => 'Click the "Switch" button to switch between components.',
+    b: () => 'Nice! Click it again…',
+    c: () => 'Excellent!',
+  }),
+)(({ onCycle, children }) =>
+  $('div', $('button', { onClick: onCycle }, 'Switch'), $('br'), children),
 )
 
 const Article = withChild({
@@ -693,6 +712,8 @@ export const App = compose(
         null,
         $('h2', 'Delay'),
         $(Number, { ...property('delay'), min: 0, max: 5000 }),
+        $('h2', 'Switch'),
+        $(Switch),
         $('h2', 'Compute'),
         $(Compute),
         $('h2', 'Bounds'),
