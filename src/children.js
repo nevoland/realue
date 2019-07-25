@@ -165,3 +165,7 @@ export function Children({ children }) {
   */
   return children
 }
+
+export function Null() {
+  return null
+}
