@@ -736,11 +736,11 @@ export function resilientProp(options) {
     )
 }
 
-export function groupProps(shouldMapOrKeys, destinationName, propNames) {
+export function groupProps(destinationName, propNames) {
   /*
-  Groups `propNames` into an object stored at `destinationName` and updates them if `shouldMapOrKeys` returns `true` or if the listed prop names did change.
+  Groups `propNames` into an object stored at `destinationName` and updates them when any property value listed in `propNames` changes.
   */
-  return withPropsOnChange(shouldMapOrKeys, (props) => ({
+  return withPropsOnChange(propNames, (props) => ({
     [destinationName]: pick(props, propNames),
   }))
 }
