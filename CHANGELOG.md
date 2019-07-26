@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.6"></a>
+# [3.0.0-beta.6](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.5...v3.0.0-beta.6) (2019-07-26)
+
+
+### Features
+
+* **children:** add `Null` component ([dbe8763](https://github.com/davidbonnet/realue/commit/dbe8763))
+* **properties:** add `groupProps` ([a23fe30](https://github.com/davidbonnet/realue/commit/a23fe30))
+
+
+
 <a name="3.0.0-beta.5"></a>
 # [3.0.0-beta.5](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.4...v3.0.0-beta.5) (2019-07-14)
 
