@@ -97,6 +97,7 @@ The `realue` module exposes the following functions:
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
+  - [`groupProps()`](#groupprops)
 - [Context](#context)
   - [`fromContext()`](#fromcontext)
   - [`withContext()`](#withcontext)
@@ -365,6 +366,12 @@ Uses `title` as console group (defaults to decorated component name).
 > ➡️ `(propNames)`
 
 Removes provided `propNames`.
+
+#### `groupProps()`
+
+> ➡️ `(shouldMapOrKeys, destinationName, propNames)`
+
+Groups `propNames` into an object stored at `destinationName` and updates them if `shouldMapOrKeys` returns `true` or if the listed prop names did change.
 
 ### Context
 

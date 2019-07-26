@@ -8,8 +8,15 @@ import {
   throttle,
   indexOf,
   identity,
+  pick,
 } from 'lodash'
-import { compose, mapProps, withHandlers, withProps } from 'recompose'
+import {
+  compose,
+  mapProps,
+  withHandlers,
+  withProps,
+  withPropsOnChange,
+} from 'recompose'
 
 import { EMPTY_OBJECT, same } from './immutables'
 import { $, setWrapperName, getGlobal } from './tools'
@@ -727,4 +734,13 @@ export function resilientProp(options) {
         }
       },
     )
+}
+
+export function groupProps(shouldMapOrKeys, destinationName, propNames) {
+  /*
+  Groups `propNames` into an object stored at `destinationName` and updates them if `shouldMapOrKeys` returns `true` or if the listed prop names did change.
+  */
+  return withPropsOnChange(shouldMapOrKeys, (props) => ({
+    [destinationName]: pick(props, propNames),
+  }))
 }
