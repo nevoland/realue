@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.0.0-beta.8](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.7...v3.0.0-beta.8) (2019-08-08)
+
+
+### Bug Fixes
+
+* **children:** consider item as optional ([4e7f975](https://github.com/davidbonnet/realue/commit/4e7f975)), closes [#54](https://github.com/davidbonnet/realue/issues/54)
+
+
 
 <a name="3.0.0-beta.7"></a>
 # [3.0.0-beta.7](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2019-07-26)
