@@ -4,10 +4,13 @@ import { mapValues, map, isString, isArray, identity } from 'lodash'
 import { $, setWrapperName } from './tools'
 import { EMPTY_OBJECT } from './immutables'
 
-const DEFAULT_CHILDREN_PROPS = ({ item, ...props }) => (value, index) => ({
-  ...props,
-  ...item(index),
-})
+const DEFAULT_CHILDREN_PROPS = ({ item, ...props }) =>
+  item
+    ? (value, index) => ({
+        ...props,
+        ...item(index),
+      })
+    : (value, index) => ({ ...props, value, key: index })
 
 export function withChildren(
   ChildrenComponent,
