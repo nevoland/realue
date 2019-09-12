@@ -235,7 +235,7 @@ export const refreshable = (Component) =>
   */
   setWrapperName(
     Component,
-    class withRefresh extends BaseComponent {
+    class refreshable extends BaseComponent {
       constructor(props) {
         super(props)
         this.onRefresh = (callback) => this.forceUpdate(callback)
