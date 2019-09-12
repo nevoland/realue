@@ -720,10 +720,12 @@ export function resilientProp(options) {
         }
         static getDerivedStateFromProps(props, state) {
           const value = props[name]
-          return value === state.value ||
-            ((value == null && !constantName) ||
-              props[constantName] === state.constant)
+          return constantName && props[constantName] === state.constant
             ? null
+            : value == null || value === state.value
+            ? constantName
+              ? { value: state.value, constant: props[constantName] }
+              : null
             : { value, constant: constantName ? props[constantName] : null }
         }
         render() {
