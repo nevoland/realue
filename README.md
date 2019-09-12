@@ -265,8 +265,8 @@ Renames undelayed `onChange` as `onPush`.
 
 > ⬇️ `{ value? }`
 
-Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
-Renames undelayed `onChange` as `onPush`.
+Suspends `value` changes for `delay` milliseconds. Subsequent `value` or `delay` changes cancel previous suspensions. Last suspension is canceled if `value` is set to the value prior the start of the suspension.
+Calling the injected method `onPull` immediately sets `value` to the latest value.
 
 #### `synced`
 
