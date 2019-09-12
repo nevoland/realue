@@ -431,6 +431,8 @@ const EVENT_MAPPING = {
   onScroll: 'scroll',
   onResize: 'resize',
   onOrientationChange: 'orientationchange',
+  onAnimationStart: 'animationstart',
+  onAnimationEnd: 'animationend',
 }
 
 const GLOBAL_LISTENERS = {
