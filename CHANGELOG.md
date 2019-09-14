@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.12"></a>
+# [3.0.0-beta.12](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.11...v3.0.0-beta.12) (2019-09-14)
+
+
+### Bug Fixes
+
+* correctly name concurrent ([7aabcd0](https://github.com/davidbonnet/realue/commit/7aabcd0))
+
+
+
 <a name="3.0.0-beta.11"></a>
 # [3.0.0-beta.11](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.10...v3.0.0-beta.11) (2019-09-14)
 
