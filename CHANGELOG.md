@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.13"></a>
+# [3.0.0-beta.13](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.12...v3.0.0-beta.13) (2019-09-14)
+
+
+### Bug Fixes
+
+* **queries:** fix concurrent result mapping ([9e980d3](https://github.com/davidbonnet/realue/commit/9e980d3))
+
+
+
 <a name="3.0.0-beta.12"></a>
 # [3.0.0-beta.12](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.11...v3.0.0-beta.12) (2019-09-14)
 
