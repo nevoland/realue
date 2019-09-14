@@ -948,7 +948,7 @@ When the aggregated query resolves, the result is dispatched back to each aggreg
 
 #### `concurrent`
 
-Runs concurent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
+Runs concurrent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
 Otherwise, passes the query to the next handler.
 
 #### `toFetchQuery(routes, transform?)`

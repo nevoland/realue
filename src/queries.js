@@ -332,9 +332,9 @@ export function logQuery(title = 'Query') {
   }
 }
 
-export function concurent(next) {
+export function concurrent(next) {
   /*
-  Runs concurent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
+  Runs concurrent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
   Otherwise, passes the query to the next handler.
   */
   const request = (query) =>
