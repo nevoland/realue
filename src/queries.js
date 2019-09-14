@@ -10,6 +10,8 @@ import {
   lowerCase,
   split,
   isPlainObject,
+  isArray,
+  fromPairs,
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
@@ -328,6 +330,25 @@ export function logQuery(title = 'Query') {
     )
     /* eslint-enable no-console */
   }
+}
+
+export function concurent(next) {
+  /*
+  Runs concurent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
+  Otherwise, passes the query to the next handler.
+  */
+  const request = (query) =>
+    query.queries
+      ? Promise.all(map(query.queries, (query) => request(query))).then(
+          (results) =>
+            isArray(query.queries)
+              ? results
+              : fromPairs(
+                  map(query.queries, (field, index) => [field, results[index]]),
+                ),
+        )
+      : next(query)
+  return request
 }
 
 // Component decorators

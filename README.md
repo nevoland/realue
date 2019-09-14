@@ -151,6 +151,7 @@ The `realue` module exposes the following functions:
   - [`split()`](#split)
   - [`cache()`](#cache)
   - [`aggregate()`](#aggregate)
+  - [`concurrent`](#concurrent)
   - [`toFetchQuery(routes, transform?)`](#tofetchqueryroutes-transform)
   - [`fetchJson()`](#fetchjson)
   - [`logQuery()`](#logquery)
@@ -870,6 +871,8 @@ withBounds(['width', 'height'])(({ width, height }) =>
 
 #### `Query` object
 
+Either a single query continaing the following properties:
+
 - `type: string`: a string identifying the type object to fetch
 - `method: enum { 'get', 'list', 'post', 'put', 'patch', 'delete' }`: method to apply on the queried object
 - `refresh: boolean`: if `true`, bypasses any cache
@@ -879,6 +882,10 @@ withBounds(['width', 'height'])(({ width, height }) =>
 - `limit: number`: in case of `list` method, maximum amount of items to return
 - `filter: { [string]: string | boolean | number | object }`: values used to filter
 - `order: { key: string, descending: boolean }[]`: array of ordering parameters
+
+Or multiple queries grouped into a single property:
+
+- `queries: query[] | { [string]: query }`: array or map of queries
 
 #### `queriedProp()`
 
@@ -936,6 +943,11 @@ Aggregates multiple incoming query calls into one query.
 Queries are grouped according to the string key returned by `categorize(query)`. Inside a group, each query is identified with `serialize(query)`.
 The aggregated query is built from the object returned by `reduce(queries)`, after at least `delay` milliseconds after the first non-aggregated aggregatable query call.
 When the aggregated query resolves, the result is dispatched back to each aggregatable query call of the category by dispatching the result for each query returned by `pick(result, query)`.`
+
+#### `concurrent`
+
+Runs concurent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
+Otherwise, passes the query to the next handler.
 
 #### `toFetchQuery(routes, transform?)`
 
