@@ -362,6 +362,8 @@ If a `signal` is provided, listens to it to cancel the promise.
 Logs the provided `propNames` whenever they change.
 Uses `title` as console group (defaults to decorated component name).
 
+This function can be made available globally by importing `realue/src/register-loggers.js` first.
+
 #### `omitProps()`
 
 > ➡️ `(propNames)`
@@ -966,6 +968,8 @@ To be used in conjunction with `toFetchQuery()`.
 > ➡️ `(title?)`
 
 Logs the outgoing query and the incoming result or the error.
+
+This function can be made available globally by importing `realue/src/register-loggers.js` first.
 
 #### `queryString()`
 
