@@ -11,7 +11,8 @@ import {
   split,
   isPlainObject,
   isArray,
-  fromPairs,
+  keys,
+  mapKeys,
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
@@ -337,17 +338,17 @@ export function concurrent(next) {
   Runs concurrent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
   Otherwise, passes the query to the next handler.
   */
-  const request = (query) =>
-    query.queries
-      ? Promise.all(map(query.queries, (query) => request(query))).then(
-          (results) =>
-            isArray(query.queries)
-              ? results
-              : fromPairs(
-                  map(query.queries, (field, index) => [field, results[index]]),
-                ),
-        )
-      : next(query)
+  const request = (query) => {
+    if (!query.queries) {
+      return next(query)
+    }
+    const { queries } = query
+    const names = !isArray(query.queries) && keys(query.queries)
+    return Promise.all(map(queries, (query) => request(query))).then(
+      (results) =>
+        names ? mapKeys(results, (index) => names[index]) : results,
+    )
+  }
   return request
 }
 
