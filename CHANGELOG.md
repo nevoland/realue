@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.11"></a>
+# [3.0.0-beta.11](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.10...v3.0.0-beta.11) (2019-09-14)
+
+
+### Features
+
+* **queries:** add concurrent query middelware ([1b314bc](https://github.com/davidbonnet/realue/commit/1b314bc))
+
+
+
 <a name="3.0.0-beta.10"></a>
 # [3.0.0-beta.10](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2019-09-12)
 
