@@ -339,14 +339,17 @@ export function concurrent(next) {
   Otherwise, passes the query to the next handler.
   */
   const request = (query) => {
-    if (!query.queries) {
+    const { queries } = query
+    if (!queries) {
       return next(query)
     }
-    const { queries } = query
-    const names = !isArray(query.queries) && keys(query.queries)
-    return Promise.all(map(queries, (query) => request(query))).then(
-      (results) =>
-        names ? mapKeys(results, (index) => names[index]) : results,
+    const names = !isArray(queries) && keys(queries)
+    return Promise.all(
+      map(names ? map(names, (name) => queries[name]) : queries, (query) =>
+        request(query),
+      ),
+    ).then((results) =>
+      names ? mapKeys(results, (result, index) => names[index]) : results,
     )
   }
   return request
