@@ -223,7 +223,7 @@ Sets `value` to `defaultValue` if `value` is `nil`.
 
 > ⬇️ `{ value? }`
 
-Sets `value` to `defaultValue` if `value` is `nil`.
+Sets `value` to `initialValue` on first render, if `initialValue` is not `nil`, then to `value` for subsequent renders.
 
 #### `resilient`
 
