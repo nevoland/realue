@@ -487,7 +487,7 @@ compose(
 
 > ⬇️ `{ __return }`
 
-Enables the injection of props from an isolated scope.
+Enables the injection of props from an isolated scope. The `propsMapperOrMap` can be a function that takes the current props and returns the props to inject, or a name list or map of prop names similar to the one provided to `picked()`.
 
 <details>
   <summary>Examples</summary>
