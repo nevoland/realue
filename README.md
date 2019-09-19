@@ -110,6 +110,7 @@ The `realue` module exposes the following functions:
 - [Scoped-based decorators](#scoped-based-decorators)
   - [`scoped()`](#scoped)
   - [`returned()`](#returned)
+  - [`box()`](#box)
 - [Property-based decorators](#property-based-decorators)
   - [`defaultProp()`](#defaultprop)
   - [`initialProp()`](#initialprop)
@@ -495,6 +496,27 @@ Enables the injection of props from an isolated scope.
 scoped(...decorators, returned(picked({ user: 'value' })))
 
 scoped(...decorators, returned(omitted(['value'])))
+```
+
+</details>
+
+#### `box()`
+
+Boxes the execution of one or several `decorators` with the picked `inputMapperOrMap` and injects into the props the one picked by `outputMapperOrMap`.
+
+<details>
+  <summary>Example</summary>
+
+```js
+box(
+  ['value', 'request'],
+  compose(
+    withEntityQuery,
+    queried,
+    flattenValue,
+  ),
+  ['value', 'done', 'error'],
+)
 ```
 
 </details>

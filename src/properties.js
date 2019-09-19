@@ -19,7 +19,7 @@ import {
 } from 'recompose'
 
 import { EMPTY_OBJECT, same } from './immutables'
-import { $, setWrapperName, getGlobal } from './tools'
+import { $, setWrapperName, getGlobal, picked } from './tools'
 
 /* eslint-disable no-console */
 function wrapProps(
@@ -578,29 +578,61 @@ export function scoped(...decorators) {
     )
 
   */
-  const composition = compose(
+  return compose(
     mapProps((props) => ({ ...props, [SCOPE]: props })),
     ...decorators,
     mapProps((props) =>
       props[RETURN] ? { ...props[SCOPE], ...props[RETURN] } : props[SCOPE],
     ),
   )
-  return (Component) => {
-    const DecoratedComponent = composition(Component)
-    return (props) => $(DecoratedComponent, props)
-  }
 }
 
-export function returned(propsMapper) {
+export function returned(propsMapperOrMap) {
   /*
   Enables the injection of props from an isolated scope.
 
   Example:
 
-    scoped(...decorators, returned(picked({ user: 'value' })))
+    scoped(...decorators, returned({ user: 'value' }))
 
   */
-  return withProps((props) => ({ [RETURN]: propsMapper(props) }))
+  const returnedProps =
+    typeof propsMapperOrMap === 'function'
+      ? propsMapperOrMap
+      : picked(propsMapperOrMap)
+  return withProps((props) => ({ [RETURN]: returnedProps(props) }))
+}
+
+export function box(inputMapperOrMap, decorator, outputMapperOrMap) {
+  /*
+  Boxes the execution of one or several `decorators` with the picked `inputMapperOrMap` and injects into the props the one picked by `outputMapperOrMap`.
+
+  Example:
+
+    box(
+      ['value', 'request'],
+      compose(
+        withEntityQuery,
+        queried,
+        flattenValue,
+      ),
+      ['value', 'done', 'error']
+    )
+
+  */
+  const inputProps =
+    typeof inputMapperOrMap === 'function'
+      ? inputMapperOrMap
+      : picked(inputMapperOrMap)
+  const outputProps =
+    typeof outputMapperOrMap === 'function'
+      ? outputMapperOrMap
+      : picked(outputMapperOrMap)
+  return compose(
+    mapProps((props) => ({ ...inputProps(props), [SCOPE]: props })),
+    decorator,
+    mapProps((props) => ({ ...props[SCOPE], ...outputProps(props) })),
+  )
 }
 
 export function syncedProp(options) {

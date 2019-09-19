@@ -61,6 +61,8 @@ import {
   withBounds,
   withNode,
   switchChild,
+  scoped,
+  returned,
 } from '../../src'
 
 import { request } from './requests'
@@ -696,7 +698,7 @@ export const App = compose(
         value,
       }),
   }),
-  flattenProp('value'),
+  scoped(flattenProp('value'), returned(['value', 'done', 'error'])),
   resilient,
   delayable,
   editable,
