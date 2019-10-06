@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.16"></a>
+# [3.0.0-beta.16](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.15...v3.0.0-beta.16) (2019-10-06)
+
+
+### Bug Fixes
+
+* rename `delayedProp` and `suspendedProp` ([4d62929](https://github.com/davidbonnet/realue/commit/4d62929))
+
+
+### BREAKING CHANGES
+
+* Rename delayedProp and suspendedProp into
+delayableProp and suspedableProp, respectively, to follow the naming
+convention for decorators that trigger a behavior only if certain
+props are set.
+
+
+
 <a name="3.0.0-beta.15"></a>
 # [3.0.0-beta.15](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.14...v3.0.0-beta.15) (2019-09-19)
 
