@@ -374,7 +374,7 @@ export function initialProp(options) {
 
 const { setTimeout, clearTimeout } = getGlobal()
 
-export function suspendedProp(options) {
+export function suspendableProp(options) {
   /*
   Suspends `[name]` changes for `[delayName]` milliseconds. Subsequent `[name]` or `[delayName]` changes cancel previous suspensions. Last suspension is canceled if `[name]` is set to the value prior the start of the suspension.
   Calling the injected method `[onPullName]` immediately sets `[name]` to the latest value.
@@ -389,7 +389,7 @@ export function suspendedProp(options) {
   return (Component) =>
     setWrapperName(
       Component,
-      class suspendedProp extends BaseComponent {
+      class suspendableProp extends BaseComponent {
         constructor(props) {
           super(props)
           this.state = {
@@ -458,7 +458,7 @@ export function suspendedProp(options) {
     )
 }
 
-export function delayedProp(options) {
+export function delayableProp(options) {
   /*
   Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`. The `mode` can also be a function that returns a callback based from the `([name], [delayName])` arguments.
   Renames undelayed `[name]` as `['onPush' + name]`.
@@ -481,7 +481,7 @@ export function delayedProp(options) {
   return (Component) =>
     setWrapperName(
       Component,
-      class delayedProp extends BaseComponent {
+      class delayableProp extends BaseComponent {
         constructor(props) {
           super(props)
           const { [name]: value, [delayName]: delay } = props

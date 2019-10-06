@@ -114,9 +114,9 @@ The `realue` module exposes the following functions:
 - [Property-based decorators](#property-based-decorators)
   - [`defaultProp()`](#defaultprop)
   - [`initialProp()`](#initialprop)
-  - [`suspendedProp()`](#suspendedprop)
+  - [`suspendableProp()`](#suspendableprop)
   - [`resilientProp()`](#resilientprop)
-  - [`delayedProp()`](#delayedprop)
+  - [`delayableProp()`](#delayableprop)
   - [`editableProp()`](#editableprop)
   - [`syncedProp()`](#syncedprop)
   - [`cycledProp()`](#cycledprop)
@@ -543,7 +543,7 @@ Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
 
 Sets `[name]` to `[initialName]` on first render if `[initialName]` is not `nil`, then to `[name]` for subsequent renders.
 
-#### `suspendedProp()`
+#### `suspendableProp()`
 
 > ➡️ `({ name, delayName?, onPullName? } | name)`
 
@@ -566,7 +566,7 @@ If `[delayName]` is falsy, no suspension occurs, nor the injection of `[onPullNa
 Keeps the last non-`nil` value of prop `[name]`.
 If `constantName` is provided, keeps the last non-`nil` value of prop `[name]` only if prop `[constantName]` did change.
 
-#### `delayedProp()`
+#### `delayableProp()`
 
 > ➡️ `({ name, delayName?, onPushName?, mode? } | name)`
 

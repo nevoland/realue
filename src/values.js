@@ -10,12 +10,12 @@ import { memoize, get } from 'lodash'
 
 import { $, hasProp, hasProps, lazyProperty, setWrapperName } from './tools'
 import {
-  delayedProp,
+  delayableProp,
   syncedProp,
   editableProp,
   cycledProp,
   resilientProp,
-  suspendedProp,
+  suspendableProp,
   defaultProp,
   initialProp,
 } from './properties'
@@ -129,7 +129,7 @@ export const filterable = compose(
   ),
 )
 
-export const suspendable = suspendedProp({
+export const suspendable = suspendableProp({
   /*
   Suspends `value` changes for `delay` milliseconds. Subsequent `value` or `delay` changes cancel previous suspensions. Last suspension is canceled if `value` is set to the value prior the start of the suspension.
   Calling the injected method `onPull` immediately sets `value` to the latest value.
@@ -139,7 +139,7 @@ export const suspendable = suspendedProp({
   onPullName: 'onPull',
 })
 
-export const delayable = delayedProp({
+export const delayable = delayableProp({
   /*
   Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
   Renames undelayed `onChange` as `onPush`.
