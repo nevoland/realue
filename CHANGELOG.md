@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-beta.17"></a>
+# [3.0.0-beta.17](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.16...v3.0.0-beta.17) (2019-10-29)
+
+
+### Bug Fixes
+
+* **properties:** optimize suspendableProp ([f247e01](https://github.com/davidbonnet/realue/commit/f247e01))
+
+
+
 <a name="3.0.0-beta.16"></a>
 # [3.0.0-beta.16](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.15...v3.0.0-beta.16) (2019-10-06)
 
