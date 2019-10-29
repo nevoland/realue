@@ -434,7 +434,7 @@ export function suspendableProp(options) {
             clearTimeout(this.timer)
             this.timer = null
           }
-          if (props[delayName]) {
+          if (props[delayName] && props[name] !== this.state.value) {
             this.timer = setTimeout(this.onPull, props[delayName])
           }
         }
