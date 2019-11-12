@@ -1,4 +1,4 @@
-import { Fragment, memo } from 'react'
+import { Fragment, memo, useState } from 'react'
 import { render } from 'react-dom'
 import {
   map,
@@ -63,6 +63,7 @@ import {
   switchChild,
   scoped,
   returned,
+  withHook,
 } from '../../src'
 
 import { request } from './requests'
@@ -682,6 +683,18 @@ export const Compute = compose(
   ),
 )
 
+export const Hooks = compose(
+  withProps({ initialCount: 0 }),
+  withHook(useState, ['initialCount'], ['count', 'onChangeCount']),
+)(({ count, onChangeCount }) =>
+  $(
+    'div',
+    'Count: ',
+    count,
+    $('button', { onClick: () => onChangeCount(count + 1) }, 'Increment'),
+  ),
+)
+
 export const App = compose(
   withProps({
     request,
@@ -714,6 +727,8 @@ export const App = compose(
         null,
         $('h2', 'Delay'),
         $(Number, { ...property('delay'), min: 0, max: 5000 }),
+        $('h2', 'Hooks'),
+        $(Hooks),
         $('h2', 'Switch'),
         $(Switch),
         $('h2', 'Compute'),

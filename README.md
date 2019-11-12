@@ -107,6 +107,7 @@ The `realue` module exposes the following functions:
   - [`withGlobalEffect()`](#withglobaleffect)
   - [`withImmediateGlobalEffect()`](#withimmediateglobaleffect)
   - [`onPropsChange()`](#onpropschange)
+  - [`withHook()`](#withhook)
 - [Scoped-based decorators](#scoped-based-decorators)
   - [`scoped()`](#scoped)
   - [`returned()`](#returned)
@@ -452,6 +453,32 @@ If the handler returns `false`, it will never be run again for this component.
 
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
 The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
+
+#### `withHook()`
+
+> ➡️ `(hook, source, result)`
+
+Uses the provided `hook`, with the arguments extracted from `source`,
+and reinjects the value from `result` back into the props.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const Counter = compose(
+  withProps({ initialCount: 0 }),
+  withHook(useState, ['initialCount'], ['count', 'onChangeCount']),
+)(({ count, onChangeCount }) =>
+  $(
+    'div',
+    'Count: ',
+    count,
+    $('button', { onClick: () => onChangeCount(count + 1) }, 'Increment'),
+  ),
+)
+```
+
+</details>
 
 ### Scoped-based decorators
 
