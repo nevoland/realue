@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.0.0-beta.18](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.17...v3.0.0-beta.18) (2019-11-12)
+
+
+### Features
+
+* **hooks:** Add withHook decorator ([2ecf015](https://github.com/davidbonnet/realue/commit/2ecf015))
+
+
 
 <a name="3.0.0-beta.17"></a>
 # [3.0.0-beta.17](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.16...v3.0.0-beta.17) (2019-10-29)
