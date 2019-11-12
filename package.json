@@ -10,11 +10,12 @@
   "scripts": {
     "start": "node scripts/server.js",
     "build": "parcel build --out-dir dist/app --public-url ./ demo/client/index.html",
-    "build:watch": "parcel --out-dir dist/app demo/client/index.html",
-    "start:api": "node --require esm demo/server/index.js",
+    "dev": "concurrently -n \"server,client,  test\" \"npm:dev:server\" \"npm:dev:client\" \"npm:dev:test\"",
+    "dev:client": "parcel --out-dir dist/app demo/client/index.html",
+    "dev:server": "node --require esm demo/server/index.js",
+    "dev:test": "ava --watch",
     "prepare": "babel --config-file ./babel.config.js --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --config-file ./babel.config.js --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
     "test": "eslint src/ && prettier --list-different \"{src,scripts}/**/*.js\" && ava --reset-cache && nyc ava",
-    "test:watch": "ava --watch",
     "eslint": "eslint src/",
     "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
@@ -34,6 +35,7 @@
     "url": "https://github.com/davidbonnet/realue.git"
   },
   "dependencies": {
+    "concurrently": "^5.0.0",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
     "recompose": "^0.30.0"
