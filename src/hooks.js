@@ -1,8 +1,9 @@
-import { stubArray, stubNull, isArray, isString, fromPairs, map } from 'lodash'
+import { stubArray, isArray, isString, fromPairs, map } from 'lodash'
 
 import { $ } from './tools'
+import { Null } from './children'
 
-export function withHook(hook, source = stubArray, result = stubNull) {
+export function withHook(hook, source = stubArray, result) {
   /*
   Uses the provided `hook`, with the arguments extracted from `source`,
   and reinjects the value from `result` back into the props.
@@ -31,7 +32,7 @@ export function withHook(hook, source = stubArray, result = stubNull) {
       : source
   const resultValues =
     result == null
-      ? stubNull
+      ? Null
       : isString(result)
       ? (values) => ({ [result]: values })
       : isArray(result)
