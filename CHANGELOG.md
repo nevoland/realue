@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.19](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.18...v3.0.0-beta.19) (2019-11-19)
+
+
+### Features
+
+* add `forwardNode` ([df877b8](https://github.com/davidbonnet/realue/commit/df877b8))
+
+
+
 ## [3.0.0-beta.18](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.17...v3.0.0-beta.18) (2019-11-12)
 
 
