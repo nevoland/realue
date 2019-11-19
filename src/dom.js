@@ -1,4 +1,4 @@
-import { Component as BaseComponent, createRef } from 'react'
+import { Component as BaseComponent, createRef, forwardRef } from 'react'
 import {
   memoize,
   get,
@@ -340,6 +340,14 @@ export const withNode = (Component) =>
       }
     },
   )
+
+export const forwardNode = compose(
+  /*
+  Renames the provided `ref` into `node`.
+  */
+  forwardRef,
+  (Component) => (props, key) => $(Component, { ...props, node: key }),
+)
 
 const DEFAULT_BOUNDS_PROPERTIES = ['height', 'width', 'top', 'left']
 

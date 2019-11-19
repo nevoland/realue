@@ -144,6 +144,7 @@ The `realue` module exposes the following functions:
   - [`onKeysDown()`](#onkeysdown)
   - [`domProps`](#domprops)
   - [`withNode`](#withnode)
+  - [`forwardNode`](#forwardnode)
   - [`withBounds()`](#withbounds)
 - [Query helpers](#query-helpers)
   - [`Query` object](#query-object)
@@ -896,6 +897,14 @@ const Example = withNode(({ node }) =>
 ```
 
 </details>
+
+#### `forwardNode`
+
+> ⬆️ `{ key }`
+
+> ⬇️ `{ node }`
+
+Renames the provided `ref` into `node`.
 
 #### `withBounds()`
 
