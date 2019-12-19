@@ -94,6 +94,7 @@ The `realue` module exposes the following functions:
 - [Promised-based tools](#promised-based-tools)
   - [`on()`](#on)
   - [`waitUntil()`](#waituntil)
+  - [`listenable()`](#listenable)
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
@@ -355,6 +356,35 @@ If `listener` is not defined, returns a function that accepts the remaining `(li
 
 Listens for an event with the provided `register` function until `sentinel(event)` returns a truthy value.
 If a `signal` is provided, listens to it to cancel the promise.
+
+#### `listenable()`
+
+> ➡️ `(initialValue)`
+
+Returns a listenable value set to the provided `initialValue` encapsulated in an object with the following properties:
+
+- `value`: the actual value
+- `on(listener)`: a `listener` registerer that returns an unregisterer for this function
+- `set(value)`: a new `value` setter that gets emitted to all registered listeners
+
+<details>
+  <summary>Example</summary>
+
+```js
+const height = listenable(0)
+function log(value) {
+  console.log(`Updated to ${value}`)
+}
+const off = height.on(log)
+// Returns 0
+height.value
+// Calls `log(300)`
+height.set(300)
+// Stops loging value changes
+off()
+```
+
+</details>
 
 ### Tooling decorators
 
