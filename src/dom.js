@@ -310,10 +310,13 @@ export function onKeysDown(keys) {
   return withHandlers({
     onKeyDown: (props) => (event) => {
       const handler = keys[event.key]
-      if (handler == null) {
-        return
+      if (handler) {
+        handler(props, event)
       }
-      handler(props, event)
+      const { onKeyDown } = props
+      if (onKeyDown && !event.isPropagationStopped()) {
+        onKeyDown(event)
+      }
     },
   })
 }
