@@ -72,12 +72,21 @@ function DOMStorage(type) {
   return storage
     ? {
         get(name) {
-          const value = storage.getItem(name)
-          // Ensures compatibility with defaultProps()
-          return value == null ? undefined : value
+          try {
+            const value = JSON.parse(storage.getItem(name))
+            // Ensures compatibility with defaultProps()
+            return value == null ? undefined : value
+          } catch (error) {
+            return undefined
+          }
         },
         set(name, value) {
-          storage.setItem(name, value)
+          const stringifiedValue = JSON.stringify(value)
+          if (stringifiedValue == null) {
+            storage.removeItem(name)
+          } else {
+            storage.setItem(name, JSON.stringify(value))
+          }
         },
       }
     : DEFAULT_STORAGE
