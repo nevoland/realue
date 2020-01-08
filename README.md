@@ -91,6 +91,7 @@ The `realue` module exposes the following functions:
   - [`toggledEditing`](#toggledediting)
   - [`fromValue()`](#fromvalue)
   - [`flattenValue`](#flattenvalue)
+  - [`persisted`](#persisted)
 - [Promised-based tools](#promised-based-tools)
   - [`on()`](#on)
   - [`waitUntil()`](#waituntil)
@@ -123,6 +124,7 @@ The `realue` module exposes the following functions:
   - [`syncedProp()`](#syncedprop)
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
+  - [`persistedProp()`](#persistedprop)
 - [Children-based decorators](#children-based-decorators)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
@@ -173,6 +175,9 @@ The `realue` module exposes the following functions:
 - [Asynchronous helpers](#asynchronous-helpers)
   - [`timeout()`](#timeout)
   - [`interval()`](#interval)
+- [Storage helpers](#storage-helpers)
+  - [`sessionStorage`](#sessionstorage)
+  - [`localStorage`](#localstorage)
 - [Prop helpers](#prop-helpers)
   - [`picked()`](#picked)
   - [`omitted()`](#omitted)
@@ -339,6 +344,14 @@ Adapts `onChange` for components that call it by providing the `value` as a firs
 > ⬇️ `{ ...value }`
 
 Merges the properties of the `value` object prop into the props.
+
+#### `persisted`
+
+> ⬆️ `{ value?, onChange? }`
+
+> ⬇️ `{ value? }`
+
+Persists prop `value` in the storage found in prop `storage`, optionally prepending the value found in `domain` to the key when looking for the value. On mount, if the value is found in the storage, it is set to prop `value`. Its value is updated in the storage when `onChange(value, name, payload)` is called.
 
 ### Promised-based tools
 
@@ -683,6 +696,33 @@ Replaces the promise at prop `[name]` with `{ done, error, value }`.
 Before the promise resolves, `done` is `false` and `value` is `undefined`.
 If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value amd `done` is `true`.
 If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
+
+#### `persistedProp()`
+
+> ➡️ `({ name, onChangeName, domainName, storageName } | name)`
+
+> ⬆️ `{ [name]?, [onChangeName]? }`
+
+> ⬇️ `{ [name]? }`
+
+Persists prop `[name]` in the storage found in prop `[storageName]`, optionally prepending the value found in `[domainName]` to the key when looking for the value. On mount, if the value is found in the storage, it is set to prop `[name]`. Its value is updated in the storage when `[onChangeName](value, name, payload)` is called.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const STORAGE = new Map()
+
+const PersistedInput = compose(
+  withProps({ domain: 'persisted', storage: STORAGE }),
+  persisted,
+  string,
+  fromEvent('target.value'),
+  domProps,
+)('input')
+```
+
+</details>
 
 ### Children-based decorators
 
@@ -1143,6 +1183,16 @@ Calls `callback` after at least `duration` milliseconds. Returns a function that
 > ➡️ `(duration, callback)`
 
 Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`. If `duration` is falsy, uses `requestAnimationFrame`.
+
+### Storage helpers
+
+#### `sessionStorage`
+
+Storage that persists between page reloads, until the tab or window is closed. To be used with `persistedProp()` or `persisted`.
+
+#### `localStorage`
+
+Persistent storage. To be used with `persistedProp()` or `persisted`.
 
 ### Prop helpers
 
