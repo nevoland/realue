@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.24](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.23...v3.0.0-beta.24) (2020-01-08)
+
+
+### Bug Fixes
+
+* **caches:** Stringify values ([673bfa2](https://github.com/davidbonnet/realue/commit/673bfa2))
+
+
+
 ## [3.0.0-beta.23](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.22...v3.0.0-beta.23) (2020-01-08)
 
 
