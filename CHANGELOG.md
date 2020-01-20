@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.25](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.24...v3.0.0-beta.25) (2020-01-20)
+
+
+### Bug Fixes
+
+* **properties:** correctly set prop in defaultProp ([cbeb118](https://github.com/davidbonnet/realue/commit/cbeb118))
+
+
+
 ## [3.0.0-beta.24](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.23...v3.0.0-beta.24) (2020-01-08)
 
 
