@@ -333,7 +333,7 @@ export function defaultProp(options) {
           ? props
           : {
               ...props,
-              value: value == null ? defaultValue : value,
+              [name]: value == null ? defaultValue : value,
             },
       )
     })
