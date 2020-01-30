@@ -457,6 +457,7 @@ export function suspendableProp(options) {
       },
     )
 }
+
 export function delayableHandler(options) {
   /*
   Delays `[handler]` calls until after `[filter]` become true.
@@ -471,6 +472,7 @@ export function delayableHandler(options) {
           super(props)
           this.state = {
             shouldTrigger: false,
+            value: props.value,
           }
           this.trigger = () => {
             const {
@@ -484,23 +486,14 @@ export function delayableHandler(options) {
             }
           }
         }
-        static getDerivedStateFromProps(props, state) {
-          const { [handler]: triggerFunction, [filter]: value } = props
-          const { shouldTrigger } = state
-          if (
-            triggerFunction === state.triggerFunction &&
-            value === state.value
-          ) {
-            return null
-          } else {
-            if (shouldTrigger) {
-              triggerFunction()
-            }
-            return {
-              triggerFunction,
-              value,
-              shouldTrigger: false,
-            }
+        componentDidUpdate() {
+          const {
+            props: { [handler]: triggerFunction, [filter]: newValue },
+            state: { shouldTrigger, value },
+          } = this
+          if (shouldTrigger && newValue && newValue !== value) {
+            triggerFunction()
+            this.setState({ value: newValue })
           }
         }
         render() {
