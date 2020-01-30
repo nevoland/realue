@@ -457,6 +457,62 @@ export function suspendableProp(options) {
       },
     )
 }
+export function delayableHandler(options) {
+  /*
+  Delays `[handler]` calls until after `[filter]` become true.
+  */
+  const handler = options.handler
+  const filter = options.filter
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class delayableHandler extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = {
+            shouldTrigger: false,
+          }
+          this.trigger = () => {
+            const {
+              props: { [handler]: triggerFunction, [filter]: value },
+            } = this
+            if (value) {
+              triggerFunction()
+              this.setState({ shouldTrigger: false })
+            } else {
+              this.setState({ shouldTrigger: true })
+            }
+          }
+        }
+        static getDerivedStateFromProps(props, state) {
+          const { [handler]: triggerFunction, [filter]: value } = props
+          const { shouldTrigger } = state
+          if (
+            triggerFunction === state.triggerFunction &&
+            value === state.value
+          ) {
+            return null
+          } else {
+            if (shouldTrigger) {
+              triggerFunction()
+            }
+            return {
+              triggerFunction,
+              value,
+              shouldTrigger: false,
+            }
+          }
+        }
+        render() {
+          const { props } = this
+          return $(Component, {
+            ...props,
+            [handler]: this.trigger,
+          })
+        }
+      },
+    )
+}
 
 export function delayableProp(options) {
   /*
