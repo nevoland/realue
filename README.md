@@ -92,6 +92,7 @@ The `realue` module exposes the following functions:
   - [`fromValue()`](#fromvalue)
   - [`flattenValue`](#flattenvalue)
   - [`persisted`](#persisted)
+  - [`delayableOnChange`](#delayableOnChange)
 - [Promised-based tools](#promised-based-tools)
   - [`on()`](#on)
   - [`waitUntil()`](#waituntil)

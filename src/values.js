@@ -44,7 +44,13 @@ function transformedOnChange(element) {
   }
 }
 
-export const delayableOnChange = delayableHandler({ name: '' })
+/*
+Delays `onChange` calls until after `delay` is truthy.
+*/
+export const delayableOnChange = delayableHandler({
+  name: 'onChange',
+  delayName: 'delay',
+})
 
 export const transformable = (Component) =>
   /*
