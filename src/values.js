@@ -18,6 +18,7 @@ import {
   suspendableProp,
   defaultProp,
   initialProp,
+  delayableHandler,
 } from './properties'
 import { promisedProp } from './promises'
 import { EMPTY_OBJECT } from './immutables'
@@ -42,6 +43,14 @@ function transformedOnChange(element) {
     )
   }
 }
+
+/*
+Delays `onChange` calls until after `delay` is truthy.
+*/
+export const delayableOnChange = delayableHandler({
+  name: 'onChange',
+  delayName: 'delay',
+})
 
 export const transformable = (Component) =>
   /*

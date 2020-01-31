@@ -92,6 +92,7 @@ The `realue` module exposes the following functions:
   - [`fromValue()`](#fromvalue)
   - [`flattenValue`](#flattenvalue)
   - [`persisted`](#persisted)
+  - [`delayableOnChange`](#delayableOnChange)
 - [Promised-based tools](#promised-based-tools)
   - [`on()`](#on)
   - [`waitUntil()`](#waituntil)
@@ -125,6 +126,7 @@ The `realue` module exposes the following functions:
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
   - [`persistedProp()`](#persistedprop)
+  - [`delayableHandler()`](#delayableHandler)
 - [Children-based decorators](#children-based-decorators)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
@@ -723,6 +725,14 @@ const PersistedInput = compose(
 ```
 
 </details>
+
+#### `delayableHandler()`
+
+> ⬆️ `({ handlerName, sentinelName })`
+
+> ⬇️ `{ [handlerName] }`
+
+Delays `[handlerName]` calls until after `[sentinelName]` is truthy.
 
 ### Children-based decorators
 

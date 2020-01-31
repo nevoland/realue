@@ -458,6 +458,57 @@ export function suspendableProp(options) {
     )
 }
 
+export function delayableHandler(options) {
+  /*
+  Delays `[handlerName]` calls until after `[delayName]` is truthy.
+  */
+  const name = isString(options) ? options : options.name
+  const capitalizedName = upperFirst(name)
+  const { delayName = `delay${capitalizedName}` } =
+    name === options ? EMPTY_OBJECT : options
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class delayableHandler extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = {
+            shouldTrigger: false,
+          }
+          this.trigger = () => {
+            const {
+              props: { [name]: handler, [delayName]: delay },
+              state: { shouldTrigger },
+            } = this
+            if (delay) {
+              handler()
+            } else {
+              if (!shouldTrigger) {
+                this.setState({ shouldTrigger: true })
+              }
+            }
+          }
+        }
+        componentDidUpdate() {
+          const {
+            props: { [name]: handler, [delayName]: delay },
+            state: { shouldTrigger },
+          } = this
+          if (shouldTrigger && delay) {
+            this.setState({ shouldTrigger: false }, handler)
+          }
+        }
+        render() {
+          const { props } = this
+          return $(Component, {
+            ...props,
+            [name]: this.trigger,
+          })
+        }
+      },
+    )
+}
+
 export function delayableProp(options) {
   /*
   Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`. The `mode` can also be a function that returns a callback based from the `([name], [delayName])` arguments.

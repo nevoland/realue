@@ -16,6 +16,7 @@ import {
   syncedProp,
   cycledProp,
   resilientProp,
+  delayableHandler,
 } from '../properties'
 
 const Value = compose(
@@ -37,6 +38,10 @@ const Value = compose(
   syncedProp('value'),
   cycledProp('value'),
   resilientProp('value'),
+  delayableHandler({
+    handler: 'onValueChange',
+    filter: true,
+  }),
 )(({ value }) => $('pre', JSON.stringify(value, null, 2)))
 
 test('decorates component', (assert) => {
