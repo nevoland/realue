@@ -39,8 +39,8 @@ const Value = compose(
   cycledProp('value'),
   resilientProp('value'),
   delayableHandler({
-    handler: 'onValueChange',
-    filter: true,
+    name: 'onValueChange',
+    delayName: 'delay',
   }),
 )(({ value }) => $('pre', JSON.stringify(value, null, 2)))
 
