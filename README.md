@@ -125,6 +125,7 @@ The `realue` module exposes the following functions:
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
   - [`persistedProp()`](#persistedprop)
+  - [`delayableHandler()`](#delayableHandler)
 - [Children-based decorators](#children-based-decorators)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
@@ -723,6 +724,14 @@ const PersistedInput = compose(
 ```
 
 </details>
+
+#### `delayableHandler()`
+
+> ⬆️ `({ handlerName, sentinelName })`
+
+> ⬇️ `{ [handlerName] }`
+
+Delays `[handlerName]` calls until after `[sentinelName]` is truthy.
 
 ### Children-based decorators
 

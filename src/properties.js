@@ -460,10 +460,10 @@ export function suspendableProp(options) {
 
 export function delayableHandler(options) {
   /*
-  Delays `[handler]` calls until after `[filter]` become true.
+  Delays `[handlerName]` calls until after `[sentinelName]` is truthy.
   */
-  const handler = options.handler
-  const filter = options.filter
+  const handlerName = options.handlerName || 'onChange'
+  const sentinelName = options.sentinelName || 'filter'
   return (Component) =>
     setWrapperName(
       Component,
@@ -472,35 +472,37 @@ export function delayableHandler(options) {
           super(props)
           this.state = {
             shouldTrigger: false,
-            value: props.value,
           }
           this.trigger = () => {
             const {
-              props: { [handler]: triggerFunction, [filter]: value },
+              props: { [handlerName]: handler, [sentinelName]: sentinel },
+              state: { shouldTrigger },
             } = this
-            if (value) {
-              triggerFunction()
-              this.setState({ shouldTrigger: false })
+            if (sentinel) {
+              if (shouldTrigger) {
+                this.setState({ shouldTrigger: false }, handler)
+              }
             } else {
-              this.setState({ shouldTrigger: true })
+              if (!shouldTrigger) {
+                this.setState({ shouldTrigger: true })
+              }
             }
           }
         }
         componentDidUpdate() {
           const {
-            props: { [handler]: triggerFunction, [filter]: newValue },
-            state: { shouldTrigger, value },
+            props: { [handlerName]: handler, [sentinelName]: sentinel },
+            state: { shouldTrigger },
           } = this
-          if (shouldTrigger && newValue && newValue !== value) {
-            triggerFunction()
-            this.setState({ value: newValue })
+          if (shouldTrigger && sentinel) {
+            this.setState({ shouldTrigger: false }, handler)
           }
         }
         render() {
           const { props } = this
           return $(Component, {
             ...props,
-            [handler]: this.trigger,
+            [handlerName]: this.trigger,
           })
         }
       },
