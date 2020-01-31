@@ -460,10 +460,14 @@ export function suspendableProp(options) {
 
 export function delayableHandler(options) {
   /*
-  Delays `[handlerName]` calls until after `[sentinelName]` is truthy.
+  Delays `[handlerName]` calls until after `[delayName]` is truthy.
   */
-  const handlerName = options.handlerName || 'onChange'
-  const sentinelName = options.sentinelName || 'filter'
+  const name = isString(options) ? options : ''
+  const capitalizedName = upperFirst(name)
+  const {
+    delayName = `delay${capitalizedName}`,
+    handlerName = `onChange${capitalizedName}`,
+  } = name === options ? EMPTY_OBJECT : options
   return (Component) =>
     setWrapperName(
       Component,
@@ -475,13 +479,11 @@ export function delayableHandler(options) {
           }
           this.trigger = () => {
             const {
-              props: { [handlerName]: handler, [sentinelName]: sentinel },
+              props: { [handlerName]: handler, [delayName]: delay },
               state: { shouldTrigger },
             } = this
-            if (sentinel) {
-              if (shouldTrigger) {
-                this.setState({ shouldTrigger: false }, handler)
-              }
+            if (delay) {
+              handler()
             } else {
               if (!shouldTrigger) {
                 this.setState({ shouldTrigger: true })
@@ -491,10 +493,10 @@ export function delayableHandler(options) {
         }
         componentDidUpdate() {
           const {
-            props: { [handlerName]: handler, [sentinelName]: sentinel },
+            props: { [handlerName]: handler, [delayName]: delay },
             state: { shouldTrigger },
           } = this
-          if (shouldTrigger && sentinel) {
+          if (shouldTrigger && delay) {
             this.setState({ shouldTrigger: false }, handler)
           }
         }
