@@ -462,12 +462,10 @@ export function delayableHandler(options) {
   /*
   Delays `[handlerName]` calls until after `[delayName]` is truthy.
   */
-  const name = isString(options) ? options : ''
+  const name = isString(options) ? options : options.name
   const capitalizedName = upperFirst(name)
-  const {
-    delayName = `delay${capitalizedName}`,
-    handlerName = `onChange${capitalizedName}`,
-  } = name === options ? EMPTY_OBJECT : options
+  const { delayName = `delay${capitalizedName}` } =
+    name === options ? EMPTY_OBJECT : options
   return (Component) =>
     setWrapperName(
       Component,
@@ -479,7 +477,7 @@ export function delayableHandler(options) {
           }
           this.trigger = () => {
             const {
-              props: { [handlerName]: handler, [delayName]: delay },
+              props: { [name]: handler, [delayName]: delay },
               state: { shouldTrigger },
             } = this
             if (delay) {
@@ -493,7 +491,7 @@ export function delayableHandler(options) {
         }
         componentDidUpdate() {
           const {
-            props: { [handlerName]: handler, [delayName]: delay },
+            props: { [name]: handler, [delayName]: delay },
             state: { shouldTrigger },
           } = this
           if (shouldTrigger && delay) {
@@ -504,7 +502,7 @@ export function delayableHandler(options) {
           const { props } = this
           return $(Component, {
             ...props,
-            [handlerName]: this.trigger,
+            [name]: this.trigger,
           })
         }
       },

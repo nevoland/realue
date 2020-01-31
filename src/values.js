@@ -18,6 +18,7 @@ import {
   suspendableProp,
   defaultProp,
   initialProp,
+  delayableHandler,
 } from './properties'
 import { promisedProp } from './promises'
 import { EMPTY_OBJECT } from './immutables'
@@ -42,6 +43,8 @@ function transformedOnChange(element) {
     )
   }
 }
+
+export const delayableOnChange = delayableHandler({ name: '' })
 
 export const transformable = (Component) =>
   /*
