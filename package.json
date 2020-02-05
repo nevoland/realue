@@ -45,7 +45,7 @@
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.2.3",
     "@koa/cors": "^2.2.3",
-    "ava": "^1.0.1",
+    "ava": "^3.2.0",
     "babel-plugin-set-display-name": "^1.0.2",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
