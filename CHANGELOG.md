@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.26](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.25...v3.0.0-beta.26) (2020-01-31)
+
+
+### Features
+
+* **properties:** add delayableHandler ([61f1bac](https://github.com/davidbonnet/realue/commit/61f1bac))
+
+
+
 ## [3.0.0-beta.25](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.24...v3.0.0-beta.25) (2020-01-20)
 
 
