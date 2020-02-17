@@ -71,13 +71,11 @@ export const transformable = (Component) =>
         }
       }
       static getDerivedStateFromProps({ value, transformValue }, state) {
-        return value === state.value && transformValue === state.transformValue
-          ? null
-          : {
-              value,
-              transformValue,
-              transformedValue: transformValue && transformValue(value, state),
-            }
+        return {
+          value,
+          transformValue,
+          transformedValue: transformValue && transformValue(value, state),
+        }
       }
       render() {
         const { props, state } = this
