@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.27](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.26...v3.0.0-beta.27) (2020-02-19)
+
+
+### Bug Fixes
+
+* **properties:** set values as constants ([ea2c88a](https://github.com/davidbonnet/realue/commit/ea2c88a))
+
+
+### Features
+
+* **properties:** add `dynamicProp` decorator ([df50e07](https://github.com/davidbonnet/realue/commit/df50e07))
+
+
+
 ## [3.0.0-beta.26](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.25...v3.0.0-beta.26) (2020-01-31)
 
 
