@@ -757,6 +757,8 @@ export function syncedProp(options) {
     )
 }
 
+const DEFAULT_CYCLE_VALUES = [false, true]
+
 export function cycledProp(options) {
   /*
   Injects prop `[onCycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
@@ -773,7 +775,7 @@ export function cycledProp(options) {
   return withHandlers({
     [onCycleName]: ({
       [name]: value,
-      [valuesName]: values = [false, true],
+      [valuesName]: values = DEFAULT_CYCLE_VALUES,
       [onChangeName]: onChange,
       [nameName]: valueName = name,
     }) => (payload) => {
