@@ -92,7 +92,6 @@ The `realue` module exposes the following functions:
   - [`fromValue()`](#fromvalue)
   - [`flattenValue`](#flattenvalue)
   - [`persisted`](#persisted)
-  - [`delayableOnChange`](#delayableOnChange)
 - [Promised-based tools](#promised-based-tools)
   - [`on()`](#on)
   - [`waitUntil()`](#waituntil)
@@ -117,6 +116,7 @@ The `realue` module exposes the following functions:
   - [`box()`](#box)
 - [Property-based decorators](#property-based-decorators)
   - [`defaultProp()`](#defaultprop)
+  - [`dynamicProp()`](#dynamicprop)
   - [`initialProp()`](#initialprop)
   - [`suspendableProp()`](#suspendableprop)
   - [`resilientProp()`](#resilientprop)
@@ -126,7 +126,7 @@ The `realue` module exposes the following functions:
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
   - [`persistedProp()`](#persistedprop)
-  - [`delayableHandler()`](#delayableHandler)
+  - [`delayableHandler()`](#delayablehandler)
 - [Children-based decorators](#children-based-decorators)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
@@ -605,6 +605,14 @@ box(
 > ⬇️ `{ [name]? }`
 
 Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
+
+#### `dynamicProp()`
+
+> ➡️ `(name)`
+
+> ⬇️ `{ [name]: true | false }`
+
+Injects a property `[name]` that cycles between `true` and `false` at each render.
 
 #### `initialProp()`
 

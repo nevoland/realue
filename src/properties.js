@@ -125,6 +125,28 @@ export function omitProps(propNames) {
   return mapProps((props) => omit(props, propNames))
 }
 
+export function dynamicProp(name) {
+  /*
+  Injects a property `[name]` that cycles between `true` and `false` at each render.
+  */
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class dynamicProp extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.value = true
+        }
+        render() {
+          return $(Component, {
+            ...this.props,
+            [name]: (this.value = !this.value),
+          })
+        }
+      },
+    )
+}
+
 export function makeShouldHandle(shouldHandleOrKeys) {
   return typeof shouldHandleOrKeys === 'function'
     ? shouldHandleOrKeys
