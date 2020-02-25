@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.28](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.27...v3.0.0-beta.28) (2020-02-25)
+
+
+### Features
+
+* **promises:** add `untilOnline` ([594202d](https://github.com/davidbonnet/realue/commit/594202d))
+
+
+### BREAKING CHANGES
+
+* **promises:** Rename `waitUntil` to `until` and `waitFor` to `sleep`.
+
+
+
 ## [3.0.0-beta.27](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.26...v3.0.0-beta.27) (2020-02-19)
 
 
