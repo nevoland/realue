@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.29](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.28...v3.0.0-beta.29) (2020-02-25)
+
+
+### Bug Fixes
+
+* **queries:** check for offline case first ([e6a4460](https://github.com/davidbonnet/realue/commit/e6a4460))
+
+
+
 ## [3.0.0-beta.28](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.27...v3.0.0-beta.28) (2020-02-25)
 
 
