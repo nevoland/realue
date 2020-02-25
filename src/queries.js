@@ -16,7 +16,7 @@ import {
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
-import { waitFor, promisedProp, on, waitUntil } from './promises'
+import { sleep, promisedProp, on, until } from './promises'
 import { EMPTY_OBJECT, setProperty } from './immutables'
 import { getGlobal } from './tools'
 
@@ -76,10 +76,10 @@ export function retry({
         }
         if (window && navigator && !navigator.onLine) {
           errorsLeft = amount
-          return waitUntil(on(window, 'online'), query.signal).then(fetch)
+          return until(on(window, 'online'), query.signal).then(fetch)
         }
         if (--errorsLeft > 0) {
-          return waitFor(
+          return sleep(
             delay + ((Math.random() * delayDelta) | 0),
             query.signal,
           ).then(fetch)
@@ -168,7 +168,7 @@ export function aggregate({
     if (!groups.has(category)) {
       const queries = []
       groups.set(category, {
-        request: waitFor(delay).then(() => {
+        request: sleep(delay).then(() => {
           groups.delete(category)
           return queries.length === 1
             ? next(queries[0])

@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import lodash from 'lodash'
 
-import { waitFor } from '../../src'
+import { sleep } from '../../src'
 
 const {
   map,
@@ -52,11 +52,11 @@ let RETRIES = 0
 
 const router = new Router()
 router.get('/value', async (context, next) => {
-  await waitFor(DATABASE.value.delay)
+  await sleep(DATABASE.value.delay)
   context.response.body = JSON.stringify(DATABASE.value)
 })
 router.put('/value', async (context, next) => {
-  await waitFor(DATABASE.value.delay)
+  await sleep(DATABASE.value.delay)
   const value = context.request.body
   DATABASE.value = value
   context.response.body = JSON.stringify(value)

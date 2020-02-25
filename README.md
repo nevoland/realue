@@ -94,7 +94,9 @@ The `realue` module exposes the following functions:
   - [`persisted`](#persisted)
 - [Promised-based tools](#promised-based-tools)
   - [`on()`](#on)
-  - [`waitUntil()`](#waituntil)
+  - [`sleep()`](#sleep)
+  - [`until()`](#until)
+  - [`untilOnline()`](#untilonline)
   - [`listenable()`](#listenable)
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
@@ -365,11 +367,26 @@ Listens for `event` on `target`, calling `listener(event)` at each incoming `eve
 Returns a function that removes the `listener` from the `target` for the specified `event`.
 If `listener` is not defined, returns a function that accepts the remaining `(listener, options)` arguments.
 
-#### `waitUntil()`
+#### `sleep()`
+
+> ➡️ `(duration, signal)`
+
+Returns a promise that resolves after at least `duration` milliseconds.
+If a `signal` is provided, listens to it to cancel the promise.
+
+#### `until()`
 
 > ➡️ `(register, signal, sentinel = stubTrue)`
 
 Listens for an event with the provided `register` function until `sentinel(event)` returns a truthy value.
+If a `signal` is provided, listens to it to cancel the promise.
+
+#### `untilOnline()`
+
+> ➡️ `()`
+
+Returns a promise that waits for the browser to be back online.
+Resolves to `true` if it it was offline before calling this function, `false` otherwise.
 If a `signal` is provided, listens to it to cancel the promise.
 
 #### `listenable()`

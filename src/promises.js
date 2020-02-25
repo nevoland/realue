@@ -76,7 +76,7 @@ export function on(target, event, listener, options) {
   return () => target.removeEventListener(event, listener, options)
 }
 
-export function waitFor(duration, signal) {
+export function sleep(duration, signal) {
   /*
   Returns a promise that resolves after at least `duration` milliseconds.
   If a `signal` is provided, listens to it to cancel the promise.
@@ -92,7 +92,7 @@ export function waitFor(duration, signal) {
   })
 }
 
-export function waitUntil(register, signal, sentinel = stubTrue) {
+export function until(register, signal, sentinel = stubTrue) {
   /*
   Listens for an event with the provided `register` function until `sentinel(event)` returns a truthy value.
   If a `signal` is provided, listens to it to cancel the promise.
@@ -112,6 +112,20 @@ export function waitUntil(register, signal, sentinel = stubTrue) {
       })
     }
   })
+}
+
+export async function untilOnline(signal) {
+  /*
+  Returns a promise that waits for the browser to be back online.
+  Resolves to `true` if it it was offline before calling this function, `false` otherwise.
+  If a `signal` is provided, listens to it to cancel the promise.
+  */
+  const { navigator, window } = getGlobal()
+  if (window && navigator && !navigator.onLine) {
+    await until(on(window, 'online'), signal)
+    return true
+  }
+  return false
 }
 
 export function timeout(duration, callback) {
