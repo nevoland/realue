@@ -8,7 +8,6 @@ import {
   pick,
   upperFirst,
   lowerCase,
-  split,
   isPlainObject,
   isArray,
   keys,
@@ -16,7 +15,7 @@ import {
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
-import { sleep, promisedProp, on, until } from './promises'
+import { sleep, promisedProp, untilOnline } from './promises'
 import { EMPTY_OBJECT, setProperty } from './immutables'
 import { getGlobal } from './tools'
 
@@ -34,19 +33,6 @@ export class QueryError extends Error {
   }
 }
 
-function getHostname() {
-  const { location } = getGlobal()
-  return !location ? 'localhost' : location.hostname
-}
-
-function isLocal(url, hostname) {
-  return (
-    url &&
-    ((url[0] === '/' && hostname === 'localhost') ||
-      split(split(url, '/')[2], ':')[0] === 'localhost')
-  )
-}
-
 // Middlewares
 
 export function retry({
@@ -61,31 +47,27 @@ export function retry({
   */
   delay -= delayDelta
   delayDelta *= 2
-  const { navigator, window } = getGlobal()
-  const hostname = getHostname()
   return (next) => (query) => {
     let errorsLeft = amount
     const fetch = () =>
-      next(query).catch((error) => {
-        if (
-          !(error instanceof QueryError) ||
-          error.status < 500 ||
-          isLocal(query.url, hostname)
-        ) {
-          throw error
-        }
-        if (window && navigator && !navigator.onLine) {
-          errorsLeft = amount
-          return until(on(window, 'online'), query.signal).then(fetch)
-        }
-        if (--errorsLeft > 0) {
+      next(query).catch((error) =>
+        untilOnline().then((wasOffline) => {
+          if (wasOffline) {
+            return fetch()
+          }
+          if (
+            !(error instanceof QueryError) ||
+            error.status < 500 ||
+            --errorsLeft < 0
+          ) {
+            throw error
+          }
           return sleep(
             delay + ((Math.random() * delayDelta) | 0),
             query.signal,
           ).then(fetch)
-        }
-        throw error
-      })
+        }),
+      )
     return fetch()
   }
 }
