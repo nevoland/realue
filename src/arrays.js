@@ -7,7 +7,7 @@ function onChangeItem(element) {
   return (itemValue, itemIndex, payload) => {
     const { props } = element
     return props.onChange(
-      setItem(props.value, itemIndex, itemValue),
+      setItem(props.value, +itemIndex, itemValue),
       props.name,
       payload,
     )
@@ -18,7 +18,7 @@ function onAddItem(element) {
   return (itemValue, itemIndex, payload) => {
     const { props } = element
     return props.onChange(
-      insertItem(props.value, itemValue, itemIndex),
+      insertItem(props.value, itemValue, +itemIndex),
       props.name,
       payload,
     )
@@ -29,7 +29,7 @@ function onAddItems(element) {
   return (itemsValues, itemIndex, payload) => {
     const { props } = element
     return props.onChange(
-      insertItems(props.value, itemsValues, itemIndex),
+      insertItems(props.value, itemsValues, +itemIndex),
       props.name,
       payload,
     )
@@ -63,7 +63,7 @@ export const array = (Component) =>
           return {
             key,
             value: props.value && props.value[index],
-            name: index,
+            name: `${index}`,
             onChange:
               props.onChange &&
               lazyProperty(this, 'onChangeItem', onChangeItem),
