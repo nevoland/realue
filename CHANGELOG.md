@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.32](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.31...v3.0.0-beta.32) (2020-03-06)
+
+
+### Features
+
+* **properties:** add `hasNotProps` tool ([259ceaa](https://github.com/davidbonnet/realue/commit/259ceaa))
+
+
+
 ## [3.0.0-beta.31](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.30...v3.0.0-beta.31) (2020-03-06)
 
 
