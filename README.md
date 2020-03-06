@@ -188,6 +188,7 @@ The `realue` module exposes the following functions:
   - [`hasProp()`](#hasprop)
   - [`hasNotProp()`](#hasnotprop)
   - [`hasProps()`](#hasprops)
+  - [`hasNotProps()`](#hasnotprops)
   - [`same()`](#same)
   - [`different()`](#different)
 - [Formatters](#formatters)
@@ -1289,6 +1290,12 @@ Returns a function that checks if `props[name]` is `nil`.
 > ➡️ `(names)`
 
 Returns a function that checks if every prop `name` in `names` is not `nil`.
+
+#### `hasNotProps()`
+
+> ➡️ `(names)`
+
+Returns a function that checks if some prop `name` in `names` is `nil`.
 
 #### `same()`
 

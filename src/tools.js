@@ -1,5 +1,5 @@
 import { createElement, isValidElement } from 'react'
-import { every, memoize, pick, mapValues, get, omit } from 'lodash'
+import { every, some, memoize, pick, mapValues, get, omit } from 'lodash'
 import { wrapDisplayName, getDisplayName } from 'recompose'
 
 const { isArray } = Array
@@ -40,6 +40,12 @@ Returns a function that checks if every prop `name` in `names` is not `nil`.
 */
 export const hasProps = (names) => (props) =>
   every(names, (name) => props[name] != null)
+
+/*
+Returns a function that checks if some prop `name` in `names` is `nil`.
+*/
+export const hasNotProps = (names) => (props) =>
+  some(names, (name) => props[name] == null)
 
 const REGEX_CHARS_PATTERN = /[.?*+^$[\]\\(){}|-]/g
 export function escapeRegex(pattern) {
