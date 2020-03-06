@@ -663,6 +663,7 @@ If `[delayName]` is falsy, no suspension occurs, nor the injection of `[onPullNa
 
 Keeps the last non-`nil` value of prop `[name]`.
 If `constantName` is provided, keeps the last non-`nil` value of prop `[name]` only if prop `[constantName]` did change.
+If `delayName` is provided, unconditionally updates the value of prop `[name]` only if prop `[delayName]` is truthy.
 
 #### `delayableProp()`
 

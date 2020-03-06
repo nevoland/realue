@@ -215,7 +215,7 @@ export const promised = promisedProp('value')
 /*
 Keeps the last non-`nil` value of prop `value`. 
 */
-export const resilient = resilientProp('value')
+export const resilient = resilientProp({ name: 'value', delayName: 'done' })
 
 export const toggledEditing = branch(
   /*

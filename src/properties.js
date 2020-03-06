@@ -811,29 +811,47 @@ export function resilientProp(options) {
   /*
   Keeps the last non-`nil` value of prop `[name]`.
   If `constantName` is provided, keeps the last non-`nil` value of prop `[name]` only if prop `[constantName]` did change.
+  If `delayName` is provided, unconditionally updates the value of prop `[name]` only if prop `[delayName]` is truthy.
   */
   const name = isString(options) ? options : options.name
-  const { constantName = null } = name === options ? EMPTY_OBJECT : options
+  const { constantName = false, delayName = false } =
+    name === options ? EMPTY_OBJECT : options
   return (Component) =>
     setWrapperName(
       Component,
       class resilientProp extends BaseComponent {
         constructor(props) {
           super(props)
-          this.state = {
-            value: props[name],
-            constant: constantName ? props[constantName] : null,
-          }
+          this.state = constantName
+            ? {
+                value: props[name],
+                constant: props[constantName],
+              }
+            : { value: props[name] }
         }
         static getDerivedStateFromProps(props, state) {
           const value = props[name]
-          return constantName && props[constantName] === state.constant
-            ? null
-            : value == null || value === state.value
-            ? constantName
-              ? { value: state.value, constant: props[constantName] }
-              : null
-            : { value, constant: constantName ? props[constantName] : null }
+          if (constantName) {
+            if (props[constantName] === state.constant) {
+              return null
+            }
+            return {
+              value: value == null ? state.value : value,
+              constant: props[constantName],
+            }
+          }
+          if (delayName) {
+            if (props[delayName]) {
+              if (value === state.value) {
+                return null
+              }
+              return { value }
+            }
+          }
+          if (value == null || value === state.value) {
+            return null
+          }
+          return { value }
         }
         render() {
           return $(Component, {
