@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "concurrently": "^5.0.0",
+    "is-promise": "^2.1.0",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
     "recompose": "^0.30.0"
@@ -107,7 +108,7 @@
       "module": true,
       "process": true,
       "require": true,
-      "window": true
+      "globalThis": true
     },
     "rules": {
       "curly": "error",
