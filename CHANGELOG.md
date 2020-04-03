@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.33](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.32...v3.0.0-beta.33) (2020-04-03)
+
+
+### Bug Fixes
+
+* **delayableProp:** handle nil delayable prop ([7f4ecb6](https://github.com/davidbonnet/realue/commit/7f4ecb6))
+
+
+
 ## [3.0.0-beta.32](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.31...v3.0.0-beta.32) (2020-03-06)
 
 
