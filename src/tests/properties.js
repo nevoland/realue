@@ -1,4 +1,5 @@
 import test from 'ava'
+import { mapValues, isFunction } from 'lodash'
 import render from 'react-test-renderer'
 import { compose } from 'recompose'
 
@@ -18,6 +19,18 @@ import {
   resilientProp,
   delayableHandler,
 } from '../properties'
+
+const Props = (props) =>
+  $(
+    'pre',
+    JSON.stringify(
+      mapValues(props, (value) =>
+        isFunction(value) ? `function() {}` : value,
+      ),
+      null,
+      2,
+    ),
+  )
 
 const Value = compose(
   logProps(['value']),
@@ -42,8 +55,24 @@ const Value = compose(
     name: 'onValueChange',
     delayName: 'delay',
   }),
-)(({ value }) => $('pre', JSON.stringify(value, null, 2)))
+)(Props)
 
 test('decorates component', (assert) => {
   assert.snapshot(render.create($(Value)).toJSON())
+})
+
+test('delayableProp', (assert) => {
+  const Component = delayableProp('onChange')(Props)
+  assert.snapshot(render.create($(Component)).toJSON())
+  assert.snapshot(render.create($(Component, { delayOnChange: 1 })).toJSON())
+  assert.snapshot(
+    render
+      .create(
+        $(Component, {
+          onChange: Function.prototype,
+          delayOnChange: 1,
+        }),
+      )
+      .toJSON(),
+  )
 })

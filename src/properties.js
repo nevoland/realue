@@ -531,6 +531,20 @@ export function delayableHandler(options) {
     )
 }
 
+function modeCheck(mode) {
+  return (value, delay) => {
+    if (!value) {
+      return value
+    }
+    return mode(value, delay)
+  }
+}
+
+const DELAY_MODES = {
+  debounce: modeCheck(debounce),
+  throttle: modeCheck(throttle),
+}
+
 export function delayableProp(options) {
   /*
   Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`. The `mode` can also be a function that returns a callback based from the `([name], [delayName])` arguments.
@@ -544,8 +558,7 @@ export function delayableProp(options) {
     onPushName = `onPush${capitalizedName}`,
     mode = 'debounce',
   } = name === options ? EMPTY_OBJECT : options
-  const debouncer =
-    mode === 'debounce' ? debounce : mode === 'throttle' ? throttle : mode
+  const debouncer = DELAY_MODES[mode] || mode
   if (process.env.NODE_ENV !== 'production') {
     if (typeof debouncer !== 'function') {
       throw new Error(`Unknown debounce mode supplied: "${mode}"`)
