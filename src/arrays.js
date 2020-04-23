@@ -7,7 +7,11 @@ function onChangeItem(element) {
   return (itemValue, itemIndex, payload) => {
     const { props } = element
     return props.onChange(
-      setItem(props.value, +itemIndex, itemValue),
+      setItem(
+        props.value,
+        itemIndex == null ? undefined : +itemIndex,
+        itemValue,
+      ),
       props.name,
       payload,
     )
@@ -18,7 +22,11 @@ function onAddItem(element) {
   return (itemValue, itemIndex, payload) => {
     const { props } = element
     return props.onChange(
-      insertItem(props.value, itemValue, +itemIndex),
+      insertItem(
+        props.value,
+        itemValue,
+        itemIndex == null ? undefined : +itemIndex,
+      ),
       props.name,
       payload,
     )
@@ -29,7 +37,11 @@ function onAddItems(element) {
   return (itemsValues, itemIndex, payload) => {
     const { props } = element
     return props.onChange(
-      insertItems(props.value, itemsValues, +itemIndex),
+      insertItems(
+        props.value,
+        itemsValues,
+        itemIndex == null ? undefined : +itemIndex,
+      ),
       props.name,
       payload,
     )
