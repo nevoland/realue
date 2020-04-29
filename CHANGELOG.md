@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-beta.35](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.34...v3.0.0-beta.35) (2020-04-29)
+
+
+### Features
+
+* **properties:** default shouldHandle to false ([6aec4bf](https://github.com/davidbonnet/realue/commit/6aec4bf))
+
+
+
 ## [3.0.0-beta.34](https://github.com/davidbonnet/realue/compare/v3.0.0-beta.33...v3.0.0-beta.34) (2020-04-23)
 
 
