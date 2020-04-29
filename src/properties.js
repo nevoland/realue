@@ -9,6 +9,7 @@ import {
   indexOf,
   identity,
   pick,
+  stubFalse,
 } from 'lodash'
 import {
   compose,
@@ -148,7 +149,9 @@ export function dynamicProp(name) {
 }
 
 export function makeShouldHandle(shouldHandleOrKeys) {
-  return typeof shouldHandleOrKeys === 'function'
+  return shouldHandleOrKeys == null
+    ? stubFalse
+    : typeof shouldHandleOrKeys === 'function'
     ? shouldHandleOrKeys
     : (props, nextProps) => !same(props, nextProps, shouldHandleOrKeys)
 }
