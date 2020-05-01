@@ -1,6 +1,126 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.0.0](https://github.com/davidbonnet/realue/compare/v2.22.1...v3.0.0) (2020-05-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* Children decorators have been reduced down to:
+- withChildren
+- withChild
+See examples to understand how to migrate.
+
+* feat(properties): add constant prop to resiliant
+
+* fix(dom): use node.current if null
+
+* feat(promises): add `on` listener helper
+
+* feat(promises): add `waitUntil` promise helper
+
+* feat(queries): update query middlewares
+
+- Add `json` and `text` extractors
+- BREAKING CHANGE: Replace `fetchJson` with `fetch`
+- Update `QuerryError` with `value` prop containing the returned error
+message from the API
+- BREAKING CHANGE: Rename `split` into `branch`
+- BREAKING CHANGE: Export query middlewares from `realue/queries`
+
+* fix(queries): rename `branch`
+* Rename `branch` into `branchQuery` and export
+all query middlewares.
+
+* feat(children): add `switchChild`
+
+* feat(children): add `Null` component
+
+* feat(properties): add `groupProps`
+
+* feat(properties): update `groupProps`
+* The `shouldMapOrKeys` argument is not necessary.
+
+* docs: fix README for `suspendable`
+
+* fix(properties): adjust updates in resilientProp
+
+* fix(dom): correctly name `refreshable`
+
+* feat(dom): add animation global listeners
+
+* feat: add log registers
+
+* feat(queries): add concurrent query middelware
+
+* fix: correctly name concurrent
+
+* fix(queries): fix concurrent result mapping
+
+* fix(queries): correctly map over indexes
+
+* docs: fix `initialValue` documentation
+
+* feat(properties): add `box` and update `returned`
+
+* docs: update `returned` documentation
+
+* fix: rename `delayedProp` and `suspendedProp`
+* Rename delayedProp and suspendedProp into
+delayableProp and suspendableProp, respectively, to follow the naming
+convention for decorators that trigger a behavior only if certain
+props are set.
+
+* fix(properties): optimize suspendableProp
+
+Do not unecessarily update the element when the prop reverts back
+to the previous value before the timeout.
+
+* feat(hooks): Add withHook decorator
+
+* feat: add `forwardNode`
+
+* fix(dom): Use parent `onKeyDown`, if any
+
+* feat(promise): Add `listenable`
+
+* feat(caches): add `persistedProp` and `persisted`
+
+* fix(caches): Stringify values
+
+* fix(properties): correctly set prop in defaultProp
+
+* feat(properties): add delayableHandler
+
+* fix(properties): set values as constants
+
+* feat(properties): add `dynamicProp` decorator
+
+* feat(promises): add `untilOnline`
+* Rename `waitUntil` to `until` and `waitFor` to `sleep`.
+
+* fix(queries): check for offline case first
+
+* fix(arrays): cast item name to string
+
+An element name should always be a string for consistency and
+to better integrate with the DOM.
+
+* feat(resilientProp): add `delayName` option
+
+* feat(properties): add `hasNotProps` tool
+
+* fix(delayableProp): handle nil delayable prop
+
+* feat(properties): default shouldHandle to false
+
+`makeShouldHandle(shouldHandleOrKeys)` returns a function that always
+returns false if `shouldHandleOrKeys` is `nil`.
+
+### Features
+
+* version 3 ([efd0848](https://github.com/davidbonnet/realue/commit/efd08480e730c952d4321c5461b7a9f1a7013105))
 
 <a name="2.22.1"></a>
 ## [2.22.1](https://github.com/davidbonnet/realue/compare/v2.22.0...v2.22.1) (2019-07-06)
