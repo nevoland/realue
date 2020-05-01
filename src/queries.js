@@ -8,10 +8,14 @@ import {
   pick,
   upperFirst,
   lowerCase,
+  isPlainObject,
+  isArray,
+  keys,
+  mapKeys,
 } from 'lodash'
 import { compose, withPropsOnChange } from 'recompose'
 
-import { waitFor, promisedProp } from './promises'
+import { sleep, promisedProp, untilOnline } from './promises'
 import { EMPTY_OBJECT, setProperty } from './immutables'
 import { getGlobal } from './tools'
 
@@ -19,9 +23,13 @@ export class QueryError extends Error {
   /*
   Error to be thrown in case there is an issue with the query call. Only instances of this error will be caught by the `retry()` middleware. 
   */
-  constructor(message, status) {
+  constructor(message, status, response) {
     super(message)
+    if (isPlainObject(message)) {
+      this.value = message
+    }
     this.status = status
+    this.response = response
   }
 }
 
@@ -42,23 +50,29 @@ export function retry({
   return (next) => (query) => {
     let errorsLeft = amount
     const fetch = () =>
-      next(query).catch((error) => {
-        if (!(error instanceof QueryError)) {
-          throw error
-        }
-        if (--errorsLeft > 0) {
-          return waitFor(
+      next(query).catch((error) =>
+        untilOnline().then((wasOffline) => {
+          if (wasOffline) {
+            return fetch()
+          }
+          if (
+            !(error instanceof QueryError) ||
+            error.status < 500 ||
+            --errorsLeft < 0
+          ) {
+            throw error
+          }
+          return sleep(
             delay + ((Math.random() * delayDelta) | 0),
             query.signal,
           ).then(fetch)
-        }
-        throw error
-      })
+        }),
+      )
     return fetch()
   }
 }
 
-export function split(condition, left, right = identity) {
+export function branchQuery(condition, left, right = identity) {
   /*
   Dispatches an incoming query to `left` if `condition(query)` returns a truthy value, `right` otherwise. This is helpful for sending queries to different resolvers.
 
@@ -136,7 +150,7 @@ export function aggregate({
     if (!groups.has(category)) {
       const queries = []
       groups.set(category, {
-        request: waitFor(delay).then(() => {
+        request: sleep(delay).then(() => {
           groups.delete(category)
           return queries.length === 1
             ? next(queries[0])
@@ -217,31 +231,58 @@ export function searchParams(query) {
   return assign(pick(query, QUERY_SEARCH_PARAMS), query.filter)
 }
 
-const DEFAULT_RESPONSE_HANDLER = (response) => response.json()
+export const json = (next) => (query) => {
+  if (query.body != null) {
+    query.headers = setProperty(
+      query.headers,
+      'content-type',
+      'application/json',
+    )
+  }
+  return next(query).then(
+    (response) => response.json(),
+    (error) => {
+      if (error.response) {
+        return error.response.json().then((result) => {
+          throw new QueryError(result, error.status)
+        })
+      }
+      throw error
+    },
+  )
+}
 
-export function fetchJson(responseHandler = DEFAULT_RESPONSE_HANDLER) {
+export const text = (next) => (query) =>
+  next(query).then(
+    (response) => response.text(),
+    (error) => {
+      if (error.response) {
+        return error.response.text().then((result) => {
+          throw new QueryError(result, error.status)
+        })
+      }
+      throw error
+    },
+  )
+
+export function fetch(fetch = getGlobal().fetch) {
   /*
-  Calls the DOM Fetch `query` and processes the successful response with the provided `responseHandler`, which defaults to requesting the parsed `json()` response.
+  Calls the provided `fetch`, which defaults to the DON `fetch` function, with the incoming `query`.
   To be used in conjunction with `toFetchQuery()`.
   */
-  const { fetch } = window
+  if (process.env.NODE_ENV !== 'production' && !fetch) {
+    console.error('Could not find a global `fetch` function')
+  }
   return () => (query) => {
-    if (query.body != null) {
-      query.headers = setProperty(
-        query.headers,
-        'content-type',
-        'application/json',
-      )
-    }
     return fetch(query.url, query).then(
       (response) => {
         if (!response.ok) {
-          throw new QueryError(response.statusText, response.status)
+          throw new QueryError(response.statusText, response.status, response)
         }
-        return responseHandler(response)
+        return response
       },
       (error) => {
-        throw new QueryError(error.message, 400)
+        throw new QueryError(error.message, error.status || 500)
       },
     )
   }
@@ -274,6 +315,28 @@ export function logQuery(title = 'Query') {
   }
 }
 
+export function concurrent(next) {
+  /*
+  Runs concurrent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
+  Otherwise, passes the query to the next handler.
+  */
+  const request = (query) => {
+    const { queries } = query
+    if (!queries) {
+      return next(query)
+    }
+    const names = !isArray(queries) && keys(queries)
+    return Promise.all(
+      map(names ? map(names, (name) => queries[name]) : queries, (query) =>
+        request(query),
+      ),
+    ).then((results) =>
+      names ? mapKeys(results, (result, index) => names[index]) : results,
+    )
+  }
+  return request
+}
+
 // Component decorators
 
 export function queriedProp(options) {
@@ -284,19 +347,24 @@ export function queriedProp(options) {
   const queryName = isString(options) ? options : options.queryName
   const {
     valueName = queryName,
-    onAbortName = `onAbort${upperFirst(queryName)}`,
     requestName = 'request',
+    onAbortName = `onAbort${upperFirst(queryName)}`,
+    AbortController = getGlobal().AbortController,
   } = queryName === options ? EMPTY_OBJECT : options
   return compose(
     withPropsOnChange(
       [queryName],
       ({ [queryName]: query, [requestName]: request }) => {
-        const controller = new window.AbortController()
-        return {
-          [valueName]:
-            query && request({ ...query, signal: controller.signal }),
-          [onAbortName]: () => controller.abort(),
-        }
+        const controller = AbortController && new AbortController()
+        return controller
+          ? {
+              [valueName]:
+                query && request({ ...query, signal: controller.signal }),
+              [onAbortName]: () => controller.abort(),
+            }
+          : {
+              [valueName]: query && request(query),
+            }
       },
     ),
     promisedProp(valueName),

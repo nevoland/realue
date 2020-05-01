@@ -48,8 +48,8 @@ test('sets properties in non-edition mode', (assert) => {
   assert.is(items.length, 2)
 
   const [one, two] = items
-  assert.is(one.props.name, 0)
-  assert.is(two.props.name, 1)
+  assert.is(one.props.name, '0')
+  assert.is(two.props.name, '1')
 
   assert.is(one.props.onChange, undefined)
   assert.is(two.props.onChange, undefined)

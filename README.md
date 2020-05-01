@@ -90,9 +90,17 @@ The `realue` module exposes the following functions:
   - [`toggledEditing`](#toggledediting)
   - [`fromValue()`](#fromvalue)
   - [`flattenValue`](#flattenvalue)
+  - [`persisted`](#persisted)
+- [Promised-based tools](#promised-based-tools)
+  - [`on()`](#on)
+  - [`sleep()`](#sleep)
+  - [`until()`](#until)
+  - [`untilOnline()`](#untilonline)
+  - [`listenable()`](#listenable)
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
   - [`omitProps()`](#omitprops)
+  - [`groupProps()`](#groupprops)
 - [Context](#context)
   - [`fromContext()`](#fromcontext)
   - [`withContext()`](#withcontext)
@@ -102,25 +110,28 @@ The `realue` module exposes the following functions:
   - [`withGlobalEffect()`](#withglobaleffect)
   - [`withImmediateGlobalEffect()`](#withimmediateglobaleffect)
   - [`onPropsChange()`](#onpropschange)
+  - [`withHook()`](#withhook)
 - [Scoped-based decorators](#scoped-based-decorators)
   - [`scoped()`](#scoped)
   - [`returned()`](#returned)
+  - [`box()`](#box)
 - [Property-based decorators](#property-based-decorators)
   - [`defaultProp()`](#defaultprop)
+  - [`dynamicProp()`](#dynamicprop)
   - [`initialProp()`](#initialprop)
-  - [`suspendedProp()`](#suspendedprop)
+  - [`suspendableProp()`](#suspendableprop)
   - [`resilientProp()`](#resilientprop)
-  - [`delayedProp()`](#delayedprop)
+  - [`delayableProp()`](#delayableprop)
   - [`editableProp()`](#editableprop)
   - [`syncedProp()`](#syncedprop)
   - [`cycledProp()`](#cycledprop)
   - [`promisedProp()`](#promisedprop)
+  - [`persistedProp()`](#persistedprop)
+  - [`delayableHandler()`](#delayablehandler)
 - [Children-based decorators](#children-based-decorators)
-  - [`withArrayChildren()`](#witharraychildren)
-  - [`withObjectChildren()`](#withobjectchildren)
   - [`withChildren()`](#withchildren)
   - [`withChild()`](#withchild)
-  - [`withElement()`](#withelement)
+  - [`switchChild()`](#switchchild)
 - [Type-oriented decorators](#type-oriented-decorators)
   - [`object`](#object)
   - [`objectProp()`](#objectprop)
@@ -139,6 +150,7 @@ The `realue` module exposes the following functions:
   - [`onKeysDown()`](#onkeysdown)
   - [`domProps`](#domprops)
   - [`withNode`](#withnode)
+  - [`forwardNode`](#forwardnode)
   - [`withBounds()`](#withbounds)
 - [Query helpers](#query-helpers)
   - [`Query` object](#query-object)
@@ -148,6 +160,7 @@ The `realue` module exposes the following functions:
   - [`split()`](#split)
   - [`cache()`](#cache)
   - [`aggregate()`](#aggregate)
+  - [`concurrent`](#concurrent)
   - [`toFetchQuery(routes, transform?)`](#tofetchqueryroutes-transform)
   - [`fetchJson()`](#fetchjson)
   - [`logQuery()`](#logquery)
@@ -165,12 +178,16 @@ The `realue` module exposes the following functions:
 - [Asynchronous helpers](#asynchronous-helpers)
   - [`timeout()`](#timeout)
   - [`interval()`](#interval)
+- [Storage helpers](#storage-helpers)
+  - [`sessionStorage`](#sessionstorage)
+  - [`localStorage`](#localstorage)
 - [Prop helpers](#prop-helpers)
   - [`picked()`](#picked)
   - [`omitted()`](#omitted)
   - [`hasProp()`](#hasprop)
   - [`hasNotProp()`](#hasnotprop)
   - [`hasProps()`](#hasprops)
+  - [`hasNotProps()`](#hasnotprops)
   - [`same()`](#same)
   - [`different()`](#different)
 - [Formatters](#formatters)
@@ -219,7 +236,7 @@ Sets `value` to `defaultValue` if `value` is `nil`.
 
 > ⬇️ `{ value? }`
 
-Sets `value` to `defaultValue` if `value` is `nil`.
+Sets `value` to `initialValue` on first render, if `initialValue` is not `nil`, then to `value` for subsequent renders.
 
 #### `resilient`
 
@@ -262,8 +279,8 @@ Renames undelayed `onChange` as `onPush`.
 
 > ⬇️ `{ value? }`
 
-Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
-Renames undelayed `onChange` as `onPush`.
+Suspends `value` changes for `delay` milliseconds. Subsequent `value` or `delay` changes cancel previous suspensions. Last suspension is canceled if `value` is set to the value prior the start of the suspension.
+Calling the injected method `onPull` immediately sets `value` to the latest value.
 
 #### `synced`
 
@@ -332,6 +349,75 @@ Adapts `onChange` for components that call it by providing the `value` as a firs
 
 Merges the properties of the `value` object prop into the props.
 
+#### `persisted`
+
+> ⬆️ `{ value?, onChange? }`
+
+> ⬇️ `{ value? }`
+
+Persists prop `value` in the storage found in prop `storage`, optionally prepending the value found in `domain` to the key when looking for the value. On mount, if the value is found in the storage, it is set to prop `value`. Its value is updated in the storage when `onChange(value, name, payload)` is called.
+
+### Promised-based tools
+
+#### `on()`
+
+> ➡️ `(target, event, listener?, options?)`
+
+Listens for `event` on `target`, calling `listener(event)` at each incoming `event`. The provided `options` are identical to those provided to `addEventListener`.
+Returns a function that removes the `listener` from the `target` for the specified `event`.
+If `listener` is not defined, returns a function that accepts the remaining `(listener, options)` arguments.
+
+#### `sleep()`
+
+> ➡️ `(duration, signal)`
+
+Returns a promise that resolves after at least `duration` milliseconds.
+If a `signal` is provided, listens to it to cancel the promise.
+
+#### `until()`
+
+> ➡️ `(register, signal, sentinel = stubTrue)`
+
+Listens for an event with the provided `register` function until `sentinel(event)` returns a truthy value.
+If a `signal` is provided, listens to it to cancel the promise.
+
+#### `untilOnline()`
+
+> ➡️ `()`
+
+Returns a promise that waits for the browser to be back online.
+Resolves to `true` if it it was offline before calling this function, `false` otherwise.
+If a `signal` is provided, listens to it to cancel the promise.
+
+#### `listenable()`
+
+> ➡️ `(initialValue)`
+
+Returns a listenable value set to the provided `initialValue` encapsulated in an object with the following properties:
+
+- `value`: the actual value
+- `on(listener)`: a `listener` registerer that returns an unregisterer for this function
+- `set(value)`: a new `value` setter that gets emitted to all registered listeners
+
+<details>
+  <summary>Example</summary>
+
+```js
+const height = listenable(0)
+function log(value) {
+  console.log(`Updated to ${value}`)
+}
+const off = height.on(log)
+// Returns 0
+height.value
+// Calls `log(300)`
+height.set(300)
+// Stops loging value changes
+off()
+```
+
+</details>
+
 ### Tooling decorators
 
 #### `logProps()`
@@ -341,11 +427,19 @@ Merges the properties of the `value` object prop into the props.
 Logs the provided `propNames` whenever they change.
 Uses `title` as console group (defaults to decorated component name).
 
+This function can be made available globally by importing `realue/src/register-loggers.js` first.
+
 #### `omitProps()`
 
 > ➡️ `(propNames)`
 
 Removes provided `propNames`.
+
+#### `groupProps()`
+
+> ➡️ `(destinationName, propNames)`
+
+Groups `propNames` into an object stored at `destinationName` and updates them when any property value listed in `propNames` changes.
 
 ### Context
 
@@ -423,6 +517,32 @@ If the handler returns `false`, it will never be run again for this component.
 Similar to `withPropsOnChange`, except that the values of the `handler` are not merged into the props.
 The `handler` is called when the component is first mounted if `callOnMount` is `true` (default value).
 
+#### `withHook()`
+
+> ➡️ `(hook, source, result)`
+
+Uses the provided `hook`, with the arguments extracted from `source`,
+and reinjects the value from `result` back into the props.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const Counter = compose(
+  withProps({ initialCount: 0 }),
+  withHook(useState, ['initialCount'], ['count', 'onChangeCount']),
+)(({ count, onChangeCount }) =>
+  $(
+    'div',
+    'Count: ',
+    count,
+    $('button', { onClick: () => onChangeCount(count + 1) }, 'Increment'),
+  ),
+)
+```
+
+</details>
+
 ### Scoped-based decorators
 
 #### `scoped()`
@@ -457,7 +577,7 @@ compose(
 
 > ⬇️ `{ __return }`
 
-Enables the injection of props from an isolated scope.
+Enables the injection of props from an isolated scope. The `propsMapperOrMap` can be a function that takes the current props and returns the props to inject, or a name list or map of prop names similar to the one provided to `picked()`.
 
 <details>
   <summary>Examples</summary>
@@ -466,6 +586,27 @@ Enables the injection of props from an isolated scope.
 scoped(...decorators, returned(picked({ user: 'value' })))
 
 scoped(...decorators, returned(omitted(['value'])))
+```
+
+</details>
+
+#### `box()`
+
+Boxes the execution of one or several `decorators` with the picked `inputMapperOrMap` and injects into the props the one picked by `outputMapperOrMap`.
+
+<details>
+  <summary>Example</summary>
+
+```js
+box(
+  ['value', 'request'],
+  compose(
+    withEntityQuery,
+    queried,
+    flattenValue,
+  ),
+  ['value', 'done', 'error'],
+)
 ```
 
 </details>
@@ -482,6 +623,14 @@ scoped(...decorators, returned(omitted(['value'])))
 
 Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
 
+#### `dynamicProp()`
+
+> ➡️ `(name)`
+
+> ⬇️ `{ [name]: true | false }`
+
+Injects a property `[name]` that cycles between `true` and `false` at each render.
+
 #### `initialProp()`
 
 > ➡️ `({ name, initialName? } | name)`
@@ -492,7 +641,7 @@ Sets `[name]` to `[defaultName]` if `[name]` is `nil`.
 
 Sets `[name]` to `[initialName]` on first render if `[initialName]` is not `nil`, then to `[name]` for subsequent renders.
 
-#### `suspendedProp()`
+#### `suspendableProp()`
 
 > ➡️ `({ name, delayName?, onPullName? } | name)`
 
@@ -506,15 +655,17 @@ If `[delayName]` is falsy, no suspension occurs, nor the injection of `[onPullNa
 
 #### `resilientProp()`
 
-> ➡️ `(name)`
+> ➡️ `({ name, constantName } | name)`
 
 > ⬆️ `{ [name]? }`
 
 > ⬇️ `{ [name] }`
 
 Keeps the last non-`nil` value of prop `[name]`.
+If `constantName` is provided, keeps the last non-`nil` value of prop `[name]` only if prop `[constantName]` did change.
+If `delayName` is provided, unconditionally updates the value of prop `[name]` only if prop `[delayName]` is truthy.
 
-#### `delayedProp()`
+#### `delayableProp()`
 
 > ➡️ `({ name, delayName?, onPushName?, mode? } | name)`
 
@@ -574,18 +725,52 @@ Before the promise resolves, `done` is `false` and `value` is `undefined`.
 If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value amd `done` is `true`.
 If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
 
+#### `persistedProp()`
+
+> ➡️ `({ name, onChangeName, domainName, storageName } | name)`
+
+> ⬆️ `{ [name]?, [onChangeName]? }`
+
+> ⬇️ `{ [name]? }`
+
+Persists prop `[name]` in the storage found in prop `[storageName]`, optionally prepending the value found in `[domainName]` to the key when looking for the value. On mount, if the value is found in the storage, it is set to prop `[name]`. Its value is updated in the storage when `[onChangeName](value, name, payload)` is called.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const STORAGE = new Map()
+
+const PersistedInput = compose(
+  withProps({ domain: 'persisted', storage: STORAGE }),
+  persisted,
+  string,
+  fromEvent('target.value'),
+  domProps,
+)('input')
+```
+
+</details>
+
+#### `delayableHandler()`
+
+> ⬆️ `({ handlerName, sentinelName })`
+
+> ⬇️ `{ [handlerName] }`
+
+Delays `[handlerName]` calls until after `[sentinelName]` is truthy.
+
 ### Children-based decorators
 
-#### `withArrayChildren()`
+#### `withChildren()`
 
-> ➡️ `(Component, shouldUpdateOrKeys?, childProps?, valueName?, destination?)`
+> ➡️ `(Component, childProps?, { valueName?, destinationName? })`
 
-> ⬆️ `{ [valueName]? }`
+> ⬆️ `{ [valueName]?, item? }`
 
 > ⬇️ `{ children }`
 
-Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)} />` and injects it as a `[destination]` prop (`children` by default).
-The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
+Builds an array that maps every item from the `[valueName]` prop (`'value'` by default) with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destinationName]` prop (`'children'` by default).
 
 <details>
   <summary>Example</summary>
@@ -594,89 +779,76 @@ The children are only updated if `shouldUpdateOrKeys` returns `true` or if a pro
 function Item({ value }) {
   return $('li', value)
 }
-const List = withChildren(Item, ['value'], () => (value) => ({ value }))('ul')
+const List = compose(
+  array,
+  withChildren(Item),
+)('ul')
+const element = $(List, { value: [1, 2, 3] })
 ```
 
 </details>
-
-#### `withObjectChildren()`
-
-> ➡️ `({ [key]: Component | [ Component, shouldUpdateOrKeys, childProps ] }, destination?)`
-
-> ⬆️ `{ [valueName]? }`
-
-> ⬇️ `{ children }`
-
-Builds an object mapping the keys of the provided `options` with the result of `<Component {...childProps(props, name)}/>` whenever `shouldUpdateOrKeys(props, nextProps)` returns `true`.
-
-<details>
-  <summary>Example</summary>
-
-```js
-function ArticleView({ children }) {
-  return $('div', children.header, children.body)
-}
-const Article = withObjectChildren({
-  header: ['h2', ['value'], ({ value }) => ({ children: value.header })],
-  body: ['p', ['value'], ({ value }) => ({ children: value.body })],
-})(ArticleView)
-$(Article, { value: { header: 'Title', body: 'Text' } })
-```
-
-Note that the above `Article` could be defined as:
-
-```js
-const Article = withObjectChildren({ header: 'h2', body: 'p' })
-```
-
-</details>
-
-#### `withChildren()`
-
-> ➡️ `(Component, childProps?, shouldUpdateOrKeys?, valueName?, destination?)`
-
-> ⬆️ `{ [valueName]? }`
-
-> ⬇️ `{ children }`
-
-⚠️ DEPRECATED: Use `withArrayChildren` instead.
-
-Builds an array that maps every item from the `[valueName]` prop with the result of `<Component {...childProps(props)(itemValue, itemIndex)}` and injects it as a `[destination]` prop (`children` by default).
-The children are only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the children are updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
 
 #### `withChild()`
 
-> ➡️ `(Component | { [string]: Component }, childProps?, shouldUpdateOrKeys?, destination?)`
+> ➡️ `(Component | { [string]: [Component, childProps()] | Component }, childProps(props, name?)?, { destinationName? })`
 
-> ⬆️ `{ [valueName]? }`
+> ⬆️ `{ [valueName]?, property? }`
 
 > ⬇️ `{ children }`
 
-⚠️ DEPRECATED: `Component` as a map of components will not be supported. Use `withObjectChildren` instead.
+If `ChildComponentOrMap` is a component, builds an element from the provided `ChildComponentOrMap` with the props from `childProps(props, undefined)` and injects it as a `[destinationName]` prop (`'children'` by default).
+Otherwise, if `ChildComponentOrMap` is a mapping of `name: [Component, childProps()] | Component`, transforms this mapping into `name: $(Component, childProps(props, name))` and injects it into the props at `destinationName` (`'children'` by default).
+If `childProps` is not defined, defaults to returning the result of `props.property(name)` merged into the props, if `props.property` and `props.name` are defined. Otherwise, all `props` are provided.
 
-Builds an element from the provided `Component` with the props from `childProps(props)` and injects it as a `[destination]` prop (`children` by default).
-The element is only updated if `shouldUpdateOrKeys` returns `true` or if a prop whose name is listed in it changes. By default, the element is updated when at least one of the following props changes: `['value', 'name', 'onChange']`.
+<details>
+  <summary>Examples</summary>
+
+```js
+const Person = compose(
+  withChild({
+    name: StringInput,
+    lastName: StringInput,
+    age: NumberInput,
+  }),
+)(({ children }) => $('div', children.name, children.lastName, children.age))
+```
+
+```js
+const Article = compose(withChild(Toolbar))(({ value, children }) =>
+  $('div', $('p', value), children),
+)
+```
+
+</details>
+
+#### `switchChild()`
+
+> ➡️ `(propNameOrPicker, { [string]: [Component, childProps()] | Component }, { destinationName? })`
+
+> ⬆️ `props | { [propNameOrPicker]? }`
+
+> ⬇️ `{ children }`
+
+Builds the element from `componentMap[key]`, with `key` being the value of the prop name `propNameOrPicker`, if `propNameOrPicker` is a string, or of the value returned by `propNameOrPicker(props)`, if `propNameOrPicker` is a function.
+The `componentMap` values are either a `[Component, childProps()]` couple or just a `Component`.
 
 <details>
   <summary>Example</summary>
 
 ```js
-const Article = withChild(
-  { header: 'h1', body: 'p' },
-  ({ value }, name) => ({
-    children: value[name],
+const EntityName = compose(
+  switchChild('type', {
+    user: UserName,
+    device: DeviceName,
+    setting: SettingName,
+    invoice: InvoiceName,
   }),
-  ['value'],
-)(({ children = EMPTY_OBJECT }) => $('div', children.header, children.body))
+)(Children)
 
-$(Article, { value: { header: 'Title', body: 'Content' } })
+const name = $(EntityName, { type: 'user', id: '42' })
 ```
 
 </details>
-
-#### `withElement()`
-
-⚠️ DEPRECATED: Alias for `withChild`. Will be removed.
 
 ### Type-oriented decorators
 
@@ -832,6 +1004,14 @@ const Example = withNode(({ node }) =>
 
 </details>
 
+#### `forwardNode`
+
+> ⬆️ `{ key }`
+
+> ⬇️ `{ node }`
+
+Renames the provided `ref` into `node`.
+
 #### `withBounds()`
 
 > ➡️ `(properties = ['height', 'width', 'top', 'left'], offset?)`
@@ -857,6 +1037,8 @@ withBounds(['width', 'height'])(({ width, height }) =>
 
 #### `Query` object
 
+Either a single query continaing the following properties:
+
 - `type: string`: a string identifying the type object to fetch
 - `method: enum { 'get', 'list', 'post', 'put', 'patch', 'delete' }`: method to apply on the queried object
 - `refresh: boolean`: if `true`, bypasses any cache
@@ -866,6 +1048,10 @@ withBounds(['width', 'height'])(({ width, height }) =>
 - `limit: number`: in case of `list` method, maximum amount of items to return
 - `filter: { [string]: string | boolean | number | object }`: values used to filter
 - `order: { key: string, descending: boolean }[]`: array of ordering parameters
+
+Or multiple queries grouped into a single property:
+
+- `queries: query[] | { [string]: query }`: array or map of queries
 
 #### `queriedProp()`
 
@@ -924,6 +1110,11 @@ Queries are grouped according to the string key returned by `categorize(query)`.
 The aggregated query is built from the object returned by `reduce(queries)`, after at least `delay` milliseconds after the first non-aggregated aggregatable query call.
 When the aggregated query resolves, the result is dispatched back to each aggregatable query call of the category by dispatching the result for each query returned by `pick(result, query)`.`
 
+#### `concurrent`
+
+Runs concurrent queries if `query.queries` contains a list or a map of queries, resulting in a list or map of resolved queries.
+Otherwise, passes the query to the next handler.
+
 #### `toFetchQuery(routes, transform?)`
 
 > ➡️ `(routes, transform?)`
@@ -941,6 +1132,8 @@ To be used in conjunction with `toFetchQuery()`.
 > ➡️ `(title?)`
 
 Logs the outgoing query and the incoming result or the error.
+
+This function can be made available globally by importing `realue/src/register-loggers.js` first.
 
 #### `queryString()`
 
@@ -1027,6 +1220,16 @@ Calls `callback` after at least `duration` milliseconds. Returns a function that
 
 Calls `callback` at least every `duration` milliseconds. Returns a function that stops future calls of `callback`. If `duration` is falsy, uses `requestAnimationFrame`.
 
+### Storage helpers
+
+#### `sessionStorage`
+
+Storage that persists between page reloads, until the tab or window is closed. To be used with `persistedProp()` or `persisted`.
+
+#### `localStorage`
+
+Persistent storage. To be used with `persistedProp()` or `persisted`.
+
 ### Prop helpers
 
 #### `picked()`
@@ -1086,6 +1289,12 @@ Returns a function that checks if `props[name]` is `nil`.
 > ➡️ `(names)`
 
 Returns a function that checks if every prop `name` in `names` is not `nil`.
+
+#### `hasNotProps()`
+
+> ➡️ `(names)`
+
+Returns a function that checks if some prop `name` in `names` is `nil`.
 
 #### `same()`
 

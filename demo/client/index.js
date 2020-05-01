@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, memo, useState } from 'react'
 import { render } from 'react-dom'
 import {
   map,
@@ -16,7 +16,6 @@ import {
 } from 'lodash'
 import {
   compose,
-  pure,
   withHandlers,
   withProps,
   defaultProps,
@@ -32,42 +31,47 @@ import {
   cyclable,
   defaultValue,
   delayable,
+  domProps,
   editable,
   editableProp,
-  EMPTY_OBJECT,
   EMPTY_ARRAY,
+  EMPTY_OBJECT,
   filterable,
   fromEvent,
+  initialValue,
+  logProps,
   number,
   object,
-  domProps,
   onKeysDown,
   onPropsChange,
   parseNumber,
+  persisted,
   queried,
   refreshed,
   removable,
   resilient,
+  returned,
+  scoped,
+  sessionStorage,
   string,
+  suspendable,
+  switchChild,
+  synced,
   syncedFocus,
+  syncedProp,
   toggledEditing,
   transformable,
-  withChild,
-  withArrayChildren,
-  synced,
-  syncedProp,
-  withObjectChildren,
-  logProps,
-  initialValue,
-  suspendable,
   withBounds,
+  withChild,
+  withChildren,
+  withHook,
   withNode,
 } from '../../src'
 
 import { request } from './requests'
 
 const Text = compose(
-  pure,
+  memo,
   defaultProps({ defaultValue: '', focus: false }),
   defaultValue,
   string,
@@ -100,7 +104,7 @@ const Text = compose(
 )
 
 const Checkbox = compose(
-  pure,
+  memo,
   defaultValue,
   boolean,
   fromEvent('target.checked'),
@@ -118,7 +122,7 @@ const Checkbox = compose(
 )
 
 const Item = compose(
-  pure,
+  memo,
   object,
   removable,
 )(({ property, onRemove }) =>
@@ -137,9 +141,9 @@ const Item = compose(
 const ITEMS = times(3, constant(EMPTY_OBJECT))
 
 const Items = compose(
-  pure,
+  memo,
   array,
-  withArrayChildren(Item),
+  withChildren(Item),
   withHandlers({
     onAddThree: ({ value, onAddItems }) => (payload) =>
       onAddItems(ITEMS, value.length, payload),
@@ -155,7 +159,7 @@ const Items = compose(
 )
 
 const ItemCreator = compose(
-  pure,
+  memo,
   withProps({
     value: { done: false },
     filterOnChange: stubFalse,
@@ -205,7 +209,7 @@ const ItemCreator = compose(
 )
 
 const EditedItems = compose(
-  pure,
+  memo,
   withProps({ filterOnChange: stubFalse, editing: false }),
   toggledEditing,
   filterable,
@@ -251,7 +255,7 @@ export const Bounds = compose(
 )
 
 const Color = compose(
-  pure,
+  memo,
   object,
 )(({ property, value }) =>
   $(
@@ -278,7 +282,7 @@ const Color = compose(
 )
 
 const Number = compose(
-  pure,
+  memo,
   defaultProps({
     type: 'number',
     defaultValue: '',
@@ -299,7 +303,7 @@ const Number = compose(
   domProps,
 )('input')
 
-const ColorProperty = compose(pure)(({ value, name, onChange, min, max }) =>
+const ColorProperty = compose(memo)(({ value, name, onChange, min, max }) =>
   $(
     'li',
     name,
@@ -318,7 +322,7 @@ const ColorProperty = compose(pure)(({ value, name, onChange, min, max }) =>
 )
 
 export const Toggle = compose(
-  pure,
+  memo,
   delayable,
   onPropsChange(
     ['value'],
@@ -339,20 +343,40 @@ export const Toggle = compose(
   ),
 )
 
-const Article = withObjectChildren({
+export const Switch = compose(
+  memo,
+  withProps({
+    values: ['a', 'b', 'c'],
+    defaultValue: 'a',
+  }),
+  synced,
+  defaultValue,
+  cyclable,
+  switchChild('value', {
+    a: () => 'Click the "Switch" button to switch between components.',
+    b: () => 'Nice! Click it again…',
+    c: () => 'Excellent!',
+  }),
+)(({ onCycle, children }) =>
+  $('div', $('button', { onClick: onCycle }, 'Switch'), $('br'), children),
+)
+
+const Article = withChild({
   header: [
     'h1',
-    ['value'],
     ({ value }, name) => ({
       children: value[name],
     }),
   ],
-  body: ['p', ['value'], ({ value }, name) => ({ children: value[name] })],
+  body: ['p', ({ value }, name) => ({ children: value[name] })],
 })(({ children = EMPTY_OBJECT }) =>
   $('div', $('div', children.header), $('div', children.body)),
 )
 
 const Timer = compose(
+  withProps({
+    delay: 500,
+  }),
   refreshed,
   withProps(({ value = 0 }) => ({
     style: { opacity: Math.abs(((Date.now() - value) % 1000) - 500) / 1000 },
@@ -361,7 +385,7 @@ const Timer = compose(
 )('div')
 
 const Resources = compose(
-  pure,
+  memo,
   withProps({ onChange: Function.prototype }),
   withProps({
     value: { type: 'device', fields: ['id', 'name', 'performance'] },
@@ -416,7 +440,7 @@ function countLastValues(values, property) {
 }
 
 const Table = compose(
-  pure,
+  memo,
   withPropsOnChange(
     ['type', 'fields', 'limit'],
     ({ type, fields, limit = 3 }) => ({
@@ -571,7 +595,7 @@ const Table = compose(
   },
 )
 
-const Aggregations = pure(() =>
+const Aggregations = memo(() =>
   $(
     'div',
     $('h4', 'Users'),
@@ -583,6 +607,7 @@ const Aggregations = pure(() =>
       $(User, { value: 4 }),
       $(User, { value: 4 }),
       $(User, { value: 5 }),
+      $(Request, { type: 'person', value: 42 }),
     ),
     $('h4', 'Devices'),
     $(
@@ -590,12 +615,13 @@ const Aggregations = pure(() =>
       $(Device, { value: 1 }),
       $(Device, { value: 2 }),
       $(Device, { value: 3 }),
+      $(Request, { type: 'something' }),
     ),
   ),
 )
 
 const Request = compose(
-  pure,
+  memo,
   withPropsOnChange(['value', 'type'], ({ value: id, type }) => ({
     request,
     query: {
@@ -610,7 +636,11 @@ const Request = compose(
     !done
       ? ['Loading…', $('button', { onClick: onAbort, key: 'cancel' }, 'Cancel')]
       : error
-      ? $('span', { style: { color: 'red' } }, error.message)
+      ? $(
+          'span',
+          { style: { color: 'red' } },
+          error.value ? JSON.stringify(error.value) : error.message,
+        )
       : value.name,
   ),
 )
@@ -619,7 +649,7 @@ const User = withProps({ type: 'user' })(Request)
 const Device = withProps({ type: 'device' })(Request)
 
 export const Progress = compose(
-  pure,
+  memo,
   withProps(({ value, delay }) => ({
     delay: value ? (delay / 2) | 0 : delay,
     initialValue: true,
@@ -643,7 +673,7 @@ export const Progress = compose(
 export const Compute = compose(
   withProps({ defaultValue: { a: 1, b: 2 } }),
   defaultValue,
-  pure,
+  memo,
   synced,
   object,
 )(({ value: { a = 0, b = 0 }, property }) =>
@@ -654,6 +684,27 @@ export const Compute = compose(
     $('p', `${a} + ${b} = ${a + b}`),
   ),
 )
+
+export const Hooks = compose(
+  withProps({ initialCount: 0 }),
+  withHook(useState, ['initialCount'], ['count', 'onChangeCount']),
+)(({ count, onChangeCount }) =>
+  $(
+    'div',
+    'Count: ',
+    count,
+    $('button', { onClick: () => onChangeCount(count + 1) }, 'Increment'),
+  ),
+)
+
+const PersistedText = compose(
+  withProps({ domain: 'persisted', storage: sessionStorage }),
+  persisted,
+  synced,
+  string,
+  fromEvent('target.value'),
+  domProps,
+)('input')
 
 export const App = compose(
   withProps({
@@ -671,7 +722,7 @@ export const App = compose(
         value,
       }),
   }),
-  flattenProp('value'),
+  scoped(flattenProp('value'), returned(['value', 'done', 'error'])),
   resilient,
   delayable,
   editable,
@@ -687,6 +738,12 @@ export const App = compose(
         null,
         $('h2', 'Delay'),
         $(Number, { ...property('delay'), min: 0, max: 5000 }),
+        $('h2', 'Hooks'),
+        $(Hooks),
+        $('h2', 'Switch'),
+        $(Switch),
+        $('h2', 'Persisted'),
+        $(PersistedText),
         $('h2', 'Compute'),
         $(Compute),
         $('h2', 'Bounds'),
