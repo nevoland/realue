@@ -1,4 +1,5 @@
 import test from 'ava'
+import { mapValues, isFunction } from 'lodash'
 import render from 'react-test-renderer'
 import { compose } from 'recompose'
 
@@ -10,13 +11,26 @@ import {
   onPropsChange,
   defaultProp,
   initialProp,
-  suspendedProp,
-  delayedProp,
+  suspendableProp,
+  delayableProp,
   editableProp,
   syncedProp,
   cycledProp,
   resilientProp,
+  delayableHandler,
 } from '../properties'
+
+const Props = (props) =>
+  $(
+    'pre',
+    JSON.stringify(
+      mapValues(props, (value) =>
+        isFunction(value) ? `function() {}` : value,
+      ),
+      null,
+      2,
+    ),
+  )
 
 const Value = compose(
   logProps(['value']),
@@ -31,14 +45,34 @@ const Value = compose(
   ),
   defaultProp('value'),
   initialProp('value'),
-  suspendedProp('value'),
-  delayedProp('value'),
+  suspendableProp('value'),
+  delayableProp('value'),
   editableProp('value'),
   syncedProp('value'),
   cycledProp('value'),
   resilientProp('value'),
-)(({ value }) => $('pre', JSON.stringify(value, null, 2)))
+  delayableHandler({
+    name: 'onValueChange',
+    delayName: 'delay',
+  }),
+)(Props)
 
 test('decorates component', (assert) => {
   assert.snapshot(render.create($(Value)).toJSON())
+})
+
+test('delayableProp', (assert) => {
+  const Component = delayableProp('onChange')(Props)
+  assert.snapshot(render.create($(Component)).toJSON())
+  assert.snapshot(render.create($(Component, { delayOnChange: 1 })).toJSON())
+  assert.snapshot(
+    render
+      .create(
+        $(Component, {
+          onChange: Function.prototype,
+          delayOnChange: 1,
+        }),
+      )
+      .toJSON(),
+  )
 })

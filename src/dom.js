@@ -1,4 +1,4 @@
-import { Component as BaseComponent, createRef } from 'react'
+import { Component as BaseComponent, createRef, forwardRef } from 'react'
 import {
   memoize,
   get,
@@ -235,7 +235,7 @@ export const refreshable = (Component) =>
   */
   setWrapperName(
     Component,
-    class withRefresh extends BaseComponent {
+    class refreshable extends BaseComponent {
       constructor(props) {
         super(props)
         this.onRefresh = (callback) => this.forceUpdate(callback)
@@ -310,10 +310,13 @@ export function onKeysDown(keys) {
   return withHandlers({
     onKeyDown: (props) => (event) => {
       const handler = keys[event.key]
-      if (handler == null) {
-        return
+      if (handler) {
+        handler(props, event)
       }
-      handler(props, event)
+      const { onKeyDown } = props
+      if (onKeyDown && !event.isPropagationStopped()) {
+        onKeyDown(event)
+      }
     },
   })
 }
@@ -340,6 +343,14 @@ export const withNode = (Component) =>
       }
     },
   )
+
+export const forwardNode = compose(
+  /*
+  Renames the provided `ref` into `node`.
+  */
+  forwardRef,
+  (Component) => (props, key) => $(Component, { ...props, node: key }),
+)
 
 const DEFAULT_BOUNDS_PROPERTIES = ['height', 'width', 'top', 'left']
 
@@ -431,6 +442,8 @@ const EVENT_MAPPING = {
   onScroll: 'scroll',
   onResize: 'resize',
   onOrientationChange: 'orientationchange',
+  onAnimationStart: 'animationstart',
+  onAnimationEnd: 'animationend',
 }
 
 const GLOBAL_LISTENERS = {

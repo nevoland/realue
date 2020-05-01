@@ -1,16 +1,17 @@
 import { compose } from 'recompose'
-import { map, identity } from 'lodash'
+import { map } from 'lodash'
 
 import {
   cache,
-  fetchJson,
+  fetch,
+  json,
   retry,
   toFetchQuery,
   queryString,
   searchParams,
   aggregate,
   logQuery,
-} from '../../src'
+} from '../../src/queries'
 
 function updateParams(params) {
   if (!params.order) {
@@ -32,7 +33,6 @@ function qs(query) {
 export const request = compose(
   logQuery(),
   aggregate(),
-  retry(),
   toFetchQuery(
     {
       value: {
@@ -47,14 +47,23 @@ export const request = compose(
         get: (query) => `/user/${query.value.id}`,
         list: (query) => `/user?${qs(query)}`,
       },
+      person: {
+        get: (query) => `/person/${query.value.id}`,
+      },
+      something: {
+        get: () => `http://test.bonnet.cc/something`,
+      },
     },
     (query) => {
-      query.url = `http://localhost:4000${query.url}`
+      query.url =
+        query.url[0] === '/' ? `http://localhost:4000${query.url}` : query.url
       return query
     },
   ),
+  retry(),
   cache({
     serialize: (query) => query.method === 'GET' && query.url,
   }),
-  fetchJson(),
-)(identity)
+  json,
+  fetch(),
+)()

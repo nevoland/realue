@@ -10,14 +10,15 @@ import { memoize, get } from 'lodash'
 
 import { $, hasProp, hasProps, lazyProperty, setWrapperName } from './tools'
 import {
-  delayedProp,
+  delayableProp,
   syncedProp,
   editableProp,
   cycledProp,
   resilientProp,
-  suspendedProp,
+  suspendableProp,
   defaultProp,
   initialProp,
+  delayableHandler,
 } from './properties'
 import { promisedProp } from './promises'
 import { EMPTY_OBJECT } from './immutables'
@@ -42,6 +43,14 @@ function transformedOnChange(element) {
     )
   }
 }
+
+/*
+Delays `onChange` calls until after `delay` is truthy.
+*/
+export const delayableOnChange = delayableHandler({
+  name: 'onChange',
+  delayName: 'delay',
+})
 
 export const transformable = (Component) =>
   /*
@@ -129,7 +138,7 @@ export const filterable = compose(
   ),
 )
 
-export const suspendable = suspendedProp({
+export const suspendable = suspendableProp({
   /*
   Suspends `value` changes for `delay` milliseconds. Subsequent `value` or `delay` changes cancel previous suspensions. Last suspension is canceled if `value` is set to the value prior the start of the suspension.
   Calling the injected method `onPull` immediately sets `value` to the latest value.
@@ -139,7 +148,7 @@ export const suspendable = suspendedProp({
   onPullName: 'onPull',
 })
 
-export const delayable = delayedProp({
+export const delayable = delayableProp({
   /*
   Delays `onChange` calls until after `delay` milliseconds have elapsed since the last call.
   Renames undelayed `onChange` as `onPush`.
@@ -206,7 +215,7 @@ export const promised = promisedProp('value')
 /*
 Keeps the last non-`nil` value of prop `value`. 
 */
-export const resilient = resilientProp('value')
+export const resilient = resilientProp({ name: 'value', delayName: 'done' })
 
 export const toggledEditing = branch(
   /*

@@ -8,11 +8,19 @@ import {
   throttle,
   indexOf,
   identity,
+  pick,
+  stubFalse,
 } from 'lodash'
-import { compose, mapProps, withHandlers, withProps } from 'recompose'
+import {
+  compose,
+  mapProps,
+  withHandlers,
+  withProps,
+  withPropsOnChange,
+} from 'recompose'
 
 import { EMPTY_OBJECT, same } from './immutables'
-import { $, setWrapperName, getGlobal } from './tools'
+import { $, setWrapperName, getGlobal, picked } from './tools'
 
 /* eslint-disable no-console */
 function wrapProps(
@@ -118,8 +126,32 @@ export function omitProps(propNames) {
   return mapProps((props) => omit(props, propNames))
 }
 
+export function dynamicProp(name) {
+  /*
+  Injects a property `[name]` that cycles between `true` and `false` at each render.
+  */
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class dynamicProp extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.value = true
+        }
+        render() {
+          return $(Component, {
+            ...this.props,
+            [name]: (this.value = !this.value),
+          })
+        }
+      },
+    )
+}
+
 export function makeShouldHandle(shouldHandleOrKeys) {
-  return typeof shouldHandleOrKeys === 'function'
+  return shouldHandleOrKeys == null
+    ? stubFalse
+    : typeof shouldHandleOrKeys === 'function'
     ? shouldHandleOrKeys
     : (props, nextProps) => !same(props, nextProps, shouldHandleOrKeys)
 }
@@ -326,7 +358,7 @@ export function defaultProp(options) {
           ? props
           : {
               ...props,
-              value: value == null ? defaultValue : value,
+              [name]: value == null ? defaultValue : value,
             },
       )
     })
@@ -367,7 +399,7 @@ export function initialProp(options) {
 
 const { setTimeout, clearTimeout } = getGlobal()
 
-export function suspendedProp(options) {
+export function suspendableProp(options) {
   /*
   Suspends `[name]` changes for `[delayName]` milliseconds. Subsequent `[name]` or `[delayName]` changes cancel previous suspensions. Last suspension is canceled if `[name]` is set to the value prior the start of the suspension.
   Calling the injected method `[onPullName]` immediately sets `[name]` to the latest value.
@@ -382,7 +414,7 @@ export function suspendedProp(options) {
   return (Component) =>
     setWrapperName(
       Component,
-      class suspendedProp extends BaseComponent {
+      class suspendableProp extends BaseComponent {
         constructor(props) {
           super(props)
           this.state = {
@@ -427,7 +459,7 @@ export function suspendedProp(options) {
             clearTimeout(this.timer)
             this.timer = null
           }
-          if (props[delayName]) {
+          if (props[delayName] && props[name] !== this.state.value) {
             this.timer = setTimeout(this.onPull, props[delayName])
           }
         }
@@ -451,7 +483,72 @@ export function suspendedProp(options) {
     )
 }
 
-export function delayedProp(options) {
+export function delayableHandler(options) {
+  /*
+  Delays `[handlerName]` calls until after `[delayName]` is truthy.
+  */
+  const name = isString(options) ? options : options.name
+  const capitalizedName = upperFirst(name)
+  const { delayName = `delay${capitalizedName}` } =
+    name === options ? EMPTY_OBJECT : options
+  return (Component) =>
+    setWrapperName(
+      Component,
+      class delayableHandler extends BaseComponent {
+        constructor(props) {
+          super(props)
+          this.state = {
+            shouldTrigger: false,
+          }
+          this.trigger = () => {
+            const {
+              props: { [name]: handler, [delayName]: delay },
+              state: { shouldTrigger },
+            } = this
+            if (delay) {
+              handler()
+            } else {
+              if (!shouldTrigger) {
+                this.setState({ shouldTrigger: true })
+              }
+            }
+          }
+        }
+        componentDidUpdate() {
+          const {
+            props: { [name]: handler, [delayName]: delay },
+            state: { shouldTrigger },
+          } = this
+          if (shouldTrigger && delay) {
+            this.setState({ shouldTrigger: false }, handler)
+          }
+        }
+        render() {
+          const { props } = this
+          return $(Component, {
+            ...props,
+            [name]: this.trigger,
+          })
+        }
+      },
+    )
+}
+
+function modeCheck(mode) {
+  return (value, delay) => {
+    if (!value) {
+      return value
+    }
+    return mode(value, delay)
+  }
+}
+
+const DELAY_MODES = {
+  debounce: modeCheck(debounce),
+  throttle: modeCheck(throttle),
+}
+
+export function delayableProp(options) {
   /*
   Delays `[name]` calls until after `[delayName]` milliseconds have elapsed since the last call if `options.mode` is `'debounce'` (default value), or calls `[name]` at most once every `[delayName]` milliseconds if `options.mode` is `'throttle'`. The `mode` can also be a function that returns a callback based from the `([name], [delayName])` arguments.
   Renames undelayed `[name]` as `['onPush' + name]`.
@@ -464,8 +561,7 @@ export function delayedProp(options) {
     onPushName = `onPush${capitalizedName}`,
     mode = 'debounce',
   } = name === options ? EMPTY_OBJECT : options
-  const debouncer =
-    mode === 'debounce' ? debounce : mode === 'throttle' ? throttle : mode
+  const debouncer = DELAY_MODES[mode] || mode
   if (process.env.NODE_ENV !== 'production') {
     if (typeof debouncer !== 'function') {
       throw new Error(`Unknown debounce mode supplied: "${mode}"`)
@@ -474,7 +570,7 @@ export function delayedProp(options) {
   return (Component) =>
     setWrapperName(
       Component,
-      class delayedProp extends BaseComponent {
+      class delayableProp extends BaseComponent {
         constructor(props) {
           super(props)
           const { [name]: value, [delayName]: delay } = props
@@ -571,29 +667,61 @@ export function scoped(...decorators) {
     )
 
   */
-  const composition = compose(
+  return compose(
     mapProps((props) => ({ ...props, [SCOPE]: props })),
     ...decorators,
     mapProps((props) =>
       props[RETURN] ? { ...props[SCOPE], ...props[RETURN] } : props[SCOPE],
     ),
   )
-  return (Component) => {
-    const DecoratedComponent = composition(Component)
-    return (props) => $(DecoratedComponent, props)
-  }
 }
 
-export function returned(propsMapper) {
+export function returned(propsMapperOrMap) {
   /*
-  Enables the injection of props from an isolated scope.
+  Enables the injection of props from an isolated scope. The `propsMapperOrMap` can be a function that takes the current props and returns the props to inject, or a name list or map of prop names similar to the one provided to `picked()`.
 
   Example:
 
-    scoped(...decorators, returned(picked({ user: 'value' })))
+    scoped(...decorators, returned({ user: 'value' }))
 
   */
-  return withProps((props) => ({ [RETURN]: propsMapper(props) }))
+  const returnedProps =
+    typeof propsMapperOrMap === 'function'
+      ? propsMapperOrMap
+      : picked(propsMapperOrMap)
+  return withProps((props) => ({ [RETURN]: returnedProps(props) }))
+}
+
+export function box(inputMapperOrMap, decorator, outputMapperOrMap) {
+  /*
+  Boxes the execution of one or several `decorators` with the picked `inputMapperOrMap` and injects into the props the one picked by `outputMapperOrMap`.
+
+  Example:
+
+    box(
+      ['value', 'request'],
+      compose(
+        withEntityQuery,
+        queried,
+        flattenValue,
+      ),
+      ['value', 'done', 'error']
+    )
+
+  */
+  const inputProps =
+    typeof inputMapperOrMap === 'function'
+      ? inputMapperOrMap
+      : picked(inputMapperOrMap)
+  const outputProps =
+    typeof outputMapperOrMap === 'function'
+      ? outputMapperOrMap
+      : picked(outputMapperOrMap)
+  return compose(
+    mapProps((props) => ({ ...inputProps(props), [SCOPE]: props })),
+    decorator,
+    mapProps((props) => ({ ...props[SCOPE], ...outputProps(props) })),
+  )
 }
 
 export function syncedProp(options) {
@@ -667,6 +795,8 @@ export function syncedProp(options) {
     )
 }
 
+const DEFAULT_CYCLE_VALUES = [false, true]
+
 export function cycledProp(options) {
   /*
   Injects prop `[onCycleName](payload)` that cycles the value of prop `[name]` through the values found in prop `[valuesName]` which default to `[false, true]`.
@@ -683,7 +813,7 @@ export function cycledProp(options) {
   return withHandlers({
     [onCycleName]: ({
       [name]: value,
-      [valuesName]: values = [false, true],
+      [valuesName]: values = DEFAULT_CYCLE_VALUES,
       [onChangeName]: onChange,
       [nameName]: valueName = name,
     }) => (payload) => {
@@ -693,21 +823,51 @@ export function cycledProp(options) {
   })
 }
 
-export function resilientProp(name) {
+export function resilientProp(options) {
   /*
   Keeps the last non-`nil` value of prop `[name]`.
+  If `constantName` is provided, keeps the last non-`nil` value of prop `[name]` only if prop `[constantName]` did change.
+  If `delayName` is provided, unconditionally updates the value of prop `[name]` only if prop `[delayName]` is truthy.
   */
+  const name = isString(options) ? options : options.name
+  const { constantName = false, delayName = false } =
+    name === options ? EMPTY_OBJECT : options
   return (Component) =>
     setWrapperName(
       Component,
       class resilientProp extends BaseComponent {
         constructor(props) {
           super(props)
-          this.state = { [name]: props[name] }
+          this.state = constantName
+            ? {
+                value: props[name],
+                constant: props[constantName],
+              }
+            : { value: props[name] }
         }
         static getDerivedStateFromProps(props, state) {
           const value = props[name]
-          return value === state.value || value == null ? null : { value }
+          if (constantName) {
+            if (props[constantName] === state.constant) {
+              return null
+            }
+            return {
+              value: value == null ? state.value : value,
+              constant: props[constantName],
+            }
+          }
+          if (delayName) {
+            if (props[delayName]) {
+              if (value === state.value) {
+                return null
+              }
+              return { value }
+            }
+          }
+          if (value == null || value === state.value) {
+            return null
+          }
+          return { value }
         }
         render() {
           return $(Component, {
@@ -717,4 +877,13 @@ export function resilientProp(name) {
         }
       },
     )
+}
+
+export function groupProps(destinationName, propNames) {
+  /*
+  Groups `propNames` into an object stored at `destinationName` and updates them when any property value listed in `propNames` changes.
+  */
+  return withPropsOnChange(propNames, (props) => ({
+    [destinationName]: pick(props, propNames),
+  }))
 }
