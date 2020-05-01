@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/davidbonnet/realue/compare/v3.0.0...v3.0.1) (2020-05-01)
+
+
+### Bug Fixes
+
+* unused concurrently dependency ([fcd3358](https://github.com/davidbonnet/realue/commit/fcd3358c09beca03299bec56ef42c51c4fc0981c))
+
 ## [3.0.0](https://github.com/davidbonnet/realue/compare/v2.22.1...v3.0.0) (2020-05-01)
 
 
