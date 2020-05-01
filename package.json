@@ -56,7 +56,7 @@
     "cross-env": "^5.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.20.2",
     "esm": "^3.2.25",
     "fast-glob": "3.0.4",
     "husky": "^3.0.1",
