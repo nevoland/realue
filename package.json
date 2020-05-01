@@ -19,8 +19,8 @@
     "eslint": "eslint src/",
     "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
-    "release": "standard-version --prerelease beta",
-    "deploy": "git push --follow-tags origin next && npm publish --tag next"
+    "release": "standard-version",
+    "deploy": "git push --follow-tags origin master && npm publish"
   },
   "keywords": [
     "react",
