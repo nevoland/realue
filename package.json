@@ -51,7 +51,7 @@
     "babel-plugin-set-display-name": "^1.0.2",
     "chalk": "^2.4.2",
     "chokidar": "^3.0.2",
-    "codecov": "^3.5.0",
+    "codecov": "^3.6.5",
     "connect": "^3.7.0",
     "cross-env": "^5.2.0",
     "eslint": "^6.1.0",
