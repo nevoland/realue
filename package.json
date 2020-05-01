@@ -15,9 +15,11 @@
     "dev:server": "node --require esm demo/server/index.js",
     "dev:test": "ava --watch",
     "prepare": "babel --config-file ./babel.config.js --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --config-file ./babel.config.js --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
-    "test": "eslint src/ && prettier --list-different \"{src,scripts}/**/*.js\" && ava --reset-cache && nyc ava",
+    "test": "npm run eslint && npm run prettier:check && npm run test:unit",
+    "test:unit": "c8 --reporter=html --reporter=text --reporter=lcov --include='src/*.js' --all --exclude='src/**/tests/*.js' ava",
     "eslint": "eslint src/",
     "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
+    "prettier:check": "prettier --list-different \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
     "release": "standard-version",
     "deploy": "git push --follow-tags origin master && npm publish"
@@ -49,6 +51,7 @@
     "@koa/cors": "^3.0.0",
     "ava": "^3.8.1",
     "babel-plugin-set-display-name": "^1.1.2",
+    "c8": "^7.1.1",
     "chalk": "^4.0.0",
     "chokidar": "^3.4.0",
     "codecov": "^3.6.5",
@@ -63,7 +66,6 @@
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^8.0.8",
-    "nyc": "^15.0.1",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.5",
     "react-devtools": "^4.6.0",
@@ -158,16 +160,6 @@
     ],
     "require": [
       "esm"
-    ]
-  },
-  "nyc": {
-    "exclude": [
-      "src/**/tests/*.js"
-    ],
-    "reporter": [
-      "html",
-      "lcov",
-      "text"
     ]
   },
   "esm": "auto"
