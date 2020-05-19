@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.3](https://github.com/davidbonnet/realue/compare/v3.1.2...v3.1.3) (2020-05-19)
+
+
+### Bug Fixes
+
+* **tools:** component is not wrapped ([8cd6de8](https://github.com/davidbonnet/realue/commit/8cd6de83332dbb2311ab973e9c1ece6bc974f778))
+
 ### [3.1.2](https://github.com/davidbonnet/realue/compare/v3.1.1...v3.1.2) (2020-05-19)
 
 
