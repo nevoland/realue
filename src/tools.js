@@ -122,6 +122,7 @@ export function setDisplayName(name) {
         value: name,
       })
     }
+    return Component
   }
 }
 
