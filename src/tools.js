@@ -7,7 +7,7 @@ import {
   mapValues,
   get,
   omit,
-  isString,
+  isFunction,
 } from 'lodash'
 import { wrapDisplayName, getDisplayName } from 'recompose'
 
@@ -123,16 +123,25 @@ export function setDisplayName(name) {
   Sets the provided display `name` to the component.
   */
   return (Component) => {
-    const WrappedComponent = isString(Component)
-      ? (props) => $(Component, props)
-      : Component
+    const WrappedComponent =
+      Component.displayName || !isFunction(Component)
+        ? (props) => $(Component, props)
+        : Component
     WrappedComponent.displayName = name
     /* c8 ignore next */
     if (!getGlobal().window) {
-      Object.defineProperty(WrappedComponent, 'name', {
-        ...Object.getOwnPropertyDescriptor(WrappedComponent, 'name'),
-        value: name,
-      })
+      const descriptor = Object.getOwnPropertyDescriptor(
+        WrappedComponent,
+        'name',
+      )
+      if (!descriptor || descriptor.configurable) {
+        Object.defineProperty(WrappedComponent, 'name', {
+          value: name,
+          writable: false,
+          enumerable: false,
+          configurable: true,
+        })
+      }
     }
     return WrappedComponent
   }
