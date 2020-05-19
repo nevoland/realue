@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/davidbonnet/realue/compare/v3.0.1...v3.1.0) (2020-05-19)
+
+
+### Features
+
+* add `setDisplayName()` ([2ec9057](https://github.com/davidbonnet/realue/commit/2ec90574dace47ac9441f01e699b37086f1f7bf6))
+
 ### [3.0.1](https://github.com/davidbonnet/realue/compare/v3.0.0...v3.0.1) (2020-05-01)
 
 
