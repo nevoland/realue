@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.2](https://github.com/davidbonnet/realue/compare/v3.1.1...v3.1.2) (2020-05-19)
+
+
+### Bug Fixes
+
+* **tools:** unable to set name on string component ([ed307c3](https://github.com/davidbonnet/realue/commit/ed307c3c85de3b2801a50e0f1b2b6efb3b06b113))
+
 ### [3.1.1](https://github.com/davidbonnet/realue/compare/v3.1.0...v3.1.1) (2020-05-19)
 
 
