@@ -1,5 +1,14 @@
 import { createElement, isValidElement } from 'react'
-import { every, some, memoize, pick, mapValues, get, omit } from 'lodash'
+import {
+  every,
+  some,
+  memoize,
+  pick,
+  mapValues,
+  get,
+  omit,
+  isString,
+} from 'lodash'
 import { wrapDisplayName, getDisplayName } from 'recompose'
 
 const { isArray } = Array
@@ -114,11 +123,14 @@ export function setDisplayName(name) {
   Sets the provided display `name` to the component.
   */
   return (Component) => {
-    Component.displayName = name
+    const WrappedComponent = isString(Component)
+      ? (props) => $(Component, props)
+      : Component
+    WrappedComponent.displayName = name
     /* c8 ignore next */
     if (!getGlobal().window) {
-      Object.defineProperty(Component, 'name', {
-        ...Object.getOwnPropertyDescriptor(Component, 'name'),
+      Object.defineProperty(WrappedComponent, 'name', {
+        ...Object.getOwnPropertyDescriptor(WrappedComponent, 'name'),
         value: name,
       })
     }
