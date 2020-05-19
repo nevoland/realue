@@ -99,6 +99,7 @@ The `realue` module exposes the following functions:
   - [`listenable()`](#listenable)
 - [Tooling decorators](#tooling-decorators)
   - [`logProps()`](#logprops)
+  - [`setDisplayName()`](#setdisplayname)
   - [`omitProps()`](#omitprops)
   - [`groupProps()`](#groupprops)
 - [Context](#context)
@@ -429,6 +430,12 @@ Uses `title` as console group (defaults to decorated component name).
 
 This function can be made available globally by importing `realue/src/register-loggers.js` first.
 
+#### `setDisplayName()`
+
+> ➡️ `(name)`
+
+Sets the provided display `name` to the component.
+
 #### `omitProps()`
 
 > ➡️ `(propNames)`
@@ -598,15 +605,11 @@ Boxes the execution of one or several `decorators` with the picked `inputMapperO
   <summary>Example</summary>
 
 ```js
-box(
-  ['value', 'request'],
-  compose(
-    withEntityQuery,
-    queried,
-    flattenValue,
-  ),
-  ['value', 'done', 'error'],
-)
+box(['value', 'request'], compose(withEntityQuery, queried, flattenValue), [
+  'value',
+  'done',
+  'error',
+])
 ```
 
 </details>
@@ -779,10 +782,7 @@ Builds an array that maps every item from the `[valueName]` prop (`'value'` by d
 function Item({ value }) {
   return $('li', value)
 }
-const List = compose(
-  array,
-  withChildren(Item),
-)('ul')
+const List = compose(array, withChildren(Item))('ul')
 const element = $(List, { value: [1, 2, 3] })
 ```
 

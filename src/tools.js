@@ -109,6 +109,22 @@ export function called(object, property) {
   return object
 }
 
+export function setDisplayName(name) {
+  /*
+  Sets the provided display `name` to the component.
+  */
+  return (Component) => {
+    Component.displayName = name
+    /* c8 ignore next */
+    if (!getGlobal().window) {
+      Object.defineProperty(Component, 'name', {
+        ...Object.getOwnPropertyDescriptor(Component, 'name'),
+        value: name,
+      })
+    }
+  }
+}
+
 export function lazyProperty(object, propertyName, valueBuilder, ...options) {
   /*
   Returns `object[propertyName]` if not `nil`, otherwise sets the result of `valueBuilder(object)` to it and returns it.
