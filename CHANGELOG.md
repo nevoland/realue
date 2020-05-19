@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.4](https://github.com/davidbonnet/realue/compare/v3.1.3...v3.1.4) (2020-05-19)
+
+
+### Bug Fixes
+
+* **tools:** unable to name non-function component ([c332194](https://github.com/davidbonnet/realue/commit/c332194eda94d2b0db906ab37ad3f4e7525dd32c))
+
 ### [3.1.3](https://github.com/davidbonnet/realue/compare/v3.1.2...v3.1.3) (2020-05-19)
 
 
