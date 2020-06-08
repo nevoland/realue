@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/davidbonnet/realue/compare/v3.1.4...v3.2.0) (2020-06-08)
+
+
+### Features
+
+* add layout components ([c3ea49d](https://github.com/davidbonnet/realue/commit/c3ea49d5a0471f28d928cb2b000bdb8eda5af0fa))
+
 ### [3.1.4](https://github.com/davidbonnet/realue/compare/v3.1.3...v3.1.4) (2020-05-19)
 
 
