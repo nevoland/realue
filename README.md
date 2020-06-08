@@ -191,6 +191,9 @@ The `realue` module exposes the following functions:
   - [`hasNotProps()`](#hasnotprops)
   - [`same()`](#same)
   - [`different()`](#different)
+- [Layout components](#layout-components)
+  - [`Flex`](#flex)
+  - [`Box`](#box-1)
 - [Formatters](#formatters)
   - [`escapeRegex()`](#escaperegex)
   - [`replaceAll()`](#replaceall)
@@ -1322,6 +1325,32 @@ const withName = withPropsOnChange(
 ```
 
 </details>
+
+### Layout components
+
+:warning: These components must be imported from `'realue/layout'`.
+
+#### `Flex`
+
+Abstracts usage of CSS flexbox.
+
+```js
+$(
+  Flex,
+  { container: true, direction: 'column' },
+  $(Flex, { item: true }, 'Small'),
+  $(Flex, { item: true, grow: true }, 'Large'),
+  $(Flex, { item: true }, 'Small'),
+)
+```
+
+#### `Box`
+
+Merges provided style properties into `style` property.
+
+```js
+$(Box, { width: 100, height: '50%', backgroundColor: 'gold' })
+```
 
 ### Formatters
 

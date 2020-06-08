@@ -67,6 +67,7 @@ import {
   withHook,
   withNode,
 } from '../../src'
+import { Flex, Box } from '../../src/layout'
 
 import { request } from './requests'
 
@@ -764,19 +765,135 @@ export const App = compose(
   ),
 )
 
+function Layout() {
+  return $(
+    Flex,
+    { container: true, direction: 'column', className: 'full-screen' },
+    $(
+      Flex,
+      {
+        item: true,
+        container: true,
+        direction: 'row',
+        height: 70,
+        align: 'start',
+        justify: 'start',
+        className: 'a',
+      },
+      $(
+        Flex,
+        { item: true, align: 'center', justify: 'center' },
+        'Title',
+        $('br'),
+        'Sub-title',
+      ),
+    ),
+    $(
+      Flex,
+      { item: true, grow: true, container: true, direction: 'row' },
+      $(
+        Flex,
+        { item: true, scroll: true, className: 'b' },
+        $(
+          Box,
+          { width: 220, padding: 8 },
+          'Lorem ipsum officia ullamco enim et in sint pariatur et occaecat cillum deserunt incididunt qui dolor occaecat dolore ut id ut ut elit minim ut sed dolore tempor in ut ad velit adipisicing dolore nostrud minim veniam sit sit ex incididunt dolore magna in incididunt id nostrud dolor ut irure proident deserunt cillum reprehenderit velit occaecat magna commodo sunt pariatur do nostrud culpa proident et ut labore nulla magna est quis ut enim laborum.',
+        ),
+      ),
+      $(
+        Flex,
+        {
+          container: true,
+          direction: 'column',
+          width: 200,
+          className: 'e',
+        },
+        $(
+          Flex,
+          { item: true, padding: 8, borderBottom: '1px solid black' },
+          'Search…',
+        ),
+        $(
+          Flex,
+          { item: true, grow: true, scroll: true },
+          map(Array(20), (_, key) =>
+            $(
+              Flex,
+              {
+                key,
+                container: true,
+                item: true,
+                align: 'center',
+                justify: 'start',
+                paddingTop: 8,
+                paddingBottom: 8,
+                paddingLeft: 16,
+                paddingRight: 16,
+                // height: 30,
+                borderBottom: key === 19 ? undefined : '1px solid black',
+              },
+              `Item ${key + 1}`,
+            ),
+          ),
+        ),
+      ),
+      $(
+        Flex,
+        {
+          item: true,
+          grow: true,
+          container: true,
+          direction: 'column',
+          className: 'c',
+        },
+        $(
+          Flex,
+          { item: true },
+          'Sub-title—Lorem ipsum officia ullamco enim et in sint pariatur et occaecat cillum deserunt incididunt',
+        ),
+        $(
+          Flex,
+          { item: true, grow: true, scroll: true },
+          $('div', { style: { padding: 16 } }, $(App)),
+        ),
+        $(Flex, { item: true, align: 'center' }, 'Extra options'),
+      ),
+      $(
+        Flex,
+        {
+          item: true,
+          container: true,
+          align: 'center',
+          justify: 'center',
+          className: 'b',
+          width: 200,
+        },
+        '…',
+      ),
+    ),
+    $(
+      Flex,
+      { container: true, item: true, direction: 'row', className: 'd' },
+      $(Flex, { item: true }, $('button', 'Cancel')),
+      $(Flex, { item: true, grow: true }),
+      $(Flex, { item: true }, $('button', 'Save')),
+    ),
+  )
+}
+
 /* istanbul ignore next */
-function start(App) {
-  render($(App), global.document.getElementById('main'))
+function start(Layout) {
+  render($(Layout), global.document.getElementById('main'))
 }
 
 /* istanbul ignore next */
 if (global.window) {
-  start(App)
+  start(Layout)
 }
 
 /* istanbul ignore next */
 if (module.hot) {
-  module.hot.accept(function() {
-    start(App)
+  module.hot.accept(function () {
+    start(Layout)
   })
 }
