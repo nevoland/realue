@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.2](https://github.com/davidbonnet/realue/compare/v3.2.1...v3.2.2) (2020-06-09)
+
+
+### Bug Fixes
+
+* **layout:** add ref support ([1e61171](https://github.com/davidbonnet/realue/commit/1e61171123e475af246b9c04b64c75d9c27e31d1))
+
 ### [3.2.1](https://github.com/davidbonnet/realue/compare/v3.2.0...v3.2.1) (2020-06-09)
 
 
