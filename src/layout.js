@@ -1,37 +1,40 @@
-import { Children } from 'react'
+import { Children, forwardRef } from 'react'
 import { memoize, omitBy, isNil, some, isEmpty } from 'lodash'
 
 import { $ } from './tools'
 
 const { toArray } = Children
 
-export function Flex({
-  container = false,
-  direction = 'row',
-  wrap = false,
-  align = container ? 'stretch' : null,
-  justify = 'start',
-  scroll = false,
-  className,
-  children,
-  item = false,
-  overflow = scroll
-    ? item
-      ? 'auto'
-      : 'hidden'
-    : container &&
-      some(
-        toArray(children),
-        (child) => child && child.props && child.props.scroll,
-      )
-    ? 'hidden'
-    : null,
-  grow = false,
-  shrink = overflow === 'hidden' ? true : !grow,
-  basis = shrink && overflow !== 'hidden' ? 'auto' : '0',
-  Component = 'div',
-  ...style
-}) {
+export const Flex = forwardRef(function Flex(
+  {
+    container = false,
+    direction = 'row',
+    wrap = false,
+    align = container ? 'stretch' : null,
+    justify = 'start',
+    scroll = false,
+    className,
+    children,
+    item = false,
+    overflow = scroll
+      ? item
+        ? 'auto'
+        : 'hidden'
+      : container &&
+        some(
+          toArray(children),
+          (child) => child && child.props && child.props.scroll,
+        )
+      ? 'hidden'
+      : null,
+    grow = false,
+    shrink = overflow === 'hidden' ? true : !grow,
+    basis = shrink && overflow !== 'hidden' ? 'auto' : '0',
+    Component = 'div',
+    ...style
+  },
+  ref,
+) {
   /*
   Abstracts usage of CSS flexbox.
   */
@@ -54,10 +57,11 @@ export function Flex({
         style,
       ),
       className,
+      ref,
     },
     children,
   )
-}
+})
 
 function merge(a, b) {
   return isEmpty(b) ? a : { ...a, ...b }
@@ -104,9 +108,12 @@ function alignFlex(align) {
     : align
 }
 
-export function Box({ children, className, Component = 'div', ...style }) {
+export const Box = forwardRef(function Box(
+  { children, className, Component = 'div', ...style },
+  ref,
+) {
   /*
   Merges provided style properties into `style` property.
   */
-  return $(Component, { style, className }, children)
-}
+  return $(Component, { style, className, ref }, children)
+})
