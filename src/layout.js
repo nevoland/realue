@@ -9,7 +9,7 @@ export function Flex({
   container = false,
   direction = 'row',
   wrap = false,
-  align = 'stretch',
+  align = container ? 'stretch' : null,
   justify = 'start',
   scroll = false,
   className,
