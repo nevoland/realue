@@ -63,7 +63,7 @@
     "esm": "^3.2.25",
     "fast-glob": "3.2.2",
     "husky": "^4.2.5",
-    "koa": "^2.11.0",
+    "koa": "^2.12.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^8.0.8",
     "parcel-bundler": "^1.12.4",
