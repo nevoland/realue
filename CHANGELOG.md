@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/davidbonnet/realue/compare/v3.2.2...v3.3.0) (2020-06-28)
+
+
+### Features
+
+* **layout:** add basic event support ([82a5730](https://github.com/davidbonnet/realue/commit/82a5730abe26caac6797b7e133a6d7cd7c1bf0fa))
+
+
+### Bug Fixes
+
+* **layout:** simplify export ([7209a5b](https://github.com/davidbonnet/realue/commit/7209a5b4a6043cb1d3865e692ea69a740f4fead1))
+
 ### [3.2.2](https://github.com/davidbonnet/realue/compare/v3.2.1...v3.2.2) (2020-06-09)
 
 
