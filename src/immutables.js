@@ -179,7 +179,10 @@ export function setPath(target, path, value, index = 0) {
 export function same(
   a,
   b,
-  properties = a !== b && uniq(concat(keys(a), keys(b))),
+  properties = a !== b &&
+    a != null &&
+    b != null &&
+    uniq(concat(keys(a), keys(b))),
   deep = false,
 ) {
   /*
@@ -189,6 +192,9 @@ export function same(
   */
   if (a === b) {
     return true
+  }
+  if (a == null || b == null) {
+    return false
   }
   const { length } = properties
   for (let i = 0; i < length; i++) {

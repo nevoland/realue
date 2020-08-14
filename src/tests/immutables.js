@@ -249,6 +249,9 @@ test('same', (assert) => {
     same({ a }, { a: { b: 1 } }, ['a.b'], true),
     'deeply dissimilar object',
   )
+  assert.false(same(a, null), 'left different to null')
+  assert.false(same(null, b), 'right different to null')
+  assert.true(same(null, null), 'similar if both are null')
 })
 
 test('different', (assert) => {
