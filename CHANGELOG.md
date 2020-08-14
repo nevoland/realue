@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.1](https://github.com/davidbonnet/realue/compare/v3.3.0...v3.3.1) (2020-08-14)
+
+
+### Bug Fixes
+
+* **immutables:** handle nil values in `same` tool ([554ef64](https://github.com/davidbonnet/realue/commit/554ef642428935a5e35ca7dcfb64e2d8ba5b1646))
+
 ## [3.3.0](https://github.com/davidbonnet/realue/compare/v3.2.2...v3.3.0) (2020-06-28)
 
 
