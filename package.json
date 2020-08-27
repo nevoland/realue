@@ -37,7 +37,7 @@
     "url": "https://github.com/davidbonnet/realue.git"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "react": "^16.13.1",
     "recompose": "^0.30.0"
   },
