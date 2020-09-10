@@ -1,4 +1,4 @@
-import { isString } from 'lodash'
+import { isString, identity } from 'lodash'
 
 import { $ } from './tools'
 
@@ -15,14 +15,14 @@ export function withContext(provider, propNameOrGetter = 'value') {
     }
 }
 
-export function fromContext(consumer, propName = 'value') {
+export function fromContext(consumer, propName = 'value', getter = identity) {
   /*
   Injects the value of the context `consumer` into `[propName]`.
   */
   return (Component) =>
     function fromContext(props) {
       return $(consumer, null, (value) =>
-        $(Component, { ...props, [propName]: value }),
+        $(Component, { ...props, [propName]: getter(value) }),
       )
     }
 }
