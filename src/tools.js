@@ -75,6 +75,13 @@ export function isValidDate(date) {
   return !isNaN(date.getTime())
 }
 
+export function getter(path, defaultValue) {
+  /*
+  Returns a getter function with the provided `path` and `defaultValue`.
+  */
+  return (value) => get(value, path, defaultValue)
+}
+
 export function picked(propNamesOrMap) {
   /*
   Returns a function that returns a subset of the provided object or a mapping of selected property paths.

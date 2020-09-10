@@ -183,6 +183,7 @@ The `realue` module exposes the following functions:
   - [`sessionStorage`](#sessionstorage)
   - [`localStorage`](#localstorage)
 - [Prop helpers](#prop-helpers)
+  - [`getter()`](#getter)
   - [`picked()`](#picked)
   - [`omitted()`](#omitted)
   - [`hasProp()`](#hasprop)
@@ -1234,6 +1235,12 @@ Storage that persists between page reloads, until the tab or window is closed. T
 Persistent storage. To be used with `persistedProp()` or `persisted`.
 
 ### Prop helpers
+
+#### `getter()`
+
+> ➡️ `(path, defaultValue)`
+
+Returns a getter function with the provided `path` and `defaultValue`.
 
 #### `picked()`
 
