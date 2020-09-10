@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/davidbonnet/realue/compare/v3.4.0...v3.5.0) (2020-09-10)
+
+
+### Features
+
+* add getter support in `fromContext` ([e30c11f](https://github.com/davidbonnet/realue/commit/e30c11f5f8b404d4bd84568780be30a95fe27728))
+
 ## [3.4.0](https://github.com/davidbonnet/realue/compare/v3.3.1...v3.4.0) (2020-09-10)
 
 
