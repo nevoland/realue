@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/davidbonnet/realue/compare/v3.5.0...v3.6.0) (2020-10-01)
+
+
+### Features
+
+* **query:** add query to QueryError ([8861bce](https://github.com/davidbonnet/realue/commit/8861bce156960c4b55584e5fba4575f554c0069a))
+
 ## [3.5.0](https://github.com/davidbonnet/realue/compare/v3.4.0...v3.5.0) (2020-09-10)
 
 
