@@ -23,13 +23,14 @@ export class QueryError extends Error {
   /*
   Error to be thrown in case there is an issue with the query call. Only instances of this error will be caught by the `retry()` middleware. 
   */
-  constructor(message, status, response) {
+  constructor(message, status, response, query) {
     super(message)
     if (isPlainObject(message)) {
       this.value = message
     }
     this.status = status
     this.response = response
+    this.query = query
   }
 }
 
@@ -258,7 +259,7 @@ export const text = (next) => (query) =>
     (error) => {
       if (error.response) {
         return error.response.text().then((result) => {
-          throw new QueryError(result, error.status)
+          throw new QueryError(result, error.status, error.response, query)
         })
       }
       throw error
@@ -277,12 +278,22 @@ export function fetch(fetch = getGlobal().fetch) {
     return fetch(query.url, query).then(
       (response) => {
         if (!response.ok) {
-          throw new QueryError(response.statusText, response.status, response)
+          throw new QueryError(
+            response.statusText,
+            response.status,
+            response,
+            query,
+          )
         }
         return response
       },
       (error) => {
-        throw new QueryError(error.message, error.status || 500)
+        throw new QueryError(
+          error.message,
+          error.status || 500,
+          undefined,
+          query,
+        )
       },
     )
   }

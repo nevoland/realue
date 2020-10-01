@@ -22,7 +22,8 @@
     "prettier:check": "prettier --list-different \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
     "release": "standard-version",
-    "deploy": "git push --follow-tags origin master && npm publish"
+    "deploy": "git push --follow-tags origin master && npm publish",
+    "release:deploy": "npm run release && npm run deploy"
   },
   "keywords": [
     "react",
