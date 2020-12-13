@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.6.1](https://github.com/davidbonnet/realue/compare/v3.6.0...v3.6.1) (2020-12-13)
+
+
+### Bug Fixes
+
+* **delayableHandler:** add arguments support ([4d408e1](https://github.com/davidbonnet/realue/commit/4d408e19493a9f35e1527b4e5703802fde995e8c))
+
 ## [3.6.0](https://github.com/davidbonnet/realue/compare/v3.5.0...v3.6.0) (2020-10-01)
 
 
