@@ -19,7 +19,7 @@ import {
   withPropsOnChange,
 } from 'recompose'
 
-import { EMPTY_OBJECT, same } from './immutables'
+import { EMPTY_OBJECT, EMPTY_ARRAY, same } from './immutables'
 import { $, setWrapperName, getGlobal, picked } from './tools'
 
 /* eslint-disable no-console */
@@ -500,17 +500,15 @@ export function delayableHandler(options) {
           this.state = {
             shouldTrigger: false,
           }
-          this.trigger = () => {
+          this.handlerParameters = EMPTY_ARRAY
+          this.trigger = (...parameters) => {
             const {
               props: { [name]: handler, [delayName]: delay },
-              state: { shouldTrigger },
             } = this
             if (delay) {
-              handler()
+              return handler(...parameters)
             } else {
-              if (!shouldTrigger) {
-                this.setState({ shouldTrigger: true })
-              }
+              this.setState({ shouldTrigger: true, parameters })
             }
           }
         }
@@ -520,7 +518,9 @@ export function delayableHandler(options) {
             state: { shouldTrigger },
           } = this
           if (shouldTrigger && delay) {
-            this.setState({ shouldTrigger: false }, handler)
+            this.setState({ shouldTrigger: false }, () =>
+              handler(...this.state.parameters),
+            )
           }
         }
         render() {

@@ -61,18 +61,32 @@ test('decorates component', (assert) => {
   assert.snapshot(render.create($(Value)).toJSON())
 })
 
-test('delayableProp', (assert) => {
-  const Component = delayableProp('onChange')(Props)
-  assert.snapshot(render.create($(Component)).toJSON())
-  assert.snapshot(render.create($(Component, { delayOnChange: 1 })).toJSON())
-  assert.snapshot(
-    render
-      .create(
-        $(Component, {
-          onChange: Function.prototype,
-          delayOnChange: 1,
-        }),
-      )
-      .toJSON(),
+test('delayableHandler', (assert) => {
+  const Component = delayableHandler({ name: 'onChange', delayName: 'done' })(
+    Props,
   )
+  let value = null
+  const onChange = (nextValue) => {
+    value = nextValue
+  }
+  const rendering = render.create(
+    $(Component, {
+      onChange,
+      done: false,
+    }),
+  )
+  const { root } = rendering
+  const { onChange: delayedOnChange } = root.findByType(Props).props
+  delayedOnChange('first value')
+  delayedOnChange('second value')
+  assert.is(value, null)
+  rendering.update(
+    $(Component, {
+      onChange,
+      done: true,
+    }),
+  )
+  assert.is(value, 'second value')
+  delayedOnChange('third value')
+  assert.is(value, 'third value')
 })
