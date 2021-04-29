@@ -1,0 +1,45 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "12:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: "@babel/core"
+    versions:
+    - 7.12.10
+    - 7.12.13
+    - 7.12.16
+    - 7.13.1
+    - 7.13.10
+    - 7.13.8
+  - dependency-name: "@babel/runtime"
+    versions:
+    - 7.12.13
+    - 7.12.5
+    - 7.13.7
+    - 7.13.9
+  - dependency-name: "@babel/plugin-transform-runtime"
+    versions:
+    - 7.12.10
+    - 7.12.13
+    - 7.12.15
+    - 7.13.7
+    - 7.13.9
+  - dependency-name: c8
+    versions:
+    - 7.4.0
+    - 7.5.0
+    - 7.6.0
+  - dependency-name: urijs
+    versions:
+    - 1.19.5
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: elliptic
+    versions:
+    - 6.5.3
