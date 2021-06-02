@@ -59,7 +59,7 @@
     "connect": "^3.7.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.20.2",
     "esm": "^3.2.25",
     "fast-glob": "3.2.2",
