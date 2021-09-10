@@ -66,6 +66,7 @@ import {
   withChildren,
   withHook,
   withNode,
+  withEffect,
 } from '../../src'
 import { Flex, Box } from '../../src/layout'
 
@@ -146,8 +147,10 @@ const Items = compose(
   array,
   withChildren(Item),
   withHandlers({
-    onAddThree: ({ value, onAddItems }) => (payload) =>
-      onAddItems(ITEMS, value.length, payload),
+    onAddThree:
+      ({ value, onAddItems }) =>
+      (payload) =>
+        onAddItems(ITEMS, value.length, payload),
   }),
 )(({ value, children, onAddItem, onAddThree }) =>
   $(
@@ -170,11 +173,13 @@ const ItemCreator = compose(
   filterable,
   editable,
   withHandlers({
-    onPush: ({ onPush, onPull, onChangeFocus }) => () => {
-      onPush()
-      onPull()
-      onChangeFocus(true)
-    },
+    onPush:
+      ({ onPush, onPull, onChangeFocus }) =>
+      () => {
+        onPush()
+        onPull()
+        onChangeFocus(true)
+      },
   }),
   onKeysDown({
     Enter: ({ onPush }) => onPush(),
@@ -216,12 +221,14 @@ const EditedItems = compose(
   filterable,
   editable,
   withHandlers({
-    onToggleEditing: ({ onPush, editing, onToggleEditing }) => (payload) => {
-      if (editing) {
-        onPush(payload)
-      }
-      onToggleEditing()
-    },
+    onToggleEditing:
+      ({ onPush, editing, onToggleEditing }) =>
+      (payload) => {
+        if (editing) {
+          onPush(payload)
+        }
+        onToggleEditing()
+      },
   }),
   withChild(Items),
 )(({ children, editing, onToggleEditing }) =>
@@ -466,74 +473,81 @@ const Table = compose(
   resilient,
   array,
   withHandlers({
-    onRefresh: ({ onChangeQuery, query }) => () =>
-      onChangeQuery({
-        ...query,
-        refresh: true,
-        reversed: false,
-        start: 0,
-        order: [{ key: 'performance' }],
-        filter: {
-          ...query.filter,
-          performance_gte: 2,
-          performance_lte: null,
-        },
-      }),
-    concatValue: ({ query: { refresh, reversed, fields } }) => (
-      value,
-      { transformedValue = EMPTY_ARRAY },
-    ) => {
-      return refresh
-        ? value
-        : reversed
-        ? [
-            ...uniqBy(
-              [
-                ...reverse([...value]),
-                ...slice(transformedValue, 0, value.length),
-              ],
-              fields[0],
-            ),
-            ...slice(transformedValue, value.length),
-          ]
-        : [
-            ...slice(transformedValue, 0, -value.length),
-            ...uniqBy(
-              [...slice(transformedValue, -value.length), ...value],
-              fields[0],
-            ),
-          ]
-    },
-    replaceValue: ({ query: { reversed } }) => (value) =>
-      reversed ? reverse([...value]) : value,
+    onRefresh:
+      ({ onChangeQuery, query }) =>
+      () =>
+        onChangeQuery({
+          ...query,
+          refresh: true,
+          reversed: false,
+          start: 0,
+          order: [{ key: 'performance' }],
+          filter: {
+            ...query.filter,
+            performance_gte: 2,
+            performance_lte: null,
+          },
+        }),
+    concatValue:
+      ({ query: { refresh, reversed, fields } }) =>
+      (value, { transformedValue = EMPTY_ARRAY }) => {
+        return refresh
+          ? value
+          : reversed
+          ? [
+              ...uniqBy(
+                [
+                  ...reverse([...value]),
+                  ...slice(transformedValue, 0, value.length),
+                ],
+                fields[0],
+              ),
+              ...slice(transformedValue, value.length),
+            ]
+          : [
+              ...slice(transformedValue, 0, -value.length),
+              ...uniqBy(
+                [...slice(transformedValue, -value.length), ...value],
+                fields[0],
+              ),
+            ]
+      },
+    replaceValue:
+      ({ query: { reversed } }) =>
+      (value) =>
+        reversed ? reverse([...value]) : value,
   }),
   withProps(({ mode = 'concat', concatValue, replaceValue }) => ({
     transformValue: mode === 'concat' ? concatValue : replaceValue,
   })),
   transformable,
   withHandlers({
-    onQueryPrevious: ({ onChangeQuery, query, value }) => () =>
-      onChangeQuery({
-        ...query,
-        refresh: false,
-        reversed: true,
-        start: countFirstValues(value, 'performance'),
-        order: [{ key: 'performance', descending: true }],
-        filter: {
-          performance_lte: get(value[0], 'performance'),
-        },
-      }),
-    onQueryNext: ({ onChangeQuery, query, value }) => () =>
-      onChangeQuery({
-        ...query,
-        refresh: false,
-        reversed: false,
-        start: countLastValues(value, 'performance'),
-        order: [{ key: 'performance' }],
-        filter: {
-          performance_gte: get(last(value), 'performance'),
-        },
-      }),
+    onQueryPrevious:
+      ({ onChangeQuery, query, value }) =>
+      () =>
+        onChangeQuery({
+          ...query,
+          refresh: false,
+          reversed: true,
+          start: countFirstValues(value, 'performance'),
+          order: [{ key: 'performance', descending: true }],
+          filter: {
+            performance_lte: get(value[0], 'performance'),
+          },
+        }),
+    onQueryNext:
+      ({ onChangeQuery, query, value }) =>
+      () =>
+        onChangeQuery({
+          ...query,
+          refresh: false,
+          reversed: false,
+          start: countLastValues(value, 'performance'),
+          order: [{ key: 'performance' }],
+          filter: {
+            performance_gte: get(last(value), 'performance'),
+          },
+        }),
   }),
 )(
   ({
@@ -707,6 +721,63 @@ const PersistedText = compose(
   domProps,
 )('input')
 
+const Input = compose(
+  fromEvent('target.value'),
+  withEffect(['value', 'name'], ({ value, name, onChangeError, type }) => {
+    if (type !== 'number') {
+      return
+    }
+    if (value && isNaN(parseInt(value, 10))) {
+      onChangeError('Please enter a number damit!', name)
+      return
+    }
+    if (parseInt(value, 10) < 18) {
+      onChangeError('You need to be older damit!', name)
+      return
+    }
+    onChangeError(undefined, name)
+  }),
+)(({ error, onChangeError, ...props }) =>
+  $(
+    'div',
+    { style: { padding: 16, marginBottom: 8, border: '1px solid black' } },
+    $('input', props),
+    error && $('div', { style: { color: 'red' } }, error),
+  ),
+)
+
+const Form = compose(
+  withProps({ error: { age: 'Is required' } }),
+  syncedProp('error'),
+  synced,
+  withHandlers({
+    onSubmit:
+      ({ value, onChangeError }) =>
+      (event) => {
+        event.preventDefault()
+        if (!value.age) {
+          onChangeError({ age: 'Age is required' })
+          return
+        }
+        onChangeError(EMPTY_OBJECT)
+      },
+  }),
+  // { value, error }
+  object,
+)(({ property, onSubmit }) =>
+  $(
+    'form',
+    { style: { backgroundColor: 'gold', padding: 16 } },
+    $(Input, { ...property('name'), placeholder: 'Name' }),
+    $(Input, {
+      ...property('age'),
+      type: 'number',
+      placeholder: 'Age',
+    }),
+    $('button', { onClick: onSubmit }, 'Check'),
+  ),
+)
+
 export const App = compose(
   withProps({
     request,
@@ -716,12 +787,14 @@ export const App = compose(
   syncedProp('query'),
   queried,
   withHandlers({
-    onChange: ({ onChangeQuery }) => (value) =>
-      onChangeQuery({
-        type: 'value',
-        method: 'put',
-        value,
-      }),
+    onChange:
+      ({ onChangeQuery }) =>
+      (value) =>
+        onChangeQuery({
+          type: 'value',
+          method: 'put',
+          value,
+        }),
   }),
   scoped(flattenProp('value'), returned(['value', 'done', 'error'])),
   resilient,
@@ -729,40 +802,44 @@ export const App = compose(
   editable,
   object,
 )(({ value, property, done, error, delay }) =>
-  $(
-    'div',
-    $('h1', null, 'Realue'),
-    $(Progress, { value: done, error, delay }),
-    !isEmpty(value) &&
-      $(
-        Fragment,
-        null,
-        $('h2', 'Delay'),
-        $(Number, { ...property('delay'), min: 0, max: 5000 }),
-        $('h2', 'Hooks'),
-        $(Hooks),
-        $('h2', 'Switch'),
-        $(Switch),
-        $('h2', 'Persisted'),
-        $(PersistedText),
-        $('h2', 'Compute'),
-        $(Compute),
-        $('h2', 'Bounds'),
-        $(Bounds),
-        $('h2', 'Color'),
-        $(Color, property('color')),
-        $('h2', 'Timers'),
-        $(Timer, { value: Date.now() }),
-        $('h2', 'Todos'),
-        $(EditedItems, property('todos')),
-        $('h2', 'Resources'),
-        $(Resources),
-        $('h2', 'Delayed'),
-        $(Toggle, { ...property('toggle'), delay: 2000 }),
-        $('h2', 'Children'),
-        $(Article, { value: { header: 'Title', body: 'Content' } }),
+  true
+    ? $('div', $('h2', 'Form'), $(Form))
+    : $(
+        'div',
+        $('h1', null, 'Realue'),
+        $(Progress, { value: done, error, delay }),
+        !isEmpty(value) &&
+          $(
+            Fragment,
+            null,
+            $('h2', 'Form'),
+            $(Form),
+            $('h2', 'Delay'),
+            $(Number, { ...property('delay'), min: 0, max: 5000 }),
+            $('h2', 'Hooks'),
+            $(Hooks),
+            $('h2', 'Switch'),
+            $(Switch),
+            $('h2', 'Persisted'),
+            $(PersistedText),
+            $('h2', 'Compute'),
+            $(Compute),
+            $('h2', 'Bounds'),
+            $(Bounds),
+            $('h2', 'Color'),
+            $(Color, property('color')),
+            $('h2', 'Timers'),
+            $(Timer, { value: Date.now() }),
+            $('h2', 'Todos'),
+            $(EditedItems, property('todos')),
+            $('h2', 'Resources'),
+            $(Resources),
+            $('h2', 'Delayed'),
+            $(Toggle, { ...property('toggle'), delay: 2000 }),
+            $('h2', 'Children'),
+            $(Article, { value: { header: 'Title', body: 'Content' } }),
+          ),
       ),
-  ),
 )
 
 function Layout() {

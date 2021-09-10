@@ -37,7 +37,9 @@ export function objectProp(options) {
   const capitalizedName = upperFirst(name)
   const {
     onChangeName = `onChange${capitalizedName}`,
+    onChangeErrorName = `onChange${capitalizedName}Error`,
     onChangePropertyName = `onChange${capitalizedName}Property`,
+    onChangePropertyErrorName = `onChange${capitalizedName}PropertyError`,
     onChangePropertiesName = `onChange${capitalizedName}Properties`,
     propertyName = `${name}Property`,
     nameName = `${name}Name`,
@@ -52,11 +54,15 @@ export function objectProp(options) {
           this.property = (propertyName, key = propertyName) => {
             const { props } = this
             const value = props[name]
+            const error = props.error
             return {
               value: value && value[propertyName],
+              error: error && error[propertyName],
               key,
               name: propertyName,
               onChange: props[onChangeName] && this.onChangeProperty,
+              onChangeError:
+                props[onChangeErrorName] && this.onChangePropertyError,
             }
           }
         }
@@ -87,6 +93,16 @@ export function objectProp(options) {
                 onChangeName,
               ),
             [propertyName]: this.property,
+            [onChangePropertyErrorName]:
+              props[onChangeErrorName] &&
+              lazyProperty(
+                this,
+                'onChangePropertyError',
+                onChangeProperty,
+                name,
+                nameName,
+                onChangeErrorName,
+              ),
           })
         }
       },
@@ -101,8 +117,10 @@ Sets `value` to `{}` if `nil`.
 export const object = objectProp({
   name: 'value',
   onChangeName: 'onChange',
+  onChangeErrorName: 'onChangeError',
   onChangePropertyName: 'onChangeProperty',
   onChangePropertiesName: 'onChangeProperties',
+  onChangePropertyErrorName: 'onChangePropertyError',
   propertyName: 'property',
   nameName: 'name',
 })
@@ -114,32 +132,29 @@ export const splittable = compose(
   branch(
     hasProp('onChange'),
     withHandlers({
-      onChangeProperties: ({ value, name, onChange }) => (
-        propertyValues,
-        propertyNames,
-        payload,
-      ) =>
-        onChange(
-          reduce(
-            propertyNames,
-            (value, propertyName) =>
-              setProperty(value, propertyName, propertyValues[propertyName]),
-            value,
+      onChangeProperties:
+        ({ value, name, onChange }) =>
+        (propertyValues, propertyNames, payload) =>
+          onChange(
+            reduce(
+              propertyNames,
+              (value, propertyName) =>
+                setProperty(value, propertyName, propertyValues[propertyName]),
+              value,
+            ),
+            name,
+            payload,
           ),
-          name,
-          payload,
-        ),
     }),
   ),
   withHandlers({
-    properties: ({ value, onChangeProperties: onChange }) => (
-      names,
-      key = join(names, '-'),
-    ) => ({
-      value: pick(value, names),
-      key,
-      name: names,
-      onChange,
-    }),
+    properties:
+      ({ value, onChangeProperties: onChange }) =>
+      (names, key = join(names, '-')) => ({
+        value: pick(value, names),
+        key,
+        name: names,
+        onChange,
+      }),
   }),
 )
