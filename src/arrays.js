@@ -70,11 +70,12 @@ export const array = (Component) =>
     class array extends BaseComponent {
       constructor(props) {
         super(props)
-        this.item = (index, key = index) => {
+        this.item = (index, key = index, getId = () => index) => {
           const { props } = this
           return {
             key,
             value: props.value && props.value[index],
+            error: props.error && props.error[getId(props.value[index])],
             name: `${index}`,
             onChange:
               props.onChange &&
