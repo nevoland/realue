@@ -166,7 +166,9 @@ export const synced = syncedProp({
   The return value of the optional parent prop `onPull(newValue, previousValue)` is used on prop `value` changes or when calling `onPull()`.
   */
   name: 'value',
+  errorName: 'error',
   onChangeName: 'onChange',
+  onChangeErrorName: 'onChangeError',
   onPullName: 'onPull',
 })
 

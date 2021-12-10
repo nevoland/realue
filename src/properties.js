@@ -735,6 +735,8 @@ export function syncedProp(options) {
   const capitalizedName = upperFirst(name)
   const {
     onChangeName = `onChange${capitalizedName}`,
+    errorName = `${name}Error`,
+    onChangeErrorName = `onChange${capitalizedName}Error`,
     onPullName = `onPull${capitalizedName}`,
   } = name === options ? EMPTY_OBJECT : options
   return (Component) =>
@@ -743,10 +745,12 @@ export function syncedProp(options) {
       class syncedProp extends BaseComponent {
         constructor(props) {
           super(props)
-          const { value } = props
+          const value = props[name]
+          const error = props[errorName]
           this.state = {
             value,
             originalValue: value,
+            error,
           }
           this.onChange = (value, name, payload) => {
             if (value === this.state.value) {
@@ -758,6 +762,18 @@ export function syncedProp(options) {
               onChange == null
                 ? undefined
                 : () => onChange(value, name, payload),
+            )
+          }
+          this.onChangeError = (error, name, payload) => {
+            if (error === this.state.error) {
+              return
+            }
+            const { [onChangeErrorName]: onChange } = this.props
+            return this.setState(
+              { error },
+              onChange == null
+                ? undefined
+                : () => onChange(error, name, payload),
             )
           }
           this.onPull = () => {
@@ -786,8 +802,10 @@ export function syncedProp(options) {
         render() {
           return $(Component, {
             ...this.props,
+            [errorName]: this.state.error,
             [name]: this.state.value,
             [onChangeName]: this.onChange,
+            [onChangeErrorName]: this.onChangeError,
             [onPullName]: this.onPull,
           })
         }
