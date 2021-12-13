@@ -9,7 +9,7 @@ function onChangeProperty(element, name, nameName, onChangeName) {
   return (propertyValue, propertyName, payload) => {
     const { props } = element
     return props[onChangeName](
-      setProperty(props[name], propertyName, propertyValue),
+      (value) => setProperty(value, propertyName, propertyValue),
       props[nameName],
       payload,
     )
@@ -52,14 +52,14 @@ export function objectProp(options) {
       class objectProp extends BaseComponent {
         constructor(props) {
           super(props)
-          this.property = (propertyName, key = propertyName) => {
+          this.property = (propertyName) => {
             const { props } = this
             const value = props[name]
             const error = props[errorName]
             return {
               value: value && value[propertyName],
               error: error && error[propertyName],
-              key,
+              key: propertyName,
               name: propertyName,
               onChange: props[onChangeName] && this.onChangeProperty,
               onChangeError:
@@ -134,32 +134,29 @@ export const splittable = compose(
   branch(
     hasProp('onChange'),
     withHandlers({
-      onChangeProperties: ({ value, name, onChange }) => (
-        propertyValues,
-        propertyNames,
-        payload,
-      ) =>
-        onChange(
-          reduce(
-            propertyNames,
-            (value, propertyName) =>
-              setProperty(value, propertyName, propertyValues[propertyName]),
-            value,
+      onChangeProperties:
+        ({ value, name, onChange }) =>
+        (propertyValues, propertyNames, payload) =>
+          onChange(
+            reduce(
+              propertyNames,
+              (value, propertyName) =>
+                setProperty(value, propertyName, propertyValues[propertyName]),
+              value,
+            ),
+            name,
+            payload,
           ),
-          name,
-          payload,
-        ),
     }),
   ),
   withHandlers({
-    properties: ({ value, onChangeProperties: onChange }) => (
-      names,
-      key = join(names, '-'),
-    ) => ({
-      value: pick(value, names),
-      key,
-      name: names,
-      onChange,
-    }),
+    properties:
+      ({ value, onChangeProperties: onChange }) =>
+      (names, key = join(names, '-')) => ({
+        value: pick(value, names),
+        key,
+        name: names,
+        onChange,
+      }),
   }),
 )

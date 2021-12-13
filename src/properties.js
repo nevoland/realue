@@ -758,7 +758,10 @@ export function syncedProp(options) {
             }
             const { [onChangeName]: onChange } = this.props
             return this.setState(
-              { value },
+              (state) => ({
+                ...state,
+                value: typeof value === 'function' ? value(state.value) : value,
+              }),
               onChange == null
                 ? undefined
                 : () => onChange(value, name, payload),
@@ -768,12 +771,15 @@ export function syncedProp(options) {
             if (error === this.state.error) {
               return
             }
-            const { [onChangeErrorName]: onChange } = this.props
+            const { [onChangeErrorName]: onChangeError } = this.props
             return this.setState(
-              { error },
-              onChange == null
+              (state) => ({
+                ...state,
+                error: typeof error === 'function' ? error(state.error) : error,
+              }),
+              onChangeError == null
                 ? undefined
-                : () => onChange(error, name, payload),
+                : () => onChangeError(value, name, payload),
             )
           }
           this.onPull = () => {
@@ -829,15 +835,21 @@ export function cycledProp(options) {
     nameName = `${name}Name`,
   } = name === options ? EMPTY_OBJECT : options
   return withHandlers({
-    [onCycleName]: ({
-      [name]: value,
-      [valuesName]: values = DEFAULT_CYCLE_VALUES,
-      [onChangeName]: onChange,
-      [nameName]: valueName = name,
-    }) => (payload) => {
-      const index = indexOf(values, value) + 1
-      onChange(values[index === values.length ? 0 : index], valueName, payload)
-    },
+    [onCycleName]:
+      ({
+        [name]: value,
+        [valuesName]: values = DEFAULT_CYCLE_VALUES,
+        [onChangeName]: onChange,
+        [nameName]: valueName = name,
+      }) =>
+      (payload) => {
+        const index = indexOf(values, value) + 1
+        onChange(
+          values[index === values.length ? 0 : index],
+          valueName,
+          payload,
+        )
+      },
   })
 }
 

@@ -68,6 +68,7 @@ import {
   withHook,
   withNode,
   withEffect,
+  setProperty,
 } from '../../src'
 import { Flex, Box } from '../../src/layout'
 
@@ -148,8 +149,10 @@ const Items = compose(
   array,
   withChildren(Item),
   withHandlers({
-    onAddThree: ({ value, onAddItems }) => (payload) =>
-      onAddItems(ITEMS, value.length, payload),
+    onAddThree:
+      ({ value, onAddItems }) =>
+      (payload) =>
+        onAddItems(ITEMS, value.length, payload),
   }),
 )(({ value, children, onAddItem, onAddThree }) =>
   $(
@@ -172,11 +175,13 @@ const ItemCreator = compose(
   filterable,
   editable,
   withHandlers({
-    onPush: ({ onPush, onPull, onChangeFocus }) => () => {
-      onPush()
-      onPull()
-      onChangeFocus(true)
-    },
+    onPush:
+      ({ onPush, onPull, onChangeFocus }) =>
+      () => {
+        onPush()
+        onPull()
+        onChangeFocus(true)
+      },
   }),
   onKeysDown({
     Enter: ({ onPush }) => onPush(),
@@ -218,12 +223,14 @@ const EditedItems = compose(
   filterable,
   editable,
   withHandlers({
-    onToggleEditing: ({ onPush, editing, onToggleEditing }) => (payload) => {
-      if (editing) {
-        onPush(payload)
-      }
-      onToggleEditing()
-    },
+    onToggleEditing:
+      ({ onPush, editing, onToggleEditing }) =>
+      (payload) => {
+        if (editing) {
+          onPush(payload)
+        }
+        onToggleEditing()
+      },
   }),
   withChild(Items),
 )(({ children, editing, onToggleEditing }) =>
@@ -467,74 +474,81 @@ const Table = compose(
   resilient,
   array,
   withHandlers({
-    onRefresh: ({ onChangeQuery, query }) => () =>
-      onChangeQuery({
-        ...query,
-        refresh: true,
-        reversed: false,
-        start: 0,
-        order: [{ key: 'performance' }],
-        filter: {
-          ...query.filter,
-          performance_gte: 2,
-          performance_lte: null,
-        },
-      }),
-    concatValue: ({ query: { refresh, reversed, fields } }) => (
-      value,
-      { transformedValue = EMPTY_ARRAY },
-    ) => {
-      return refresh
-        ? value
-        : reversed
-        ? [
-            ...uniqBy(
-              [
-                ...reverse([...value]),
-                ...slice(transformedValue, 0, value.length),
-              ],
-              fields[0],
-            ),
-            ...slice(transformedValue, value.length),
-          ]
-        : [
-            ...slice(transformedValue, 0, -value.length),
-            ...uniqBy(
-              [...slice(transformedValue, -value.length), ...value],
-              fields[0],
-            ),
-          ]
-    },
-    replaceValue: ({ query: { reversed } }) => (value) =>
-      reversed ? reverse([...value]) : value,
+    onRefresh:
+      ({ onChangeQuery, query }) =>
+      () =>
+        onChangeQuery({
+          ...query,
+          refresh: true,
+          reversed: false,
+          start: 0,
+          order: [{ key: 'performance' }],
+          filter: {
+            ...query.filter,
+            performance_gte: 2,
+            performance_lte: null,
+          },
+        }),
+    concatValue:
+      ({ query: { refresh, reversed, fields } }) =>
+      (value, { transformedValue = EMPTY_ARRAY }) => {
+        return refresh
+          ? value
+          : reversed
+          ? [
+              ...uniqBy(
+                [
+                  ...reverse([...value]),
+                  ...slice(transformedValue, 0, value.length),
+                ],
+                fields[0],
+              ),
+              ...slice(transformedValue, value.length),
+            ]
+          : [
+              ...slice(transformedValue, 0, -value.length),
+              ...uniqBy(
+                [...slice(transformedValue, -value.length), ...value],
+                fields[0],
+              ),
+            ]
+      },
+    replaceValue:
+      ({ query: { reversed } }) =>
+      (value) =>
+        reversed ? reverse([...value]) : value,
   }),
   withProps(({ mode = 'concat', concatValue, replaceValue }) => ({
     transformValue: mode === 'concat' ? concatValue : replaceValue,
   })),
   transformable,
   withHandlers({
-    onQueryPrevious: ({ onChangeQuery, query, value }) => () =>
-      onChangeQuery({
-        ...query,
-        refresh: false,
-        reversed: true,
-        start: countFirstValues(value, 'performance'),
-        order: [{ key: 'performance', descending: true }],
-        filter: {
-          performance_lte: get(value[0], 'performance'),
-        },
-      }),
-    onQueryNext: ({ onChangeQuery, query, value }) => () =>
-      onChangeQuery({
-        ...query,
-        refresh: false,
-        reversed: false,
-        start: countLastValues(value, 'performance'),
-        order: [{ key: 'performance' }],
-        filter: {
-          performance_gte: get(last(value), 'performance'),
-        },
-      }),
+    onQueryPrevious:
+      ({ onChangeQuery, query, value }) =>
+      () =>
+        onChangeQuery({
+          ...query,
+          refresh: false,
+          reversed: true,
+          start: countFirstValues(value, 'performance'),
+          order: [{ key: 'performance', descending: true }],
+          filter: {
+            performance_lte: get(value[0], 'performance'),
+          },
+        }),
+    onQueryNext:
+      ({ onChangeQuery, query, value }) =>
+      () =>
+        onChangeQuery({
+          ...query,
+          refresh: false,
+          reversed: false,
+          start: countLastValues(value, 'performance'),
+          order: [{ key: 'performance' }],
+          filter: {
+            performance_gte: get(last(value), 'performance'),
+          },
+        }),
   }),
 )(
   ({
@@ -737,18 +751,20 @@ const Form = compose(
   withProps({ error: { age: ['Is required'] } }),
   synced,
   withHandlers({
-    onSubmit: ({ value, onChangeError }) => (event) => {
-      event.preventDefault()
-      if (!value) {
-        onChangeError({ '': ['Il faut remplir la Form petit plaisantin'] })
-        return
-      }
-      if (!value.age) {
-        onChangeError({ age: ['Age is required'] })
-        return
-      }
-      onChangeError(EMPTY_OBJECT)
-    },
+    onSubmit:
+      ({ value, onChangeError }) =>
+      (event) => {
+        event.preventDefault()
+        if (isEmpty(value)) {
+          onChangeError({ '': ['Please fill out the form'] })
+          return
+        }
+        if (!value.age) {
+          onChangeError({ age: ['Age is required'] })
+          return
+        }
+        onChangeError(EMPTY_OBJECT)
+      },
   }),
   // { value, error }
   object,
@@ -771,18 +787,20 @@ const Form2 = compose(
   withProps({ error: { '': ['Is required'] } }),
   synced,
   withHandlers({
-    onSubmit: ({ value, onChangeError }) => (event) => {
-      event.preventDefault()
-      if (value < 6) {
-        onChangeError({ '': ['Higher !'] })
-        return
-      }
-      if (value > 16) {
-        onChangeError({ '': ['Lower !'] })
-        return
-      }
-      onChangeError(EMPTY_OBJECT)
-    },
+    onSubmit:
+      ({ value, onChangeError }) =>
+      (event) => {
+        event.preventDefault()
+        if (value < 6) {
+          onChangeError({ '': ['Higher !'] })
+          return
+        }
+        if (value > 16) {
+          onChangeError({ '': ['Lower !'] })
+          return
+        }
+        onChangeError(EMPTY_OBJECT)
+      },
   }),
 )(({ value, name, onChange, error, onChangeError, onSubmit }) =>
   $(
@@ -800,43 +818,51 @@ const Form2 = compose(
   ),
 )
 
+const Form3Child = compose(
+  removable,
+  withEffect(['value'], ({ value, name, onChangeError }) => {
+    onChangeError(
+      value < 7
+        ? ['The value is too low']
+        : value > 10
+        ? ['The value is too high']
+        : undefined,
+      name,
+    )
+  }),
+)(({ value, error, onRemove }) =>
+  $(
+    'li',
+    $('button', { onClick: onRemove }, 'Remove'),
+    `${value} ${isEmpty(error) ? '' : `- ${error}`}`,
+  ),
+)
+
 const Form3 = compose(
   memo,
   synced,
   array,
-  withHandlers({
-    onAddItem: ({ onAddItem, onChangeError, value, error }) => (item) => {
-      if (value.length > 2) {
-        onChangeError({ ...error, ['']: ['Too much numbers'] })
-      } else if (item < 7) {
-        onChangeError({ ...error, [item]: ['This item is too low'] })
-      } else if (item > 9) {
-        onChangeError({ ...error, [item]: ['This item is too high'] })
-      }
-      onAddItem(item)
-    },
+  withEffect(['value'], ({ value, onChangeError }) => {
+    if (value.length > 2) {
+      onChangeError((error) => setProperty(error, '', ['Too many numbers']))
+    } else {
+      onChangeError((error) => setProperty(error, '', undefined))
+    }
   }),
+  withChildren(Form3Child),
   logProps(['error']),
-)(({ value, item, onAddItem, error }) =>
+)(({ value, children, onAddItem, error }) =>
   $(
     'div',
-    $('h2', 'Numbers between (exluded) 6 and 10'),
-    $(
-      'ul',
-      map(value, (name, key) =>
-        $(
-          'li',
-          { key },
-          `${item(key).value} ${
-            item(key, key, identity).error
-              ? `- ${item(key, key, identity).error}`
-              : ''
-          }`,
-        ),
-      ),
-    ),
-    onAddItem && $(ItemCreator2, { onChange: onAddItem, name: value.length }),
+    $('h2', 'Numbers between 6 and 10:'),
+    $('ul', children),
+    onAddItem &&
+      $(ItemCreator2, {
+        onChange: onAddItem,
+        name: value.length,
+      }),
     error && error[''] && $('div', { style: { color: 'red' } }, error['']),
+    $('code', JSON.stringify(error, null, 2)),
   ),
 )
 
@@ -845,21 +871,42 @@ const ItemCreator2 = compose(
     filterOnChange: stubFalse,
   }),
   filterable,
+  withProps(({ onPush }) => ({ onPushForReal: onPush })),
   editable,
+  withHandlers({
+    onAddThreeTimes:
+      ({ onPushForReal, value }) =>
+      () => {
+        onPushForReal(value, 0)
+        onPushForReal(value, 1)
+        onPushForReal(value, 2)
+      },
+  }),
   memo,
-)(({ value, onPush, onPull, onChange, focus, onChangeFocus, onKeyDown }) =>
-  $(
-    'ul',
-    $(Text, {
-      value,
-      onChange,
-      focus,
-      onChangeFocus,
-      onKeyDown,
-    }),
-    $('button', { onClick: onPush }, 'Add'),
-    $('button', { onClick: onPull }, 'Cancel'),
-  ),
+)(
+  ({
+    value,
+    onPush,
+    onPull,
+    onAddThreeTimes,
+    onChange,
+    focus,
+    onChangeFocus,
+    onKeyDown,
+  }) =>
+    $(
+      'ul',
+      $(Text, {
+        value,
+        onChange,
+        focus,
+        onChangeFocus,
+        onKeyDown,
+      }),
+      $('button', { onClick: onPush }, 'Add'),
+      $('button', { onClick: onAddThreeTimes }, 'Add three times'),
+      $('button', { onClick: onPull }, 'Cancel'),
+    ),
 )
 
 export const App = compose(
@@ -871,12 +918,14 @@ export const App = compose(
   syncedProp('query'),
   queried,
   withHandlers({
-    onChange: ({ onChangeQuery }) => (value) =>
-      onChangeQuery({
-        type: 'value',
-        method: 'put',
-        value,
-      }),
+    onChange:
+      ({ onChangeQuery }) =>
+      (value) =>
+        onChangeQuery({
+          type: 'value',
+          method: 'put',
+          value,
+        }),
   }),
   scoped(flattenProp('value'), returned(['value', 'done', 'error'])),
   resilient,
@@ -950,52 +999,52 @@ function Layout() {
     $(
       Flex,
       { item: true, grow: true, container: true, direction: 'row' },
-      $(
-        Flex,
-        { item: true, scroll: true, className: 'b' },
-        $(
-          Box,
-          { width: 220, padding: 8 },
-          'Lorem ipsum officia ullamco enim et in sint pariatur et occaecat cillum deserunt incididunt qui dolor occaecat dolore ut id ut ut elit minim ut sed dolore tempor in ut ad velit adipisicing dolore nostrud minim veniam sit sit ex incididunt dolore magna in incididunt id nostrud dolor ut irure proident deserunt cillum reprehenderit velit occaecat magna commodo sunt pariatur do nostrud culpa proident et ut labore nulla magna est quis ut enim laborum.',
-        ),
-      ),
-      $(
-        Flex,
-        {
-          container: true,
-          direction: 'column',
-          width: 200,
-          className: 'e',
-        },
-        $(
-          Flex,
-          { item: true, padding: 8, borderBottom: '1px solid black' },
-          'Search…',
-        ),
-        $(
-          Flex,
-          { item: true, grow: true, scroll: true },
-          map(Array(20), (_, key) =>
-            $(
-              Flex,
-              {
-                key,
-                container: true,
-                item: true,
-                align: 'center',
-                justify: 'start',
-                paddingTop: 8,
-                paddingBottom: 8,
-                paddingLeft: 16,
-                paddingRight: 16,
-                // height: 30,
-                borderBottom: key === 19 ? undefined : '1px solid black',
-              },
-              `Item ${key + 1}`,
-            ),
-          ),
-        ),
-      ),
+      // $(
+      //   Flex,
+      //   { item: true, scroll: true, className: 'b' },
+      //   $(
+      //     Box,
+      //     { width: 220, padding: 8 },
+      //     'Lorem ipsum officia ullamco enim et in sint pariatur et occaecat cillum deserunt incididunt qui dolor occaecat dolore ut id ut ut elit minim ut sed dolore tempor in ut ad velit adipisicing dolore nostrud minim veniam sit sit ex incididunt dolore magna in incididunt id nostrud dolor ut irure proident deserunt cillum reprehenderit velit occaecat magna commodo sunt pariatur do nostrud culpa proident et ut labore nulla magna est quis ut enim laborum.',
+      //   ),
+      // ),
+      // $(
+      //   Flex,
+      //   {
+      //     container: true,
+      //     direction: 'column',
+      //     width: 200,
+      //     className: 'e',
+      //   },
+      //   $(
+      //     Flex,
+      //     { item: true, padding: 8, borderBottom: '1px solid black' },
+      //     'Search…',
+      //   ),
+      //   $(
+      //     Flex,
+      //     { item: true, grow: true, scroll: true },
+      //     map(Array(20), (_, key) =>
+      //       $(
+      //         Flex,
+      //         {
+      //           key,
+      //           container: true,
+      //           item: true,
+      //           align: 'center',
+      //           justify: 'start',
+      //           paddingTop: 8,
+      //           paddingBottom: 8,
+      //           paddingLeft: 16,
+      //           paddingRight: 16,
+      //           // height: 30,
+      //           borderBottom: key === 19 ? undefined : '1px solid black',
+      //         },
+      //         `Item ${key + 1}`,
+      //       ),
+      //     ),
+      //   ),
+      // ),
       $(
         Flex,
         {
