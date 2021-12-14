@@ -753,9 +753,6 @@ export function syncedProp(options) {
             error,
           }
           this.onChange = (value, name, payload) => {
-            if (value === this.state.value) {
-              return
-            }
             const { [onChangeName]: onChange } = this.props
             return this.setState(
               (state) => ({

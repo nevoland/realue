@@ -13,33 +13,35 @@ import {
 function onChangeItem(element) {
   return (itemValue, itemName, payload) => {
     const { props } = element
-    if (
-      itemValue === undefined &&
-      props.onChangeError != null &&
-      itemName != null
-    ) {
-      const itemIndex = +itemName
-      props.onChangeError(
-        mapKeys(
-          setProperty(props.error, itemName, undefined),
-          (value, name) => {
-            if (name === '') {
-              return ''
-            }
-            const index = +name
-            if (index > itemIndex) {
-              return `${index - 1}`
-            }
-            return name
-          },
-        ),
-        props.name,
-        payload,
-      )
-    }
+    const itemIndex = +itemName
     return props.onChange(
-      (value) =>
-        setItem(value, itemName == null ? undefined : +itemName, itemValue),
+      (value) => {
+        if (
+          itemValue === undefined &&
+          props.onChangeError != null &&
+          itemName != null
+        ) {
+          props.onChangeError(
+            (error) =>
+              mapKeys(
+                setProperty(error, itemName, undefined),
+                (value, name) => {
+                  if (name === '') {
+                    return ''
+                  }
+                  const index = +name
+                  if (index > itemIndex) {
+                    return `${index - 1}`
+                  }
+                  return name
+                },
+              ),
+            props.name,
+            payload,
+          )
+        }
+        return setItem(value, itemIndex, itemValue)
+      },
       props.name,
       payload,
     )
@@ -51,7 +53,7 @@ function onChangeItemError(element) {
   return (errorValue, itemName, payload) => {
     const { props } = element
     return props.onChangeError(
-      setProperty(props.error, itemName, errorValue),
+      (error) => setProperty(error, itemName, errorValue),
       props.name,
       payload,
     )
@@ -82,11 +84,8 @@ function onAddItem(element) {
       )
     }
     return props.onChange(
-      insertItem(
-        props.value,
-        itemValue,
-        itemName == null ? undefined : +itemName,
-      ),
+      (value) =>
+        insertItem(value, itemValue, itemName == null ? undefined : +itemName),
       props.name,
       payload,
     )

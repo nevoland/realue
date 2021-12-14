@@ -822,11 +822,12 @@ const Form3Child = compose(
   removable,
   withEffect(['value'], ({ value, name, onChangeError }) => {
     onChangeError(
-      value < 7
-        ? ['The value is too low']
-        : value > 10
-        ? ['The value is too high']
-        : undefined,
+      (error) =>
+        value < 7
+          ? ['The value is too low']
+          : value > 10
+          ? ['The value is too high']
+          : undefined,
       name,
     )
   }),
@@ -850,7 +851,7 @@ const Form3 = compose(
     }
   }),
   withChildren(Form3Child),
-  logProps(['error']),
+  // logProps(['error']),
 )(({ value, children, onAddItem, error }) =>
   $(
     'div',
@@ -862,7 +863,6 @@ const Form3 = compose(
         name: value.length,
       }),
     error && error[''] && $('div', { style: { color: 'red' } }, error['']),
-    $('code', JSON.stringify(error, null, 2)),
   ),
 )
 
@@ -877,9 +877,9 @@ const ItemCreator2 = compose(
     onAddThreeTimes:
       ({ onPushForReal, value }) =>
       () => {
-        onPushForReal(value, 0)
-        onPushForReal(value, 1)
-        onPushForReal(value, 2)
+        onPushForReal(value)
+        onPushForReal(value)
+        onPushForReal(value)
       },
   }),
   memo,
