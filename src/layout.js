@@ -58,6 +58,7 @@ export const Flex = forwardRef(function Flex(
     onTouchMove,
     onTouchStart,
     onWheel,
+    tabIndex,
     ...style
   },
   ref,
@@ -111,6 +112,7 @@ export const Flex = forwardRef(function Flex(
       onTouchMove,
       onTouchStart,
       onWheel,
+      tabIndex,
       ref,
     },
     children,
