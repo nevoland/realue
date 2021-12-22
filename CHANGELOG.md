@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.6.3](https://github.com/davidbonnet/realue/compare/v3.6.2...v3.6.3) (2021-12-22)
+
+
+### Bug Fixes
+
+* **layout:** exclude `tabIndex` from props ([7a723db](https://github.com/davidbonnet/realue/commit/7a723db605bfe1991798f29625754de3e0059d28))
+
 ### [3.6.2](https://github.com/davidbonnet/realue/compare/v3.6.1...v3.6.2) (2021-11-27)
 
 
