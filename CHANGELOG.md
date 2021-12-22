@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.6.4](https://github.com/davidbonnet/realue/compare/v3.6.3...v3.6.4) (2021-12-22)
+
+
+### Bug Fixes
+
+* **layout:** add `onFocus` ([00d1c74](https://github.com/davidbonnet/realue/commit/00d1c7470c2311fd078e9f7ac04eb4dae38dc3b6))
+
 ### [3.6.3](https://github.com/davidbonnet/realue/compare/v3.6.2...v3.6.3) (2021-12-22)
 
 
