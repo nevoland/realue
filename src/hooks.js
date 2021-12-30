@@ -1,7 +1,17 @@
-import { stubArray, isArray, isString, fromPairs, map } from 'lodash'
+import { useState } from 'react'
+import {
+  stubArray,
+  isArray,
+  isString,
+  fromPairs,
+  map,
+  upperFirst,
+  EMPTY_OBJECT,
+} from 'lodash'
 
 import { $ } from './tools'
 import { Null } from './children'
+import { setProperty, setProperties } from './immutables'
 
 export function withHook(hook, source = stubArray, result) {
   /*
@@ -45,3 +55,79 @@ export function withHook(hook, source = stubArray, result) {
       ...resultValues(hook(...sourceValues(props))),
     })
 }
+
+export function useObjectProp(props, options) {
+  const name = isString(options) ? options : options.name
+  const capitalizedName = upperFirst(name)
+  const {
+    onChangeName = `onChange${capitalizedName}`,
+    onChangeErrorName = `onChange${capitalizedName}Error`,
+    onChangePropertyName = `onChange${capitalizedName}Property`,
+    onChangePropertyErrorName = `onChange${capitalizedName}PropertyError`,
+    onChangePropertiesName = `onChange${capitalizedName}Properties`,
+    propertyName = `${name}Property`,
+    nameName = `${name}Name`,
+    errorName = `${name}Error`,
+  } = name === options ? EMPTY_OBJECT : options
+
+  const [value, onChangeValue] = useState(props[name])
+  const [error, onChangeError] = useState(props[errorName])
+
+  function onChangeProperty(name, nameName, onChangeName) {
+    return (propertyValue, propertyName, payload) => {
+      return props[onChangeName](
+        setProperty(props[name], propertyName, propertyValue),
+        props[nameName],
+        payload,
+      )
+    }
+  }
+
+  function onChangeProperties(name, nameName, onChangeName) {
+    return (values, payload) => {
+      return props[onChangeName](
+        setProperties(props[name], values),
+        props[nameName],
+        payload,
+      )
+    }
+  }
+
+  function property(propertyName, key = propertyName) {
+    return {
+      value: value && value[propertyName],
+      error: error && error[propertyName],
+      key,
+      name: propertyName,
+      onChange: (propertyValue) =>
+        onChangeValue({ ...value, [propertyName]: propertyValue }),
+      onChangeError: (propertyValue) =>
+        onChangeError({ ...error, [propertyName]: propertyValue }),
+    }
+  }
+
+  return {
+    [name]: value == null ? EMPTY_OBJECT : value,
+    [onChangePropertyName]:
+      props[onChangeName] && onChangeProperty(name, nameName, onChangeName),
+    [propertyName]: property,
+    [onChangePropertiesName]:
+      props[onChangeName] && onChangeProperties(name, nameName, onChangeName),
+    [propertyName]: this.property,
+    [onChangePropertyErrorName]:
+      props[onChangeErrorName] &&
+      onChangeProperty(name, nameName, onChangeErrorName),
+  }
+}
+
+export const useObject = useObjectProp({
+  name: 'value',
+  onChangeName: 'onChange',
+  onChangeErrorName: 'onChangeError',
+  onChangePropertyName: 'onChangeProperty',
+  onChangePropertiesName: 'onChangeProperties',
+  onChangePropertyErrorName: 'onChangePropertyError',
+  propertyName: 'property',
+  nameName: 'name',
+  errorName: 'error',
+})
