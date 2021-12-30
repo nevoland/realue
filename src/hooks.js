@@ -11,7 +11,14 @@ import {
 
 import { $ } from './tools'
 import { Null } from './children'
-import { setProperty, setProperties } from './immutables'
+import {
+  setProperty,
+  setProperties,
+  setItem,
+  insertItem,
+  EMPTY_ARRAY,
+  insertItems,
+} from './immutables'
 
 export function withHook(hook, source = stubArray, result) {
   /*
@@ -95,8 +102,8 @@ export function useObjectProp(props, options) {
 
   function property(propertyName, key = propertyName) {
     return {
-      value: value && value[propertyName],
-      error: error && error[propertyName],
+      value: value[propertyName],
+      error: error[propertyName],
       key,
       name: propertyName,
       onChange: (propertyValue) =>
@@ -113,21 +120,83 @@ export function useObjectProp(props, options) {
     [propertyName]: property,
     [onChangePropertiesName]:
       props[onChangeName] && onChangeProperties(name, nameName, onChangeName),
-    [propertyName]: this.property,
     [onChangePropertyErrorName]:
       props[onChangeErrorName] &&
       onChangeProperty(name, nameName, onChangeErrorName),
   }
 }
 
-export const useObject = useObjectProp({
-  name: 'value',
-  onChangeName: 'onChange',
-  onChangeErrorName: 'onChangeError',
-  onChangePropertyName: 'onChangeProperty',
-  onChangePropertiesName: 'onChangeProperties',
-  onChangePropertyErrorName: 'onChangePropertyError',
-  propertyName: 'property',
-  nameName: 'name',
-  errorName: 'error',
-})
+export const useObject = (props) =>
+  useObjectProp(props, {
+    name: 'value',
+    onChangeName: 'onChange',
+    onChangeErrorName: 'onChangeError',
+    onChangePropertyName: 'onChangeProperty',
+    onChangePropertiesName: 'onChangeProperties',
+    onChangePropertyErrorName: 'onChangePropertyError',
+    propertyName: 'property',
+    nameName: 'name',
+    errorName: 'error',
+  })
+
+export function useArray(props) {
+  function onChangeItem() {
+    return (itemValue, itemIndex, payload) => {
+      return props.onChange(
+        setItem(
+          props.value,
+          itemIndex == null ? undefined : +itemIndex,
+          itemValue,
+        ),
+        props.name,
+        payload,
+      )
+    }
+  }
+
+  function onAddItem() {
+    return (itemValue, itemIndex, payload) => {
+      return props.onChange(
+        insertItem(
+          props.value,
+          itemValue,
+          itemIndex == null ? undefined : +itemIndex,
+        ),
+        props.name,
+        payload,
+      )
+    }
+  }
+
+  function onAddItems() {
+    return (itemsValues, itemIndex, payload) => {
+      return props.onChange(
+        insertItems(
+          props.value,
+          itemsValues,
+          itemIndex == null ? undefined : +itemIndex,
+        ),
+        props.name,
+        payload,
+      )
+    }
+  }
+
+  function item(index, key = index, getId = () => index) {
+    return {
+      key,
+      value: props.value[index],
+      error: props.error[getId(props.value[index])],
+      name: `${index}`,
+      onChange: onChangeItem(),
+    }
+  }
+
+  return {
+    value: props.value == null ? EMPTY_ARRAY : props.value,
+    onChangeItem: props.onChange && onChangeItem(),
+    onAddItem: props.onChange && onAddItem(),
+    onAddItems: props.onChange && onAddItems(),
+    item: item,
+  }
+}
