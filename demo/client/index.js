@@ -916,46 +916,6 @@ const Form5 = () => {
   )
 }
 
-const Form55 = compose(
-  memo,
-  synced,
-  array,
-  withHandlers({
-    onAddItem: ({ onAddItem, onChangeError, value, error }) => (item) => {
-      if (value.length > 2) {
-        onChangeError({ ...error, ['']: ['Too much numbers'] })
-      } else if (item < 7) {
-        onChangeError({ ...error, [item]: ['This item is too low'] })
-      } else if (item > 9) {
-        onChangeError({ ...error, [item]: ['This item is too high'] })
-      }
-      onAddItem(item)
-    },
-  }),
-  logProps(['error']),
-)(({ value, item, onAddItem, error }) =>
-  $(
-    'div',
-    $('h2', 'Numbers between (exluded) 6 and 10'),
-    $(
-      'ul',
-      map(value, (name, key) =>
-        $(
-          'li',
-          { key },
-          `${item(key).value} ${
-            item(key, key, identity).error
-              ? `- ${item(key, key, identity).error}`
-              : ''
-          }`,
-        ),
-      ),
-    ),
-    onAddItem && $(ItemCreator2, { onChange: onAddItem, name: value.length }),
-    error && error[''] && $('div', { style: { color: 'red' } }, error['']),
-  ),
-)
-
 const ItemCreator2 = compose(
   withProps({
     filterOnChange: stubFalse,
