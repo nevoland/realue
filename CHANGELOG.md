@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.6.4](https://github.com/davidbonnet/realue/compare/v3.6.3...v3.6.4) (2021-12-22)
+
+
+### Bug Fixes
+
+* **layout:** add `onFocus` ([00d1c74](https://github.com/davidbonnet/realue/commit/00d1c7470c2311fd078e9f7ac04eb4dae38dc3b6))
+
+### [3.6.3](https://github.com/davidbonnet/realue/compare/v3.6.2...v3.6.3) (2021-12-22)
+
+
+### Bug Fixes
+
+* **layout:** exclude `tabIndex` from props ([7a723db](https://github.com/davidbonnet/realue/commit/7a723db605bfe1991798f29625754de3e0059d28))
+
+### [3.6.2](https://github.com/davidbonnet/realue/compare/v3.6.1...v3.6.2) (2021-11-27)
+
+
+### Bug Fixes
+
+* **layout:** Flex does not get all pointer events ([467cd11](https://github.com/davidbonnet/realue/commit/467cd1145dc4c8c69cce8284086964613074d300))
+
 ### [3.6.1](https://github.com/davidbonnet/realue/compare/v3.6.0...v3.6.1) (2020-12-13)
 
 
