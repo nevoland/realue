@@ -36,7 +36,7 @@ export function listenable(initialValue) {
     height.value
     // Calls `log(300)`
     height.set(300)
-    // Stops loging value changes
+    // Stops logging value changes
     off()
   */
   let value = initialValue
@@ -128,6 +128,8 @@ export async function untilOnline(signal) {
   return false
 }
 
+const MAX_TIMEOUT = 2147483647
+
 export function timeout(duration, callback) {
   /*
   Calls `callback` after at least `duration` milliseconds. Returns a function that cancels the future call of `callback`, if not already called.
@@ -138,10 +140,13 @@ export function timeout(duration, callback) {
       cancelAnimationFrame(timer)
     }
   }
-  let timer = setTimeout(() => {
-    timer = null
-    callback()
-  }, duration)
+  let timer = setTimeout(
+    () => {
+      timer = null
+      callback()
+    },
+    duration > MAX_TIMEOUT ? MAX_TIMEOUT : duration,
+  )
   return () => {
     if (timer == null) {
       return
@@ -170,7 +175,10 @@ export function interval(duration, callback) {
       timer = null
     }
   }
-  const timer = setInterval(callback, duration)
+  const timer = setInterval(
+    callback,
+    duration > MAX_TIMEOUT ? MAX_TIMEOUT : duration,
+  )
   return () => {
     clearInterval(timer)
   }
