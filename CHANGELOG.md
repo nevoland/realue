@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.6.5](https://github.com/davidbonnet/realue/compare/v3.6.4...v3.6.5) (2022-05-24)
+
+
+### Bug Fixes
+
+* **promises:** clamp duration to max signed int ([070305a](https://github.com/davidbonnet/realue/commit/070305a736d0be86c48fe28f5250995ddf9d2a6d))
+
 ### [3.6.4](https://github.com/davidbonnet/realue/compare/v3.6.3...v3.6.4) (2021-12-22)
 
 
