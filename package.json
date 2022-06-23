@@ -54,7 +54,7 @@
     "c8": "^7.1.1",
     "chalk": "^4.1.1",
     "chokidar": "^3.4.0",
-    "codecov": "^3.6.5",
+    "codecov": "^3.8.3",
     "concurrently": "^5.2.0",
     "connect": "^3.7.0",
     "cross-env": "^7.0.3",
