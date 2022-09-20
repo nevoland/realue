@@ -1,7 +1,8 @@
 import { Component as BaseComponent } from 'react'
-import { stubTrue } from 'lodash'
+import { stubTrue, isString } from 'lodash'
 
 import { $, setWrapperName, getGlobal, isPromise } from './tools'
+import { EMPTY_OBJECT } from './immutables'
 
 const {
   setTimeout,
@@ -184,7 +185,7 @@ export function interval(duration, callback) {
   }
 }
 
-function attachPromise(element, promise) {
+function attachPromise(element, promise, handleError) {
   return promise.then(
     (value) => {
       if (!element.mounted || element.state.promise !== promise) {
@@ -195,6 +196,9 @@ function attachPromise(element, promise) {
     (error) => {
       if (!element.mounted || element.state.promise !== promise) {
         return
+      }
+      if (!handleError(error)) {
+        throw error
       }
       element.setState({
         result: { done: true, error, value: undefined },
@@ -215,13 +219,16 @@ function stateFromPromise(promise) {
   }
 }
 
-export function promisedProp(name) {
+export function promisedProp(options) {
   /*
   Replaces the promise at prop `[name]` with `{ done, error, value }`.
   Before the promise resolves, `done` is `false` and `value` is `undefined`.
   If an error occured in the promise, `error` is set to it. Otherwise, the `value` is set to the resolved value amd `done` is `true`.
   If the propmise at prop `[name]` changes, `done`, `error`, and `value` are reset and any previous promise is discarded.
   */
+  const promiseName = isString(options) ? options : options.name
+  const { name = promiseName, handleError = stubTrue } =
+    promiseName === options ? EMPTY_OBJECT : options
   return (Component) =>
     setWrapperName(
       Component,
@@ -235,7 +242,7 @@ export function promisedProp(name) {
           this.mounted = true
           const { state } = this
           if (!state.result.done) {
-            attachPromise(this, state.promise)
+            attachPromise(this, state.promise, handleError)
           }
         }
         static getDerivedStateFromProps(props, state) {
@@ -248,7 +255,7 @@ export function promisedProp(name) {
         componentDidUpdate(prevProps, prevState) {
           const { state } = this
           if (state.promise !== prevState.promise && !state.result.done) {
-            attachPromise(this, state.promise)
+            attachPromise(this, state.promise, handleError)
           }
         }
         componentWillUnmount() {

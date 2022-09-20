@@ -350,6 +350,10 @@ export function concurrent(next) {
 
 // Component decorators
 
+function defaultHandleError(error) {
+  return error instanceof QueryError
+}
+
 export function queriedProp(options) {
   /*
   Calls `[requestName](query)` whenever the query at `[queryName]` changes and stores the result progress at `[valueName]`.
@@ -359,6 +363,7 @@ export function queriedProp(options) {
   const {
     valueName = queryName,
     requestName = 'request',
+    handleError = defaultHandleError,
     onAbortName = `onAbort${upperFirst(queryName)}`,
     AbortController = getGlobal().AbortController,
   } = queryName === options ? EMPTY_OBJECT : options
@@ -378,7 +383,7 @@ export function queriedProp(options) {
             }
       },
     ),
-    promisedProp(valueName),
+    promisedProp({ name: valueName, handleError }),
   )
 }
 

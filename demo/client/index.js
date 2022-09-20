@@ -724,6 +724,7 @@ export const App = compose(
       }),
   }),
   scoped(flattenProp('value'), returned(['value', 'done', 'error'])),
+  logProps(['value', 'done', 'error'], 'App'),
   resilient,
   delayable,
   editable,
