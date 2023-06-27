@@ -12,7 +12,7 @@ type PersonData = {
   lastName?: string;
   age?: number;
   showContact?: boolean;
-  contact: {
+  contact?: {
     email?: string;
     phone?: string;
   };
@@ -30,19 +30,31 @@ type PersonProps = {
 };
 
 function Person({ value, onChange, onRemove }: PersonProps) {
-  // Handle calculations
+  const property = useObject(value, onChange);
+  const contactProperty = useObject(...adapt(property("contact")));
+
   return (
     <div class="group/person flex flex-row space-x-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300">
       <h3>Person</h3>
-      <Input label="Name" placeholder="Alice" />
-      <Input label="Last name" placeholder="Brown" />
-      <InputNumber label="Age" placeholder="23" />
+      <Input label="Name" {...property("name")} placeholder="Alice" />
+      <Input label="Last name" {...property("lastName")} placeholder="Brown" />
+      <InputNumber label="Age" {...property("age")} placeholder="23" />
       <div class="flex flex-col">
-        <Checkbox label="Show contact" />
-        <div class="flex flex-row space-x-2">
-          <Input label="Email" placeholder="user@company.com" />
-          <Input label="Phone" placeholder="123-456-789" />
-        </div>
+        <Checkbox label="Show contact" {...property("showContact")} />
+        {value?.showContact && (
+          <div class="flex flex-row space-x-2">
+            <Input
+              label="Email"
+              {...contactProperty("email")}
+              placeholder="user@company.com"
+            />
+            <Input
+              label="Phone"
+              {...contactProperty("phone")}
+              placeholder="123-456-789"
+            />
+          </div>
+        )}
       </div>
       <div class="flex-grow"></div>
       <button
@@ -55,18 +67,44 @@ function Person({ value, onChange, onRemove }: PersonProps) {
   );
 }
 
+// export function State() {
+//   const [state, onChangeState] = useState<Data>({});
+//   const property = useObject(state, onChangeState);
+//   return (
+//     <div class="m-3 flex flex-col space-y-2">
+//       <Person {...property("person1")} />
+//       <Person {...property("person2")} />
+//       <pre class="bg-yellow-100 p-3">{JSON.stringify(state, null, 2)}</pre>
+//     </div>
+//   );
+// }
+
 export function State() {
-  const [state, onChangeState] = useState<PersonData[]>([{}, {}, {}]);
-  // Handle calculations
+  const [value, onChange] = useState<PersonData[]>([{}, {}, {}]);
+  const item = useArray(value, onChange);
+  const onChangeList = useArrayMutator(value, onChange);
   return (
     <div class="m-3 flex flex-col space-y-2">
-      {state.map((_, index) => (
-        <Person />
+      {value.map((_, index) => (
+        <Person {...item(index)} onRemove={() => onChangeList(index)} />
       ))}
-      <button class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white">
+      <button
+        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white"
+        onClick={() => onChangeList(value.length, {})}
+      >
         Add person
       </button>
-      <pre class="bg-yellow-100 p-3">{JSON.stringify(state, null, 2)}</pre>
+      <button
+        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white"
+        onClick={() => {
+          onChangeList(value.length, {});
+          onChangeList(value.length, {});
+          onChangeList(value.length, {});
+        }}
+      >
+        Add three people
+      </button>
+      <pre class="bg-yellow-100 p-3">{JSON.stringify(value, null, 2)}</pre>
     </div>
   );
 }
