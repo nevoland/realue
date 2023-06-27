@@ -1,172 +1,27 @@
 {
-  "name": "realue",
-  "version": "2.0.4",
-  "description": "Value management for React components.",
-  "main": "dist/es5/index.js",
-  "module": "dist/module/index.js",
-  "jsnext:main": "dist/module/index.js",
-  "es": "src/index.js",
-  "main-es": "src/index.js",
+  "name": "-realue",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node scripts/server.js",
-    "build": "parcel build --out-dir dist/app --public-url ./ demo/client/index.html",
-    "build:watch": "parcel --out-dir dist/app demo/client/index.html",
-    "start:api": "node --require esm demo/server/index.js",
-    "start:tools": "react-devtools",
-    "prepare": "babel --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
-    "test": "eslint src/ && prettier --list-different \"{src,scripts}/**/*.js\" && nyc ava",
-    "test:watch": "ava --watch",
-    "eslint": "eslint src/",
-    "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
-    "prepush": "npm test",
-    "release": "standard-version",
-    "deploy": "git push --follow-tags origin master && npm publish"
-  },
-  "keywords": [
-    "react",
-    "value",
-    "reuse",
-    "polymorphism"
-  ],
-  "author": "David Bonnet <david@bonnet.cc>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/davidbonnet/realue.git"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
-    "react": "^16.8.3",
-    "recompose": "^0.30.0"
+    "preact": "^10.13.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "@koa/cors": "^2.2.3",
-    "ava": "^1.0.1",
-    "chalk": "^2.4.1",
-    "chokidar": "^2.0.4",
-    "codecov": "^3.1.0",
-    "connect": "^3.6.6",
-    "cross-env": "^5.2.0",
-    "eslint": "^5.8.0",
-    "eslint-config-prettier": "^4.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "esm": "^3.0.84",
-    "fast-glob": "2.2.6",
-    "husky": "^1.1.2",
-    "koa": "^2.6.2",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "nyc": "^13.1.0",
-    "parcel-bundler": "^1.11.0",
-    "prettier": "^1.14.3",
-    "react-devtools": "^3.6.0",
-    "react-dom": "^16.8.3",
-    "react-test-renderer": "^16.8.1",
-    "serve-static": "^1.13.2",
-    "standard-version": "^4.4.0"
-  },
-  "prettier": {
-    "arrowParens": "always",
-    "bracketSpacing": true,
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "useTabs": false
-  },
-  "eslintConfig": {
-    "plugins": [
-      "import"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:import/errors",
-      "prettier"
-    ],
-    "env": {
-      "es6": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 10,
-      "sourceType": "module"
-    },
-    "globals": {
-      "__dirname": true,
-      "__filename": true,
-      "console": true,
-      "global": true,
-      "import": true,
-      "module": true,
-      "process": true,
-      "require": true,
-      "window": true
-    },
-    "rules": {
-      "curly": "error",
-      "default-case": "error",
-      "import/no-duplicates": "error",
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "always"
-        }
-      ],
-      "line-comment-position": [
-        "error",
-        {
-          "position": "above"
-        }
-      ],
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "error"
-          ]
-        }
-      ],
-      "no-irregular-whitespace": [
-        "error",
-        {
-          "skipStrings": true,
-          "skipTemplates": true
-        }
-      ],
-      "no-unused-vars": [
-        "error",
-        {
-          "args": "none",
-          "ignoreRestSiblings": true
-        }
-      ],
-      "no-var": "error",
-      "prefer-const": "error"
-    }
-  },
-  "ava": {
-    "babel": false,
-    "compileEnhancements": false,
-    "files": [
-      "src/**/tests/*.js"
-    ],
-    "require": [
-      "esm"
-    ]
-  },
-  "nyc": {
-    "exclude": [
-      "src/**/tests/*.js"
-    ],
-    "reporter": [
-      "html",
-      "lcov",
-      "text"
-    ]
-  },
-  "esm": "auto"
+    "@preact/preset-vite": "^2.5.0",
+    "@preact/signals": "^1.1.3",
+    "@types/lodash-es": "^4.17.7",
+    "@types/node": "^20.3.1",
+    "autoprefixer": "^10.4.14",
+    "lodash-es": "^4.17.21",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9"
+  }
 }

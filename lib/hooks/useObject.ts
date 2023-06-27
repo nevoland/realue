@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback } from "../dependencies";
 
 export function useObject<T extends object>(
   value: T = {} as T,
@@ -7,11 +7,12 @@ export function useObject<T extends object>(
   const state = useRef(value);
   state.current = value;
   return useCallback(
-    (propertyName: keyof T) => {
+    <K extends keyof T>(propertyName: K) => {
       return {
         value: state.current[propertyName],
         name: propertyName,
-        onChange: (propertyValue: T[keyof T]): void => {
+        key: propertyName,
+        onChange: (propertyValue: T[K]): void => {
           onChange(
             (state.current = {
               ...state.current,

@@ -1,4 +1,4 @@
-import { useSignal } from "@preact/signals";
+import { useSignal, useEffect, useCallback } from "../dependencies";
 
 export function useSynchedSignal<T>(value: T): [T, (value: T) => void] {
   const signal = useSignal(value);

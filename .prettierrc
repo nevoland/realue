@@ -1,0 +1,11 @@
+{
+  "trailingComma": "all",
+  "printWidth": 80,
+  "jsxSingleQuote": false,
+  "plugins": [
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindFunctions": [
+    "clsx"
+  ]
+}
