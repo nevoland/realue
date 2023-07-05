@@ -1,3 +1,13 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+@layer components {
+  body {
+    @apply dark:bg-zinc-800 dark:text-yellow-50;
+  }
+
+  input {
+    @apply dark:bg-zinc-600;
+  }
+}

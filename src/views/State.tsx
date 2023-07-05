@@ -53,14 +53,7 @@ function Friend({ onRemove, ...props }: FriendProps) {
   return (
     <div class="flex flex-row" key={props.name}>
       <Input {...props} placeholder="Add friend" key={props.name} />
-      {onRemove && (
-        <button
-          onClick={onRemove}
-          class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white"
-        >
-          Remove
-        </button>
-      )}
+      {onRemove && <ButtonRemove onRemove={onRemove} />}
     </div>
   );
 }
@@ -90,18 +83,48 @@ function FriendList(props: FriendListProps) {
   );
 }
 
+function onValidateName(value: string) {
+  const errorList = [];
+  if (value.length <= 3) {
+    errorList.push("The value must contain more than three characters.");
+  }
+  if (value[0] !== value[0]?.toUpperCase()) {
+    errorList.push("It must start with a capital letter.");
+  }
+  if (errorList.length === 0) {
+    return undefined;
+  }
+  return errorList;
+}
+
 type PersonProps = NevoProps<PersonData> & {
   onRemove(name: Name): void;
 };
+
+function ButtonRemove({ onRemove }: { onRemove(): void }) {
+  return (
+    <button
+      class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white dark:bg-red-700 dark:hover:bg-red-800 dark:hover:active:bg-red-900"
+      onClick={onRemove}
+    >
+      Remove
+    </button>
+  );
+}
 
 const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
   const onRemove = useCallback(() => onRemoveItem(props.name), [onRemoveItem]);
   return (
-    <div class="group/person flex flex-row space-x-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300">
+    <div class="group/person flex flex-row space-x-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
       <h3>Person</h3>
-      <Input label="Name" {...property("name")} placeholder="Alice" />
+      <Input
+        label="Name"
+        {...property("name")}
+        placeholder="Alice"
+        onValidate={onValidateName}
+      />
       <Input label="Last name" {...property("lastName")} placeholder="Brown" />
       <InputNumber label="Age" {...property("age")} placeholder="23" />
       <div class="flex flex-col">
@@ -130,12 +153,7 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
         )}
       </div>
       <div class="flex-grow"></div>
-      <button
-        class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white"
-        onClick={onRemove}
-      >
-        Remove
-      </button>
+      <ButtonRemove onRemove={onRemove} />
     </div>
   );
 });
@@ -158,8 +176,10 @@ export function State() {
     {},
     {},
   ]);
-  const item = useArray({ value, onChange, name: "" });
-  const onChangeArray = useArrayMutator({ value, onChange, name: "" });
+  const [error, onChangeError] = useState<ErrorReport<PersonData[]>>();
+  const props = { value, onChange, name: "", error, onChangeError };
+  const item = useArray(props);
+  const onChangeArray = useArrayMutator(props);
   const onRemoveItem = useCallback(
     (itemName: Name) => onChangeArray?.(+itemName),
     [onChangeArray],
@@ -179,18 +199,25 @@ export function State() {
         <Person {...item(index)} onRemove={onRemoveItem} />
       ))}
       <button
-        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white"
+        class="bg-green-300 p-2 p-2 hover:bg-green-400 active:bg-green-800 active:text-white active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendItem}
       >
         Add person
       </button>
       <button
-        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white"
+        class="bg-green-300 p-2 p-2 hover:bg-green-400 active:bg-green-800 active:text-white active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendThreeItems}
       >
         Add three people
       </button>
-      <pre class="bg-yellow-100 p-3">{JSON.stringify(value, null, 2)}</pre>
+      <div class="w[100%] flex flex-row">
+        <pre class="flex-grow bg-yellow-100 p-3 dark:bg-sky-900">
+          {JSON.stringify(value, null, 2)}
+        </pre>
+        <pre class="flex-grow bg-yellow-100 p-3 dark:bg-red-800">
+          {JSON.stringify(error, null, 2)}
+        </pre>
+      </div>
     </div>
   );
 }
