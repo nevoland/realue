@@ -1,5 +1,5 @@
-import { useRef, useCallback } from "../dependencies";
-import type { ErrorReport, ErrorReportObject } from "../types";
+import { useRef, useCallback, useMemo } from "../dependencies";
+import type { ErrorReport, ErrorReportObject, Name } from "../types";
 
 interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
   <K extends keyof T>(propertyName: K): {
@@ -16,13 +16,15 @@ interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
 }
 
 type ObjectProps<T, E> = {
+  name: Name;
   value?: T;
-  onChange?: (value: T) => void;
+  onChange?: (value: T, name: Name) => void;
   error?: E;
-  onChangeError?: (error: E) => void;
+  onChangeError?: (error: E, name: Name) => void;
 };
 
 export function useObject<T extends object, E extends ErrorReportObject<T>>({
+  name,
   value = {} as T,
   onChange,
   error,
@@ -32,6 +34,20 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
   state.current = value;
   const stateError = useRef(error);
   stateError.current = error;
+  const onChangeProperty = useMemo(
+    () =>
+      onChange === undefined
+        ? undefined
+        : <K extends keyof T>(propertyValue: T[K], propertyName: K) =>
+            onChange(
+              (state.current = {
+                ...state.current,
+                [propertyName]: propertyValue,
+              }),
+              name,
+            ),
+    [onChange, name],
+  );
   return useCallback(
     Object.defineProperty(
       <K extends keyof T>(propertyName: K) => {
@@ -39,17 +55,7 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
           value: state.current[propertyName],
           name: propertyName,
           key: propertyName,
-          onChange:
-            onChange === undefined
-              ? undefined
-              : (propertyValue: T[K]): void => {
-                  onChange(
-                    (state.current = {
-                      ...state.current,
-                      [propertyName]: propertyValue,
-                    }),
-                  );
-                },
+          onChange: onChangeProperty,
           error: stateError.current?.property[propertyName],
           onChangeError:
             onChangeError === undefined
@@ -63,6 +69,7 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
                         [propertyName]: propertyError,
                       },
                     } as E),
+                    name,
                   );
                 },
         };

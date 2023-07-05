@@ -1,5 +1,5 @@
-import { useRef, useCallback } from "../dependencies";
-import type { ErrorReport, ErrorReportArray } from "../types";
+import { useRef, useCallback, useMemo } from "../dependencies";
+import type { ErrorReport, ErrorReportArray, Name } from "../types";
 
 type Renderer = (index: number) => any;
 
@@ -21,41 +21,46 @@ function itemIdDefault<T>(item: T, index: number) {
 }
 
 type ArrayProps<T, E> = {
+  name: Name;
   value?: T[];
-  onChange?: (value: T[]) => void;
+  onChange?: (value: T[], name: Name) => void;
   error?: E;
-  onChangeError?: (error: E) => void;
+  onChangeError?: (error: E, name: Name) => void;
 };
 
 export function useArray<T, E extends ErrorReportArray<T[]>>(
-  { value = [], onChange, error, onChangeError }: ArrayProps<T, E>,
-  itemId: (item: T, index: number) => string = itemIdDefault,
+  { name, value = [], onChange, error, onChangeError }: ArrayProps<T, E>,
+  itemKey: (item: T, index: number) => string = itemIdDefault,
 ): ItemCallbable<T, E> {
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);
   stateError.current = error;
+  const onChangeItem = useMemo(
+    () =>
+      onChange === undefined
+        ? undefined
+        : (itemValue: T, itemIndex: Name): void => {
+            onChange(
+              (state.current = [
+                ...state.current.slice(0, +itemIndex),
+                itemValue,
+                ...state.current.slice(+itemIndex + 1),
+              ]),
+              name,
+            );
+          },
+    [onChange, name],
+  );
   return useCallback(
     Object.defineProperties(
       (itemIndex: number) => {
         const value = state.current[itemIndex];
-        const itemName = itemId(value, itemIndex);
         return {
           value,
-          name: itemName,
-          key: itemName,
-          onChange:
-            onChange === undefined
-              ? undefined
-              : (itemValue: T): void => {
-                  onChange(
-                    (state.current = [
-                      ...state.current.slice(0, itemIndex),
-                      itemValue,
-                      ...state.current.slice(itemIndex + 1),
-                    ]),
-                  );
-                },
+          name: `${itemIndex}`,
+          key: itemKey(value, itemIndex),
+          onChange: onChangeItem,
           error: stateError.current?.item[itemIndex],
           onChangeError:
             onChangeError === undefined
@@ -69,6 +74,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                         [itemIndex]: itemError,
                       },
                     } as E),
+                    `${itemIndex}`,
                   );
                 },
         };
@@ -88,6 +94,6 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
         },
       },
     ) as ItemCallbable<T, E>,
-    [onChange, itemId],
+    [onChange, itemKey],
   );
 }

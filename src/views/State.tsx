@@ -1,9 +1,9 @@
-import { useState } from "../../lib/dependencies";
+import { memo, useCallback, useState } from "../../lib/dependencies";
 
 import { useObject, useArray, useArrayMutator } from "../../lib/main";
 import { Checkbox } from "../components/Checkbox";
 
-import type { ErrorReport, NevoProps } from "../../lib/types";
+import type { ErrorReport, Name, NevoProps } from "../../lib/types";
 
 import { Input } from "../components/Input";
 import { InputNumber } from "../components/InputNumber";
@@ -73,24 +73,31 @@ function FriendList(props: FriendListProps) {
   return (
     <div class="flex flex-col">
       {item.loop((index) => (
-        <Friend {...item(index)} onRemove={() => onChangeList(index)} />
+        <Friend
+          {...item(index)}
+          onRemove={onChangeList && (() => onChangeList(index))}
+        />
       ))}
       <Friend
         key={`${item.parent.length}`}
         name={`${item.parent.length}`}
-        onChange={(value: string) => onChangeList(item.parent.length, value)}
+        onChange={
+          onChangeList &&
+          ((value: string) => onChangeList(item.parent.length, value))
+        }
       />
     </div>
   );
 }
 
 type PersonProps = NevoProps<PersonData> & {
-  onRemove(): void;
+  onRemove(name: Name): void;
 };
 
-function Person({ onRemove, ...props }: PersonProps) {
+const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
+  const onRemove = useCallback(() => onRemoveItem(props.name), [onRemoveItem]);
   return (
     <div class="group/person flex flex-row space-x-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300">
       <h3>Person</h3>
@@ -131,7 +138,7 @@ function Person({ onRemove, ...props }: PersonProps) {
       </button>
     </div>
   );
-}
+});
 
 // export function State() {
 //   const [state, onChangeState] = useState<Data>({});
@@ -151,26 +158,35 @@ export function State() {
     {},
     {},
   ]);
-  const item = useArray({ value, onChange });
-  const onChangeList = useArrayMutator({ value, onChange });
+  const item = useArray({ value, onChange, name: "" });
+  const onChangeArray = useArrayMutator({ value, onChange, name: "" });
+  const onRemoveItem = useCallback(
+    (itemName: Name) => onChangeArray?.(+itemName),
+    [onChangeArray],
+  );
+  const onAppendItem = useCallback(
+    () => onChangeArray?.(item.parent.length, {}),
+    [onChangeArray],
+  );
+  const onAppendThreeItems = useCallback(() => {
+    onAppendItem();
+    onAppendItem();
+    onAppendItem();
+  }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
       {item.loop((index) => (
-        <Person {...item(index)} onRemove={() => onChangeList(index)} />
+        <Person {...item(index)} onRemove={onRemoveItem} />
       ))}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white"
-        onClick={() => onChangeList(value.length, {})}
+        onClick={onAppendItem}
       >
         Add person
       </button>
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white"
-        onClick={() => {
-          onChangeList(value.length, {});
-          onChangeList(value.length, {});
-          onChangeList(value.length, {});
-        }}
+        onClick={onAppendThreeItems}
       >
         Add three people
       </button>

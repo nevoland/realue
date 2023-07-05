@@ -1,3 +1,10 @@
 export { type JSX } from "preact";
-export { useRef, useCallback, useState, useEffect } from "preact/hooks";
+export { memo } from "preact/compat";
+export {
+  useRef,
+  useCallback,
+  useState,
+  useEffect,
+  useMemo,
+} from "preact/hooks";
 export { useSignal } from "@preact/signals";
