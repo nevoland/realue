@@ -1,8 +1,9 @@
-import { useCallback, useState, type JSX } from "../../lib/dependencies";
+import { useState } from "../../lib/dependencies";
 
 import { useObject, useArray, useArrayMutator } from "../../lib/main";
-import { adapt } from "../../lib/tools/adapt";
 import { Checkbox } from "../components/Checkbox";
+
+import type { ErrorReport } from "../../lib/types";
 
 import { Input } from "../components/Input";
 import { InputNumber } from "../components/InputNumber";
@@ -16,23 +17,80 @@ type PersonData = {
     email?: string;
     phone?: string;
   };
+  showFriends?: boolean;
+  friends?: string[];
 };
 
-type PersonGroupData = {
-  person1?: PersonData;
-  person2?: PersonData;
+const e: ErrorReport<PersonData> = {
+  value: [],
+  property: {
+    name: [],
+    contact: {
+      value: [],
+      property: {
+        email: [],
+        phone: [],
+      },
+    },
+  },
 };
+
+const e2: ErrorReport<PersonData[]> = {
+  value: [],
+  item: {
+    0: {
+      value: [],
+      property: {},
+    },
+  },
+};
+
+console.log(e, e2);
 
 type PersonProps = {
   value?: PersonData;
   onChange(value: PersonData): void;
+  error?: ErrorReport<PersonData>;
+  onChangeError?(error: ErrorReport<PersonData>): void;
   onRemove(): void;
 };
 
-function Person({ value, onChange, onRemove }: PersonProps) {
-  const property = useObject(value, onChange);
-  const contactProperty = useObject(...adapt(property("contact")));
+function Friend({ onRemove, ...props }) {
+  return (
+    <div class="flex flex-row" key={props.name}>
+      <Input {...props} placeholder="Add friend" key={props.name} />
+      {onRemove && (
+        <button
+          onClick={onRemove}
+          class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white"
+        >
+          Remove
+        </button>
+      )}
+    </div>
+  );
+}
 
+function FriendList(props) {
+  const item = useArray(props);
+  const onChangeList = useArrayMutator(props);
+  return (
+    <div class="flex flex-col">
+      {item.loop((index) => (
+        <Friend {...item(index)} onRemove={() => onChangeList(index)} />
+      ))}
+      <Friend
+        key={`${item.parent.length}`}
+        name={`${item.parent.length}`}
+        onChange={(value: string) => onChangeList(item.parent.length, value)}
+      />
+    </div>
+  );
+}
+
+function Person({ onRemove, ...props }: PersonProps) {
+  const property = useObject(props);
+  const contactProperty = useObject(property("contact"));
   return (
     <div class="group/person flex flex-row space-x-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300">
       <h3>Person</h3>
@@ -41,7 +99,7 @@ function Person({ value, onChange, onRemove }: PersonProps) {
       <InputNumber label="Age" {...property("age")} placeholder="23" />
       <div class="flex flex-col">
         <Checkbox label="Show contact" {...property("showContact")} />
-        {value?.showContact && (
+        {property.parent?.showContact && (
           <div class="flex flex-row space-x-2">
             <Input
               label="Email"
@@ -53,6 +111,14 @@ function Person({ value, onChange, onRemove }: PersonProps) {
               {...contactProperty("phone")}
               placeholder="123-456-789"
             />
+          </div>
+        )}
+      </div>
+      <div class="flex flex-col">
+        <Checkbox label="Show friends" {...property("showFriends")} />
+        {property.parent?.showFriends && (
+          <div class="flex flex-row space-x-2">
+            <FriendList {...property("friends")} />
           </div>
         )}
       </div>
@@ -80,12 +146,16 @@ function Person({ value, onChange, onRemove }: PersonProps) {
 // }
 
 export function State() {
-  const [value, onChange] = useState<PersonData[]>([{}, {}, {}]);
-  const item = useArray(value, onChange);
-  const onChangeList = useArrayMutator(value, onChange);
+  const [value, onChange] = useState<PersonData[]>([
+    { friends: ["Bob", "Alice"] },
+    {},
+    {},
+  ]);
+  const item = useArray({ value, onChange });
+  const onChangeList = useArrayMutator({ value, onChange });
   return (
     <div class="m-3 flex flex-col space-y-2">
-      {value.map((_, index) => (
+      {item.loop((index) => (
         <Person {...item(index)} onRemove={() => onChangeList(index)} />
       ))}
       <button

@@ -1,11 +1,17 @@
 import { useRef, useCallback } from "../dependencies";
 
-export function useArrayMutator<T>(value: T[], onChange: (value: T[]) => void) {
+export function useArrayMutator<T>({
+  value = [],
+  onChange,
+}: {
+  value: T[];
+  onChange?: (value: T[]) => void;
+}) {
   const state = useRef(value);
   state.current = value;
   return useCallback(
     (itemIndex: number, itemValue?: T) => {
-      onChange(
+      onChange?.(
         (state.current =
           itemValue === undefined
             ? [
