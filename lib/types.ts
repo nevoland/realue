@@ -1,7 +1,15 @@
 export type ErrorMessage = string;
 
-type Mutable<T> = {
+type Mutable<T extends object> = {
   -readonly [K in keyof T]: T[K];
+};
+
+export type NevoProps<T, E = ErrorReport<T>> = {
+  name: string;
+  error?: E;
+  value?: T;
+  onChange?(value: T): void;
+  onChangeError?(error: E): void;
 };
 
 export type ErrorReport<T, N = NonNullable<T>> = N extends unknown[]

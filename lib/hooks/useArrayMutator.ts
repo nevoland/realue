@@ -4,7 +4,7 @@ export function useArrayMutator<T>({
   value = [],
   onChange,
 }: {
-  value: T[];
+  value?: T[];
   onChange?: (value: T[]) => void;
 }) {
   const state = useRef(value);

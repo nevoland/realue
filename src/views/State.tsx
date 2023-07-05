@@ -3,7 +3,7 @@ import { useState } from "../../lib/dependencies";
 import { useObject, useArray, useArrayMutator } from "../../lib/main";
 import { Checkbox } from "../components/Checkbox";
 
-import type { ErrorReport } from "../../lib/types";
+import type { ErrorReport, NevoProps } from "../../lib/types";
 
 import { Input } from "../components/Input";
 import { InputNumber } from "../components/InputNumber";
@@ -47,15 +47,9 @@ const e2: ErrorReport<PersonData[]> = {
 
 console.log(e, e2);
 
-type PersonProps = {
-  value?: PersonData;
-  onChange(value: PersonData): void;
-  error?: ErrorReport<PersonData>;
-  onChangeError?(error: ErrorReport<PersonData>): void;
-  onRemove(): void;
-};
+type FriendProps = NevoProps<string> & { onRemove?(): void };
 
-function Friend({ onRemove, ...props }) {
+function Friend({ onRemove, ...props }: FriendProps) {
   return (
     <div class="flex flex-row" key={props.name}>
       <Input {...props} placeholder="Add friend" key={props.name} />
@@ -71,7 +65,9 @@ function Friend({ onRemove, ...props }) {
   );
 }
 
-function FriendList(props) {
+type FriendListProps = NevoProps<string[]>;
+
+function FriendList(props: FriendListProps) {
   const item = useArray(props);
   const onChangeList = useArrayMutator(props);
   return (
@@ -87,6 +83,10 @@ function FriendList(props) {
     </div>
   );
 }
+
+type PersonProps = NevoProps<PersonData> & {
+  onRemove(): void;
+};
 
 function Person({ onRemove, ...props }: PersonProps) {
   const property = useObject(props);

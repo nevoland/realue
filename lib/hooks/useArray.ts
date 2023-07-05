@@ -20,18 +20,15 @@ function itemIdDefault<T>(item: T, index: number) {
   return (item as { id: string })?.id ?? index;
 }
 
+type ArrayProps<T, E> = {
+  value?: T[];
+  onChange?: (value: T[]) => void;
+  error?: E;
+  onChangeError?: (error: E) => void;
+};
+
 export function useArray<T, E extends ErrorReportArray<T[]>>(
-  {
-    value = [],
-    onChange,
-    error,
-    onChangeError,
-  }: {
-    value: T[];
-    onChange: (value: T[]) => void;
-    error?: E;
-    onChangeError?: (error: E) => void;
-  },
+  { value = [], onChange, error, onChangeError }: ArrayProps<T, E>,
   itemId: (item: T, index: number) => string = itemIdDefault,
 ): ItemCallbable<T, E> {
   const state = useRef(value);
@@ -47,15 +44,18 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
           value,
           name: itemName,
           key: itemName,
-          onChange: (itemValue: T): void => {
-            onChange(
-              (state.current = [
-                ...state.current.slice(0, itemIndex),
-                itemValue,
-                ...state.current.slice(itemIndex + 1),
-              ]),
-            );
-          },
+          onChange:
+            onChange === undefined
+              ? undefined
+              : (itemValue: T): void => {
+                  onChange(
+                    (state.current = [
+                      ...state.current.slice(0, itemIndex),
+                      itemValue,
+                      ...state.current.slice(itemIndex + 1),
+                    ]),
+                  );
+                },
           error: stateError.current?.item[itemIndex],
           onChangeError:
             onChangeError === undefined
