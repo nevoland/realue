@@ -11,7 +11,7 @@ export type NevoProps<T, E = ErrorReport<T>> = {
   error?: E;
   value?: T;
   onChange?(value: T, name: Name): void;
-  onChangeError?(error: E, name: Name): void;
+  onChangeError?(error: E | undefined, name: Name): void;
 };
 
 export type ErrorReport<T, N = NonNullable<T>> = N extends unknown[]

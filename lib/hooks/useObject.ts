@@ -48,6 +48,27 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
             ),
     [onChange, name],
   );
+  const onChangePropertyError = useMemo(
+    () =>
+      onChangeError === undefined
+        ? undefined
+        : <K extends keyof T>(
+            propertyError: E["property"][K] | undefined,
+            propertyName: Name,
+          ): void => {
+            onChangeError(
+              (stateError.current = {
+                ...(stateError.current ?? null),
+                property: {
+                  ...(stateError.current?.property ?? null),
+                  [propertyName]: propertyError,
+                },
+              } as E),
+              name,
+            );
+          },
+    [onChangeError],
+  );
   return useCallback(
     Object.defineProperty(
       <K extends keyof T>(propertyName: K) => {
@@ -57,21 +78,7 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
           key: propertyName,
           onChange: onChangeProperty,
           error: stateError.current?.property[propertyName],
-          onChangeError:
-            onChangeError === undefined
-              ? undefined
-              : (propertyError: E["property"][K]): void => {
-                  onChangeError(
-                    (stateError.current = {
-                      ...(stateError.current ?? null),
-                      property: {
-                        ...(stateError.current?.property ?? null),
-                        [propertyName]: propertyError,
-                      },
-                    } as E),
-                    name,
-                  );
-                },
+          onChangeError: onChangePropertyError,
         };
       },
       "parent",

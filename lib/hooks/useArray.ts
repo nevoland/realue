@@ -52,6 +52,24 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
           },
     [onChange, name],
   );
+  const onChangeItemError = useMemo(
+    () =>
+      onChangeError === undefined
+        ? undefined
+        : (itemError: E["item"][number], itemIndex: Name): void => {
+            onChangeError(
+              (stateError.current = {
+                ...(stateError.current ?? null),
+                item: {
+                  ...(stateError.current?.item ?? null),
+                  [itemIndex]: itemError,
+                },
+              } as E),
+              itemIndex,
+            );
+          },
+    [onChangeError],
+  );
   return useCallback(
     Object.defineProperties(
       (itemIndex: number) => {
@@ -62,21 +80,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
           key: itemKey(value, itemIndex),
           onChange: onChangeItem,
           error: stateError.current?.item[itemIndex],
-          onChangeError:
-            onChangeError === undefined
-              ? undefined
-              : (itemError: E["item"][number]): void => {
-                  onChangeError(
-                    (stateError.current = {
-                      ...(stateError.current ?? null),
-                      item: {
-                        ...(stateError.current?.item ?? null),
-                        [itemIndex]: itemError,
-                      },
-                    } as E),
-                    `${itemIndex}`,
-                  );
-                },
+          onChangeError: onChangeItemError,
         };
       },
       {
