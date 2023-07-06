@@ -1,4 +1,5 @@
 import { useRef, useCallback, useMemo } from "../dependencies";
+import { omitKey } from "../tools/omitKey";
 import type {
   ErrorMutator,
   ErrorReport,
@@ -66,13 +67,22 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
         onChangeError === undefined
           ? undefined
           : (itemError, itemIndex): void => {
+              if (
+                itemError ===
+                stateError.current?.item?.[itemIndex as unknown as number]
+              ) {
+                return;
+              }
               onChangeError(
                 (stateError.current = {
                   ...(stateError.current ?? null),
-                  item: {
-                    ...(stateError.current?.item ?? null),
-                    [itemIndex]: itemError,
-                  },
+                  item:
+                    itemError === undefined
+                      ? omitKey(stateError.current?.item, +itemIndex)
+                      : {
+                          ...(stateError.current?.item ?? null),
+                          [itemIndex]: itemError,
+                        },
                 } as E),
                 name,
               );
@@ -108,6 +118,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
         add: {
           configurable: false,
           value:
+            // TODO: Update error
             onChange === undefined
               ? undefined
               : (itemIndex: number, itemValue: T) => {

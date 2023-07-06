@@ -1,4 +1,5 @@
 import { useRef, useCallback, useMemo } from "../dependencies";
+import { omitKey } from "../tools/omitKey";
 import type {
   ErrorMutator,
   ErrorReport,
@@ -60,15 +61,23 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
         ? undefined
         : <K extends keyof T>(
             propertyError: E["property"][K] | undefined,
-            propertyName: Name,
+            propertyName: K,
           ): void => {
+            if (
+              propertyError === stateError.current?.property?.[propertyName]
+            ) {
+              return;
+            }
             onChangeError(
               (stateError.current = {
                 ...(stateError.current ?? null),
-                property: {
-                  ...(stateError.current?.property ?? null),
-                  [propertyName]: propertyError,
-                },
+                property:
+                  propertyError === undefined
+                    ? omitKey(stateError.current?.property, propertyName)
+                    : {
+                        ...(stateError.current?.property ?? null),
+                        [propertyName]: propertyError,
+                      },
               } as E),
               name,
             );
