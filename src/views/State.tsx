@@ -112,6 +112,19 @@ function ButtonRemove({ onRemove }: { onRemove(): void }) {
   );
 }
 
+async function onValidateAge(value?: number) {
+  if (value === undefined) {
+    return undefined;
+  }
+  if (value < 0) {
+    return ["Age cannot be negative."];
+  }
+  if (value <= 2) {
+    return ["Age must be higher than 2."];
+  }
+  return undefined;
+}
+
 const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
@@ -125,8 +138,18 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
         placeholder="Alice"
         onValidate={onValidateName}
       />
-      <Input label="Last name" {...property("lastName")} placeholder="Brown" />
-      <InputNumber label="Age" {...property("age")} placeholder="23" />
+      <Input
+        label="Last name"
+        {...property("lastName")}
+        placeholder="Brown"
+        onValidate={onValidateName}
+      />
+      <InputNumber
+        label="Age"
+        {...property("age")}
+        placeholder="23"
+        onValidate={onValidateAge}
+      />
       <div class="flex flex-col">
         <Checkbox label="Show contact" {...property("showContact")} />
         {property.parent?.showContact && (
@@ -199,13 +222,13 @@ export function State() {
         <Person {...item(index)} onRemove={onRemoveItem} />
       ))}
       <button
-        class="bg-green-300 p-2 p-2 hover:bg-green-400 active:bg-green-800 active:text-white active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
+        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendItem}
       >
         Add person
       </button>
       <button
-        class="bg-green-300 p-2 p-2 hover:bg-green-400 active:bg-green-800 active:text-white active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
+        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendThreeItems}
       >
         Add three people

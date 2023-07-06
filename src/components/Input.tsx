@@ -1,10 +1,11 @@
 import { memo, useCallback, useEffect, type JSX } from "../../lib/dependencies";
-import { NevoProps } from "../../lib/types";
+import { useValidator } from "../../lib/hooks/useValidator";
+import type { NevoProps, ValueValidator } from "../../lib/types";
 
 type InputProps = NevoProps<string> & {
   label?: string;
   placeholder?: string;
-  onValidate?(value: string): string[] | undefined;
+  onValidate?: ValueValidator<string>;
 };
 
 export const Input = memo(
@@ -23,11 +24,7 @@ export const Input = memo(
         onChange?.(event.currentTarget.value, event.currentTarget.name),
       [onChange],
     );
-    useEffect(() => {
-      if (onValidate && onChangeError) {
-        onChangeError(onValidate(value), name);
-      }
-    }, [value]);
+    useValidator(value, name, onValidate, onChangeError);
     return (
       <div class="flex flex-col space-y-1">
         <label>{label}</label>

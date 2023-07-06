@@ -6,12 +6,20 @@ type Mutable<T extends object> = {
 
 export type Name = string;
 
+export type ValueValidator<T> = (
+  value: T,
+) => Promise<ErrorReport<T> | undefined>;
+
+export type ValueMutator<T> = (value: T, name: Name) => void;
+
+export type ErrorMutator<E> = (error: E | undefined, name: Name) => void;
+
 export type NevoProps<T, E = ErrorReport<T>> = {
   name: string;
   error?: E;
   value?: T;
-  onChange?(value: T, name: Name): void;
-  onChangeError?(error: E | undefined, name: Name): void;
+  onChange?: ValueMutator<T>;
+  onChangeError?: ErrorMutator<E>;
 };
 
 export type ErrorReport<T, N = NonNullable<T>> = N extends unknown[]

@@ -1,16 +1,22 @@
 import { useRef, useCallback, useMemo } from "../dependencies";
-import type { ErrorReport, ErrorReportObject, Name } from "../types";
+import type {
+  ErrorMutator,
+  ErrorReport,
+  ErrorReportObject,
+  Name,
+  ValueMutator,
+} from "../types";
 
 interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
   <K extends keyof T>(propertyName: K): {
     value: T[K];
     name: K;
     key: K;
-    onChange: ((propertyValue: T[K]) => void) | undefined;
+    onChange: ValueMutator<T[K]>;
     error:
       | Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
       | undefined;
-    onChangeError: ((propertyError: E["property"][K]) => void) | undefined;
+    onChangeError: ErrorMutator<E["property"][K]> | undefined;
   };
   parent: T;
 }
@@ -18,9 +24,9 @@ interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
 type ObjectProps<T, E> = {
   name: Name;
   value?: T;
-  onChange?: (value: T, name: Name) => void;
+  onChange?: ValueMutator<T>;
   error?: E;
-  onChangeError?: (error: E, name: Name) => void;
+  onChangeError?: ErrorMutator<E>;
 };
 
 export function useObject<T extends object, E extends ErrorReportObject<T>>({
