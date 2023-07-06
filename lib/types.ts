@@ -7,10 +7,10 @@ type Mutable<T extends object> = {
 export type Name = string;
 
 export type ValueValidator<T> = (
-  value: T,
+  value?: T,
 ) => Promise<ErrorReport<T> | undefined>;
 
-export type ValueMutator<T> = (value: T, name: Name) => void;
+export type ValueMutator<T> = (value: T | undefined, name: Name) => void;
 
 export type ErrorMutator<E> = (error: E | undefined, name: Name) => void;
 

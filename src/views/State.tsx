@@ -1,6 +1,6 @@
 import { memo, useCallback, useState } from "../../lib/dependencies";
 
-import { useObject, useArray, useArrayMutator } from "../../lib/main";
+import { useObject, useArray } from "../../lib/main";
 import { Checkbox } from "../components/Checkbox";
 
 import type { ErrorReport, Name, NevoProps } from "../../lib/types";
@@ -18,7 +18,7 @@ type PersonData = {
     phone?: string;
   };
   showFriends?: boolean;
-  friends?: string[];
+  friends?: (string | undefined)[];
 };
 
 const e: ErrorReport<PersonData> = {
@@ -47,9 +47,13 @@ const e2: ErrorReport<PersonData[]> = {
 
 console.log(e, e2);
 
-type FriendProps = NevoProps<string> & { onRemove?(): void };
+type FriendProps = NevoProps<string> & { onRemove?(itemIndex: number): void };
 
-function Friend({ onRemove, ...props }: FriendProps) {
+function Friend({ onRemove: onRemoveItem, ...props }: FriendProps) {
+  const onRemove = useCallback(
+    () => onRemoveItem?.(+props.name),
+    [onRemoveItem],
+  );
   return (
     <div class="flex flex-row" key={props.name}>
       <Input {...props} placeholder="Add friend" key={props.name} />
@@ -58,33 +62,33 @@ function Friend({ onRemove, ...props }: FriendProps) {
   );
 }
 
-type FriendListProps = NevoProps<string[]>;
+type FriendListProps = NevoProps<(string | undefined)[]>;
 
-function FriendList(props: FriendListProps) {
+const FriendList = memo((props: FriendListProps) => {
   const item = useArray(props);
-  const onChangeList = useArrayMutator(props);
   return (
     <div class="flex flex-col">
       {item.loop((index) => (
-        <Friend
-          {...item(index)}
-          onRemove={onChangeList && (() => onChangeList(index))}
-        />
+        <Friend {...item(index)} onRemove={item.remove} />
       ))}
       <Friend
         key={`${item.parent.length}`}
         name={`${item.parent.length}`}
         onChange={
-          onChangeList &&
-          ((value: string) => onChangeList(item.parent.length, value))
+          item.add &&
+          ((value: string | undefined, _name) =>
+            item.add?.(item.parent.length, value))
         }
       />
     </div>
   );
-}
+});
 
-function onValidateName(value: string) {
-  const errorList = [];
+async function onValidateName(value?: string) {
+  const errorList: string[] = [];
+  if (!value) {
+    return undefined;
+  }
   if (value.length <= 3) {
     errorList.push("The value must contain more than three characters.");
   }
@@ -194,22 +198,23 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
 // }
 
 export function State() {
-  const [value, onChange] = useState<PersonData[]>([
+  const [value, onChange] = useState<(PersonData | undefined)[] | undefined>([
     { friends: ["Bob", "Alice"] },
     {},
     {},
   ]);
-  const [error, onChangeError] = useState<ErrorReport<PersonData[]>>();
+  const [error, onChangeError] = useState<
+    ErrorReport<PersonData[]> | undefined
+  >();
   const props = { value, onChange, name: "", error, onChangeError };
   const item = useArray(props);
-  const onChangeArray = useArrayMutator(props);
   const onRemoveItem = useCallback(
-    (itemName: Name) => onChangeArray?.(+itemName),
-    [onChangeArray],
+    (itemName: Name) => item.remove?.(+itemName),
+    [item],
   );
   const onAppendItem = useCallback(
-    () => onChangeArray?.(item.parent.length, {}),
-    [onChangeArray],
+    () => item.add?.(item.parent.length, {}),
+    [item],
   );
   const onAppendThreeItems = useCallback(() => {
     onAppendItem();

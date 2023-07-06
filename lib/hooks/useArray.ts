@@ -20,7 +20,7 @@ interface ItemCallbable<T, E extends ErrorReportArray<T[]>> {
   };
   parent: T[];
   loop(renderer: Renderer): any[];
-  add(index: number, item: T): void;
+  add(index: number, item: T | undefined): void;
   remove(index: number): void;
 }
 
@@ -30,8 +30,8 @@ function itemKeyDefault<T>(index: number, item: T | undefined) {
 
 type ArrayProps<T, E> = {
   name: Name;
-  value?: T[];
-  onChange?: ValueMutator<T[]>;
+  value?: (T | undefined)[];
+  onChange?: ValueMutator<(T | undefined)[]>;
   error?: E;
   onChangeError?: ErrorMutator<E>;
 };
