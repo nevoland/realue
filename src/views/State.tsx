@@ -239,10 +239,10 @@ export function State() {
         Add three people
       </button>
       <div class="w[100%] flex flex-row">
-        <pre class="flex-grow bg-yellow-100 p-3 dark:bg-sky-900">
+        <pre class="basis-1/2 bg-yellow-100 p-3 dark:bg-sky-900">
           {JSON.stringify(value, formatJson, 2)}
         </pre>
-        <pre class="flex-grow bg-yellow-100 p-3 dark:bg-red-800">
+        <pre class="basis-1/2 bg-red-100 p-3 dark:bg-red-800">
           {JSON.stringify(error, formatJson, 2)}
         </pre>
       </div>
