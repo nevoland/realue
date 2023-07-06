@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, type JSX } from "../../lib/dependencies";
+import { memo, useCallback, type JSX } from "../../lib/dependencies";
 import { useValidator } from "../../lib/hooks/useValidator";
 import type { NevoProps, ValueValidator } from "../../lib/types";
 
