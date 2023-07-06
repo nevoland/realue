@@ -213,7 +213,7 @@ export function State() {
     [item],
   );
   const onAppendItem = useCallback(
-    () => item.add?.(item.parent.length, {}),
+    () => item.add?.(item.parent.length, undefined),
     [item],
   );
   const onAppendThreeItems = useCallback(() => {
@@ -240,12 +240,19 @@ export function State() {
       </button>
       <div class="w[100%] flex flex-row">
         <pre class="flex-grow bg-yellow-100 p-3 dark:bg-sky-900">
-          {JSON.stringify(value, null, 2)}
+          {JSON.stringify(value, formatJson, 2)}
         </pre>
         <pre class="flex-grow bg-yellow-100 p-3 dark:bg-red-800">
-          {JSON.stringify(error, null, 2)}
+          {JSON.stringify(error, formatJson, 2)}
         </pre>
       </div>
     </div>
   );
+}
+
+function formatJson(_key: any, value: any) {
+  if (value === undefined) {
+    return null;
+  }
+  return value;
 }
