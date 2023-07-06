@@ -1,6 +1,6 @@
 import { render } from "preact";
 
-import { App } from "./views/App.tsx";
+import { App } from "./views/App";
 
 import "./main.css";
 
