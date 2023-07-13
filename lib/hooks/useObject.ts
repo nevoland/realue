@@ -1,4 +1,5 @@
 import { useRef, useCallback, useMemo } from "../dependencies";
+import { isEmpty } from "../tools/isEmpty";
 import { omitKey } from "../tools/omitKey";
 import type {
   ErrorMutator,
@@ -20,6 +21,15 @@ interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
     onChangeError: ErrorMutator<E["property"][K]> | undefined;
   };
   parent: T;
+}
+
+function undefinedIfEmpty<T extends object, E extends ErrorReportObject<T>>(
+  error: E,
+) {
+  if (error.value === undefined && isEmpty(error?.property)) {
+    return undefined;
+  }
+  return error;
 }
 
 type ObjectProps<T, E> = {
@@ -69,7 +79,7 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
               return;
             }
             onChangeError(
-              (stateError.current = {
+              (stateError.current = undefinedIfEmpty<T, E>({
                 ...(stateError.current ?? null),
                 property:
                   propertyError === undefined
@@ -78,7 +88,7 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
                         ...(stateError.current?.property ?? null),
                         [propertyName]: propertyError,
                       },
-              } as E),
+              } as E)),
               name,
             );
           },

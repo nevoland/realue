@@ -1,4 +1,6 @@
 import { useRef, useCallback, useMemo } from "../dependencies";
+import { isEmpty } from "../tools/isEmpty";
+
 import { omitKey } from "../tools/omitKey";
 import type {
   ErrorMutator,
@@ -27,6 +29,17 @@ interface ItemCallbable<T, E extends ErrorReportArray<T[]>> {
 
 function itemKeyDefault<T>(index: number, item: T | undefined) {
   return (item as { id: string })?.id ?? index;
+}
+
+function toNumber(value: string): number {
+  return +value;
+}
+
+function undefinedIfEmpty<T, E extends ErrorReportArray<T[]>>(error: E) {
+  if (error.value === undefined && isEmpty(error?.item)) {
+    return undefined;
+  }
+  return error;
 }
 
 type ArrayProps<T, E> = {
@@ -74,7 +87,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                 return;
               }
               onChangeError(
-                (stateError.current = {
+                (stateError.current = undefinedIfEmpty<T, E>({
                   ...(stateError.current ?? null),
                   item:
                     itemError === undefined
@@ -83,7 +96,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                           ...(stateError.current?.item ?? null),
                           [itemIndex]: itemError,
                         },
-                } as E),
+                } as E)),
                 name,
               );
             },
@@ -118,7 +131,6 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
         add: {
           configurable: false,
           value:
-            // TODO: Update error
             onChange === undefined
               ? undefined
               : (itemIndex: number, itemValue: T) => {
@@ -128,6 +140,42 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                       itemValue,
                       ...state.current.slice(itemIndex),
                     ]),
+                    name,
+                  );
+                  const currentErrorList = stateError.current?.item;
+                  if (
+                    currentErrorList === undefined ||
+                    onChangeError === undefined
+                  ) {
+                    return;
+                  }
+                  const indexList =
+                    Object.getOwnPropertyNames(currentErrorList).map(toNumber);
+                  if (indexList.length === 0) {
+                    return;
+                  }
+                  indexList.sort();
+                  if (indexList[indexList.length - 1] < itemIndex) {
+                    return;
+                  }
+                  const itemErrorList: E["item"] = {};
+                  for (let index = 0; index < indexList.length; index++) {
+                    const currentItemIndex = indexList[index];
+                    if (currentItemIndex < itemIndex) {
+                      itemErrorList[currentItemIndex] =
+                        currentErrorList[currentItemIndex];
+                      continue;
+                    }
+                    if (currentItemIndex >= itemIndex) {
+                      itemErrorList[currentItemIndex + 1] =
+                        currentErrorList[currentItemIndex];
+                    }
+                  }
+                  onChangeError(
+                    (stateError.current = undefinedIfEmpty<T, E>({
+                      ...(stateError.current ?? null),
+                      item: itemErrorList,
+                    } as E)),
                     name,
                   );
                 },
@@ -152,9 +200,8 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                   ) {
                     return;
                   }
-                  const indexList = Object.getOwnPropertyNames(
-                    currentErrorList,
-                  ).map((itemIndex) => +itemIndex);
+                  const indexList =
+                    Object.getOwnPropertyNames(currentErrorList).map(toNumber);
                   if (indexList.length === 0) {
                     return;
                   }
@@ -173,10 +220,10 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                     }
                   }
                   onChangeError(
-                    (stateError.current = {
+                    (stateError.current = undefinedIfEmpty<T, E>({
                       ...(stateError.current ?? null),
                       item: itemErrorList,
-                    } as E),
+                    } as E)),
                     name,
                   );
                 },

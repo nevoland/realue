@@ -216,6 +216,7 @@ export function State() {
     () => item.add?.(item.parent.length, undefined),
     [item],
   );
+  const onPrependItem = useCallback(() => item.add?.(0, undefined), [item]);
   const onAppendThreeItems = useCallback(() => {
     onAppendItem();
     onAppendItem();
@@ -226,6 +227,12 @@ export function State() {
       {item.loop((index) => (
         <Person {...item(index)} onRemove={onRemoveItem} />
       ))}
+      <button
+        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
+        onClick={onPrependItem}
+      >
+        Add person at the begining
+      </button>
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendItem}
