@@ -133,6 +133,12 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
   const onRemove = useCallback(() => onRemoveItem(props.name), [onRemoveItem]);
+  if (property.parent.age === undefined) {
+    props.onChangeError?.(
+      { ...(props.error ?? { property: {} }), value: ["Age must be set"] },
+      props.name,
+    );
+  }
   return (
     <div class="group/person flex flex-row space-x-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
       <h3>Person</h3>

@@ -2,6 +2,7 @@ import { useRef, useCallback, useMemo } from "../dependencies";
 import { isEmpty } from "../tools/isEmpty";
 import { omitKey } from "../tools/omitKey";
 import type {
+  ErrorMessage,
   ErrorMutator,
   ErrorReport,
   ErrorReportObject,
@@ -19,6 +20,14 @@ interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
       | Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
       | undefined;
     onChangeError: ErrorMutator<E["property"][K]> | undefined;
+  };
+  <K extends keyof T>(): {
+    value: T;
+    name: Name;
+    key: Name;
+    onChange: ValueMutator<T[K]>;
+    error: ErrorMessage[] | undefined;
+    onChangeError: ErrorMutator<ErrorMessage[]> | undefined;
   };
   parent: T;
 }

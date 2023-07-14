@@ -1,4 +1,4 @@
-export function isEmpty<T extends object = {}>(value: T) {
+export function isEmpty<T extends object = {}>(value?: T) {
   if (value == null) {
     return true;
   }

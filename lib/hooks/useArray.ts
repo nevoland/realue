@@ -233,7 +233,3 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
     [onChangeItem, onChangeItemError, itemKey],
   );
 }
-
-function compareNumberString(a: string, b: string) {
-  return +a - +b;
-}
