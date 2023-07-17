@@ -1,5 +1,6 @@
 export { type JSX } from "preact";
 export { memo } from "preact/compat";
+export { debounce } from "lodash-es";
 export {
   useRef,
   useCallback,

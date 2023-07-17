@@ -1,4 +1,4 @@
-import { isPromise, useEffect } from "../dependencies";
+import { useEffect } from "../dependencies";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
 import { usePromise } from "./usePromise";
 

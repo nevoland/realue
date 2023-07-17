@@ -40,6 +40,9 @@ type ObjectProps<T, E> = {
   onChangeError?: ErrorMutator<E>;
 };
 
+/**
+ * Takes an object and returns a function that generates the required props for handling an object property value.
+ */
 export function useObject<T extends object, E extends ErrorReportObject<T>>({
   name,
   value = {} as T,

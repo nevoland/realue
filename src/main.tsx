@@ -1,4 +1,15 @@
-import { render } from "preact";
+import "preact/debug";
+import { render, options } from "preact";
+
+const { unmount } = options;
+// options.unmount = (vnode) => {
+//   console.log(vnode);
+//   unmount?.(vnode);
+// };
+
+// options.debounceRendering = (render) => {
+//   requestAnimationFrame(render);
+// };
 
 import { App } from "./views/App";
 

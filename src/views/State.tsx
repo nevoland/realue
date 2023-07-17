@@ -1,12 +1,13 @@
 import { memo, uid, useCallback, useState } from "../../lib/dependencies";
 
-import { useObject, useArray } from "../../lib/main";
+import { useObject, useArray, useRemove } from "../../lib/main";
 import { Checkbox } from "../components/Checkbox";
 
 import type {
   ErrorReport,
   Name,
   NevoProps,
+  ValueRemover,
   ValueValidator,
 } from "../../lib/types";
 
@@ -20,6 +21,7 @@ type PersonData = {
   id: string;
   name?: string;
   lastName?: string;
+  userName?: string;
   age?: number;
   activeSince?: number;
   showContact?: boolean;
@@ -31,30 +33,12 @@ type PersonData = {
   friends?: (string | undefined)[];
 };
 
-const e: ErrorReport<PersonData> = {
-  "": [],
-  name: [],
-  contact: {
-    email: [],
-    phone: [],
-  },
-};
-
-const e2: ErrorReport<PersonData[]> = {
-  "": [],
-  0: e,
-};
-
 type FriendProps = NevoProps<string> & {
-  onRemove?(itemIndex: number): void;
+  onRemove?: ValueRemover;
 };
 
-function Friend({ onRemove: onRemoveItem, ...props }: FriendProps) {
-  props.onChange;
-  const onRemove = useCallback(
-    () => onRemoveItem?.(+props.name),
-    [onRemoveItem],
-  );
+function Friend(props: FriendProps) {
+  const onRemove = useRemove(props);
   return (
     <div class="flex flex-row" key={props.name}>
       <Input {...props} placeholder="Add friend" key={props.name} />
@@ -95,7 +79,7 @@ async function onValidateName(value?: string) {
   if (value[0] !== value[0]?.toUpperCase()) {
     errorList.push("It must start with a capital letter.");
   }
-  await sleep(4000);
+  await sleep(2000);
   if (errorList.length === 0) {
     return undefined;
   }
@@ -103,14 +87,15 @@ async function onValidateName(value?: string) {
 }
 
 type PersonProps = NevoProps<PersonData> & {
-  onRemove(name: Name): void;
+  onRemove?: ValueRemover;
 };
 
-function ButtonRemove({ onRemove }: { onRemove(): void }) {
+function ButtonRemove({ onRemove }: { onRemove?(): void }) {
   return (
     <button
       class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white dark:bg-red-700 dark:hover:bg-red-800 dark:hover:active:bg-red-900"
       onClick={onRemove}
+      disabled={onRemove === undefined}
     >
       Remove
     </button>
@@ -145,12 +130,24 @@ const onValidatePerson: ValueValidator<PersonData> = (value) => {
   return errorList.length > 0 ? errorList : undefined;
 };
 
-const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
+async function onValidateUsername(value?: string) {
+  if (!value) {
+    return;
+  }
+  const result = await fetch(
+    `https://api.github.com/users/${encodeURIComponent(value)}`,
+  );
+  if (result.status !== 200) {
+    return ["User does not exist."];
+  }
+  return undefined;
+}
+
+const Person = memo((props: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
-  const onRemove = useCallback(() => onRemoveItem(props.name), [onRemoveItem]);
+  const onRemove = useRemove(props);
   useValidator(property(), onValidatePerson);
-  logProps(`Person ${props.name}`, props);
   return (
     <div class="group/person flex flex-col space-y-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
       <div class="flex flex-row space-x-2">
@@ -171,6 +168,14 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
           {...property("lastName")}
           placeholder="Brown"
           onValidate={onValidateName}
+          // delay={300}
+        />
+        <Input
+          label="Username"
+          {...property("userName")}
+          placeholder="abrown"
+          onValidate={onValidateUsername}
+          // delay={300}
         />
         <InputNumber
           label="Age"
@@ -222,17 +227,18 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
 export function State() {
   const [value, onChange] = useState<(PersonData | undefined)[] | undefined>([
     { id: uid(), friends: ["Bob", "Alice"] },
-    { id: uid() },
+    // { id: uid() },
     { id: uid() },
   ]);
   const [error, onChangeError] = useState<
     ErrorReport<PersonData[]> | undefined
   >();
   const props = { value, onChange, name: "", error, onChangeError };
+  // logProps("State", { value, error });
   const item = useArray(props);
   const onRemoveItem = useCallback(
-    (itemName: Name) => item.remove?.(+itemName),
-    [item],
+    (itemName: Name) => item.remove(+itemName),
+    [item.remove],
   );
   const onAppendItem = useCallback(
     () => item.add?.(item().value?.length ?? 0, { id: uid() }),
@@ -246,9 +252,14 @@ export function State() {
   }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
-      {item.loop((index) => (
-        <Person {...item(index)} onRemove={onRemoveItem} />
-      ))}
+      {item.loop((index) => {
+        const { key, ...props } = item(index);
+        return (
+          <div key={key}>
+            <Person {...props} onRemove={onRemoveItem} />
+          </div>
+        );
+      })}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onPrependItem}

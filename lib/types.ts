@@ -20,6 +20,8 @@ export type ValueMutator<T, I extends string = Name> = (
   name: I,
 ) => void;
 
+export type ValueRemover = (name: NameItem) => void;
+
 export type ErrorMutator<E, I extends string = Name> = (
   error: E | undefined,
   name?: I | "",

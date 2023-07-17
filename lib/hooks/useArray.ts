@@ -16,8 +16,8 @@ interface ItemCallbable<T, E extends ErrorReportArray<T[]>> {
   (itemIndex: number): NevoProps<T, E[number]> & { key: string };
   (): NevoProps<T[], E[""]>;
   readonly loop: (renderer: Renderer) => any[];
-  readonly add: (index: number, item: T | undefined) => void;
-  readonly remove: (index: number) => void;
+  readonly add: (index: number | `${number}`, item: T | undefined) => void;
+  readonly remove: (index: number | `${number}`) => void;
 }
 
 function itemKeyDefault<T>(index: number, item: T | undefined) {
@@ -28,6 +28,9 @@ function toNumber(value: string): number {
   return +value;
 }
 
+/**
+ * Takes an array and returns a function that generates the required props for handling an array item value.
+ */
 export function useArray<T, E extends ErrorReportArray<T[]>>(
   {
     name,
@@ -118,7 +121,8 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
             value:
               onChange === undefined
                 ? undefined
-                : (((itemIndex, itemValue) => {
+                : (((itemIndexOrName, itemValue) => {
+                    const itemIndex = +itemIndexOrName;
                     onChange(
                       (state.current = [
                         ...state.current.slice(0, itemIndex),
@@ -169,12 +173,16 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
             value:
               onChange === undefined
                 ? undefined
-                : (((itemIndex) => {
+                : (((itemIndexOrName) => {
+                    const itemIndex = +itemIndexOrName;
                     onChange(
-                      (state.current = [
-                        ...state.current.slice(0, itemIndex),
-                        ...state.current.slice(itemIndex + 1),
-                      ]),
+                      (state.current =
+                        itemIndex === 0
+                          ? [...state.current.slice(1)]
+                          : [
+                              ...state.current.slice(0, itemIndex),
+                              ...state.current.slice(itemIndex + 1),
+                            ]),
                       stateName.current,
                     );
                     const currentErrorList = stateError.current;
