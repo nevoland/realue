@@ -35,7 +35,7 @@ export const InputNumber = memo(
       },
       [onChange],
     );
-    useValidator(value, name, onValidate, onChangeError);
+    useValidator({ name, error, value, onChangeError }, onValidate);
     return (
       <div class="flex flex-col space-y-1">
         <label>{label}</label>

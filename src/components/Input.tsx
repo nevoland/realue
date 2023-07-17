@@ -20,14 +20,20 @@ export const Input = memo(
     onValidate,
   }: InputProps) => {
     const onInput = useCallback(
-      (event: JSX.TargetedEvent<HTMLInputElement>) =>
-        onChange?.(event.currentTarget.value, event.currentTarget.name),
+      (event: JSX.TargetedEvent<HTMLInputElement>) => {
+        const { value } = event.currentTarget;
+        onChange?.(value === "" ? undefined : value, event.currentTarget.name);
+      },
       [onChange],
     );
-    useValidator(value, name, onValidate, onChangeError);
+    const validator = useValidator(
+      { name, error, value, onChangeError },
+      onValidate,
+    );
     return (
       <div class="flex flex-col space-y-1">
         <label>{label}</label>
+        {!validator.done && <p class="text-yellow-400">Checking…</p>}
         {error && (
           <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>
         )}

@@ -1,17 +1,27 @@
-import { memo, useCallback, useState } from "../../lib/dependencies";
+import { memo, uid, useCallback, useState } from "../../lib/dependencies";
 
 import { useObject, useArray } from "../../lib/main";
 import { Checkbox } from "../components/Checkbox";
 
-import type { ErrorReport, Name, NevoProps } from "../../lib/types";
+import type {
+  ErrorReport,
+  Name,
+  NevoProps,
+  ValueValidator,
+} from "../../lib/types";
 
 import { Input } from "../components/Input";
 import { InputNumber } from "../components/InputNumber";
+import { useValidator } from "../../lib/hooks/useValidator";
+import { sleep } from "../../lib/tools/sleep";
+import { logProps } from "../../lib/tools/logProps";
 
 type PersonData = {
+  id: string;
   name?: string;
   lastName?: string;
   age?: number;
+  activeSince?: number;
   showContact?: boolean;
   contact?: {
     email?: string;
@@ -22,34 +32,25 @@ type PersonData = {
 };
 
 const e: ErrorReport<PersonData> = {
-  value: [],
-  property: {
-    name: [],
-    contact: {
-      value: [],
-      property: {
-        email: [],
-        phone: [],
-      },
-    },
+  "": [],
+  name: [],
+  contact: {
+    email: [],
+    phone: [],
   },
 };
 
 const e2: ErrorReport<PersonData[]> = {
-  value: [],
-  item: {
-    0: {
-      value: [],
-      property: {},
-    },
-  },
+  "": [],
+  0: e,
 };
 
-console.log(e, e2);
-
-type FriendProps = NevoProps<string> & { onRemove?(itemIndex: number): void };
+type FriendProps = NevoProps<string> & {
+  onRemove?(itemIndex: number): void;
+};
 
 function Friend({ onRemove: onRemoveItem, ...props }: FriendProps) {
+  props.onChange;
   const onRemove = useCallback(
     () => onRemoveItem?.(+props.name),
     [onRemoveItem],
@@ -66,18 +67,17 @@ type FriendListProps = NevoProps<(string | undefined)[]>;
 
 const FriendList = memo((props: FriendListProps) => {
   const item = useArray(props);
+  const { length: lastIndex } = item().value ?? [];
   return (
     <div class="flex flex-col">
       {item.loop((index) => (
         <Friend {...item(index)} onRemove={item.remove} />
       ))}
       <Friend
-        key={`${item.parent.length}`}
-        name={`${item.parent.length}`}
+        key={`${lastIndex}`}
+        name={`${lastIndex}`}
         onChange={
-          item.add &&
-          ((value: string | undefined, _name) =>
-            item.add?.(item.parent.length, value))
+          item.add && ((value?: string) => item.add?.(lastIndex, value))
         }
       />
     </div>
@@ -95,6 +95,7 @@ async function onValidateName(value?: string) {
   if (value[0] !== value[0]?.toUpperCase()) {
     errorList.push("It must start with a capital letter.");
   }
+  await sleep(4000);
   if (errorList.length === 0) {
     return undefined;
   }
@@ -116,7 +117,7 @@ function ButtonRemove({ onRemove }: { onRemove(): void }) {
   );
 }
 
-async function onValidateAge(value?: number) {
+function onValidateAge(value?: number) {
   if (value === undefined) {
     return undefined;
   }
@@ -129,85 +130,100 @@ async function onValidateAge(value?: number) {
   return undefined;
 }
 
+const onValidatePerson: ValueValidator<PersonData> = (value) => {
+  const errorList: string[] = [];
+  if (value?.lastName == null || value?.age == null) {
+    errorList.push("The last name and the age must be set.");
+  }
+  if (
+    value?.activeSince !== undefined &&
+    value?.age !== undefined &&
+    value.age < value.activeSince
+  ) {
+    errorList.push("The number of active years cannot be longer than the age.");
+  }
+  return errorList.length > 0 ? errorList : undefined;
+};
+
 const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
   const onRemove = useCallback(() => onRemoveItem(props.name), [onRemoveItem]);
-  if (property.parent.age === undefined) {
-    props.onChangeError?.(
-      { ...(props.error ?? { property: {} }), value: ["Age must be set"] },
-      props.name,
-    );
-  }
+  useValidator(property(), onValidatePerson);
+  logProps(`Person ${props.name}`, props);
   return (
-    <div class="group/person flex flex-row space-x-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
-      <h3>Person</h3>
-      <Input
-        label="Name"
-        {...property("name")}
-        placeholder="Alice"
-        onValidate={onValidateName}
-      />
-      <Input
-        label="Last name"
-        {...property("lastName")}
-        placeholder="Brown"
-        onValidate={onValidateName}
-      />
-      <InputNumber
-        label="Age"
-        {...property("age")}
-        placeholder="23"
-        onValidate={onValidateAge}
-      />
-      <div class="flex flex-col">
-        <Checkbox label="Show contact" {...property("showContact")} />
-        {property.parent?.showContact && (
-          <div class="flex flex-row space-x-2">
-            <Input
-              label="Email"
-              {...contactProperty("email")}
-              placeholder="user@company.com"
-            />
-            <Input
-              label="Phone"
-              {...contactProperty("phone")}
-              placeholder="123-456-789"
-            />
-          </div>
-        )}
+    <div class="group/person flex flex-col space-y-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
+      <div class="flex flex-row space-x-2">
+        <h3>Person</h3>
+        <p class="text-red-500 dark:text-red-300">
+          {props.error?.[""]?.join(" ")}
+        </p>
       </div>
-      <div class="flex flex-col">
-        <Checkbox label="Show friends" {...property("showFriends")} />
-        {property.parent?.showFriends && (
-          <div class="flex flex-row space-x-2">
-            <FriendList {...property("friends")} />
-          </div>
-        )}
+      <div class="flex flex-row space-x-2">
+        <Input
+          label="Name"
+          {...property("name")}
+          placeholder="Alice"
+          onValidate={onValidateName}
+        />
+        <Input
+          label="Last name"
+          {...property("lastName")}
+          placeholder="Brown"
+          onValidate={onValidateName}
+        />
+        <InputNumber
+          label="Age"
+          {...property("age")}
+          placeholder="23"
+          onValidate={onValidateAge}
+        />
+        <InputNumber
+          label="Years active"
+          {...property("activeSince")}
+          placeholder="1"
+          onValidate={onValidateAge}
+        />
+        <div class="flex flex-col">
+          <Checkbox label="Show contact" {...property("showContact")} />
+          {props.value?.showContact && (
+            <div class="flex flex-row space-x-2">
+              <Input
+                label="Email"
+                {...contactProperty("email")}
+                placeholder="user@company.com"
+              />
+              <Input
+                label="Phone"
+                {...contactProperty("phone")}
+                placeholder="123-456-789"
+              />
+            </div>
+          )}
+        </div>
+        <div class="flex flex-col">
+          <Checkbox
+            label={`Show friends (${props.value?.friends?.length ?? 0})`}
+            {...property("showFriends")}
+          />
+          {props.value?.showFriends && (
+            <div class="flex flex-row space-x-2">
+              <FriendList {...property("friends")} />
+            </div>
+          )}
+        </div>
+        <div class="flex-grow"></div>
+        <ButtonRemove onRemove={onRemove} />
       </div>
-      <div class="flex-grow"></div>
-      <ButtonRemove onRemove={onRemove} />
     </div>
   );
 });
 
-// export function State() {
-//   const [state, onChangeState] = useState<Data>({});
-//   const property = useObject(state, onChangeState);
-//   return (
-//     <div class="m-3 flex flex-col space-y-2">
-//       <Person {...property("person1")} />
-//       <Person {...property("person2")} />
-//       <pre class="bg-yellow-100 p-3">{JSON.stringify(state, null, 2)}</pre>
-//     </div>
-//   );
-// }
-
 export function State() {
   const [value, onChange] = useState<(PersonData | undefined)[] | undefined>([
-    { friends: ["Bob", "Alice"] },
-    {},
-    {},
+    { id: uid(), friends: ["Bob", "Alice"] },
+    { id: uid() },
+    { id: uid() },
   ]);
   const [error, onChangeError] = useState<
     ErrorReport<PersonData[]> | undefined
@@ -219,10 +235,10 @@ export function State() {
     [item],
   );
   const onAppendItem = useCallback(
-    () => item.add?.(item.parent.length, undefined),
+    () => item.add?.(item().value?.length ?? 0, { id: uid() }),
     [item],
   );
-  const onPrependItem = useCallback(() => item.add?.(0, undefined), [item]);
+  const onPrependItem = useCallback(() => item.add?.(0, { id: uid() }), [item]);
   const onAppendThreeItems = useCallback(() => {
     onAppendItem();
     onAppendItem();
