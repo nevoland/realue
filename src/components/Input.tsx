@@ -20,7 +20,7 @@ export const Input = memo(
     onValidate,
   }: InputProps) => {
     const onInput = useCallback(
-      (event: JSX.TargetedEvent<HTMLInputElement>) => {
+      (event: JSX.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.currentTarget;
         onChange?.(value === "" ? undefined : value, event.currentTarget.name);
       },
@@ -31,11 +31,11 @@ export const Input = memo(
       onValidate,
     );
     return (
-      <div class="flex flex-col space-y-1">
+      <div className="flex flex-col space-y-1">
         <label>{label}</label>
-        {!validator.done && <p class="text-yellow-400">Checking…</p>}
+        {!validator.done && <p className="text-yellow-400">Checking…</p>}
         {error && (
-          <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>
+          <p className="text-red-500 dark:text-red-300">{error.join(" ")}</p>
         )}
         <input
           value={value}

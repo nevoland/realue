@@ -1,6 +1,6 @@
 import { isPromise, useCallback, useEffect, useState } from "../dependencies";
 
-export function usePromise<T>(promise?: Promise<T> | T) {
+export function usePromise<T>() {
   const { 0: state, 1: onChangeState } = useState<{
     value?: T;
     promise?: Promise<T> | T;

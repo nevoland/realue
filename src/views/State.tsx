@@ -56,7 +56,7 @@ function Friend({ onRemove: onRemoveItem, ...props }: FriendProps) {
     [onRemoveItem],
   );
   return (
-    <div class="flex flex-row" key={props.name}>
+    <div className="flex flex-row" key={props.name}>
       <Input {...props} placeholder="Add friend" key={props.name} />
       {onRemove && <ButtonRemove onRemove={onRemove} />}
     </div>
@@ -69,7 +69,7 @@ const FriendList = memo((props: FriendListProps) => {
   const item = useArray(props);
   const { length: lastIndex } = item().value ?? [];
   return (
-    <div class="flex flex-col">
+    <div className="flex flex-col">
       {item.loop((index) => (
         <Friend {...item(index)} onRemove={item.remove} />
       ))}
@@ -109,7 +109,7 @@ type PersonProps = NevoProps<PersonData> & {
 function ButtonRemove({ onRemove }: { onRemove(): void }) {
   return (
     <button
-      class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white dark:bg-red-700 dark:hover:bg-red-800 dark:hover:active:bg-red-900"
+      className="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white dark:bg-red-700 dark:hover:bg-red-800 dark:hover:active:bg-red-900"
       onClick={onRemove}
     >
       Remove
@@ -152,14 +152,14 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
   useValidator(property(), onValidatePerson);
   logProps(`Person ${props.name}`, props);
   return (
-    <div class="group/person flex flex-col space-y-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
-      <div class="flex flex-row space-x-2">
+    <div className="group/person flex flex-col space-y-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
+      <div className="flex flex-row space-x-2">
         <h3>Person</h3>
-        <p class="text-red-500 dark:text-red-300">
+        <p className="text-red-500 dark:text-red-300">
           {props.error?.[""]?.join(" ")}
         </p>
       </div>
-      <div class="flex flex-row space-x-2">
+      <div className="flex flex-row space-x-2">
         <Input
           label="Name"
           {...property("name")}
@@ -184,10 +184,10 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
           placeholder="1"
           onValidate={onValidateAge}
         />
-        <div class="flex flex-col">
+        <div className="flex flex-col">
           <Checkbox label="Show contact" {...property("showContact")} />
           {props.value?.showContact && (
-            <div class="flex flex-row space-x-2">
+            <div className="flex flex-row space-x-2">
               <Input
                 label="Email"
                 {...contactProperty("email")}
@@ -201,18 +201,18 @@ const Person = memo(({ onRemove: onRemoveItem, ...props }: PersonProps) => {
             </div>
           )}
         </div>
-        <div class="flex flex-col">
+        <div className="flex flex-col">
           <Checkbox
             label={`Show friends (${props.value?.friends?.length ?? 0})`}
             {...property("showFriends")}
           />
           {props.value?.showFriends && (
-            <div class="flex flex-row space-x-2">
+            <div className="flex flex-row space-x-2">
               <FriendList {...property("friends")} />
             </div>
           )}
         </div>
-        <div class="flex-grow"></div>
+        <div className="flex-grow"></div>
         <ButtonRemove onRemove={onRemove} />
       </div>
     </div>
@@ -245,33 +245,33 @@ export function State() {
     onAppendItem();
   }, [onAppendItem]);
   return (
-    <div class="m-3 flex flex-col space-y-2">
+    <div className="m-3 flex flex-col space-y-2">
       {item.loop((index) => (
         <Person {...item(index)} onRemove={onRemoveItem} />
       ))}
       <button
-        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
+        className="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onPrependItem}
       >
         Add person at the begining
       </button>
       <button
-        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
+        className="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendItem}
       >
         Add person
       </button>
       <button
-        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
+        className="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendThreeItems}
       >
         Add three people
       </button>
-      <div class="w[100%] flex flex-row">
-        <pre class="basis-1/2 bg-yellow-100 p-3 dark:bg-sky-900">
+      <div className="w[100%] flex flex-row">
+        <pre className="basis-1/2 bg-yellow-100 p-3 dark:bg-sky-900">
           {JSON.stringify(value, formatJson, 2)}
         </pre>
-        <pre class="basis-1/2 bg-red-100 p-3 dark:bg-red-800">
+        <pre className="basis-1/2 bg-red-100 p-3 dark:bg-red-800">
           {JSON.stringify(error, formatJson, 2)}
         </pre>
       </div>

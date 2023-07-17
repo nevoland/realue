@@ -1,4 +1,5 @@
-import { type JSX, useCallback, memo, useId } from "../../lib/dependencies";
+import { ChangeEventHandler } from "react";
+import { JSX, useCallback, memo, useId } from "../../lib/dependencies";
 import { NevoProps } from "../../lib/types";
 
 type CheckboxProps = NevoProps<boolean> & {
@@ -8,13 +9,13 @@ type CheckboxProps = NevoProps<boolean> & {
 export const Checkbox = memo(
   ({ value, name, onChange, label }: CheckboxProps) => {
     const onInput = useCallback(
-      (event: JSX.TargetedEvent<HTMLInputElement>) =>
-        onChange?.(event.currentTarget.checked, event.currentTarget.name),
+      (event: JSX.ChangeEvent<HTMLInputElement>) =>
+        onChange?.(event.target.checked, event.target.name),
       [onChange],
     );
     const id = useId();
     return (
-      <div class="flex flex-row items-center space-x-1">
+      <div className="flex flex-row items-center space-x-1">
         <input
           id={id}
           type="checkbox"
@@ -22,7 +23,7 @@ export const Checkbox = memo(
           onChange={onInput}
           name={name}
         />
-        <label for={id}>{label}</label>
+        <label htmlFor={id}>{label}</label>
       </div>
     );
   },

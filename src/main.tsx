@@ -1,4 +1,4 @@
-import { render } from "preact";
+import { render } from "../lib/dependencies";
 
 import { App } from "./views/App";
 

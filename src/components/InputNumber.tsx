@@ -26,7 +26,7 @@ export const InputNumber = memo(
         ? 0
         : currentValue;
     const onInput = useCallback(
-      (event: JSX.TargetedEvent<HTMLInputElement>) => {
+      (event: JSX.ChangeEvent<HTMLInputElement>) => {
         const parsedValue = parseFloat(event.currentTarget.value);
         onChange?.(
           isNaN(parsedValue) ? undefined : parsedValue,
@@ -37,10 +37,10 @@ export const InputNumber = memo(
     );
     useValidator({ name, error, value, onChangeError }, onValidate);
     return (
-      <div class="flex flex-col space-y-1">
+      <div className="flex flex-col space-y-1">
         <label>{label}</label>
         {error && (
-          <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>
+          <p className="text-red-500 dark:text-red-300">{error.join(" ")}</p>
         )}
         <input
           value={value === undefined ? "" : value}
