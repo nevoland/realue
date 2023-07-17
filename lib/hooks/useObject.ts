@@ -1,44 +1,35 @@
-import { useRef, useCallback, useMemo } from "../dependencies";
-import { isEmpty } from "../tools/isEmpty";
+import { useRef, useMemo } from "../dependencies";
 import { omitKey } from "../tools/omitKey";
+import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
-  ErrorMessage,
   ErrorMutator,
   ErrorReport,
   ErrorReportObject,
   Name,
+  NevoProps,
   ValueMutator,
 } from "../types";
 
-interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
-  <K extends keyof T>(propertyName: K): {
+/* 
+{
     value: T[K];
     name: K;
-    key: K;
+    key: string;
     onChange: ValueMutator<T[K]>;
     error:
       | Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
       | undefined;
-    onChangeError: ErrorMutator<E["property"][K]> | undefined;
-  };
-  <K extends keyof T>(): {
-    value: T;
-    name: Name;
-    key: Name;
-    onChange: ValueMutator<T[K]>;
-    error: ErrorMessage[] | undefined;
-    onChangeError: ErrorMutator<ErrorMessage[]> | undefined;
-  };
-  parent: T;
-}
-
-function undefinedIfEmpty<T extends object, E extends ErrorReportObject<T>>(
-  error: E,
-) {
-  if (error.value === undefined && isEmpty(error?.property)) {
-    return undefined;
+    onChangeError: ErrorMutator<E[K]> | undefined;
   }
-  return error;
+
+*/
+
+interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
+  <K extends keyof T>(propertyName: K): NevoProps<
+    T[K],
+    Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
+  > & { key: string };
+  (): NevoProps<T, E[""]>;
 }
 
 type ObjectProps<T, E> = {
@@ -60,6 +51,8 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
   state.current = value;
   const stateError = useRef(error);
   stateError.current = error;
+  const stateName = useRef(name);
+  stateName.current = name;
   const onChangeProperty = useMemo(
     () =>
       onChange === undefined
@@ -70,60 +63,53 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
                 ...state.current,
                 [propertyName]: propertyValue,
               }),
-              name,
+              stateName.current,
             ),
-    [onChange, name],
+    [onChange],
   );
   const onChangePropertyError = useMemo(
     () =>
       onChangeError === undefined
         ? undefined
         : <K extends keyof T>(
-            propertyError: E["property"][K] | undefined,
+            propertyError: E[K] | undefined,
             propertyName: K,
           ): void => {
-            if (
-              propertyError === stateError.current?.property?.[propertyName]
-            ) {
-              return;
-            }
             onChangeError(
-              (stateError.current = undefinedIfEmpty<T, E>({
-                ...(stateError.current ?? null),
-                property:
-                  propertyError === undefined
-                    ? omitKey(stateError.current?.property, propertyName)
-                    : {
-                        ...(stateError.current?.property ?? null),
-                        [propertyName]: propertyError,
-                      },
-              } as E)),
-              name,
+              (stateError.current = undefinedIfEmpty<E>(
+                (propertyError === undefined
+                  ? omitKey(stateError.current, propertyName)
+                  : {
+                      ...(stateError.current ?? null),
+                      [propertyName]: propertyError,
+                    }) as E,
+              )),
+              stateName.current,
             );
           },
     [onChangeError],
   );
-  return useCallback(
-    Object.defineProperty(
-      <K extends keyof T>(propertyName: K) => {
+  return useMemo(
+    () =>
+      (<K extends keyof T>(propertyName?: K) => {
+        if (propertyName === undefined) {
+          return {
+            value: state.current,
+            name: "",
+            onChange,
+            error: stateError.current?.[""],
+            onChangeError: onChangePropertyError,
+          };
+        }
         return {
           value: state.current[propertyName],
           name: propertyName,
           key: propertyName,
           onChange: onChangeProperty,
-          error: stateError.current?.property[propertyName],
+          error: stateError.current?.[propertyName],
           onChangeError: onChangePropertyError,
         };
-      },
-      "parent",
-      {
-        configurable: false,
-        enumerable: false,
-        get() {
-          return state.current;
-        },
-      },
-    ) as PropertyCallbable<T, E>,
+      }) as PropertyCallbable<T, E>,
     [onChange, onChangeError],
   );
 }

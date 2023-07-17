@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "is-promise": "^4.0.0",
     "preact": "^10.13.2"
   },
   "devDependencies": {
@@ -18,6 +19,7 @@
     "@types/node": "^20.3.1",
     "autoprefixer": "^10.4.14",
     "lodash-es": "^4.17.21",
+    "nanoid": "^4.0.2",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "^3.3.2",
