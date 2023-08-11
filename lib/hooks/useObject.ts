@@ -33,6 +33,9 @@ interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
 }
 
 type ObjectProps<T, E> = {
+  /**
+   * The name.
+   */
   name: Name;
   value?: T;
   onChange?: ValueMutator<T>;
@@ -42,6 +45,9 @@ type ObjectProps<T, E> = {
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
+ *
+ * @category Hook
+ * @param options
  */
 export function useObject<T extends object, E extends ErrorReportObject<T>>({
   name,

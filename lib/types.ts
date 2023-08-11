@@ -1,8 +1,8 @@
 export type ErrorMessage = string;
 
-type Mutable<T extends object> = {
-  -readonly [K in keyof T]: T[K];
-};
+// type Mutable<T extends object> = {
+//   -readonly [K in keyof T]: T[K];
+// };
 
 export type Name = NameProperty | NameItem;
 

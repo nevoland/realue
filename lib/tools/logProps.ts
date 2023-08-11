@@ -30,6 +30,6 @@ export function logProps(title: string, props: Props) {
   }, propValues);
 }
 
-function formatValue(value: any) {
-  return JSON.stringify(value, null, 2);
-}
+// function formatValue(value: any) {
+//   return JSON.stringify(value, null, 2);
+// }

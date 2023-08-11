@@ -15,7 +15,7 @@ import { Input } from "../components/Input";
 import { InputNumber } from "../components/InputNumber";
 import { useValidator } from "../../lib/hooks/useValidator";
 import { sleep } from "../../lib/tools/sleep";
-import { logProps } from "../../lib/tools/logProps";
+// import { logProps } from "../../lib/tools/logProps";
 
 type PersonData = {
   id: string;
