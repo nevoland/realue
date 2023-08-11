@@ -1,7 +1,7 @@
 {
   "name": "realue",
   "private": false,
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-alpha.1",
   "type": "module",
   "main": "./dist/main.js",
   "exports": {
@@ -15,7 +15,9 @@
     "preview": "vite preview",
     "format": "prettier --check \"{src,scripts}/**/*.[jt]s\"",
     "format:fix": "prettier --write \"{src,scripts}/**/*.[jt]s\"",
-    "test": "tsc && npm run format"
+    "test": "tsc && npm run format",
+    "version:alpha": "npm version prerelease --preid=alpha",
+    "version:beta": "npm version prerelease --preid=beta"
   },
   "dependencies": {
     "is-promise": "^4.0.0",
