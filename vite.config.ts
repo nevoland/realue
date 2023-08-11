@@ -8,19 +8,13 @@ export default defineConfig({
   build: {
     lib: {
       formats: ["es"],
-      // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, "lib/main.js"),
+      entry: resolve(__dirname, "lib/main.ts"),
       name: "Realue",
-      // the proper extensions will be added
       fileName: "realue",
     },
     rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
       external: ["preact"],
       output: {
-        // Provide global variables to use in the UMD build
-        // for externalized deps
         globals: {},
       },
     },

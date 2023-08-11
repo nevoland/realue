@@ -1,5 +1,5 @@
-import { compose } from 'recompose'
-import { map, identity } from 'lodash'
+import { compose } from "recompose";
+import { map, identity } from "lodash";
 
 import {
   cache,
@@ -9,23 +9,23 @@ import {
   queryString,
   searchParams,
   aggregate,
-} from '../../src'
+} from "../../src";
 
 function updateParams(params) {
   if (!params.order) {
-    return params
+    return params;
   }
   params.order = map(
     params.order,
-    ({ key, descending = false }) => `${descending ? '-' : ''}${key}`,
-  )
-  params.only = params.fields
-  params.fields = null
-  return params
+    ({ key, descending = false }) => `${descending ? "-" : ""}${key}`,
+  );
+  params.only = params.fields;
+  params.fields = null;
+  return params;
 }
 
 function qs(query) {
-  return queryString(updateParams(searchParams(query)))
+  return queryString(updateParams(searchParams(query)));
 }
 
 export const request = compose(
@@ -34,8 +34,8 @@ export const request = compose(
   toFetchQuery(
     {
       value: {
-        get: () => '/value',
-        put: () => '/value',
+        get: () => "/value",
+        put: () => "/value",
       },
       device: {
         get: (query) => `/device/${query.value.id}`,
@@ -47,12 +47,12 @@ export const request = compose(
       },
     },
     (query) => {
-      query.url = `http://localhost:4000${query.url}`
-      return query
+      query.url = `http://localhost:4000${query.url}`;
+      return query;
     },
   ),
   cache({
-    serialize: (query) => query.method === 'GET' && query.url,
+    serialize: (query) => query.method === "GET" && query.url,
   }),
   fetchJson(),
-)(identity)
+)(identity);

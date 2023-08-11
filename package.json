@@ -3,12 +3,19 @@
   "private": false,
   "version": "4.0.0-alpha.0",
   "type": "module",
+  "main": "./dist/main.js",
+  "exports": {
+    "types": "./dist/types/main.d.ts",
+    "import": "./dist/main.js"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc --project tsconfig.package.json",
+    "prepare": "npm run build",
     "preview": "vite preview",
     "format": "prettier --check \"{src,scripts}/**/*.[jt]s\"",
-    "format:fix": "prettier --write \"{src,scripts}/**/*.[jt]s\""
+    "format:fix": "prettier --write \"{src,scripts}/**/*.[jt]s\"",
+    "test": "tsc && npm run format"
   },
   "dependencies": {
     "is-promise": "^4.0.0",

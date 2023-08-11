@@ -1,7 +1,8 @@
 import "preact/debug";
-import { render, options } from "preact";
+// import { render, options } from "preact";
+import { render } from "preact";
 
-const { unmount } = options;
+// const { unmount } = options;
 // options.unmount = (vnode) => {
 //   console.log(vnode);
 //   unmount?.(vnode);

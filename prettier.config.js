@@ -1,6 +1,4 @@
-{
-  "trailingComma": "all",
-  "printWidth": 80,
+export default {
   "jsxSingleQuote": false,
   "plugins": [
     "prettier-plugin-tailwindcss"

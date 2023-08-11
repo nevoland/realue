@@ -1,6 +1,6 @@
 export { useArray } from "./hooks/useArray";
 export { useObject } from "./hooks/useObject";
-export { useSyncedState as useSynchedState } from "./hooks/useSynchedState";
+export { useSyncedState } from "./hooks/useSyncedState";
 export { useRemove } from "./hooks/useRemove";
 export { usePromise } from "./hooks/usePromise";
 export { useValidator } from "./hooks/useValidator";

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./dist/types"
+  },
+  "include": ["lib"],
+  "extends": "./tsconfig.json"
+}
