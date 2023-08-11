@@ -1,12 +1,14 @@
 {
-  "name": "-realue",
-  "private": true,
-  "version": "0.0.0",
+  "name": "realue",
+  "private": false,
+  "version": "4.0.0-alpha.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --check \"{src,scripts}/**/*.[jt]s\"",
+    "format:fix": "prettier --write \"{src,scripts}/**/*.[jt]s\""
   },
   "dependencies": {
     "is-promise": "^4.0.0",
@@ -20,8 +22,8 @@
     "autoprefixer": "^10.4.14",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.2",
-    "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.3.0",
+    "prettier": "^3.0.1",
+    "prettier-plugin-tailwindcss": "^0.5.1",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.1.6",
     "vite": "^4.3.9"
