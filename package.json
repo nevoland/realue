@@ -17,7 +17,10 @@
     "format:fix": "prettier --write \"{src,scripts}/**/*.[jt]s\"",
     "test": "tsc && npm run format",
     "version:alpha": "npm version prerelease --preid=alpha",
-    "version:beta": "npm version prerelease --preid=beta"
+    "version:beta": "npm version prerelease --preid=beta",
+    "publish:next": "npm publish --tag=next",
+    "release:alpha": "npm run version:alpha && git push origin --follow-tags && npm run publish:next",
+    "release:beta": "npm run version:beta && git push origin --follow-tags && npm run publish:next"
   },
   "dependencies": {
     "is-promise": "^4.0.0",
