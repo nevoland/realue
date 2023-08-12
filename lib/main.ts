@@ -12,3 +12,5 @@ export { omitKey } from "./tools/omitKey";
 export { sleep } from "./tools/sleep";
 export { timeout } from "./tools/timeout";
 export { undefinedIfEmpty } from "./tools/undefinedIfEmpty";
+
+export type * from "./types";

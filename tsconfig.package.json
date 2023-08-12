@@ -3,8 +3,7 @@
     "noEmit": false,
     "outDir": "./dist",
     "sourceMap": true,
-    "declaration": true,
-    "declarationDir": "./dist/types"
+    "declaration": true
   },
   "include": ["lib"],
   "extends": "./tsconfig.json"
