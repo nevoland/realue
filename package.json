@@ -25,12 +25,12 @@
   "dependencies": {
     "is-promise": "^4.0.0",
     "lodash-es": "^4.17.21",
-    "preact": "^10.16.0"
+    "preact": "^10.16.0",
+    "@preact/signals": "^1.1.5",
+    "@types/lodash-es": "^4.17.8"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",
-    "@preact/signals": "^1.1.5",
-    "@types/lodash-es": "^4.17.8",
     "@types/node": "^20.4.2",
     "autoprefixer": "^10.4.14",
     "nanoid": "^4.0.2",
