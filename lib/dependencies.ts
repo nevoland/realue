@@ -1,4 +1,10 @@
-export { type JSX } from "preact";
+export {
+  type JSX,
+  type Component,
+  type FunctionComponent,
+  h as createElement,
+  Fragment,
+} from "preact";
 export { memo } from "preact/compat";
 export { debounce } from "lodash-es";
 export {

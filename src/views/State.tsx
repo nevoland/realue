@@ -54,8 +54,8 @@ const FriendList = memo((props: FriendListProps) => {
   const { length: lastIndex } = item().value ?? [];
   return (
     <div class="flex flex-col">
-      {item.loop((index) => (
-        <Friend {...item(index)} onRemove={item.remove} />
+      {item.loop((props) => (
+        <Friend {...props} onRemove={item.remove} />
       ))}
       <Friend
         key={`${lastIndex}`}
@@ -252,14 +252,9 @@ export function State() {
   }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
-      {item.loop((index) => {
-        const { key, ...props } = item(index);
-        return (
-          <div key={key}>
-            <Person {...props} onRemove={onRemoveItem} />
-          </div>
-        );
-      })}
+      {item.loop((props) => (
+        <Person {...props} onRemove={onRemoveItem} />
+      ))}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onPrependItem}

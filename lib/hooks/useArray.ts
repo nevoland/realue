@@ -1,4 +1,10 @@
-import { useRef, useMemo } from "../dependencies";
+import {
+  type FunctionComponent,
+  useRef,
+  useMemo,
+  createElement,
+  Fragment,
+} from "../dependencies";
 
 import { omitKey } from "../tools/omitKey";
 import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
@@ -10,12 +16,12 @@ import type {
   ValueMutator,
 } from "../types";
 
-type Renderer = (index: number) => any;
-
 interface ItemCallbable<T, E extends ErrorReportArray<T[]>> {
   (itemIndex: number): NevoProps<T, E[number]> & { key: string };
   (): NevoProps<T[], E[""]>;
-  readonly loop: (renderer: Renderer) => any[];
+  readonly loop: (
+    component: FunctionComponent<NevoProps<T, E[number]>>,
+  ) => ReturnType<FunctionComponent>[];
   readonly add: (index: number | `${number}`, item: T | undefined) => void;
   readonly remove: (index: number | `${number}`) => void;
 }
@@ -87,7 +93,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
             },
       [onChangeError],
     );
-  return useMemo(
+  const item = useMemo(
     () =>
       Object.defineProperties(
         (itemIndex?: number) => {
@@ -113,8 +119,12 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
         {
           loop: {
             configurable: false,
-            value: (renderer: Renderer) =>
-              state.current.map((_, index) => renderer(index)),
+            value: (component: FunctionComponent<NevoProps<T, E[number]>>) =>
+              state.current.map((_, index) => {
+                const { key, ...props } = item(index);
+                // FIXME: Creating an element out of `component` triggers an infinite loop
+                return createElement(Fragment, { key }, component(props));
+              }),
           },
           add: {
             configurable: false,
@@ -223,4 +233,5 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
       ) as ItemCallbable<T, E>,
     [onChangeItem, onChangeItemError, itemKey],
   );
+  return item;
 }
