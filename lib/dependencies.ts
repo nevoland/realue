@@ -6,7 +6,7 @@ export {
   Fragment,
 } from "preact";
 export { memo } from "preact/compat";
-export { debounce } from "lodash-es";
+export { debounce, identity } from "lodash-es";
 export {
   useRef,
   useCallback,
