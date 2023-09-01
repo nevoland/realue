@@ -33,35 +33,37 @@ function useDelay(value: any, delay?: number, inputs?: any[]) {
   return state;
 }
 
-export const Input = memo(
-  ({ label, placeholder, onValidate, delay, ...props }: InputProps) => {
-    const validator = useValidator(props, onValidate);
-    const { value = "", name, onChange } = useDebounce(props, delay);
-    const onInput = useCallback(
-      (event: JSX.TargetedEvent<HTMLInputElement>) => {
-        const { value } = event.currentTarget;
-        onChange?.(value === "" ? undefined : value, event.currentTarget.name);
-      },
-      [onChange],
-    );
-    const status = useDelay(validator.status, delay);
-    const error = useDelay(props.error, delay);
-    return (
-      <div class="flex flex-col space-y-1">
-        <label>{label}</label>
-        {status === "pending" && <p class="text-yellow-500">Checking…</p>}
-        {error && (
-          <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>
-        )}
-        <input
-          value={value}
-          name={name}
-          onInput={onChange ? onInput : undefined}
-          disabled={!onChange}
-          placeholder={placeholder}
-          autoComplete="new-password"
-        />
-      </div>
-    );
-  },
-);
+export const Input = memo(function Input({
+  label,
+  placeholder,
+  onValidate,
+  delay,
+  ...props
+}: InputProps) {
+  const validator = useValidator(props, onValidate);
+  const { value = "", name, onChange } = useDebounce(props, delay);
+  const onInput = useCallback(
+    (event: JSX.TargetedEvent<HTMLInputElement>) => {
+      const { value } = event.currentTarget;
+      onChange?.(value === "" ? undefined : value, event.currentTarget.name);
+    },
+    [onChange],
+  );
+  const status = useDelay(validator.status, delay);
+  const error = useDelay(props.error, delay);
+  return (
+    <div class="flex flex-col space-y-1">
+      <label>{label}</label>
+      {status === "pending" && <p class="text-yellow-500">Checking…</p>}
+      {error && <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>}
+      <input
+        value={value}
+        name={name}
+        onInput={onChange ? onInput : undefined}
+        disabled={!onChange}
+        placeholder={placeholder}
+        autoComplete="new-password"
+      />
+    </div>
+  );
+});
