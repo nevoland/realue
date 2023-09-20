@@ -2,14 +2,14 @@ import { useEffect } from "../dependencies";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
 import { usePromise } from "./usePromise";
 
-export function useValidator<T>(
+export function useValidator<T, N extends string>(
   {
     name,
     error,
     value,
     onChangeError,
   }: Pick<
-    NevoProps<T, ErrorMessage[]>,
+    NevoProps<T, N, ErrorMessage[]>,
     "name" | "error" | "value" | "onChangeError"
   >,
   onValidate?: ValueValidator<T>,

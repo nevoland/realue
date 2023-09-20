@@ -15,9 +15,9 @@ export type ValueValidator<T> = (
   name: Name,
 ) => Promise<ErrorMessage[] | undefined> | ErrorMessage[] | undefined;
 
-export type ValueMutator<T, I extends string = Name> = (
+export type ValueMutator<T, N extends string = Name> = (
   value: T,
-  name: I,
+  name: N,
 ) => void;
 
 export type ValueRemover = (name: NameItem) => void;
@@ -27,21 +27,13 @@ export type ErrorMutator<E, I extends string = Name> = (
   name?: I | "",
 ) => void;
 
-export type NevoProps<T, E = ErrorReport<T>> =
-  | {
-      name: NameProperty;
-      error?: E;
-      value: T;
-      onChange?: ValueMutator<T, Name>;
-      onChangeError?: ErrorMutator<E, Name>;
-    }
-  | {
-      name: Name;
-      error?: E;
-      value: T;
-      onChange?: ValueMutator<T, Name>;
-      onChangeError?: ErrorMutator<E, Name>;
-    };
+export type NevoProps<T, N extends string = Name, E = ErrorReport<T>> = {
+  name: N;
+  error?: E;
+  value: T;
+  onChange?: ValueMutator<T, N>;
+  onChangeError?: ErrorMutator<E, N>;
+};
 
 export type ErrorReport<T, N = NonNullable<T>> = N extends unknown[]
   ? ErrorReportArray<N>

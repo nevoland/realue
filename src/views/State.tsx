@@ -30,14 +30,14 @@ type PersonData = {
     phone?: string;
   };
   showFriends?: boolean;
-  friends?: (string | undefined)[];
+  friends?: string[];
 };
 
-type FriendProps = NevoProps<string> & {
+type FriendProps<N extends string> = NevoProps<string, N> & {
   onRemove?: ValueRemover;
 };
 
-function Friend(props: FriendProps) {
+function Friend<N extends string>(props: FriendProps<N>) {
   const onRemove = useRemove(props);
   return (
     <div class="flex flex-row" key={props.name}>
@@ -51,19 +51,17 @@ type FriendListProps = NevoProps<string[] | undefined>;
 
 const FriendList = memo((props: FriendListProps) => {
   const item = useArray(props);
-  const { length: lastIndex } = item().value ?? [];
+  const { length: lastIndex } = props.value ?? [];
   return (
     <div class="flex flex-col">
       {item.loop((props) => (
         <Friend {...props} onRemove={item.remove} />
       ))}
       <Friend
-        value={undefined}
+        value={""}
         key={`${lastIndex}`}
         name={`${lastIndex}`}
-        onChange={
-          item.add && ((value?: string) => item.add?.(lastIndex, value))
-        }
+        onChange={item.add}
       />
     </div>
   );
@@ -86,10 +84,6 @@ async function onValidateName(value?: string) {
   }
   return errorList;
 }
-
-type PersonProps = NevoProps<PersonData> & {
-  onRemove?: ValueRemover;
-};
 
 function ButtonRemove({ onRemove }: { onRemove?(): void }) {
   return (
@@ -143,6 +137,10 @@ async function onValidateUsername(value?: string) {
   }
   return undefined;
 }
+
+type PersonProps = NevoProps<PersonData> & {
+  onRemove?: ValueRemover;
+};
 
 const Person = memo((props: PersonProps) => {
   const property = useObject(props);
@@ -226,9 +224,8 @@ const Person = memo((props: PersonProps) => {
 });
 
 export function State() {
-  const [value, onChange] = useState<(PersonData | undefined)[] | undefined>([
+  const [value, onChange] = useState<PersonData[]>([
     { id: uid(), friends: ["Bob", "Alice"] },
-    // { id: uid() },
     { id: uid() },
   ]);
   const [error, onChangeError] = useState<
@@ -241,11 +238,8 @@ export function State() {
     (itemName: Name) => item.remove(+itemName),
     [item.remove],
   );
-  const onAppendItem = useCallback(
-    () => item.add?.(item().value?.length ?? 0, { id: uid() }),
-    [item],
-  );
-  const onPrependItem = useCallback(() => item.add?.(0, { id: uid() }), [item]);
+  const onAppendItem = useCallback(() => item.add?.({ id: uid() }), [item]);
+  const onPrependItem = useCallback(() => item.add?.({ id: uid() }, 0), [item]);
   const onAppendThreeItems = useCallback(() => {
     onAppendItem();
     onAppendItem();
