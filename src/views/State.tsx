@@ -30,10 +30,10 @@ type PersonData = {
     phone?: string;
   };
   showFriends?: boolean;
-  friends?: string[];
+  friends?: (string | undefined)[];
 };
 
-type FriendProps<N extends string> = NevoProps<string, N> & {
+type FriendProps<N extends string> = NevoProps<string | undefined, N> & {
   onRemove?: ValueRemover;
 };
 
@@ -47,7 +47,7 @@ function Friend<N extends string>(props: FriendProps<N>) {
   );
 }
 
-type FriendListProps = NevoProps<string[] | undefined>;
+type FriendListProps = NevoProps<(string | undefined)[] | undefined>;
 
 const FriendList = memo((props: FriendListProps) => {
   const item = useArray(props);

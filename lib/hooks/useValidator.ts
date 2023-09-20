@@ -12,7 +12,7 @@ export function useValidator<T, N extends string>(
     NevoProps<T, N, ErrorMessage[]>,
     "name" | "error" | "value" | "onChangeError"
   >,
-  onValidate?: ValueValidator<T>,
+  onValidate?: ValueValidator<T, N>,
 ) {
   const errorPromise = usePromise<ErrorMessage[] | undefined>();
   useEffect(() => {

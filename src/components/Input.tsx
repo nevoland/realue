@@ -6,7 +6,7 @@ type InputProps<T, N extends string> = NevoProps<T, N, ErrorMessage[]> & {
   label?: string;
   placeholder?: string;
   delay?: number;
-  onValidate?: ValueValidator<T>;
+  onValidate?: ValueValidator<T, N>;
 };
 
 function useDelay(value: any, delay?: number, inputs?: any[]) {

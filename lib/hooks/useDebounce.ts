@@ -1,6 +1,6 @@
 import { DebouncedFunc } from "lodash-es";
 import { debounce, useEffect, useMemo, useState } from "../dependencies";
-import type { Name, NevoProps, ValueMutator } from "../types";
+import type { NevoProps, ValueMutator } from "../types";
 
 export function useDebounce<T, N extends string, E>(
   props: NevoProps<T, N, E>,
