@@ -22,7 +22,7 @@ interface ItemCallbable<T, E extends ErrorReportArray<T[]>> {
   readonly loop: (
     component: FunctionComponent<NevoProps<T, E[number]>>,
   ) => ReturnType<FunctionComponent>[];
-  readonly add: (index: number | `${number}`, item: T | undefined) => void;
+  readonly add: (index: number | `${number}`, item: T) => void;
   readonly remove: (index: number | `${number}`) => void;
 }
 
@@ -37,14 +37,14 @@ function toNumber(value: string): number {
 /**
  * Takes an array and returns a function that generates the required props for handling an array item value.
  */
-export function useArray<T, E extends ErrorReportArray<T[]>>(
+export function useArray<T, L extends T[], E extends ErrorReportArray<L>>(
   {
     name,
-    value = [],
+    value = [] as unknown as L,
     onChange,
     error,
     onChangeError,
-  }: NevoProps<(T | undefined)[], E>,
+  }: NevoProps<L, E>,
   itemKey: (index: number, item: T | undefined) => string = itemKeyDefault,
 ): ItemCallbable<T, E> {
   const state = useRef(value);
@@ -63,7 +63,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                 ...state.current.slice(0, +itemIndex),
                 itemValue,
                 ...state.current.slice(+itemIndex + 1),
-              ]),
+              ] as L),
               stateName.current,
             );
           },
@@ -138,7 +138,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                         ...state.current.slice(0, itemIndex),
                         itemValue,
                         ...state.current.slice(itemIndex),
-                      ]),
+                      ] as L),
                       stateName.current,
                     );
                     const currentErrorList = stateError.current;
@@ -186,13 +186,14 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                 : (((itemIndexOrName) => {
                     const itemIndex = +itemIndexOrName;
                     onChange(
-                      (state.current =
+                      (state.current = (
                         itemIndex === 0
                           ? [...state.current.slice(1)]
                           : [
                               ...state.current.slice(0, itemIndex),
                               ...state.current.slice(itemIndex + 1),
-                            ]),
+                            ]
+                      ) as L),
                       stateName.current,
                     );
                     const currentErrorList = stateError.current;

@@ -3,10 +3,10 @@ import { useValidator } from "../../lib/hooks/useValidator";
 import { useInput } from "../../lib/main";
 import type { NevoProps, ValueValidator } from "../../lib/types";
 
-type InputNumberProps = NevoProps<number> & {
+type InputNumberProps = NevoProps<number | undefined> & {
   label?: string;
   placeholder?: string;
-  onValidate?: ValueValidator<number>;
+  onValidate?: ValueValidator<number | undefined>;
 };
 
 function extractValue({ value }: HTMLInputElement) {

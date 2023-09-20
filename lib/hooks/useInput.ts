@@ -3,7 +3,7 @@ import type { NevoProps } from "../types";
 
 export function useInput<T>(
   { name, onChange }: Pick<NevoProps<T>, "name" | "onChange">,
-  extractValue: (element: HTMLInputElement) => T | undefined,
+  extractValue: (element: HTMLInputElement) => T,
 ) {
   return useMemo(
     () =>

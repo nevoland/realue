@@ -47,7 +47,7 @@ function Friend(props: FriendProps) {
   );
 }
 
-type FriendListProps = NevoProps<(string | undefined)[]>;
+type FriendListProps = NevoProps<string[] | undefined>;
 
 const FriendList = memo((props: FriendListProps) => {
   const item = useArray(props);
@@ -58,6 +58,7 @@ const FriendList = memo((props: FriendListProps) => {
         <Friend {...props} onRemove={item.remove} />
       ))}
       <Friend
+        value={undefined}
         key={`${lastIndex}`}
         name={`${lastIndex}`}
         onChange={

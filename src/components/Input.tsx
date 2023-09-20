@@ -6,13 +6,18 @@ import {
   useEffect,
 } from "../../lib/dependencies";
 import { timeout, useDebounce, useInput, useValidator } from "../../lib/main";
-import type { NevoProps, ValueValidator } from "../../lib/types";
+import type {
+  ErrorMessage,
+  ErrorReport,
+  NevoProps,
+  ValueValidator,
+} from "../../lib/types";
 
-type InputProps = NevoProps<string> & {
+type InputProps<T extends string> = NevoProps<T, ErrorMessage[]> & {
   label?: string;
   placeholder?: string;
   delay?: number;
-  onValidate?: ValueValidator<string>;
+  onValidate?: ValueValidator<T>;
 };
 
 function useDelay(value: any, delay?: number, inputs?: any[]) {
@@ -37,13 +42,13 @@ function extractValue({ value }: HTMLInputElement) {
   return value === "" ? undefined : value;
 }
 
-export const Input = memo(function Input({
+export const Input = memo(function Input<T extends string>({
   label,
   placeholder,
   onValidate,
   delay,
   ...props
-}: InputProps) {
+}: InputProps<T>) {
   const validator = useValidator(props, onValidate);
   const { value = "", name, onChange } = useDebounce(props, delay);
   const onInput = useInput(props, extractValue);

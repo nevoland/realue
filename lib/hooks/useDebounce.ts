@@ -2,7 +2,7 @@ import { DebouncedFunc } from "lodash-es";
 import { debounce, useEffect, useMemo, useState } from "../dependencies";
 import type { Name, NevoProps, ValueMutator } from "../types";
 
-export function useDebounce<T>(props: NevoProps<T>, delay?: number) {
+export function useDebounce<T, E>(props: NevoProps<T, E>, delay?: number) {
   const { 0: value, 1: onChange } = useState(props.value);
   const wrappedOnChange:
     | ValueMutator<T>
@@ -15,7 +15,7 @@ export function useDebounce<T>(props: NevoProps<T>, delay?: number) {
       return props.onChange;
     }
     const debouncedOnChange = debounce(props.onChange, delay);
-    const result = (value: T | undefined, name: Name) => {
+    const result = (value: T, name: Name) => {
       debouncedOnChange(value, name);
       onChange(value);
     };

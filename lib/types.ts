@@ -11,12 +11,12 @@ export type NameProperty = string;
 export type NameItem = `${number}`;
 
 export type ValueValidator<T> = (
-  value?: T,
-  name?: Name,
+  value: T,
+  name: Name,
 ) => Promise<ErrorMessage[] | undefined> | ErrorMessage[] | undefined;
 
 export type ValueMutator<T, I extends string = Name> = (
-  value: T | undefined,
+  value: T,
   name: I,
 ) => void;
 
@@ -31,14 +31,14 @@ export type NevoProps<T, E = ErrorReport<T>> =
   | {
       name: NameProperty;
       error?: E;
-      value?: T;
+      value: T;
       onChange?: ValueMutator<T, Name>;
       onChangeError?: ErrorMutator<E, Name>;
     }
   | {
       name: Name;
       error?: E;
-      value?: T;
+      value: T;
       onChange?: ValueMutator<T, Name>;
       onChangeError?: ErrorMutator<E, Name>;
     };
