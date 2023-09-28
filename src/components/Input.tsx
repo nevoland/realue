@@ -1,18 +1,12 @@
-import {
-  memo,
-  useCallback,
-  type JSX,
-  useState,
-  useEffect,
-} from "../../lib/dependencies";
+import { memo, useState, useEffect } from "../../lib/dependencies";
 import { timeout, useDebounce, useInput, useValidator } from "../../lib/main";
-import type { NevoProps, ValueValidator } from "../../lib/types";
+import type { ErrorMessage, NevoProps, ValueValidator } from "../../lib/types";
 
-type InputProps = NevoProps<string> & {
+type InputProps<T, N extends string> = NevoProps<T, N, ErrorMessage[]> & {
   label?: string;
   placeholder?: string;
   delay?: number;
-  onValidate?: ValueValidator<string>;
+  onValidate?: ValueValidator<T, N>;
 };
 
 function useDelay(value: any, delay?: number, inputs?: any[]) {
@@ -33,17 +27,16 @@ function useDelay(value: any, delay?: number, inputs?: any[]) {
   return state;
 }
 
-function extractValue({ value }: HTMLInputElement) {
-  return value === "" ? undefined : value;
+function extractValue<T extends string | undefined>({
+  value,
+}: HTMLInputElement) {
+  return (value === "" ? undefined : value) as T;
 }
 
-export const Input = memo(function Input({
-  label,
-  placeholder,
-  onValidate,
-  delay,
-  ...props
-}: InputProps) {
+export const Input = memo(function Input<
+  T extends string | undefined,
+  N extends string,
+>({ label, placeholder, onValidate, delay, ...props }: InputProps<T, N>) {
   const validator = useValidator(props, onValidate);
   const { value = "", name, onChange } = useDebounce(props, delay);
   const onInput = useInput(props, extractValue);

@@ -24,12 +24,19 @@ import type {
 
 */
 
-interface PropertyCallbable<T extends object, E extends ErrorReportObject<T>> {
-  <K extends keyof T>(propertyName: K): NevoProps<
+interface PropertyCallbable<
+  T extends object,
+  N extends string,
+  E extends ErrorReportObject<T>,
+> {
+  <K extends keyof T>(
+    propertyName: K,
+  ): NevoProps<
     T[K],
+    N,
     Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
   > & { key: string };
-  (): NevoProps<T, E[""]>;
+  (): NevoProps<T, N, E[""]>;
 }
 
 type ObjectProps<T, E> = {
@@ -43,13 +50,17 @@ type ObjectProps<T, E> = {
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
  */
-export function useObject<T extends object, E extends ErrorReportObject<T>>({
+export function useObject<
+  T extends object,
+  N extends string,
+  E extends ErrorReportObject<T>,
+>({
   name,
   value = {} as T,
   onChange,
   error,
   onChangeError,
-}: ObjectProps<T, E>): PropertyCallbable<T, E> {
+}: ObjectProps<T, E>): PropertyCallbable<T, N, E> {
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);
@@ -112,7 +123,7 @@ export function useObject<T extends object, E extends ErrorReportObject<T>>({
           error: stateError.current?.[propertyName],
           onChangeError: onChangePropertyError,
         };
-      }) as PropertyCallbable<T, E>,
+      }) as PropertyCallbable<T, N, E>,
     [onChange, onChangeError],
   );
 }

@@ -11,24 +11,25 @@ import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
   ErrorMutator,
   ErrorReportArray,
+  ItemKey,
   NameItem,
   NevoProps,
   ValueMutator,
 } from "../types";
 
-interface ItemCallbable<T, E extends ErrorReportArray<T[]>> {
-  (itemIndex: number): NevoProps<T, E[number]> & { key: string };
-  (): NevoProps<T[], E[""]>;
+interface ItemCallbable<T, N extends string, E extends ErrorReportArray<T[]>> {
+  (itemIndex: number): NevoProps<T, N, E[number]> & { key: string };
+  (): NevoProps<T[], N, E[""]>;
   readonly loop: (
-    component: FunctionComponent<NevoProps<T, E[number]>>,
+    component: FunctionComponent<NevoProps<T, N, E[number]>>,
   ) => ReturnType<FunctionComponent>[];
-  readonly add: (index: number | `${number}`, item: T | undefined) => void;
+  readonly add: (item: T, index?: number | `${number}`) => void;
   readonly remove: (index: number | `${number}`) => void;
 }
 
-function itemKeyDefault<T>(index: number, item: T | undefined) {
-  return (item as { id: string })?.id ?? index;
-}
+const itemKeyDefault: ItemKey = (index, item) => {
+  return (item as { id: string })?.id ?? `${index}`;
+};
 
 function toNumber(value: string): number {
   return +value;
@@ -37,16 +38,15 @@ function toNumber(value: string): number {
 /**
  * Takes an array and returns a function that generates the required props for handling an array item value.
  */
-export function useArray<T, E extends ErrorReportArray<T[]>>(
-  {
-    name,
-    value = [],
-    onChange,
-    error,
-    onChangeError,
-  }: NevoProps<(T | undefined)[], E>,
-  itemKey: (index: number, item: T | undefined) => string = itemKeyDefault,
-): ItemCallbable<T, E> {
+export function useArray<
+  A extends any[] | undefined,
+  N extends string,
+  E extends ErrorReportArray<NonNullable<A>>,
+  T = A extends (infer H)[] ? H : never,
+>(
+  { name, value = [], onChange, error, onChangeError }: NevoProps<A, N, E>,
+  itemKey: ItemKey = itemKeyDefault,
+): ItemCallbable<T, N, E> {
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);
@@ -63,7 +63,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                 ...state.current.slice(0, +itemIndex),
                 itemValue,
                 ...state.current.slice(+itemIndex + 1),
-              ]),
+              ]) as A,
               stateName.current,
             );
           },
@@ -111,6 +111,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
             value,
             name: `${itemIndex}`,
             key: itemKey(itemIndex, value),
+            id: itemKey(itemIndex, value),
             onChange: onChangeItem,
             error: stateError.current?.[itemIndex],
             onChangeError: onChangeItemError,
@@ -119,7 +120,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
         {
           loop: {
             configurable: false,
-            value: (component: FunctionComponent<NevoProps<T, E[number]>>) =>
+            value: (component: FunctionComponent<NevoProps<T, N, E[number]>>) =>
               state.current.map((_, index) => {
                 const { key, ...props } = item(index);
                 // FIXME: Creating an element out of `component` triggers an infinite loop
@@ -131,14 +132,14 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
             value:
               onChange === undefined
                 ? undefined
-                : (((itemIndexOrName, itemValue) => {
+                : (((itemValue, itemIndexOrName = state.current.length) => {
                     const itemIndex = +itemIndexOrName;
                     onChange(
                       (state.current = [
                         ...state.current.slice(0, itemIndex),
                         itemValue,
                         ...state.current.slice(itemIndex),
-                      ]),
+                      ]) as A,
                       stateName.current,
                     );
                     const currentErrorList = stateError.current;
@@ -176,7 +177,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                       (stateError.current = itemErrorList),
                       stateName.current,
                     );
-                  }) as ItemCallbable<T, E>["add"]),
+                  }) as ItemCallbable<T, N, E>["add"]),
           },
           remove: {
             configurable: false,
@@ -192,7 +193,7 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                           : [
                               ...state.current.slice(0, itemIndex),
                               ...state.current.slice(itemIndex + 1),
-                            ]),
+                            ]) as A,
                       stateName.current,
                     );
                     const currentErrorList = stateError.current;
@@ -227,10 +228,10 @@ export function useArray<T, E extends ErrorReportArray<T[]>>(
                       (stateError.current = undefinedIfEmpty(itemErrorList)),
                       stateName.current,
                     );
-                  }) as ItemCallbable<T, E>["remove"]),
+                  }) as ItemCallbable<T, N, E>["remove"]),
           },
         },
-      ) as ItemCallbable<T, E>,
+      ) as ItemCallbable<T, N, E>,
     [onChangeItem, onChangeItemError, itemKey],
   );
   return item;

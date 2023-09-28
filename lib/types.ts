@@ -10,43 +10,37 @@ export type NameProperty = string;
 
 export type NameItem = `${number}`;
 
-export type ValueValidator<T> = (
-  value?: T,
-  name?: Name,
+export type ValueValidator<T, N extends string = Name> = (
+  value: T,
+  name: N,
 ) => Promise<ErrorMessage[] | undefined> | ErrorMessage[] | undefined;
 
-export type ValueMutator<T, I extends string = Name> = (
-  value: T | undefined,
-  name: I,
+export type ValueMutator<T, N extends string = Name> = (
+  value: T,
+  name: N,
 ) => void;
 
 export type ValueRemover = (name: NameItem) => void;
 
-export type ErrorMutator<E, I extends string = Name> = (
+export type ErrorMutator<E, N extends string = Name> = (
   error: E | undefined,
-  name?: I | "",
+  name?: N | "",
 ) => void;
 
-export type NevoProps<T, E = ErrorReport<T>> =
-  | {
-      name: NameProperty;
-      error?: E;
-      value?: T;
-      onChange?: ValueMutator<T, Name>;
-      onChangeError?: ErrorMutator<E, Name>;
-    }
-  | {
-      name: Name;
-      error?: E;
-      value?: T;
-      onChange?: ValueMutator<T, Name>;
-      onChangeError?: ErrorMutator<E, Name>;
-    };
+export type ItemKey = <T>(index: number, item: T) => string;
 
-export type ErrorReport<T, N = NonNullable<T>> = N extends unknown[]
-  ? ErrorReportArray<N>
-  : N extends object
-  ? ErrorReportObject<N>
+export type NevoProps<T, N extends string = Name, E = ErrorReport<T>> = {
+  name: N;
+  error?: E;
+  value: T;
+  onChange?: ValueMutator<T, N>;
+  onChangeError?: ErrorMutator<E, N>;
+};
+
+export type ErrorReport<T, U = NonNullable<T>> = U extends unknown[]
+  ? ErrorReportArray<U>
+  : U extends object
+  ? ErrorReportObject<U>
   : ErrorMessage[];
 
 export type ErrorReportArray<T extends unknown[]> = {
