@@ -58,7 +58,7 @@ const FriendList = memo((props: FriendListProps) => {
         <Friend {...props} onRemove={item.remove} />
       ))}
       <Friend
-        value={""}
+        value={undefined}
         key={`${lastIndex}`}
         name={`${lastIndex}`}
         onChange={item.add}
