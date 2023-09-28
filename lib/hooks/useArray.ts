@@ -11,6 +11,7 @@ import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
   ErrorMutator,
   ErrorReportArray,
+  ItemKey,
   NameItem,
   NevoProps,
   ValueMutator,
@@ -26,9 +27,9 @@ interface ItemCallbable<T, N extends string, E extends ErrorReportArray<T[]>> {
   readonly remove: (index: number | `${number}`) => void;
 }
 
-function itemKeyDefault<T>(index: number, item: T) {
-  return (item as { id: string })?.id ?? index;
-}
+const itemKeyDefault: ItemKey = (index, item) => {
+  return (item as { id: string })?.id ?? `${index}`;
+};
 
 function toNumber(value: string): number {
   return +value;
@@ -44,7 +45,7 @@ export function useArray<
   T = A extends (infer H)[] ? H : never,
 >(
   { name, value = [], onChange, error, onChangeError }: NevoProps<A, N, E>,
-  itemKey: (index: number, item: T) => string = itemKeyDefault,
+  itemKey: ItemKey = itemKeyDefault,
 ): ItemCallbable<T, N, E> {
   const state = useRef(value);
   state.current = value;
