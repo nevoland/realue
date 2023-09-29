@@ -11,23 +11,29 @@ import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
   ErrorMutator,
   ErrorReportArray,
-  ItemKey,
+  ItemId,
   NameItem,
   NevoProps,
   ValueMutator,
 } from "../types";
 
+type ItemProps<
+  T,
+  N extends string,
+  E extends ErrorReportArray<T[]>,
+> = NevoProps<T, N, E[number]> & { key: string; id: string };
+
 interface ItemCallbable<T, N extends string, E extends ErrorReportArray<T[]>> {
-  (itemIndex: number): NevoProps<T, N, E[number]> & { key: string };
+  (itemIndex: number): ItemProps<T, N, E>;
   (): NevoProps<T[], N, E[""]>;
   readonly loop: (
-    component: FunctionComponent<NevoProps<T, N, E[number]>>,
+    component: FunctionComponent<ItemProps<T, N, E>>,
   ) => ReturnType<FunctionComponent>[];
   readonly add: (item: T, index?: number | `${number}`) => void;
   readonly remove: (index: number | `${number}`) => void;
 }
 
-const itemKeyDefault: ItemKey = (index, item) => {
+const itemIdDefault: ItemId = (index, item) => {
   return (item as { id: string })?.id ?? `${index}`;
 };
 
@@ -45,7 +51,7 @@ export function useArray<
   T = A extends (infer H)[] ? H : never,
 >(
   { name, value = [], onChange, error, onChangeError }: NevoProps<A, N, E>,
-  itemKey: ItemKey = itemKeyDefault,
+  itemId: ItemId = itemIdDefault,
 ): ItemCallbable<T, N, E> {
   const state = useRef(value);
   state.current = value;
@@ -110,8 +116,8 @@ export function useArray<
           return {
             value,
             name: `${itemIndex}`,
-            key: itemKey(itemIndex, value),
-            id: itemKey(itemIndex, value),
+            key: itemId(itemIndex, value),
+            id: itemId(itemIndex, value),
             onChange: onChangeItem,
             error: stateError.current?.[itemIndex],
             onChangeError: onChangeItemError,
@@ -120,7 +126,9 @@ export function useArray<
         {
           loop: {
             configurable: false,
-            value: (component: FunctionComponent<NevoProps<T, N, E[number]>>) =>
+            value: (
+              component: FunctionComponent<Omit<ItemProps<T, N, E>, "key">>,
+            ) =>
               state.current.map((_, index) => {
                 const { key, ...props } = item(index);
                 // FIXME: Creating an element out of `component` triggers an infinite loop
@@ -232,7 +240,7 @@ export function useArray<
           },
         },
       ) as ItemCallbable<T, N, E>,
-    [onChangeItem, onChangeItemError, itemKey],
+    [onChangeItem, onChangeItemError, itemId],
   );
   return item;
 }

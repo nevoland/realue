@@ -27,7 +27,7 @@ export type ErrorMutator<E, N extends string = Name> = (
   name?: N | "",
 ) => void;
 
-export type ItemKey = <T>(index: number, item: T) => string;
+export type ItemId = <T>(index: number, item: T) => string;
 
 export type NevoProps<T, N extends string = Name, E = ErrorReport<T>> = {
   name: N;
