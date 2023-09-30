@@ -2,9 +2,10 @@ import { useMemo, type JSX } from "../dependencies";
 import type { NevoProps } from "../types";
 
 export function useInput<T, N extends string>(
-  { name, onChange }: Pick<NevoProps<T, N>, "name" | "onChange">,
+  props: Pick<NevoProps<T, N>, "name" | "onChange">,
   extractValue: (element: HTMLInputElement) => T,
 ) {
+  const { name, onChange } = props;
   return useMemo(
     () =>
       onChange === undefined

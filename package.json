@@ -15,12 +15,15 @@
     "!lib/**/*.test.ts?",
     "!src",
     "!src/old",
-    "README.md"
+    "README.md",
+    "doc/",
+    "!doc/.nojekyll"
   ],
   "scripts": {
     "dev": "vite",
     "dev:test": "vitest",
-    "build": "rm -rf dist/; tsc --project tsconfig.package.json",
+    "build": "rm -rf dist/; tsc --project tsconfig.package.json;",
+    "build:doc": "typedoc",
     "prepare": "npm run build",
     "preview": "vite preview",
     "format": "prettier --check \"{src,scripts}/**/*.[jt]s\"",
@@ -47,6 +50,8 @@
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
     "tailwindcss": "^3.3.3",
+    "typedoc": "^0.25.1",
+    "typedoc-plugin-markdown": "^3.16.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
     "vite-plugin-module-list": "^1.5.0",

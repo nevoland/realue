@@ -10,20 +10,6 @@ import type {
   ValueMutator,
 } from "../types";
 
-/* 
-{
-    value: T[K];
-    name: K;
-    key: string;
-    onChange: ValueMutator<T[K]>;
-    error:
-      | Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
-      | undefined;
-    onChangeError: ErrorMutator<E[K]> | undefined;
-  }
-
-*/
-
 interface PropertyCallbable<
   T extends object,
   N extends string,
@@ -54,13 +40,8 @@ export function useObject<
   T extends object,
   N extends string,
   E extends ErrorReportObject<T>,
->({
-  name,
-  value = {} as T,
-  onChange,
-  error,
-  onChangeError,
-}: ObjectProps<T, E>): PropertyCallbable<T, N, E> {
+>(props: ObjectProps<T, E>): PropertyCallbable<T, N, E> {
+  const { name, value = {} as T, onChange, error, onChangeError } = props;
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);

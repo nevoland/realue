@@ -50,9 +50,10 @@ export function useArray<
   E extends ErrorReportArray<NonNullable<A>>,
   T = A extends (infer H)[] ? H : never,
 >(
-  { name, value = [], onChange, error, onChangeError }: NevoProps<A, N, E>,
+  props: NevoProps<A, N, E>,
   itemId: ItemId = itemIdDefault,
 ): ItemCallbable<T, N, E> {
+  const { name, value = [], onChange, error, onChangeError } = props;
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);

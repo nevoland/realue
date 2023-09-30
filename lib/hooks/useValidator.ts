@@ -3,17 +3,13 @@ import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
 import { usePromise } from "./usePromise";
 
 export function useValidator<T, N extends string>(
-  {
-    name,
-    error,
-    value,
-    onChangeError,
-  }: Pick<
+  props: Pick<
     NevoProps<T, N, ErrorMessage[]>,
     "name" | "error" | "value" | "onChangeError"
   >,
   onValidate?: ValueValidator<T, N>,
 ) {
+  const { name, error, value, onChangeError } = props;
   const errorPromise = usePromise<ErrorMessage[] | undefined>();
   useEffect(() => {
     if (onValidate === undefined || onChangeError === undefined) {
