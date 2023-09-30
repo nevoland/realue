@@ -12,11 +12,11 @@ import { isEmpty } from "./isEmpty";
  * @param value The value to set the object key to.
  * @returns A new updated object or the same `object` if no change was necessary.
  */
-export function setProperty<T>(
-  object: Record<string, T> | undefined = EMPTY_OBJECT,
-  key?: string,
-  value?: T,
-): Record<string, T> {
+export function setProperty<T extends object, K extends keyof T = keyof T>(
+  object: T | undefined = EMPTY_OBJECT,
+  key?: K,
+  value?: T[K],
+): T {
   if (key === undefined) {
     return object;
   }

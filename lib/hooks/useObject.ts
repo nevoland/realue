@@ -1,5 +1,5 @@
 import { useRef, useMemo } from "../dependencies";
-import { omitKey } from "../tools/omitKey";
+import { setProperty } from "../tools/setProperty";
 import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
   ErrorMutator,
@@ -90,13 +90,8 @@ export function useObject<
             propertyName: K,
           ): void => {
             onChangeError(
-              (stateError.current = undefinedIfEmpty<E>(
-                (propertyError === undefined
-                  ? omitKey(stateError.current, propertyName)
-                  : {
-                      ...(stateError.current ?? null),
-                      [propertyName]: propertyError,
-                    }) as E,
+              (stateError.current = undefinedIfEmpty(
+                setProperty(stateError.current, propertyName, propertyError),
               )),
               stateName.current,
             );

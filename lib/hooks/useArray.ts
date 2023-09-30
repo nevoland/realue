@@ -6,7 +6,7 @@ import {
   Fragment,
 } from "../dependencies";
 
-import { omitKey } from "../tools/omitKey";
+import { setProperty } from "../tools/setProperty";
 import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
   ErrorMutator,
@@ -87,12 +87,11 @@ export function useArray<
               }
               onChangeError(
                 (stateError.current = undefinedIfEmpty(
-                  (itemError === undefined
-                    ? omitKey(stateError.current, itemName)
-                    : {
-                        ...(stateError.current ?? null),
-                        [itemName]: itemError,
-                      }) as E,
+                  setProperty(
+                    stateError.current,
+                    itemName,
+                    itemError as E[number | ""] | undefined,
+                  ),
                 )),
                 stateName.current,
               );
