@@ -16,6 +16,11 @@ export default defineConfig({
       outputPath: "lib/tools.ts",
       mode: "named-static-no-extension",
     }),
+    moduleList({
+      rootPath: "lib/constants",
+      outputPath: "lib/constants.ts",
+      mode: "named-static-no-extension",
+    }),
     preact(),
   ],
   build: {

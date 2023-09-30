@@ -1,3 +1,4 @@
+import { EMPTY_OBJECT } from "../constants";
 import { useEffect, useRef } from "../dependencies";
 
 type Props = { [name: string]: any };
@@ -6,7 +7,7 @@ export function logProps(title: string, props: Props) {
   const propNames = Object.keys(props).sort();
   const propValues = propNames.map((name) => props[name]);
   const ref = useRef<Props>();
-  const previousProps = ref.current ?? {};
+  const previousProps = ref.current ?? (EMPTY_OBJECT as Props);
   useEffect(() => {
     console.group(title);
     console.table(

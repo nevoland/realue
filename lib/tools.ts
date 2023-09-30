@@ -2,6 +2,8 @@
 export { isEmpty } from "./tools/isEmpty";
 export { logProps } from "./tools/logProps";
 export { omitKey } from "./tools/omitKey";
+export { setItem } from "./tools/setItem";
+export { setProperty } from "./tools/setProperty";
 export { sleep } from "./tools/sleep";
 export { timeout } from "./tools/timeout";
 export { undefinedIfEmpty } from "./tools/undefinedIfEmpty";
