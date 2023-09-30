@@ -15,23 +15,9 @@ import type {
   NameItem,
   NevoProps,
   ValueMutator,
+  ItemCallable,
+  ItemProps,
 } from "../types";
-
-type ItemProps<
-  T,
-  N extends string,
-  E extends ErrorReportArray<T[]>,
-> = NevoProps<T, N, E[number]> & { key: string; id: string };
-
-interface ItemCallbable<T, N extends string, E extends ErrorReportArray<T[]>> {
-  (itemIndex: number): ItemProps<T, N, E>;
-  (): NevoProps<T[], N, E[""]>;
-  readonly loop: (
-    component: FunctionComponent<ItemProps<T, N, E>>,
-  ) => ReturnType<FunctionComponent>[];
-  readonly add: (item: T, index?: number | `${number}`) => void;
-  readonly remove: (index: number | `${number}`) => void;
-}
 
 const itemIdDefault: ItemId = (index, item) => {
   return (item as { id: string })?.id ?? `${index}`;
@@ -52,7 +38,7 @@ export function useArray<
 >(
   props: NevoProps<A, N, E>,
   itemId: ItemId = itemIdDefault,
-): ItemCallbable<T, N, E> {
+): ItemCallable<T, N, E> {
   const { name, value = [], onChange, error, onChangeError } = props;
   const state = useRef(value);
   state.current = value;
@@ -185,7 +171,7 @@ export function useArray<
                       (stateError.current = itemErrorList),
                       stateName.current,
                     );
-                  }) as ItemCallbable<T, N, E>["add"]),
+                  }) as ItemCallable<T, N, E>["add"]),
           },
           remove: {
             configurable: false,
@@ -236,10 +222,10 @@ export function useArray<
                       (stateError.current = undefinedIfEmpty(itemErrorList)),
                       stateName.current,
                     );
-                  }) as ItemCallbable<T, N, E>["remove"]),
+                  }) as ItemCallable<T, N, E>["remove"]),
           },
         },
-      ) as ItemCallbable<T, N, E>,
+      ) as ItemCallable<T, N, E>,
     [onChangeItem, onChangeItemError, itemId],
   );
   return item;

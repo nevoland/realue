@@ -1,3 +1,5 @@
+import type { FunctionComponent } from "./dependencies";
+
 export type ErrorMessage = string;
 
 // type Mutable<T extends object> = {
@@ -54,3 +56,46 @@ export type ErrorReportObject<T extends object> = Partial<{
 }> & {
   ""?: ErrorMessage[];
 };
+
+export interface PropertyCallbable<
+  T extends object,
+  N extends string,
+  E extends ErrorReportObject<T>,
+> {
+  <K extends keyof T>(
+    propertyName: K,
+  ): NevoProps<
+    T[K],
+    N,
+    Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
+  > & { key: string };
+  (): NevoProps<T, N, E[""]>;
+}
+
+export type ObjectProps<T, E> = {
+  name: Name;
+  value?: T;
+  onChange?: ValueMutator<T>;
+  error?: E;
+  onChangeError?: ErrorMutator<E>;
+};
+
+export type ItemProps<
+  T,
+  N extends string,
+  E extends ErrorReportArray<T[]>,
+> = NevoProps<T, N, E[number]> & { key: string; id: string };
+
+export interface ItemCallable<
+  T,
+  N extends string,
+  E extends ErrorReportArray<T[]>,
+> {
+  (itemIndex: number): ItemProps<T, N, E>;
+  (): NevoProps<T[], N, E[""]>;
+  readonly loop: (
+    component: FunctionComponent<ItemProps<T, N, E>>,
+  ) => ReturnType<FunctionComponent>[];
+  readonly add: (item: T, index?: number | `${number}`) => void;
+  readonly remove: (index: number | `${number}`) => void;
+}

@@ -2,36 +2,10 @@ import { useRef, useMemo } from "../dependencies";
 import { setProperty } from "../tools/setProperty";
 import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
-  ErrorMutator,
-  ErrorReport,
   ErrorReportObject,
-  Name,
-  NevoProps,
-  ValueMutator,
+  ObjectProps,
+  PropertyCallbable,
 } from "../types";
-
-interface PropertyCallbable<
-  T extends object,
-  N extends string,
-  E extends ErrorReportObject<T>,
-> {
-  <K extends keyof T>(
-    propertyName: K,
-  ): NevoProps<
-    T[K],
-    N,
-    Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
-  > & { key: string };
-  (): NevoProps<T, N, E[""]>;
-}
-
-type ObjectProps<T, E> = {
-  name: Name;
-  value?: T;
-  onChange?: ValueMutator<T>;
-  error?: E;
-  onChangeError?: ErrorMutator<E>;
-};
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
