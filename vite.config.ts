@@ -5,6 +5,7 @@ import moduleList from "vite-plugin-module-list";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  clearScreen: false,
   plugins: [
     moduleList({
       rootPath: "lib/hooks",
