@@ -8,10 +8,19 @@
     "types": "./dist/main.d.ts",
     "import": "./dist/main.js"
   },
+  "files": [
+    "dist",
+    "lib",
+    "!lib/old",
+    "!lib/**/*.test.ts?",
+    "!src",
+    "!src/old",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
     "dev:test": "vitest",
-    "build": "tsc --project tsconfig.package.json",
+    "build": "rm -rf dist/; tsc --project tsconfig.package.json",
     "prepare": "npm run build",
     "preview": "vite preview",
     "format": "prettier --check \"{src,scripts}/**/*.[jt]s\"",
