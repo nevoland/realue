@@ -99,11 +99,12 @@ export function useArray<
             };
           }
           const value = state.current?.[itemIndex];
+          const id = itemId(itemIndex, value);
           return {
             value,
             name: `${itemIndex}`,
-            key: itemId(itemIndex, value),
-            id: itemId(itemIndex, value),
+            key: id,
+            id: id,
             onChange: onChangeItem,
             error: stateError.current?.[itemIndex],
             onChangeError: onChangeItemError,
