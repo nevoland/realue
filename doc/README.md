@@ -60,7 +60,7 @@ realue
 
 #### Defined in
 
-[types.ts:3](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L3)
+[types.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L3)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[types.ts:27](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L27)
+[types.ts:27](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L27)
 
 ___
 
@@ -109,7 +109,7 @@ ___
 
 #### Defined in
 
-[types.ts:42](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L42)
+[types.ts:42](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L42)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[types.ts:48](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L48)
+[types.ts:48](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L48)
 
 ___
 
@@ -141,7 +141,7 @@ ___
 
 #### Defined in
 
-[types.ts:54](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L54)
+[types.ts:54](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L54)
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-[types.ts:32](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L32)
+[types.ts:32](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L32)
 
 ___
 
@@ -190,7 +190,7 @@ ___
 
 #### Defined in
 
-[types.ts:83](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L83)
+[types.ts:88](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L88)
 
 ___
 
@@ -200,7 +200,7 @@ ___
 
 #### Defined in
 
-[types.ts:9](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L9)
+[types.ts:9](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L9)
 
 ___
 
@@ -210,7 +210,7 @@ ___
 
 #### Defined in
 
-[types.ts:13](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L13)
+[types.ts:13](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L13)
 
 ___
 
@@ -220,7 +220,7 @@ ___
 
 #### Defined in
 
-[types.ts:11](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L11)
+[types.ts:11](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L11)
 
 ___
 
@@ -248,7 +248,7 @@ ___
 
 #### Defined in
 
-[types.ts:34](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L34)
+[types.ts:34](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L34)
 
 ___
 
@@ -275,7 +275,7 @@ ___
 
 #### Defined in
 
-[types.ts:75](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L75)
+[types.ts:80](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L80)
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-[types.ts:20](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L20)
+[types.ts:20](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L20)
 
 ___
 
@@ -331,7 +331,7 @@ ___
 
 #### Defined in
 
-[types.ts:25](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L25)
+[types.ts:25](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L25)
 
 ___
 
@@ -363,7 +363,7 @@ ___
 
 #### Defined in
 
-[types.ts:15](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L15)
+[types.ts:15](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L15)
 
 ## Variables
 
@@ -373,7 +373,7 @@ ___
 
 #### Defined in
 
-[constants/EMPTY_ARRAY.ts:1](https://github.com/davidbonnet/realue/blob/5e081c3/lib/constants/EMPTY_ARRAY.ts#L1)
+[constants/EMPTY_ARRAY.ts:1](https://github.com/davidbonnet/realue/blob/13744dc/lib/constants/EMPTY_ARRAY.ts#L1)
 
 ___
 
@@ -383,7 +383,7 @@ ___
 
 #### Defined in
 
-[constants/EMPTY_OBJECT.ts:1](https://github.com/davidbonnet/realue/blob/5e081c3/lib/constants/EMPTY_OBJECT.ts#L1)
+[constants/EMPTY_OBJECT.ts:1](https://github.com/davidbonnet/realue/blob/13744dc/lib/constants/EMPTY_OBJECT.ts#L1)
 
 ## Functions
 
@@ -409,7 +409,7 @@ ___
 
 #### Defined in
 
-[tools/isEmpty.ts:3](https://github.com/davidbonnet/realue/blob/5e081c3/lib/tools/isEmpty.ts#L3)
+[tools/isEmpty.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/isEmpty.ts#L3)
 
 ___
 
@@ -430,7 +430,7 @@ ___
 
 #### Defined in
 
-[tools/logProps.ts:6](https://github.com/davidbonnet/realue/blob/5e081c3/lib/tools/logProps.ts#L6)
+[tools/logProps.ts:6](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/logProps.ts#L6)
 
 ___
 
@@ -464,7 +464,7 @@ A new updated array or the same `array` if no change was necessary.
 
 #### Defined in
 
-[tools/setItem.ts:13](https://github.com/davidbonnet/realue/blob/5e081c3/lib/tools/setItem.ts#L13)
+[tools/setItem.ts:13](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/setItem.ts#L13)
 
 ___
 
@@ -500,7 +500,7 @@ A new updated object or the same `object` if no change was necessary.
 
 #### Defined in
 
-[tools/setProperty.ts:15](https://github.com/davidbonnet/realue/blob/5e081c3/lib/tools/setProperty.ts#L15)
+[tools/setProperty.ts:15](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/setProperty.ts#L15)
 
 ___
 
@@ -521,7 +521,7 @@ ___
 
 #### Defined in
 
-[tools/sleep.ts:4](https://github.com/davidbonnet/realue/blob/5e081c3/lib/tools/sleep.ts#L4)
+[tools/sleep.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/sleep.ts#L4)
 
 ___
 
@@ -548,7 +548,7 @@ ___
 
 #### Defined in
 
-[tools/timeout.ts:3](https://github.com/davidbonnet/realue/blob/5e081c3/lib/tools/timeout.ts#L3)
+[tools/timeout.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/timeout.ts#L3)
 
 ___
 
@@ -574,7 +574,7 @@ ___
 
 #### Defined in
 
-[tools/undefinedIfEmpty.ts:3](https://github.com/davidbonnet/realue/blob/5e081c3/lib/tools/undefinedIfEmpty.ts#L3)
+[tools/undefinedIfEmpty.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/undefinedIfEmpty.ts#L3)
 
 ___
 
@@ -583,6 +583,7 @@ ___
 ▸ **useArray**<`A`, `N`, `E`, `T`\>(`props`, `itemId?`): [`ItemCallable`](interfaces/ItemCallable.md)<`T`, `N`, `E`\>
 
 Takes an array and returns a function that generates the required props for handling an array item value.
+That function also contains three callables: `loop`, `add`, and `remove`.
 
 #### Type parameters
 
@@ -606,7 +607,7 @@ Takes an array and returns a function that generates the required props for hand
 
 #### Defined in
 
-[hooks/useArray.ts:33](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useArray.ts#L33)
+[hooks/useArray.ts:33](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useArray.ts#L33)
 
 ___
 
@@ -633,7 +634,7 @@ ___
 
 #### Defined in
 
-[hooks/useChange.ts:4](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useChange.ts#L4)
+[hooks/useChange.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useChange.ts#L4)
 
 ___
 
@@ -670,7 +671,7 @@ ___
 
 #### Defined in
 
-[hooks/useDebounce.ts:5](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useDebounce.ts#L5)
+[hooks/useDebounce.ts:5](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useDebounce.ts#L5)
 
 ___
 
@@ -698,7 +699,7 @@ ___
 
 #### Defined in
 
-[hooks/useInput.ts:4](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useInput.ts#L4)
+[hooks/useInput.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useInput.ts#L4)
 
 ___
 
@@ -728,7 +729,7 @@ Takes an object and returns a function that generates the required props for han
 
 #### Defined in
 
-[hooks/useObject.ts:13](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useObject.ts#L13)
+[hooks/useObject.ts:13](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useObject.ts#L13)
 
 ___
 
@@ -756,7 +757,7 @@ ___
 
 #### Defined in
 
-[hooks/usePromise.ts:17](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/usePromise.ts#L17)
+[hooks/usePromise.ts:17](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/usePromise.ts#L17)
 
 ___
 
@@ -778,7 +779,7 @@ ___
 
 #### Defined in
 
-[hooks/useRemove.ts:4](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useRemove.ts#L4)
+[hooks/useRemove.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useRemove.ts#L4)
 
 ___
 
@@ -804,7 +805,7 @@ ___
 
 #### Defined in
 
-[hooks/useSyncedSignal.ts:3](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useSyncedSignal.ts#L3)
+[hooks/useSyncedSignal.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useSyncedSignal.ts#L3)
 
 ___
 
@@ -830,7 +831,7 @@ ___
 
 #### Defined in
 
-[hooks/useSyncedState.ts:3](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useSyncedState.ts#L3)
+[hooks/useSyncedState.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useSyncedState.ts#L3)
 
 ___
 
@@ -866,4 +867,4 @@ ___
 
 #### Defined in
 
-[hooks/useValidator.ts:5](https://github.com/davidbonnet/realue/blob/5e081c3/lib/hooks/useValidator.ts#L5)
+[hooks/useValidator.ts:5](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useValidator.ts#L5)

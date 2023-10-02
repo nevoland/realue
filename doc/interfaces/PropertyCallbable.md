@@ -2,6 +2,12 @@
 
 # Interface: PropertyCallbable<T, N, E\>
 
+Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
+
+**`Param`**
+
+The name of the property for which to generate the props.
+
 ## Type parameters
 
 | Name | Type |
@@ -34,7 +40,7 @@
 
 #### Defined in
 
-[types.ts:65](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L65)
+[types.ts:70](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L70)
 
 ### PropertyCallbable
 
@@ -46,4 +52,4 @@
 
 #### Defined in
 
-[types.ts:72](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L72)
+[types.ts:77](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L77)

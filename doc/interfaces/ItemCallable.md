@@ -2,6 +2,12 @@
 
 # Interface: ItemCallable<T, N, E\>
 
+Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
+
+**`Param`**
+
+The index of the item for which to generate the props.
+
 ## Type parameters
 
 | Name | Type |
@@ -28,7 +34,7 @@
 
 #### Defined in
 
-[types.ts:94](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L94)
+[types.ts:104](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L104)
 
 ### ItemCallable
 
@@ -40,7 +46,7 @@
 
 #### Defined in
 
-[types.ts:95](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L95)
+[types.ts:105](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L105)
 
 ## Table of contents
 
@@ -60,12 +66,14 @@
 
 ▸ (`item`, `index?`): `void`
 
+Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
+
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `item` | `T` |
-| `index?` | `number` \| \`${number}\` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `item` | `T` | The item to add. |
+| `index?` | `number` \| \`${number}\` | The index where to add this item. |
 
 ##### Returns
 
@@ -73,31 +81,36 @@
 
 #### Defined in
 
-[types.ts:99](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L99)
+[types.ts:123](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L123)
 
 ___
 
 ### loop
 
-• `Readonly` **loop**: (`component`: `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>\>) => (``null`` \| `VNode`<`any`\>)[]
+• `Readonly` **loop**: (`Component`: `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>\>, `extraProps?`: {} \| (`props`: [`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>) => {}) => (``null`` \| `VNode`<`any`\>)[]
 
 #### Type declaration
 
-▸ (`component`): (``null`` \| `VNode`<`any`\>)[]
+▸ (`Component`, `extraProps?`): (``null`` \| `VNode`<`any`\>)[]
+
+Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `component` | `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>\> |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `Component` | `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>\> |  |
+| `extraProps?` | {} \| (`props`: [`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>) => {} | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
 
 ##### Returns
 
 (``null`` \| `VNode`<`any`\>)[]
 
+An array containing the produced elements out of `Component`.
+
 #### Defined in
 
-[types.ts:96](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L96)
+[types.ts:113](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L113)
 
 ___
 
@@ -109,11 +122,13 @@ ___
 
 ▸ (`index`): `void`
 
+Removes the item found at the specified `index`.
+
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `index` | `number` \| \`${number}\` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `index` | `number` \| \`${number}\` | The index of the item to remove. |
 
 ##### Returns
 
@@ -121,4 +136,4 @@ ___
 
 #### Defined in
 
-[types.ts:100](https://github.com/davidbonnet/realue/blob/5e081c3/lib/types.ts#L100)
+[types.ts:129](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L129)
