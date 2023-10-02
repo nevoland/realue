@@ -57,6 +57,11 @@ export type ErrorReportObject<T extends object> = Partial<{
   ""?: ErrorMessage[];
 };
 
+/**
+ * Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
+ *
+ * @param propertyName The name of the property for which to generate the props.
+ */
 export interface PropertyCallbable<
   T extends object,
   N extends string,
@@ -86,6 +91,11 @@ export type ItemProps<
   E extends ErrorReportArray<T[]>,
 > = NevoProps<T, N, E[number]> & { key: string; id: string };
 
+/**
+ * Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
+ *
+ * @param itemIndex The index of the item for which to generate the props.
+ */
 export interface ItemCallable<
   T,
   N extends string,
@@ -93,9 +103,28 @@ export interface ItemCallable<
 > {
   (itemIndex: number): ItemProps<T, N, E>;
   (): NevoProps<T[], N, E[""]>;
+  /**
+   * Loops over the items of the array and creates an instance
+   *
+   * @param Component
+   * @param extraProps An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add.
+   * @returns An array containing the produced elements out of `Component`.
+   */
   readonly loop: (
-    component: FunctionComponent<ItemProps<T, N, E>>,
+    Component: FunctionComponent<ItemProps<T, N, E>>,
+    extraProps?: {} | ((props: ItemProps<T, N, E>) => {}),
   ) => ReturnType<FunctionComponent>[];
+  /**
+   * Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
+   *
+   * @param item The item to add.
+   * @param index The index where to add this item.
+   */
   readonly add: (item: T, index?: number | `${number}`) => void;
+  /**
+   * Removes the item found at the specified `index`.
+   *
+   * @param index The index of the item to remove.
+   */
   readonly remove: (index: number | `${number}`) => void;
 }

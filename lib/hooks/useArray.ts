@@ -3,7 +3,6 @@ import {
   useRef,
   useMemo,
   createElement,
-  Fragment,
 } from "../dependencies";
 
 import { setProperty } from "../tools/setProperty";
@@ -29,6 +28,7 @@ function toNumber(value: string): number {
 
 /**
  * Takes an array and returns a function that generates the required props for handling an array item value.
+ * That function also contains three callables: `loop`, `add`, and `remove`.
  */
 export function useArray<
   A extends any[] | undefined,
@@ -113,14 +113,26 @@ export function useArray<
         {
           loop: {
             configurable: false,
-            value: (
-              component: FunctionComponent<Omit<ItemProps<T, N, E>, "key">>,
-            ) =>
-              state.current.map((_, index) => {
-                const { key, ...props } = item(index);
-                // FIXME: Creating an element out of `component` triggers an infinite loop
-                return createElement(Fragment, { key }, component(props));
-              }),
+            value: ((
+              Component: FunctionComponent<ItemProps<T, N, E>>,
+              extraProps?: {} | ((props: ItemProps<T, N, E>) => {}),
+            ) => {
+              const getExtraProps =
+                extraProps === undefined
+                  ? undefined
+                  : typeof extraProps === "function"
+                  ? extraProps
+                  : () => extraProps;
+              return state.current.map((_, index) => {
+                const props: ItemProps<T, N, E> = item(index);
+                return createElement(
+                  Component,
+                  getExtraProps !== undefined
+                    ? { ...props, ...getExtraProps(props) }
+                    : props,
+                );
+              });
+            }) as ItemCallable<T, N, E>["loop"],
           },
           add: {
             configurable: false,
@@ -229,5 +241,5 @@ export function useArray<
       ) as ItemCallable<T, N, E>,
     [onChangeItem, onChangeItemError, itemId],
   );
-  return item;
+  return item as ItemCallable<T, N, E>;
 }

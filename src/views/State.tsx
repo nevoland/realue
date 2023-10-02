@@ -247,9 +247,7 @@ export function State() {
   }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
-      {item.loop((props) => (
-        <Person {...props} onRemove={onRemoveItem} />
-      ))}
+      {item.loop(Person, { onRemoveItem })}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onPrependItem}
