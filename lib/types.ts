@@ -104,7 +104,7 @@ export interface ItemCallable<
   (itemIndex: number): ItemProps<T, N, E>;
   (): NevoProps<T[], N, E[""]>;
   /**
-   * Loops over the items of the array and creates an instance
+   * Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
    *
    * @param Component
    * @param extraProps An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add.
