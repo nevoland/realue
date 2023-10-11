@@ -25,7 +25,7 @@
     "build": "rm -rf dist/; tsc --project tsconfig.package.json;",
     "build:doc": "typedoc",
     "prepare": "npm run build",
-    "preview": "vite preview",
+    "start": "vite preview",
     "format": "prettier --check \"{src,scripts}/**/*.[jt]s\"",
     "format:fix": "prettier --write \"{src,scripts}/**/*.[jt]s\"",
     "test": "vitest run && tsc && npm run format",
