@@ -18,9 +18,9 @@ import type {
   ItemProps,
 } from "../types";
 
-const itemIdDefault: ItemId = (index, item) => {
+function itemIdDefault<T>(index: number, item: T): string {
   return (item as { id: string })?.id ?? `${index}`;
-};
+}
 
 function toNumber(value: string): number {
   return +value;
@@ -37,7 +37,7 @@ export function useArray<
   T = A extends (infer H)[] ? H : never,
 >(
   props: NevoProps<A, N, E>,
-  itemId: ItemId = itemIdDefault,
+  itemId: ItemId<T> = itemIdDefault,
 ): ItemCallable<T, N, E> {
   const { name, value = [], onChange, error, onChangeError } = props;
   const state = useRef(value);
@@ -104,7 +104,7 @@ export function useArray<
             value,
             name: `${itemIndex}`,
             key: id,
-            id: id,
+            id,
             onChange: onChangeItem,
             error: stateError.current?.[itemIndex],
             onChangeError: onChangeItemError,

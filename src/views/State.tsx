@@ -233,7 +233,7 @@ export function State() {
   >();
   const props = { value, onChange, name: "", error, onChangeError };
   // logProps("State", { value, error });
-  const item = useArray(props);
+  const item = useArray(props, (_, item) => item.id);
   const onRemoveItem = useCallback(
     (itemName: Name) => item.remove(+itemName),
     [item.remove],
