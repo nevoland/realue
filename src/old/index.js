@@ -1,16 +1,17 @@
+import { constant, isString, map, stubFalse, times } from "lodash";
 import { createElement as $ } from "react";
 import { render } from "react-dom";
-import { map, isString, stubFalse, times, constant } from "lodash";
 import {
   compose,
+  defaultProps,
   pure,
+  renameProp,
   withHandlers,
   withProps,
-  defaultProps,
-  renameProp,
 } from "recompose";
 
 import {
+  EMPTY_OBJECT,
   array,
   boolean,
   cyclable,
@@ -20,6 +21,7 @@ import {
   editableProp,
   filterable,
   fromEvent,
+  logProps,
   number,
   object,
   omitProps,
@@ -28,13 +30,11 @@ import {
   parseNumber,
   removable,
   string,
+  syncedFocus,
   toggledEditing,
   transformable,
-  syncedFocus,
-  withChildren,
   withChild,
-  EMPTY_OBJECT,
-  logProps,
+  withChildren,
   withElement,
 } from "../src";
 

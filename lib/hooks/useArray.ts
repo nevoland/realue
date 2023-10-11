@@ -1,26 +1,22 @@
 import {
   type FunctionComponent,
-  useRef,
-  useMemo,
   createElement,
+  useMemo,
+  useRef,
 } from "../dependencies";
-
+import { itemIdDefault } from "../tools/itemIdDefault";
 import { setProperty } from "../tools/setProperty";
 import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
   ErrorMutator,
   ErrorReportArray,
+  ItemCallable,
   ItemId,
+  ItemProps,
   NameItem,
   NevoProps,
   ValueMutator,
-  ItemCallable,
-  ItemProps,
 } from "../types";
-
-function itemIdDefault<T>(index: number, item: T): string {
-  return (item as { id: string })?.id ?? `${index}`;
-}
 
 function toNumber(value: string): number {
   return +value;

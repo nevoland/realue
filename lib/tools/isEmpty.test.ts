@@ -1,4 +1,5 @@
 import { expect, test } from "vitest";
+
 import { isEmpty } from "./isEmpty";
 
 test("returns true for empty objects", () => {

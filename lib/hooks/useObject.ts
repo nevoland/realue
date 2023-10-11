@@ -1,12 +1,13 @@
 import { useRef, useMemo } from "../dependencies";
-import { setProperty } from "../tools/setProperty";
 import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
+
 import type {
   ErrorReportObject,
   ObjectProps,
   PropertyCallbable,
 } from "../types";
 
+import { setProperty } from "../tools/setProperty";
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
  */

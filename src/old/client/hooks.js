@@ -1,18 +1,18 @@
-import { createElement as $, Fragment, memo } from "react";
 import { capitalize } from "lodash";
-import { compose } from "recompose";
 import PropTypes from "prop-types";
+import { createElement as $, Fragment, memo } from "react";
+import { compose } from "recompose";
 
 import {
-  withHops,
-  withState,
-  withPropsOnChange,
-  withProps,
-  withHandlers,
   branch,
-  setPropTypes,
   lifecycle,
   renderComponent,
+  setPropTypes,
+  withHandlers,
+  withHops,
+  withProps,
+  withPropsOnChange,
+  withState,
 } from "../../src/hooks";
 
 export const Hooks = compose(

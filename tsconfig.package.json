@@ -6,6 +6,6 @@
     "declaration": true
   },
   "include": ["lib"],
-  "exclude": ["**/*.test.ts"],
+  "exclude": ["**/*.test.ts", "lib/old"],
   "extends": "./tsconfig.json"
 }

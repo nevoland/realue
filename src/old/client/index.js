@@ -1,30 +1,32 @@
+import {
+  constant,
+  get,
+  isString,
+  last,
+  map,
+  reverse,
+  slice,
+  stubFalse,
+  times,
+  uniqBy,
+  upperFirst,
+} from "lodash";
 import { createElement as $ } from "react";
 import { render } from "react-dom";
 import {
-  map,
-  isString,
-  stubFalse,
-  times,
-  constant,
-  get,
-  last,
-  uniqBy,
-  upperFirst,
-  reverse,
-  slice,
-} from "lodash";
-import {
   compose,
+  defaultProps,
+  flattenProp,
   pure,
+  renameProp,
   withHandlers,
   withProps,
-  defaultProps,
-  renameProp,
-  flattenProp,
   withPropsOnChange,
 } from "recompose";
 
 import {
+  EMPTY_ARRAY,
+  EMPTY_OBJECT,
   array,
   boolean,
   cyclable,
@@ -32,8 +34,6 @@ import {
   delayable,
   editable,
   editableProp,
-  EMPTY_OBJECT,
-  EMPTY_ARRAY,
   filterable,
   fromEvent,
   logProps,
@@ -49,15 +49,15 @@ import {
   resilient,
   string,
   syncedFocus,
+  syncedProp,
   toggledEditing,
   transformable,
   withChild,
   withChildren,
-  syncedProp,
 } from "../../src";
 
-import { request } from "./requests";
 import { Hooks } from "./hooks";
+import { request } from "./requests";
 
 const Text = compose(
   pure,
@@ -454,8 +454,8 @@ const Table = compose(
         }),
     concatValue:
       ({ query: { refresh, reversed, fields } }) =>
-      (value, { transformedValue = EMPTY_ARRAY }) => {
-        return refresh
+      (value, { transformedValue = EMPTY_ARRAY }) =>
+        refresh
           ? value
           : reversed
           ? [
@@ -474,8 +474,7 @@ const Table = compose(
                 [...slice(transformedValue, -value.length), ...value],
                 fields[0],
               ),
-            ];
-      },
+            ],
     replaceValue:
       ({ query: { reversed } }) =>
       (value) =>

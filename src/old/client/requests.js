@@ -1,14 +1,14 @@
+import { identity, map } from "lodash";
 import { compose } from "recompose";
-import { map, identity } from "lodash";
 
 import {
+  aggregate,
   cache,
   fetchJson,
-  retry,
-  toFetchQuery,
   queryString,
+  retry,
   searchParams,
-  aggregate,
+  toFetchQuery,
 } from "../../src";
 
 function updateParams(params) {

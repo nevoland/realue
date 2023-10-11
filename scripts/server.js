@@ -1,9 +1,9 @@
-const path = require("path");
 const http = require("http");
+const path = require("path");
 
+const chalk = require("chalk");
 const connect = require("connect");
 const serveStatic = require("serve-static");
-const chalk = require("chalk");
 
 const ROOT_DIR = path.join(__dirname, "../dist");
 const PORT = process.env.npm_config_port || 4321;

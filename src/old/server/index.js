@@ -1,7 +1,7 @@
 // import path from 'path'
-import Koa from "koa";
 import cors from "@koa/cors";
 import chokidar from "chokidar";
+import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 
 const PORT = 4000;
