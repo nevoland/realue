@@ -33,7 +33,8 @@ Checkout the [API documentation](doc/README.md).
 A demo application can be run in the browser with:
 
 ```bash
-npm run build:watch
+npm run build
+npm start
 open http://localhost:1234
 ```
 
