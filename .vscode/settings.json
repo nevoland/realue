@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "eslint.timeBudget.onFixes": {
+    "warn": 3000,
+    "error": 6000
+  },
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true
+}
