@@ -7,5 +7,6 @@
     "warn": 3000,
     "error": 6000
   },
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "typescript.suggest.completeJSDocs": true
 }

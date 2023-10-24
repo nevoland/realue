@@ -1,4 +1,4 @@
-import { useMemo, type JSX } from "../dependencies";
+import { type JSX, useMemo } from "../dependencies";
 import type { NevoProps } from "../types";
 
 export function useInput<T, N extends string>(

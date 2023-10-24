@@ -1,10 +1,11 @@
 import { type StateUpdater } from "preact/hooks";
+
 import {
   isPromise,
   useCallback,
   useEffect,
-  useState,
   useRef,
+  useState,
 } from "../dependencies";
 
 type PromiseState<T> = {

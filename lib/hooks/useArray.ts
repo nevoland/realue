@@ -1,12 +1,12 @@
 import {
   type FunctionComponent,
   createElement,
+  setProperty,
+  undefinedIfEmpty,
   useMemo,
   useRef,
 } from "../dependencies";
 import { itemIdDefault } from "../tools/itemIdDefault";
-import { setProperty } from "../tools/setProperty";
-import { undefinedIfEmpty } from "../tools/undefinedIfEmpty";
 import type {
   ErrorMutator,
   ErrorReportArray,

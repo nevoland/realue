@@ -1,6 +1,6 @@
-import { memo, useState, useEffect } from "../../lib/dependencies";
-import { timeout, useDebounce, useInput, useValidator } from "../../lib/main";
+import { useDebounce, useInput, useValidator } from "../../lib/main";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../../lib/types";
+import { memo, timeout, useEffect, useState } from "../dependencies";
 
 type InputProps<T, N extends string> = NevoProps<T, N, ErrorMessage[]> & {
   label?: string;

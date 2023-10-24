@@ -102,10 +102,7 @@ module.exports = {
     ],
     "no-param-reassign": "error",
     "no-unused-vars": "off",
-    "no-use-before-define": [
-      "error",
-      { functions: false, classes: true, variables: true },
-    ],
+    "no-use-before-define": ["off"],
     "sort-imports": [
       "error",
       {

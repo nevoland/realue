@@ -1,4 +1,6 @@
-import type { FunctionComponent } from "./dependencies";
+import type { DebouncedFunction, FunctionComponent } from "./dependencies";
+
+export type { DebouncedFunction };
 
 export type ErrorMessage = string;
 
@@ -6,24 +8,41 @@ export type ErrorMessage = string;
 //   -readonly [K in keyof T]: T[K];
 // };
 
+/**
+ * Returns an object type with a single property.
+ */
+type Property<K extends PropertyKey, V> = { [P in K]: { [Q in P]: V } }[K];
+
 export type Name = NameProperty | NameItem;
 
 export type NameProperty = string;
 
 export type NameItem = `${number}`;
 
+/**
+ * Function that valides a `value` with a given `name` and returns a promise that resolves to an error, if any.
+ */
 export type ValueValidator<T, N extends string = Name> = (
   value: T,
   name: N,
 ) => Promise<ErrorMessage[] | undefined> | ErrorMessage[] | undefined;
 
+/**
+ * Function that changes a `value`. Used as the signature for the `onChange` callback of the NEVO pattern.
+ */
 export type ValueMutator<T, N extends string = Name> = (
   value: T,
   name: N,
 ) => void;
 
+/**
+ * Function that removes an array item at index `name`.
+ */
 export type ValueRemover = (name: NameItem) => void;
 
+/**
+ * Function that mutates an `error`. Used as the signature for the `onChangeError` callback of the NEVO pattern.
+ */
 export type ErrorMutator<E, N extends string = Name> = (
   error: E | undefined,
   name?: N | "",
@@ -31,13 +50,47 @@ export type ErrorMutator<E, N extends string = Name> = (
 
 export type ItemId<T> = (index: number, item: T) => string;
 
+/**
+ * Set of properties that define the NEVO pattern:
+ * - `name`: The name used to identify the entity represented by the `value`.
+ * - `error`: An error object describing issues to be shown.
+ * - `value`: The value to be handled by a component.
+ * - `onChange`: The callback the component uses to notify the parent component about changes of the `value`.
+ * - `onChangeError`: The callback the component uses to notify the parent component about changes of the `error`.
+ */
 export type NevoProps<T, N extends string = Name, E = ErrorReport<T>> = {
+  /**
+   * The name used to identify the entity represented by the `value`.
+   */
   name: N;
+  /**
+   * An error object describing issues to be shown.
+   */
   error?: E;
+  /**
+   * The value to be handled by a component.
+   */
   value: T;
+  /**
+   * The callback the component uses to notify the parent component about changes of the `value`.
+   */
   onChange?: ValueMutator<T, N>;
+  /**
+   * The callback the component uses to notify the parent component about changes of the `error`.
+   */
   onChangeError?: ErrorMutator<E, N>;
 };
+
+export type NevoPropsAdapted<
+  T,
+  K extends string,
+  N extends string = Name,
+  E = ErrorReport<T>,
+> = Property<`${K}Name`, N> &
+  Property<`${K}Error`, E> &
+  Property<K, T> &
+  Property<`onChange${Capitalize<K>}`, ValueMutator<T, N>> &
+  Property<`onChange${Capitalize<K>}Error`, ErrorMutator<E, N>>;
 
 export type ErrorReport<T, U = NonNullable<T>> = U extends unknown[]
   ? ErrorReportArray<U>

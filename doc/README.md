@@ -22,29 +22,24 @@ realue
 - [NameItem](README.md#nameitem)
 - [NameProperty](README.md#nameproperty)
 - [NevoProps](README.md#nevoprops)
+- [NevoPropsAdapted](README.md#nevopropsadapted)
 - [ObjectProps](README.md#objectprops)
 - [ValueMutator](README.md#valuemutator)
 - [ValueRemover](README.md#valueremover)
 - [ValueValidator](README.md#valuevalidator)
 
-### Variables
-
-- [EMPTY\_ARRAY](README.md#empty_array)
-- [EMPTY\_OBJECT](README.md#empty_object)
-
 ### Functions
 
-- [isEmpty](README.md#isempty)
-- [logProps](README.md#logprops)
-- [setItem](README.md#setitem)
-- [setProperty](README.md#setproperty)
-- [sleep](README.md#sleep)
-- [timeout](README.md#timeout)
-- [undefinedIfEmpty](README.md#undefinedifempty)
+- [adapt](README.md#adapt)
+- [capitalize](README.md#capitalize)
+- [disable](README.md#disable)
+- [itemIdDefault](README.md#itemiddefault)
+- [normalize](README.md#normalize)
 - [useArray](README.md#usearray)
 - [useChange](README.md#usechange)
 - [useDebounce](README.md#usedebounce)
 - [useInput](README.md#useinput)
+- [useLog](README.md#uselog)
 - [useObject](README.md#useobject)
 - [usePromise](README.md#usepromise)
 - [useRemove](README.md#useremove)
@@ -60,7 +55,7 @@ realue
 
 #### Defined in
 
-[types.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L3)
+[types.ts:5](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L5)
 
 ___
 
@@ -79,6 +74,8 @@ ___
 
 ▸ (`error`, `name?`): `void`
 
+Function that mutates an `error`. Used as the signature for the `onChangeError` callback of the NEVO pattern.
+
 ##### Parameters
 
 | Name | Type |
@@ -92,7 +89,7 @@ ___
 
 #### Defined in
 
-[types.ts:27](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L27)
+[types.ts:46](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L46)
 
 ___
 
@@ -109,7 +106,7 @@ ___
 
 #### Defined in
 
-[types.ts:42](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L42)
+[types.ts:95](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L95)
 
 ___
 
@@ -125,7 +122,7 @@ ___
 
 #### Defined in
 
-[types.ts:48](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L48)
+[types.ts:101](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L101)
 
 ___
 
@@ -141,23 +138,23 @@ ___
 
 #### Defined in
 
-[types.ts:54](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L54)
+[types.ts:107](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L107)
 
 ___
 
 ### ItemId
 
-Ƭ **ItemId**: <T\>(`index`: `number`, `item`: `T`) => `string`
+Ƭ **ItemId**<`T`\>: (`index`: `number`, `item`: `T`) => `string`
 
-#### Type declaration
-
-▸ <`T`\>(`index`, `item`): `string`
-
-##### Type parameters
+#### Type parameters
 
 | Name |
 | :------ |
 | `T` |
+
+#### Type declaration
+
+▸ (`index`, `item`): `string`
 
 ##### Parameters
 
@@ -172,7 +169,7 @@ ___
 
 #### Defined in
 
-[types.ts:32](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L32)
+[types.ts:51](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L51)
 
 ___
 
@@ -190,7 +187,7 @@ ___
 
 #### Defined in
 
-[types.ts:88](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L88)
+[types.ts:141](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L141)
 
 ___
 
@@ -200,7 +197,7 @@ ___
 
 #### Defined in
 
-[types.ts:9](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L9)
+[types.ts:16](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L16)
 
 ___
 
@@ -210,7 +207,7 @@ ___
 
 #### Defined in
 
-[types.ts:13](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L13)
+[types.ts:20](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L20)
 
 ___
 
@@ -220,13 +217,20 @@ ___
 
 #### Defined in
 
-[types.ts:11](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L11)
+[types.ts:18](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L18)
 
 ___
 
 ### NevoProps
 
 Ƭ **NevoProps**<`T`, `N`, `E`\>: `Object`
+
+Set of properties that define the NEVO pattern:
+- `name`: The name used to identify the entity represented by the `value`.
+- `error`: An error object describing issues to be shown.
+- `value`: The value to be handled by a component.
+- `onChange`: The callback the component uses to notify the parent component about changes of the `value`.
+- `onChangeError`: The callback the component uses to notify the parent component about changes of the `error`.
 
 #### Type parameters
 
@@ -238,17 +242,36 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `error?` | `E` |
-| `name` | `N` |
-| `onChange?` | [`ValueMutator`](README.md#valuemutator)<`T`, `N`\> |
-| `onChangeError?` | [`ErrorMutator`](README.md#errormutator)<`E`, `N`\> |
-| `value` | `T` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `error?` | `E` | An error object describing issues to be shown. |
+| `name` | `N` | The name used to identify the entity represented by the `value`. |
+| `onChange?` | [`ValueMutator`](README.md#valuemutator)<`T`, `N`\> | The callback the component uses to notify the parent component about changes of the `value`. |
+| `onChangeError?` | [`ErrorMutator`](README.md#errormutator)<`E`, `N`\> | The callback the component uses to notify the parent component about changes of the `error`. |
+| `value` | `T` | The value to be handled by a component. |
 
 #### Defined in
 
-[types.ts:34](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L34)
+[types.ts:61](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L61)
+
+___
+
+### NevoPropsAdapted
+
+Ƭ **NevoPropsAdapted**<`T`, `K`, `N`, `E`\>: `Property`<\`${K}Name\`, `N`\> & `Property`<\`${K}Error\`, `E`\> & `Property`<`K`, `T`\> & `Property`<\`onChange${Capitalize<K\>}\`, [`ValueMutator`](README.md#valuemutator)<`T`, `N`\>\> & `Property`<\`onChange${Capitalize<K\>}Error\`, [`ErrorMutator`](README.md#errormutator)<`E`, `N`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `T` |
+| `K` | extends `string` |
+| `N` | extends `string` = [`Name`](README.md#name) |
+| `E` | [`ErrorReport`](README.md#errorreport)<`T`\> |
+
+#### Defined in
+
+[types.ts:84](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L84)
 
 ___
 
@@ -275,7 +298,7 @@ ___
 
 #### Defined in
 
-[types.ts:80](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L80)
+[types.ts:133](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L133)
 
 ___
 
@@ -294,6 +317,8 @@ ___
 
 ▸ (`value`, `name`): `void`
 
+Function that changes a `value`. Used as the signature for the `onChange` callback of the NEVO pattern.
+
 ##### Parameters
 
 | Name | Type |
@@ -307,7 +332,7 @@ ___
 
 #### Defined in
 
-[types.ts:20](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L20)
+[types.ts:33](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L33)
 
 ___
 
@@ -318,6 +343,8 @@ ___
 #### Type declaration
 
 ▸ (`name`): `void`
+
+Function that removes an array item at index `name`.
 
 ##### Parameters
 
@@ -331,7 +358,7 @@ ___
 
 #### Defined in
 
-[types.ts:25](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L25)
+[types.ts:41](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L41)
 
 ___
 
@@ -350,6 +377,8 @@ ___
 
 ▸ (`value`, `name`): `Promise`<[`ErrorMessage`](README.md#errormessage)[] \| `undefined`\> \| [`ErrorMessage`](README.md#errormessage)[] \| `undefined`
 
+Function that valides a `value` with a given `name` and returns a promise that resolves to an error, if any.
+
 ##### Parameters
 
 | Name | Type |
@@ -363,84 +392,101 @@ ___
 
 #### Defined in
 
-[types.ts:15](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L15)
-
-## Variables
-
-### EMPTY\_ARRAY
-
-• `Const` **EMPTY\_ARRAY**: readonly `never`[]
-
-#### Defined in
-
-[constants/EMPTY_ARRAY.ts:1](https://github.com/davidbonnet/realue/blob/13744dc/lib/constants/EMPTY_ARRAY.ts#L1)
-
-___
-
-### EMPTY\_OBJECT
-
-• `Const` **EMPTY\_OBJECT**: `any`
-
-#### Defined in
-
-[constants/EMPTY_OBJECT.ts:1](https://github.com/davidbonnet/realue/blob/13744dc/lib/constants/EMPTY_OBJECT.ts#L1)
+[types.ts:25](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L25)
 
 ## Functions
 
-### isEmpty
+### adapt
 
-▸ **isEmpty**<`T`\>(`value?`): `boolean`
+▸ **adapt**<`T`, `K`\>(`propertyName`, `props`): [`NevoPropsAdapted`](README.md#nevopropsadapted)<`T`, `K`\>
+
+Adapts the provided `props` to the specified `propertyName`.
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends `object` = {} |
+| `T` | `T` |
+| `K` | extends `string` |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `propertyName` | `K` | Name of the value property. |
+| `props` | [`NevoProps`](README.md#nevoprops)<`T`\> | Propertyes according to the Nevo pattern. |
+
+#### Returns
+
+[`NevoPropsAdapted`](README.md#nevopropsadapted)<`T`, `K`\>
+
+**`Example`**
+
+```tsx
+<SomeComponent value="example" {...adapt("option", property("option"))} />
+```
+
+#### Defined in
+
+[tools/adapt.ts:17](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/adapt.ts#L17)
+
+___
+
+### capitalize
+
+▸ **capitalize**<`T`\>(`value`): `Capitalize`<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `string` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `value?` | ``null`` \| `T` |
+| `value` | `T` |
 
 #### Returns
 
-`boolean`
+`Capitalize`<`T`\>
 
 #### Defined in
 
-[tools/isEmpty.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/isEmpty.ts#L3)
+[tools/capitalize.ts:1](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/capitalize.ts#L1)
 
 ___
 
-### logProps
+### disable
 
-▸ **logProps**(`title`, `props`): `void`
+▸ **disable**(`condition`): ``null`` \| { `onChange`: `undefined` = undefined }
+
+Returns the necessary props to disable changes if `condition` is truthy.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `title` | `string` |
-| `props` | `Props` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `condition` | `boolean` | Boolean that disables changes if true. |
 
 #### Returns
 
-`void`
+``null`` \| { `onChange`: `undefined` = undefined }
+
+The props necessary to disable changes or not.
 
 #### Defined in
 
-[tools/logProps.ts:6](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/logProps.ts#L6)
+[tools/disable.ts:7](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/disable.ts#L7)
 
 ___
 
-### setItem
+### itemIdDefault
 
-▸ **setItem**<`T`\>(`array?`, `index`, `value`): `T`[]
+▸ **itemIdDefault**<`T`\>(`index`, `item`): `string`
 
-Returns a new array with `array[index]` set to `value` if `array[index]` is strictly different from `value`. Otherwise, returns the provided `array`.
-If `index` is `undefined`, a negative number, or greater than `array.length`, returns the `array` untouched.
-If the `array` is `undefined`, it is considered as an `EMPTY_ARRAY`.
+Default function used by `useArray` for defining the unique identifier of an item.
 
 #### Type parameters
 
@@ -452,129 +498,54 @@ If the `array` is `undefined`, it is considered as an `EMPTY_ARRAY`.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `array` | `undefined` \| `T`[] | The array to update. |
-| `index` | `undefined` \| `number` | The index of the item of the array to update. |
-| `value` | `T` | The value to set the item to. |
+| `index` | `number` | Array index of the item. |
+| `item` | `T` | Value of the item. |
 
 #### Returns
 
-`T`[]
+`string`
 
-A new updated array or the same `array` if no change was necessary.
+A unique identifier string for this item.
 
 #### Defined in
 
-[tools/setItem.ts:13](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/setItem.ts#L13)
+[tools/itemIdDefault.ts:8](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/itemIdDefault.ts#L8)
 
 ___
 
-### setProperty
+### normalize
 
-▸ **setProperty**<`T`, `K`\>(`object?`, `key?`, `value?`): `T`
+▸ **normalize**<`T`, `K`\>(`propertyName`, `props`): [`NevoProps`](README.md#nevoprops)<`T`\>
 
-Returns a new object with `object[key]` set to `value` if `object[key]` is strictly different from `value`. Otherwise, returns the provided `object`.
-If `key` is `undefined`, returns the `object` untouched.
-If `value` is `undefined`, ensures that the returned object does not contain the `key`.
-If `object` is `nil`, it is considered as an `EMPTY_OBJECT`.
+Normalizes the provided `props` from the provided `propertyName`.
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends `object` |
-| `K` | extends `string` \| `number` \| `symbol` = keyof `T` |
+| `T` | `T` |
+| `K` | extends `string` |
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `object` | `undefined` \| `T` | `EMPTY_OBJECT` | The object to update. |
-| `key?` | `K` | `undefined` | The key of the object to update. |
-| `value?` | `T`[`K`] | `undefined` | The value to set the object key to. |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `propertyName` | `K` | Name of the value property. |
+| `props` | [`NevoPropsAdapted`](README.md#nevopropsadapted)<`T`, `K`\> | Propertyes according to the Nevo pattern. |
 
 #### Returns
 
-`T`
+[`NevoProps`](README.md#nevoprops)<`T`\>
 
-A new updated object or the same `object` if no change was necessary.
+**`Example`**
 
-#### Defined in
-
-[tools/setProperty.ts:15](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/setProperty.ts#L15)
-
-___
-
-### sleep
-
-▸ **sleep**(`duration`, `signal?`): `Promise`<`unknown`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `duration` | `number` |
-| `signal?` | `AbortSignal` |
-
-#### Returns
-
-`Promise`<`unknown`\>
+```tsx
+<SomeComponent {...normalize("option", props)} />
+```
 
 #### Defined in
 
-[tools/sleep.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/sleep.ts#L4)
-
-___
-
-### timeout
-
-▸ **timeout**(`duration`, `callback`): () => `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `duration` | `number` |
-| `callback` | (...`args`: `unknown`[]) => `void` |
-
-#### Returns
-
-`fn`
-
-▸ (): `void`
-
-##### Returns
-
-`void`
-
-#### Defined in
-
-[tools/timeout.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/timeout.ts#L3)
-
-___
-
-### undefinedIfEmpty
-
-▸ **undefinedIfEmpty**<`T`\>(`value?`): `undefined` \| `T`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `object` = {} |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `value?` | `T` |
-
-#### Returns
-
-`undefined` \| `T`
-
-#### Defined in
-
-[tools/undefinedIfEmpty.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/tools/undefinedIfEmpty.ts#L3)
+[tools/normalize.ts:17](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/normalize.ts#L17)
 
 ___
 
@@ -599,7 +570,7 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 | Name | Type | Default value |
 | :------ | :------ | :------ |
 | `props` | [`NevoProps`](README.md#nevoprops)<`A`, `N`, `E`\> | `undefined` |
-| `itemId` | [`ItemId`](README.md#itemid) | `itemIdDefault` |
+| `itemId` | [`ItemId`](README.md#itemid)<`T`\> | `itemIdDefault` |
 
 #### Returns
 
@@ -607,7 +578,7 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 
 #### Defined in
 
-[hooks/useArray.ts:33](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useArray.ts#L33)
+[hooks/useArray.ts:29](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useArray.ts#L29)
 
 ___
 
@@ -625,7 +596,7 @@ ___
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `props` | `Pick`<[`NevoProps`](README.md#nevoprops)<`T`\>, ``"name"`` \| ``"value"`` \| ``"onChange"``\> | `undefined` |
+| `props` | `Pick`<[`NevoProps`](README.md#nevoprops)<`T`\>, ``"value"`` \| ``"name"`` \| ``"onChange"``\> | `undefined` |
 | `transformValue` | (`value`: `T`) => `T` | `identity` |
 
 #### Returns
@@ -634,7 +605,7 @@ ___
 
 #### Defined in
 
-[hooks/useChange.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useChange.ts#L4)
+[hooks/useChange.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useChange.ts#L4)
 
 ___
 
@@ -661,17 +632,17 @@ ___
 
 `Object`
 
-| Name | Type |
-| :------ | :------ |
-| `error?` | `E` |
-| `name` | `N` |
-| `onChange` | `undefined` \| [`ValueMutator`](README.md#valuemutator)<`T`, `N`\> |
-| `onChangeError?` | [`ErrorMutator`](README.md#errormutator)<`E`, `N`\> |
-| `value` | `T` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `error?` | `E` | An error object describing issues to be shown. |
+| `name` | `N` | The name used to identify the entity represented by the `value`. |
+| `onChange` | `undefined` \| [`ValueMutator`](README.md#valuemutator)<`T`, `N`\> | - |
+| `onChangeError?` | [`ErrorMutator`](README.md#errormutator)<`E`, `N`\> | The callback the component uses to notify the parent component about changes of the `error`. |
+| `value` | `T` | - |
 
 #### Defined in
 
-[hooks/useDebounce.ts:5](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useDebounce.ts#L5)
+[hooks/useDebounce.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useDebounce.ts#L4)
 
 ___
 
@@ -699,7 +670,28 @@ ___
 
 #### Defined in
 
-[hooks/useInput.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useInput.ts#L4)
+[hooks/useInput.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useInput.ts#L4)
+
+___
+
+### useLog
+
+▸ **useLog**(`title`, `props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `title` | `string` |
+| `props` | `Props` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[hooks/useLog.ts:6](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useLog.ts#L6)
 
 ___
 
@@ -729,7 +721,7 @@ Takes an object and returns a function that generates the required props for han
 
 #### Defined in
 
-[hooks/useObject.ts:13](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useObject.ts#L13)
+[hooks/useObject.ts:16](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useObject.ts#L16)
 
 ___
 
@@ -757,7 +749,7 @@ ___
 
 #### Defined in
 
-[hooks/usePromise.ts:17](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/usePromise.ts#L17)
+[hooks/usePromise.ts:18](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/usePromise.ts#L18)
 
 ___
 
@@ -779,7 +771,7 @@ ___
 
 #### Defined in
 
-[hooks/useRemove.ts:4](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useRemove.ts#L4)
+[hooks/useRemove.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useRemove.ts#L4)
 
 ___
 
@@ -805,13 +797,17 @@ ___
 
 #### Defined in
 
-[hooks/useSyncedSignal.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useSyncedSignal.ts#L3)
+[hooks/useSyncedSignal.ts:3](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useSyncedSignal.ts#L3)
 
 ___
 
 ### useSyncedState
 
-▸ **useSyncedState**<`T`\>(`value`): [`T`, (`value`: `T`) => `void`]
+▸ **useSyncedState**<`T`\>(`props`): [`T`, (`value`: `T`) => `void`]
+
+Creates a state that is synced with its parent.
+If `props.value` changes, the internal `state` is also updated.
+Calls to `onChangeState(value)` trigger a call of `props.onChange(state, props.name)`.
 
 #### Type parameters
 
@@ -821,17 +817,19 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `value` | `T` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | [`NevoProps`](README.md#nevoprops)<`T`\> | The NEVO props. |
 
 #### Returns
 
 [`T`, (`value`: `T`) => `void`]
 
+The `[state, onChangeState]` tuple.
+
 #### Defined in
 
-[hooks/useSyncedState.ts:3](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useSyncedState.ts#L3)
+[hooks/useSyncedState.ts:12](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useSyncedState.ts#L12)
 
 ___
 
@@ -850,7 +848,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | `Pick`<[`NevoProps`](README.md#nevoprops)<`T`, `N`, `string`[]\>, ``"name"`` \| ``"value"`` \| ``"error"`` \| ``"onChangeError"``\> |
+| `props` | `Pick`<[`NevoProps`](README.md#nevoprops)<`T`, `N`, `string`[]\>, ``"value"`` \| ``"name"`` \| ``"error"`` \| ``"onChangeError"``\> |
 | `onValidate?` | [`ValueValidator`](README.md#valuevalidator)<`T`, `N`\> |
 
 #### Returns
@@ -867,4 +865,4 @@ ___
 
 #### Defined in
 
-[hooks/useValidator.ts:5](https://github.com/davidbonnet/realue/blob/13744dc/lib/hooks/useValidator.ts#L5)
+[hooks/useValidator.ts:6](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useValidator.ts#L6)

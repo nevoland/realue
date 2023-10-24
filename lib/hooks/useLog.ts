@@ -1,9 +1,9 @@
-import { EMPTY_OBJECT } from "../constants";
-import { useEffect, useRef } from "../dependencies";
+/* eslint-disable no-console */
+import { EMPTY_OBJECT, useEffect, useRef } from "../dependencies";
 
 type Props = { [name: string]: any };
 
-export function logProps(title: string, props: Props) {
+export function useLog(title: string, props: Props) {
   const propNames = Object.keys(props).sort();
   const propValues = propNames.map((name) => props[name]);
   const ref = useRef<Props>();
@@ -30,7 +30,3 @@ export function logProps(title: string, props: Props) {
     ref.current = props;
   }, propValues);
 }
-
-// function formatValue(value: any) {
-//   return JSON.stringify(value, null, 2);
-// }

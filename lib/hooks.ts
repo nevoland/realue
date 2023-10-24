@@ -3,6 +3,7 @@ export { useArray } from "./hooks/useArray";
 export { useChange } from "./hooks/useChange";
 export { useDebounce } from "./hooks/useDebounce";
 export { useInput } from "./hooks/useInput";
+export { useLog } from "./hooks/useLog";
 export { useObject } from "./hooks/useObject";
 export { usePromise } from "./hooks/usePromise";
 export { useRemove } from "./hooks/useRemove";

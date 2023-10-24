@@ -1,6 +1,7 @@
 import { resolve } from "path";
-import { defineConfig } from "vite";
+
 import preact from "@preact/preset-vite";
+import { defineConfig } from "vite";
 import moduleList from "vite-plugin-module-list";
 
 // https://vitejs.dev/config/
@@ -15,11 +16,6 @@ export default defineConfig({
     moduleList({
       rootPath: "lib/tools",
       outputPath: "lib/tools.ts",
-      mode: "named-static-no-extension",
-    }),
-    moduleList({
-      rootPath: "lib/constants",
-      outputPath: "lib/constants.ts",
       mode: "named-static-no-extension",
     }),
     preact(),

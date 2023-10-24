@@ -19,3 +19,13 @@ export { useSignal } from "@preact/signals";
 
 export { nanoid as uid } from "nanoid";
 export { default as isPromise } from "is-promise";
+
+export {
+  setItem,
+  setProperty,
+  undefinedIfEmpty,
+  EMPTY_ARRAY,
+  EMPTY_OBJECT,
+} from "unchangeable";
+
+export type { DebouncedFunc as DebouncedFunction } from "lodash-es";

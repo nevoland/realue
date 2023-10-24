@@ -34,7 +34,7 @@ The index of the item for which to generate the props.
 
 #### Defined in
 
-[types.ts:104](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L104)
+[types.ts:157](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L157)
 
 ### ItemCallable
 
@@ -46,7 +46,7 @@ The index of the item for which to generate the props.
 
 #### Defined in
 
-[types.ts:105](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L105)
+[types.ts:158](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L158)
 
 ## Table of contents
 
@@ -81,7 +81,7 @@ Inserts an item at the specified index, shifting by one the previous item found 
 
 #### Defined in
 
-[types.ts:123](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L123)
+[types.ts:176](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L176)
 
 ___
 
@@ -110,7 +110,7 @@ An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-[types.ts:113](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L113)
+[types.ts:166](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L166)
 
 ___
 
@@ -136,4 +136,4 @@ Removes the item found at the specified `index`.
 
 #### Defined in
 
-[types.ts:129](https://github.com/davidbonnet/realue/blob/13744dc/lib/types.ts#L129)
+[types.ts:182](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L182)

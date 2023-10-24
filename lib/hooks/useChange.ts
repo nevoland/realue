@@ -1,4 +1,4 @@
-import { useMemo, identity } from "../dependencies";
+import { identity, useMemo } from "../dependencies";
 import type { NevoProps } from "../types";
 
 export function useChange<T>(

@@ -1,5 +1,6 @@
 import { useEffect } from "../dependencies";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
+
 import { usePromise } from "./usePromise";
 
 export function useValidator<T, N extends string>(
@@ -16,9 +17,10 @@ export function useValidator<T, N extends string>(
       return;
     }
     errorPromise.onChange(onValidate(value, name));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, onValidate, onChangeError]);
   useEffect(() => {
-    if (onChangeError == undefined) {
+    if (onChangeError === undefined) {
       return;
     }
     const nextError = errorPromise.value;
@@ -26,6 +28,7 @@ export function useValidator<T, N extends string>(
       return;
     }
     onChangeError(nextError, name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorPromise.value]);
   return errorPromise;
 }

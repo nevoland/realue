@@ -1,8 +1,11 @@
-import { memo, uid, useCallback, useState } from "../../lib/dependencies";
-
-import { useObject, useArray, useRemove } from "../../lib/main";
-import { Checkbox } from "../components/Checkbox";
-
+import { useValidator } from "../../lib/hooks/useValidator";
+import {
+  adapt,
+  normalize,
+  useArray,
+  useObject,
+  useRemove,
+} from "../../lib/main";
 import type {
   ErrorReport,
   Name,
@@ -10,12 +13,15 @@ import type {
   ValueRemover,
   ValueValidator,
 } from "../../lib/types";
-
+import { Checkbox } from "../components/Checkbox";
 import { Input } from "../components/Input";
 import { InputNumber } from "../components/InputNumber";
-import { useValidator } from "../../lib/hooks/useValidator";
-import { sleep } from "../../lib/tools/sleep";
+import { memo, sleep, uid, useCallback, useState } from "../dependencies";
 // import { logProps } from "../../lib/tools/logProps";
+
+const result = adapt("option", { value: 1, name: "test" });
+const resultNormalized = normalize("option", result);
+resultNormalized.value;
 
 type PersonData = {
   id: string;
@@ -216,7 +222,7 @@ const Person = memo((props: PersonProps) => {
             </div>
           )}
         </div>
-        <div class="flex-grow"></div>
+        <div class="grow" />
         <ButtonRemove onRemove={onRemove} />
       </div>
     </div>
