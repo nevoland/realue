@@ -20,12 +20,10 @@ export function adapt<T, const K extends string>(
 ): NevoPropsAdapted<T, K> {
   const capitalizedPropertyName = capitalize(propertyName);
   return {
-    [propertyName]: props.value,
-    [`onChange${capitalizedPropertyName}`]:
-      props.onChange && ((value: T) => props.onChange!(value, props.name)),
+    [`${propertyName}Name`]: props.name,
     [`${propertyName}Error`]: props.error,
-    [`onChangeError${capitalizedPropertyName}`]:
-      props.onChangeError &&
-      ((error: typeof props.error) => props.onChangeError!(error, props.name)),
+    [propertyName]: props.value,
+    [`onChange${capitalizedPropertyName}`]: props.onChange,
+    [`onChangeError${capitalizedPropertyName}`]: props.onChangeError,
   } as NevoPropsAdapted<T, K>;
 }
