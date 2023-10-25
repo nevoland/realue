@@ -92,6 +92,12 @@ export type NevoPropsAdapted<
   Property<`onChange${Capitalize<K>}`, ValueMutator<T, N>> &
   Property<`onChange${Capitalize<K>}Error`, ErrorMutator<E, N>>;
 
+export type OptionPropsAdapted<
+  T,
+  K extends string,
+  N extends string = Name,
+> = Property<K, T> & Property<`onChange${Capitalize<K>}`, ValueMutator<T, N>>;
+
 export type ErrorReport<T, U = NonNullable<T>> = U extends unknown[]
   ? ErrorReportArray<U>
   : U extends object

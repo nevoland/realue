@@ -5,6 +5,7 @@ export { useDebounce } from "./hooks/useDebounce";
 export { useInput } from "./hooks/useInput";
 export { useLog } from "./hooks/useLog";
 export { useObject } from "./hooks/useObject";
+export { useOption } from "./hooks/useOption";
 export { usePromise } from "./hooks/usePromise";
 export { useRemove } from "./hooks/useRemove";
 export { useSyncedSignal } from "./hooks/useSyncedSignal";
