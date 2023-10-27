@@ -1,10 +1,7 @@
-import { type StateUpdater } from "preact/hooks";
-
 import {
+  type StateUpdater,
   isPromise,
-  useCallback,
   useEffect,
-  useRef,
   useState,
 } from "../dependencies";
 
@@ -15,31 +12,22 @@ type PromiseState<T> = {
   reason?: Error;
 };
 
-export function usePromise<T>() {
+export function usePromise<T>(promise?: Promise<T> | T) {
   const { 0: state, 1: onChangeState } = useState<PromiseState<T>>({
     status: "idle",
   });
-  const mounted = useRef(false);
-  useEffect(() => {
-    mounted.current = true;
-    return () => {
-      mounted.current = false;
-    };
-  }, []);
-  const onChange = useCallback(
-    (promise?: Promise<T> | T) => {
-      attachPromise(mounted, onChangeState, promise);
-    },
-    [onChangeState],
+  useEffect(
+    () => attachPromise(onChangeState, promise),
+    [promise, onChangeState],
   );
-  return { ...state, onChange };
+  return state;
 }
 
 function attachPromise<T>(
-  mounted: { current: boolean },
   onChangeState: StateUpdater<PromiseState<T>>,
   promise?: Promise<T> | T,
 ) {
+  let mounted = true;
   if (promise === undefined) {
     onChangeState({
       value: undefined,
@@ -78,7 +66,7 @@ function attachPromise<T>(
   }
   promise.then(
     (value) => {
-      if (!mounted.current) {
+      if (!mounted) {
         return;
       }
       onChangeState((state) =>
@@ -89,7 +77,7 @@ function attachPromise<T>(
       return value;
     },
     (reason) => {
-      if (!mounted.current) {
+      if (!mounted) {
         return;
       }
       onChangeState((state) =>
@@ -99,4 +87,7 @@ function attachPromise<T>(
       );
     },
   );
+  return () => {
+    mounted = false;
+  };
 }

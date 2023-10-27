@@ -8,7 +8,6 @@ import {
 } from "../../lib/main";
 import type {
   ErrorReport,
-  Name,
   NevoProps,
   ValueRemover,
   ValueValidator,
@@ -229,7 +228,7 @@ const Person = memo((props: PersonProps) => {
   );
 });
 
-export function State() {
+export function Demo() {
   const [value, onChange] = useState<PersonData[]>([
     { id: uid(), friends: ["Bob", "Alice"] },
     { id: uid() },
@@ -240,10 +239,10 @@ export function State() {
   const props = { value, onChange, name: "", error, onChangeError };
   // logProps("State", { value, error });
   const item = useArray(props, (_, item) => item.id);
-  const onRemoveItem = useCallback(
-    (itemName: Name) => item.remove(+itemName),
-    [item.remove],
-  );
+  // const onRemoveItem = useCallback(
+  //   (itemName: Name) => item.remove(+itemName),
+  //   [item.remove],
+  // );
   const onAppendItem = useCallback(() => item.add?.({ id: uid() }), [item]);
   const onPrependItem = useCallback(() => item.add?.({ id: uid() }, 0), [item]);
   const onAppendThreeItems = useCallback(() => {
@@ -253,7 +252,7 @@ export function State() {
   }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
-      {item.loop(Person, { onRemoveItem })}
+      {item.loop(Person, { onRemove: item.remove })}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onPrependItem}

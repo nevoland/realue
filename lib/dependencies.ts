@@ -14,6 +14,8 @@ export {
   useEffect,
   useMemo,
   useId,
+  useLayoutEffect,
+  type StateUpdater,
 } from "preact/hooks";
 export { useSignal } from "@preact/signals";
 

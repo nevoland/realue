@@ -1,4 +1,4 @@
-import { useEffect } from "../dependencies";
+import { useEffect, useMemo } from "../dependencies";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
 
 import { usePromise } from "./usePromise";
@@ -11,25 +11,26 @@ export function useValidator<T, N extends string>(
   onValidate?: ValueValidator<T, N>,
 ) {
   const { name, error, value, onChangeError } = props;
-  const errorPromise = usePromise<ErrorMessage[] | undefined>();
-  useEffect(() => {
-    if (onValidate === undefined || onChangeError === undefined) {
-      return;
-    }
-    errorPromise.onChange(onValidate(value, name));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, onValidate, onChangeError]);
+  const errorPromise = usePromise(
+    useMemo(() => {
+      if (onValidate === undefined || onChangeError === undefined) {
+        return undefined;
+      }
+      return onValidate?.(value, name);
+    }, [value, onValidate, onChangeError, name]),
+  );
+  const errorPromiseValue = errorPromise.value;
   useEffect(() => {
     if (onChangeError === undefined) {
       return;
     }
-    const nextError = errorPromise.value;
+    const nextError = errorPromiseValue;
     if (isEqualError(nextError, error)) {
       return;
     }
     onChangeError(nextError, name);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorPromise.value]);
+  }, [errorPromiseValue]);
   return errorPromise;
 }
 

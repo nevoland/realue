@@ -1,5 +1,5 @@
-import { State } from "./State";
+import { Demo } from "./Demo";
 
 export function App() {
-  return <State />;
+  return <Demo />;
 }
