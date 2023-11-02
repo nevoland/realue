@@ -59,6 +59,7 @@ module.exports = {
       },
     ],
     "import/no-duplicates": "error",
+    "import/no-unresolved": "off",
     "import/order": [
       "error",
       {

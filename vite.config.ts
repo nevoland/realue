@@ -11,12 +11,18 @@ export default defineConfig({
     moduleList({
       rootPath: "lib/hooks",
       outputPath: "lib/hooks.ts",
-      mode: "named-static-no-extension",
+      mode: {
+        language: "ts",
+        extension: "js",
+      },
     }),
     moduleList({
       rootPath: "lib/tools",
       outputPath: "lib/tools.ts",
-      mode: "named-static-no-extension",
+      mode: {
+        language: "ts",
+        extension: "js",
+      },
     }),
     preact(),
   ],
