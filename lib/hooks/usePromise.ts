@@ -1,4 +1,5 @@
 import {
+  type PromiseStatus,
   type StateUpdater,
   isPromise,
   useEffect,
@@ -8,7 +9,7 @@ import {
 type PromiseState<T> = {
   value?: T;
   promise?: Promise<T> | T;
-  status: "idle" | "pending" | "fulfilled" | "rejected";
+  status: PromiseStatus;
   reason?: Error;
 };
 

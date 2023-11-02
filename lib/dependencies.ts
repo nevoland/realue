@@ -18,6 +18,7 @@ export {
   type StateUpdater,
 } from "preact/hooks";
 export { useSignal } from "@preact/signals";
+export type { PromiseStatus } from "futurise";
 
 export { nanoid as uid } from "nanoid";
 export { default as isPromise } from "is-promise";
