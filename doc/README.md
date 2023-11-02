@@ -24,6 +24,7 @@ realue
 - [NevoProps](README.md#nevoprops)
 - [NevoPropsAdapted](README.md#nevopropsadapted)
 - [ObjectProps](README.md#objectprops)
+- [OptionPropsAdapted](README.md#optionpropsadapted)
 - [ValueMutator](README.md#valuemutator)
 - [ValueRemover](README.md#valueremover)
 - [ValueValidator](README.md#valuevalidator)
@@ -41,6 +42,7 @@ realue
 - [useInput](README.md#useinput)
 - [useLog](README.md#uselog)
 - [useObject](README.md#useobject)
+- [useOption](README.md#useoption)
 - [usePromise](README.md#usepromise)
 - [useRemove](README.md#useremove)
 - [useSyncedSignal](README.md#usesyncedsignal)
@@ -55,7 +57,7 @@ realue
 
 #### Defined in
 
-[types.ts:5](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L5)
+[types.ts:5](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L5)
 
 ___
 
@@ -89,7 +91,7 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 
 #### Defined in
 
-[types.ts:46](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L46)
+[types.ts:46](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L46)
 
 ___
 
@@ -106,7 +108,7 @@ ___
 
 #### Defined in
 
-[types.ts:95](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L95)
+[types.ts:101](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L101)
 
 ___
 
@@ -122,7 +124,7 @@ ___
 
 #### Defined in
 
-[types.ts:101](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L101)
+[types.ts:107](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L107)
 
 ___
 
@@ -138,7 +140,7 @@ ___
 
 #### Defined in
 
-[types.ts:107](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L107)
+[types.ts:113](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L113)
 
 ___
 
@@ -169,7 +171,7 @@ ___
 
 #### Defined in
 
-[types.ts:51](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L51)
+[types.ts:51](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L51)
 
 ___
 
@@ -187,7 +189,7 @@ ___
 
 #### Defined in
 
-[types.ts:141](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L141)
+[types.ts:147](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L147)
 
 ___
 
@@ -197,7 +199,7 @@ ___
 
 #### Defined in
 
-[types.ts:16](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L16)
+[types.ts:16](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L16)
 
 ___
 
@@ -207,7 +209,7 @@ ___
 
 #### Defined in
 
-[types.ts:20](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L20)
+[types.ts:20](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L20)
 
 ___
 
@@ -217,7 +219,7 @@ ___
 
 #### Defined in
 
-[types.ts:18](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L18)
+[types.ts:18](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L18)
 
 ___
 
@@ -252,7 +254,7 @@ Set of properties that define the NEVO pattern:
 
 #### Defined in
 
-[types.ts:61](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L61)
+[types.ts:61](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L61)
 
 ___
 
@@ -271,7 +273,7 @@ ___
 
 #### Defined in
 
-[types.ts:84](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L84)
+[types.ts:84](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L84)
 
 ___
 
@@ -298,7 +300,25 @@ ___
 
 #### Defined in
 
-[types.ts:133](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L133)
+[types.ts:139](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L139)
+
+___
+
+### OptionPropsAdapted
+
+Ƭ **OptionPropsAdapted**<`T`, `K`, `N`\>: `Property`<`K`, `T`\> & `Property`<\`onChange${Capitalize<K\>}\`, [`ValueMutator`](README.md#valuemutator)<`T`, `N`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `T` |
+| `K` | extends `string` |
+| `N` | extends `string` = [`Name`](README.md#name) |
+
+#### Defined in
+
+[types.ts:95](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L95)
 
 ___
 
@@ -332,7 +352,7 @@ Function that changes a `value`. Used as the signature for the `onChange` callba
 
 #### Defined in
 
-[types.ts:33](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L33)
+[types.ts:33](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L33)
 
 ___
 
@@ -358,7 +378,7 @@ Function that removes an array item at index `name`.
 
 #### Defined in
 
-[types.ts:41](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L41)
+[types.ts:41](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L41)
 
 ___
 
@@ -392,7 +412,7 @@ Function that valides a `value` with a given `name` and returns a promise that r
 
 #### Defined in
 
-[types.ts:25](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L25)
+[types.ts:25](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L25)
 
 ## Functions
 
@@ -428,7 +448,7 @@ Adapts the provided `props` to the specified `propertyName`.
 
 #### Defined in
 
-[tools/adapt.ts:17](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/adapt.ts#L17)
+[tools/adapt.ts:17](https://github.com/davidbonnet/realue/blob/98248bd/lib/tools/adapt.ts#L17)
 
 ___
 
@@ -454,7 +474,7 @@ ___
 
 #### Defined in
 
-[tools/capitalize.ts:1](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/capitalize.ts#L1)
+[tools/capitalize.ts:1](https://github.com/davidbonnet/realue/blob/98248bd/lib/tools/capitalize.ts#L1)
 
 ___
 
@@ -478,7 +498,7 @@ The props necessary to disable changes or not.
 
 #### Defined in
 
-[tools/disable.ts:7](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/disable.ts#L7)
+[tools/disable.ts:7](https://github.com/davidbonnet/realue/blob/98248bd/lib/tools/disable.ts#L7)
 
 ___
 
@@ -509,7 +529,7 @@ A unique identifier string for this item.
 
 #### Defined in
 
-[tools/itemIdDefault.ts:8](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/itemIdDefault.ts#L8)
+[tools/itemIdDefault.ts:8](https://github.com/davidbonnet/realue/blob/98248bd/lib/tools/itemIdDefault.ts#L8)
 
 ___
 
@@ -545,7 +565,7 @@ Normalizes the provided `props` from the provided `propertyName`.
 
 #### Defined in
 
-[tools/normalize.ts:17](https://github.com/davidbonnet/realue/blob/603accf/lib/tools/normalize.ts#L17)
+[tools/normalize.ts:17](https://github.com/davidbonnet/realue/blob/98248bd/lib/tools/normalize.ts#L17)
 
 ___
 
@@ -578,7 +598,7 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 
 #### Defined in
 
-[hooks/useArray.ts:29](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useArray.ts#L29)
+[hooks/useArray.ts:29](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useArray.ts#L29)
 
 ___
 
@@ -605,7 +625,7 @@ ___
 
 #### Defined in
 
-[hooks/useChange.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useChange.ts#L4)
+[hooks/useChange.ts:4](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useChange.ts#L4)
 
 ___
 
@@ -642,7 +662,7 @@ ___
 
 #### Defined in
 
-[hooks/useDebounce.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useDebounce.ts#L4)
+[hooks/useDebounce.ts:4](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useDebounce.ts#L4)
 
 ___
 
@@ -670,7 +690,7 @@ ___
 
 #### Defined in
 
-[hooks/useInput.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useInput.ts#L4)
+[hooks/useInput.ts:4](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useInput.ts#L4)
 
 ___
 
@@ -691,7 +711,7 @@ ___
 
 #### Defined in
 
-[hooks/useLog.ts:6](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useLog.ts#L6)
+[hooks/useLog.ts:6](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useLog.ts#L6)
 
 ___
 
@@ -721,13 +741,44 @@ Takes an object and returns a function that generates the required props for han
 
 #### Defined in
 
-[hooks/useObject.ts:16](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useObject.ts#L16)
+[hooks/useObject.ts:16](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useObject.ts#L16)
+
+___
+
+### useOption
+
+▸ **useOption**<`T`, `K`\>(`propertyName`, `props`): [`OptionPropsAdapted`](README.md#optionpropsadapted)<`T`, `K`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `T` |
+| `K` | extends `string` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `propertyName` | `K` |
+| `props` | [`NevoProps`](README.md#nevoprops)<`T`\> |
+
+#### Returns
+
+[`OptionPropsAdapted`](README.md#optionpropsadapted)<`T`, `K`\>
+
+#### Defined in
+
+[hooks/useOption.ts:4](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useOption.ts#L4)
 
 ___
 
 ### usePromise
 
-▸ **usePromise**<`T`\>(): `Object`
+▸ **usePromise**<`T`\>(`promise?`): `PromiseState`<`T`\>
+
+Returns a promise state object to track the provided `promise`.
+Ignores outdated promises or ones that resolve when the component got unmounted.
 
 #### Type parameters
 
@@ -735,21 +786,21 @@ ___
 | :------ |
 | `T` |
 
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `promise?` | `T` \| `Promise`<`T`\> | The promise to track. |
+
 #### Returns
 
-`Object`
+`PromiseState`<`T`\>
 
-| Name | Type |
-| :------ | :------ |
-| `onChange` | (`promise?`: `T` \| `Promise`<`T`\>) => `void` |
-| `promise?` | `T` \| `Promise`<`T`\> |
-| `reason?` | `Error` |
-| `status` | ``"idle"`` \| ``"pending"`` \| ``"fulfilled"`` \| ``"rejected"`` |
-| `value?` | `T` |
+A promise state object
 
 #### Defined in
 
-[hooks/usePromise.ts:18](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/usePromise.ts#L18)
+[hooks/usePromise.ts:22](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/usePromise.ts#L22)
 
 ___
 
@@ -771,7 +822,7 @@ ___
 
 #### Defined in
 
-[hooks/useRemove.ts:4](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useRemove.ts#L4)
+[hooks/useRemove.ts:4](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useRemove.ts#L4)
 
 ___
 
@@ -797,7 +848,7 @@ ___
 
 #### Defined in
 
-[hooks/useSyncedSignal.ts:3](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useSyncedSignal.ts#L3)
+[hooks/useSyncedSignal.ts:3](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useSyncedSignal.ts#L3)
 
 ___
 
@@ -829,13 +880,13 @@ The `[state, onChangeState]` tuple.
 
 #### Defined in
 
-[hooks/useSyncedState.ts:12](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useSyncedState.ts#L12)
+[hooks/useSyncedState.ts:12](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useSyncedState.ts#L12)
 
 ___
 
 ### useValidator
 
-▸ **useValidator**<`T`, `N`\>(`props`, `onValidate?`): `Object`
+▸ **useValidator**<`T`, `N`\>(`props`, `onValidate?`): `PromiseState`<`undefined` \| `string`[]\>
 
 #### Type parameters
 
@@ -853,16 +904,8 @@ ___
 
 #### Returns
 
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `onChange` | (`promise?`: `string`[] \| `Promise`<`undefined` \| `string`[]\>) => `void` |
-| `promise?` | `string`[] \| `Promise`<`undefined` \| `string`[]\> |
-| `reason?` | `Error` |
-| `status` | ``"idle"`` \| ``"pending"`` \| ``"fulfilled"`` \| ``"rejected"`` |
-| `value?` | `string`[] |
+`PromiseState`<`undefined` \| `string`[]\>
 
 #### Defined in
 
-[hooks/useValidator.ts:6](https://github.com/davidbonnet/realue/blob/603accf/lib/hooks/useValidator.ts#L6)
+[hooks/useValidator.ts:6](https://github.com/davidbonnet/realue/blob/98248bd/lib/hooks/useValidator.ts#L6)

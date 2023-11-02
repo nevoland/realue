@@ -40,7 +40,7 @@ The name of the property for which to generate the props.
 
 #### Defined in
 
-[types.ts:123](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L123)
+[types.ts:129](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L129)
 
 ### PropertyCallbable
 
@@ -52,4 +52,4 @@ The name of the property for which to generate the props.
 
 #### Defined in
 
-[types.ts:130](https://github.com/davidbonnet/realue/blob/603accf/lib/types.ts#L130)
+[types.ts:136](https://github.com/davidbonnet/realue/blob/98248bd/lib/types.ts#L136)
