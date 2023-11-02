@@ -8,6 +8,7 @@ export { useObject } from "./hooks/useObject.js";
 export { useOption } from "./hooks/useOption.js";
 export { usePromise } from "./hooks/usePromise.js";
 export { useRemove } from "./hooks/useRemove.js";
+export { useResilient } from "./hooks/useResilient.js";
 export { useSyncedSignal } from "./hooks/useSyncedSignal.js";
 export { useSyncedState } from "./hooks/useSyncedState.js";
 export { useValidator } from "./hooks/useValidator.js";
