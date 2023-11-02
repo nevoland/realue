@@ -12,6 +12,13 @@ type PromiseState<T> = {
   reason?: Error;
 };
 
+/**
+ * Returns a promise state object to track the provided `promise`.
+ * Ignores outdated promises or ones that resolve when the component got unmounted.
+ *
+ * @param promise The promise to track.
+ * @returns A promise state object
+ */
 export function usePromise<T>(promise?: Promise<T> | T) {
   const { 0: state, 1: onChangeState } = useState<PromiseState<T>>({
     status: "idle",
