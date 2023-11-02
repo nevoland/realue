@@ -1,18 +1,19 @@
 import { useRef } from "../dependencies";
 
 /**
- * Returns the last non-undefined version of the provided `value` or when `trigger` was truthy, or `undefined`.
+ * Returns the provided `value` when `trigger` was truthy.
+ * By default, `trigger` is `true` when `value` is not `undefined`.
  *
  * @param value The `value` to keep a non-undefined value of.
- * @param trigger An optional `trigger` that sets the last value if it is `truthy`.
+ * @param trigger The `trigger` that sets the last value if it is `truthy`.
  * @returns The last non-undefined version of the provided `value`, or `undefined`.
  */
 export function useResilient<T>(
-  value: T | undefined,
-  trigger?: boolean,
-): T | undefined {
+  value: T,
+  trigger: boolean = value !== undefined,
+): T {
   const ref = useRef(value);
-  if ((value !== undefined && trigger === undefined) || trigger) {
+  if (trigger) {
     ref.current = value;
   }
   return ref.current;
