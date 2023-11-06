@@ -12,7 +12,7 @@ import { render } from "preact";
 //   requestAnimationFrame(render);
 // };
 
-import { App } from "./views/App";
+import { App } from "./views/App.jsx";
 
 import "./main.css";
 

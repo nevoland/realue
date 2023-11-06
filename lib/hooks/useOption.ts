@@ -1,4 +1,4 @@
-import { useMemo } from "../dependencies";
+import { useMemo } from "../dependencies.js";
 import type { NevoProps, OptionPropsAdapted } from "../types";
 
 export function useOption<T, const K extends string>(

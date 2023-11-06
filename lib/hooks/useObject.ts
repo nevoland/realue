@@ -3,7 +3,7 @@ import {
   undefinedIfEmpty,
   useMemo,
   useRef,
-} from "../dependencies";
+} from "../dependencies.js";
 import type {
   ErrorReportObject,
   ObjectProps,
@@ -61,20 +61,20 @@ export function useObject<
       (<K extends keyof T>(propertyName?: K) => {
         if (propertyName === undefined) {
           return {
-            value: state.current,
+            error: stateError.current?.[""],
             name: "",
             onChange,
-            error: stateError.current?.[""],
             onChangeError: onChangePropertyError,
+            value: state.current,
           };
         }
         return {
-          value: state.current[propertyName],
-          name: propertyName,
-          key: propertyName,
-          onChange: onChangeProperty,
           error: stateError.current?.[propertyName],
+          key: propertyName,
+          name: propertyName,
+          onChange: onChangeProperty,
           onChangeError: onChangePropertyError,
+          value: state.current[propertyName],
         };
       }) as PropertyCallbable<T, N, E>,
     [onChange, onChangeError],

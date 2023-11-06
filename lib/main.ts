@@ -1,4 +1,4 @@
-export * from "./hooks";
-export * from "./tools";
+export * from "./hooks.js";
+export * from "./tools.js";
 
 export type * from "./types";

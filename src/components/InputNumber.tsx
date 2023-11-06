@@ -1,6 +1,6 @@
-import { memo } from "../../lib/dependencies";
-import { useValidator } from "../../lib/hooks/useValidator";
-import { useInput } from "../../lib/main";
+import { memo } from "../../lib/dependencies.js";
+import { useValidator } from "../../lib/hooks/useValidator.js";
+import { useInput } from "../../lib/main.js";
 import type { NevoProps, ValueValidator } from "../../lib/types";
 
 type InputNumberProps = NevoProps<number | undefined> & {
@@ -32,19 +32,19 @@ export const InputNumber = memo(function InputNumber(props: InputNumberProps) {
       ? 0
       : currentValue;
   const onInput = useInput(props, extractValue);
-  useValidator({ name, error, value, onChangeError }, onValidate);
+  useValidator({ error, name, onChangeError, value }, onValidate);
   return (
     <div class="flex flex-col space-y-1">
       <label>{label}</label>
       {error && <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>}
       <input
-        value={value === undefined ? "" : value}
-        name={name}
-        type="number"
-        onInput={onChange ? onInput : undefined}
-        disabled={!onChange}
-        placeholder={placeholder}
         autoComplete="off"
+        disabled={!onChange}
+        name={name}
+        onInput={onChange ? onInput : undefined}
+        placeholder={placeholder}
+        type="number"
+        value={value === undefined ? "" : value}
       />
     </div>
   );

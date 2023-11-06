@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "../dependencies";
+import { useCallback, useEffect, useState } from "../dependencies.js";
 import type { NevoProps } from "../types";
 
 /**
@@ -19,7 +19,6 @@ export function useSyncedState<T>(
       onChangeState(value);
       props.onChange?.(value, props.name);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.onChange],
   );
   return [state, onChange];

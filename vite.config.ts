@@ -6,32 +6,12 @@ import moduleList from "vite-plugin-module-list";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  clearScreen: false,
-  plugins: [
-    moduleList({
-      rootPath: "lib/hooks",
-      outputPath: "lib/hooks.ts",
-      mode: {
-        language: "ts",
-        extension: "js",
-      },
-    }),
-    moduleList({
-      rootPath: "lib/tools",
-      outputPath: "lib/tools.ts",
-      mode: {
-        language: "ts",
-        extension: "js",
-      },
-    }),
-    preact(),
-  ],
   build: {
     lib: {
-      formats: ["es"],
-      entry: resolve(__dirname, "lib/main.ts"),
-      name: "Realue",
+      entry: resolve("lib/main.ts"),
       fileName: "realue",
+      formats: ["es"],
+      name: "Realue",
     },
     rollupOptions: {
       external: ["preact"],
@@ -40,6 +20,26 @@ export default defineConfig({
       },
     },
   },
+  clearScreen: false,
+  plugins: [
+    moduleList({
+      mode: {
+        extension: "js",
+        language: "ts",
+      },
+      outputPath: "lib/hooks.ts",
+      rootPath: "lib/hooks",
+    }),
+    moduleList({
+      mode: {
+        extension: "js",
+        language: "ts",
+      },
+      outputPath: "lib/tools.ts",
+      rootPath: "lib/tools",
+    }),
+    preact(),
+  ],
   server: {
     port: 5000,
   },

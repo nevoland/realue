@@ -1,6 +1,6 @@
 import type { NevoProps, NevoPropsAdapted } from "../types";
 
-import { capitalize } from "./capitalize";
+import { capitalize } from "./capitalize.js";
 
 /**
  * Normalizes the provided `props` from the provided `propertyName`.
@@ -20,10 +20,10 @@ export function normalize<T, const K extends string>(
 ): NevoProps<T> {
   const capitalizedPropertyName = capitalize(propertyName);
   return {
-    name: props[`${propertyName}Name`],
     error: props[`${propertyName}Error`],
-    value: props[propertyName],
+    name: props[`${propertyName}Name`],
     onChange: props[`onChange${capitalizedPropertyName}`],
     onChangeError: props[`onChange${capitalizedPropertyName}Error`],
+    value: props[propertyName],
   } as NevoProps<T>;
 }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useSignal } from "../dependencies";
+import { useCallback, useEffect, useSignal } from "../dependencies.js";
 
 export function useSyncedSignal<T>(value: T): [T, (value: T) => void] {
   const signal = useSignal(value);

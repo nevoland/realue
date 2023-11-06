@@ -5,8 +5,8 @@ import {
   undefinedIfEmpty,
   useMemo,
   useRef,
-} from "../dependencies";
-import { itemIdDefault } from "../tools/itemIdDefault";
+} from "../dependencies.js";
+import { itemIdDefault } from "../tools/itemIdDefault.js";
 import type {
   ErrorMutator,
   ErrorReportArray,
@@ -87,49 +87,26 @@ export function useArray<
         (itemIndex?: number) => {
           if (itemIndex === undefined) {
             return {
-              value: state.current,
+              error: stateError.current?.[""],
               name: "",
               onChange,
-              error: stateError.current?.[""],
               onChangeError: onChangeItemError,
+              value: state.current,
             };
           }
           const value = state.current?.[itemIndex];
           const id = itemId(itemIndex, value);
           return {
-            value,
-            name: `${itemIndex}`,
-            key: id,
-            id,
-            onChange: onChangeItem,
             error: stateError.current?.[itemIndex],
+            id,
+            key: id,
+            name: `${itemIndex}`,
+            onChange: onChangeItem,
             onChangeError: onChangeItemError,
+            value,
           };
         },
         {
-          loop: {
-            configurable: false,
-            value: ((
-              Component: FunctionComponent<ItemProps<T, N, E>>,
-              extraProps?: {} | ((props: ItemProps<T, N, E>) => {}),
-            ) => {
-              const getExtraProps =
-                extraProps === undefined
-                  ? undefined
-                  : typeof extraProps === "function"
-                  ? extraProps
-                  : () => extraProps;
-              return state.current.map((_, index) => {
-                const props: ItemProps<T, N, E> = item(index);
-                return createElement(
-                  Component,
-                  getExtraProps !== undefined
-                    ? { ...props, ...getExtraProps(props) }
-                    : props,
-                );
-              });
-            }) as ItemCallable<T, N, E>["loop"],
-          },
           add: {
             configurable: false,
             value:
@@ -181,6 +158,29 @@ export function useArray<
                       stateName.current,
                     );
                   }) as ItemCallable<T, N, E>["add"]),
+          },
+          loop: {
+            configurable: false,
+            value: ((
+              Component: FunctionComponent<ItemProps<T, N, E>>,
+              extraProps?: {} | ((props: ItemProps<T, N, E>) => {}),
+            ) => {
+              const getExtraProps =
+                extraProps === undefined
+                  ? undefined
+                  : typeof extraProps === "function"
+                  ? extraProps
+                  : () => extraProps;
+              return state.current.map((_, index) => {
+                const props: ItemProps<T, N, E> = item(index);
+                return createElement(
+                  Component,
+                  getExtraProps !== undefined
+                    ? { ...props, ...getExtraProps(props) }
+                    : props,
+                );
+              });
+            }) as ItemCallable<T, N, E>["loop"],
           },
           remove: {
             configurable: false,

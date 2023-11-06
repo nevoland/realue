@@ -1,6 +1,6 @@
 import type { NevoProps, NevoPropsAdapted } from "../types";
 
-import { capitalize } from "./capitalize";
+import { capitalize } from "./capitalize.js";
 
 /**
  * Adapts the provided `props` to the specified `propertyName`.

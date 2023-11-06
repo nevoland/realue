@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from "../dependencies";
+import { useEffect, useMemo } from "../dependencies.js";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
 
-import { usePromise } from "./usePromise";
+import { usePromise } from "./usePromise.js";
 
 export function useValidator<T, N extends string>(
   props: Pick<
@@ -29,7 +29,6 @@ export function useValidator<T, N extends string>(
       return;
     }
     onChangeError(nextError, name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorPromiseValue]);
   return errorPromise;
 }

@@ -1,4 +1,4 @@
-import { useRef } from "../dependencies";
+import { useRef } from "../dependencies.js";
 
 /**
  * Returns the provided `value` when `trigger` was truthy.

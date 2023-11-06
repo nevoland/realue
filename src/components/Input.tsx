@@ -1,6 +1,6 @@
-import { useDebounce, useInput, useValidator } from "../../lib/main";
+import { useDebounce, useInput, useValidator } from "../../lib/main.js";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../../lib/types";
-import { memo, timeout, useEffect, useState } from "../dependencies";
+import { memo, timeout, useEffect, useState } from "../dependencies.js";
 
 type InputProps<T, N extends string> = NevoProps<T, N, ErrorMessage[]> & {
   label?: string;
@@ -48,12 +48,12 @@ export const Input = memo(function Input<
       {status === "pending" && <p class="text-yellow-500">Checking…</p>}
       {error && <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>}
       <input
-        value={value}
+        autoComplete="new-password"
+        disabled={!onChange}
         name={name}
         onInput={onChange ? onInput : undefined}
-        disabled={!onChange}
         placeholder={placeholder}
-        autoComplete="new-password"
+        value={value}
       />
     </div>
   );

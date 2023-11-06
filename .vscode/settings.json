@@ -1,12 +1,17 @@
 {
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll.eslint": true
   },
-  "eslint.timeBudget.onFixes": {
-    "warn": 3000,
-    "error": 6000
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.lintTask.enable": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "typescript.suggest.completeJSDocs": true
+  "vitest.commandLine": "npx vitest --update",
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true
 }

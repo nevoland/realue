@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { EMPTY_OBJECT, useEffect, useRef } from "../dependencies";
+import { EMPTY_OBJECT, useEffect, useRef } from "../dependencies.js";
 
 type Props = { [name: string]: any };
 
@@ -18,8 +18,8 @@ export function useLog(title: string, props: Props) {
               [
                 name,
                 {
-                  previous: previousProps[name],
                   current: props[name],
+                  previous: previousProps[name],
                 },
               ] as const,
           )

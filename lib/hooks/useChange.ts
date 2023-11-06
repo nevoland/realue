@@ -1,4 +1,4 @@
-import { identity, useMemo } from "../dependencies";
+import { identity, useMemo } from "../dependencies.js";
 import type { NevoProps } from "../types";
 
 export function useChange<T>(

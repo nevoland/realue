@@ -1,5 +1,5 @@
-import { memo, useId } from "../../lib/dependencies";
-import { type NevoProps, useChange } from "../../lib/main";
+import { memo, useId } from "../../lib/dependencies.js";
+import { type NevoProps, useChange } from "../../lib/main.js";
 
 type CheckboxProps = NevoProps<boolean | undefined> & {
   label?: string;
@@ -16,11 +16,11 @@ export const Checkbox = memo(function Checkbox(props: CheckboxProps) {
   return (
     <div class="flex flex-row items-center space-x-1">
       <input
-        id={id}
-        type="checkbox"
         checked={value}
-        onChange={onInput}
+        id={id}
         name={name}
+        onChange={onInput}
+        type="checkbox"
       />
       <label for={id}>{label}</label>
     </div>

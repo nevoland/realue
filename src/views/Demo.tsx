@@ -1,24 +1,23 @@
-import { useValidator } from "../../lib/hooks/useValidator";
 import {
   adapt,
   normalize,
   useArray,
   useObject,
   useRemove,
-} from "../../lib/main";
+  useValidator,
+} from "../../lib/main.js";
 import type {
   ErrorReport,
   NevoProps,
   ValueRemover,
   ValueValidator,
 } from "../../lib/types";
-import { Checkbox } from "../components/Checkbox";
-import { Input } from "../components/Input";
-import { InputNumber } from "../components/InputNumber";
-import { memo, sleep, uid, useCallback, useState } from "../dependencies";
-// import { logProps } from "../../lib/tools/logProps";
+import { Checkbox } from "../components/Checkbox.jsx";
+import { Input } from "../components/Input.jsx";
+import { InputNumber } from "../components/InputNumber.jsx";
+import { memo, sleep, uid, useCallback, useState } from "../dependencies.js";
 
-const result = adapt("option", { value: 1, name: "test" });
+const result = adapt("option", { name: "test", value: 1 });
 const resultNormalized = normalize("option", result);
 resultNormalized.value;
 
@@ -46,7 +45,7 @@ function Friend<N extends string>(props: FriendProps<N>) {
   const onRemove = useRemove(props);
   return (
     <div class="flex flex-row" key={props.name}>
-      <Input {...props} placeholder="Add friend" key={props.name} />
+      <Input {...props} key={props.name} placeholder="Add friend" />
       {onRemove && <ButtonRemove onRemove={onRemove} />}
     </div>
   );
@@ -63,10 +62,10 @@ const FriendList = memo((props: FriendListProps) => {
         <Friend {...props} onRemove={item.remove} />
       ))}
       <Friend
-        value={undefined}
         key={`${lastIndex}`}
         name={`${lastIndex}`}
         onChange={item.add}
+        value={undefined}
       />
     </div>
   );
@@ -94,8 +93,8 @@ function ButtonRemove({ onRemove }: { onRemove?(): void }) {
   return (
     <button
       class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white dark:bg-red-700 dark:hover:bg-red-800 dark:hover:active:bg-red-900"
-      onClick={onRemove}
       disabled={onRemove === undefined}
+      onClick={onRemove}
     >
       Remove
     </button>
@@ -164,34 +163,34 @@ const Person = memo((props: PersonProps) => {
         <Input
           label="Name"
           {...property("name")}
-          placeholder="Alice"
           onValidate={onValidateName}
+          placeholder="Alice"
         />
         <Input
           label="Last name"
-          {...property("lastName")}
-          placeholder="Brown"
           onValidate={onValidateName}
+          placeholder="Brown"
+          {...property("lastName")}
           // delay={300}
         />
         <Input
           label="Username"
-          {...property("userName")}
-          placeholder="abrown"
           onValidate={onValidateUsername}
+          placeholder="abrown"
+          {...property("userName")}
           // delay={300}
         />
         <InputNumber
           label="Age"
           {...property("age")}
-          placeholder="23"
           onValidate={onValidateAge}
+          placeholder="23"
         />
         <InputNumber
           label="Years active"
           {...property("activeSince")}
-          placeholder="1"
           onValidate={onValidateAge}
+          placeholder="1"
         />
         <div class="flex flex-col">
           <Checkbox label="Show contact" {...property("showContact")} />
@@ -230,13 +229,13 @@ const Person = memo((props: PersonProps) => {
 
 export function Demo() {
   const [value, onChange] = useState<PersonData[]>([
-    { id: uid(), friends: ["Bob", "Alice"] },
+    { friends: ["Bob", "Alice"], id: uid() },
     { id: uid() },
   ]);
   const [error, onChangeError] = useState<
     ErrorReport<PersonData[]> | undefined
   >();
-  const props = { value, onChange, name: "", error, onChangeError };
+  const props = { error, name: "", onChange, onChangeError, value };
   // logProps("State", { value, error });
   const item = useArray(props, (_, item) => item.id);
   // const onRemoveItem = useCallback(
