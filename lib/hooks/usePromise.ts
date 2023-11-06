@@ -3,12 +3,13 @@ import {
   type StateUpdater,
   isPromise,
   useEffect,
+  useMemo,
   useState,
-} from "../dependencies";
+} from "../dependencies.js";
 
 type PromiseState<T> = {
   value?: T;
-  promise?: Promise<T> | T;
+  promise?: Promise<T | undefined> | T;
   status: PromiseStatus;
   reason?: Error;
 };
@@ -24,54 +25,50 @@ export function usePromise<T>(promise?: Promise<T> | T) {
   const { 0: state, 1: onChangeState } = useState<PromiseState<T>>({
     status: "idle",
   });
-  useEffect(
+  const observer = useMemo(
     () => attachPromise(onChangeState, promise),
     [promise, onChangeState],
   );
-  return state;
+  useEffect(() => observer.dispose, [observer.dispose]);
+  return observer.state.promise !== state.promise ? observer.state : state;
 }
 
 function attachPromise<T>(
   onChangeState: StateUpdater<PromiseState<T>>,
   promise?: Promise<T> | T,
-) {
+): { dispose?: () => void; state: PromiseState<T> } {
   let mounted = true;
   if (promise === undefined) {
-    onChangeState({
-      value: undefined,
-      promise: undefined,
-      status: "idle",
-      reason: undefined,
-    });
-    return;
+    return {
+      dispose: undefined,
+      state: {
+        promise: Promise.resolve(undefined),
+        reason: undefined,
+        status: "idle",
+        value: undefined,
+      },
+    };
   }
   if (!isPromise(promise)) {
-    onChangeState((state) =>
-      state.value === promise
-        ? state
-        : {
-            value: promise,
-            promise,
-            status: "fulfilled",
-            reason: undefined,
-          },
-    );
-    return;
+    const state = {
+      promise: Promise.resolve(promise),
+      reason: undefined,
+      status: "fulfilled",
+      value: promise,
+    } as const;
+    onChangeState(state);
+    return {
+      dispose: undefined,
+      state,
+    };
   }
-  let currentPromise: Promise<T> | T | undefined;
-  onChangeState((state) =>
-    (currentPromise = state.promise) === promise
-      ? state
-      : {
-          value: undefined,
-          promise,
-          status: "pending",
-          reason: undefined,
-        },
-  );
-  if (currentPromise === promise) {
-    return;
-  }
+  const state = {
+    promise,
+    reason: undefined,
+    status: "pending",
+    value: undefined,
+  } as const;
+  onChangeState(state);
   promise.then(
     (value) => {
       if (!mounted) {
@@ -80,7 +77,7 @@ function attachPromise<T>(
       onChangeState((state) =>
         state.promise !== promise
           ? state
-          : { ...state, value, status: "fulfilled" },
+          : { ...state, status: "fulfilled", value },
       );
       return value;
     },
@@ -95,7 +92,10 @@ function attachPromise<T>(
       );
     },
   );
-  return () => {
-    mounted = false;
+  return {
+    dispose: () => {
+      mounted = false;
+    },
+    state,
   };
 }
