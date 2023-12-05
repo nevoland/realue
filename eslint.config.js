@@ -158,7 +158,7 @@ export default [
       "sortkeys/sort-keys-fix": [
         "error",
         "asc",
-        { caseSensitive: false, minKeys: 2, natural: true },
+        { caseSensitive: false, minKeys: 5, natural: true },
       ],
       "spaced-comment": [
         "error",
