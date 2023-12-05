@@ -13,7 +13,7 @@ type UseTransformOptions<T, U> = {
    */
   value: (value: T) => U;
   /**
-   * Transforms the outgoing `value` provided the `onChange`.
+   * Transforms the outgoing `value` passed to the `onChange` callback.
    *
    * @param value The outgoing `value` to transform.
    * @returns The transformed value.
@@ -22,6 +22,7 @@ type UseTransformOptions<T, U> = {
 };
 
 /**
+ * Transforms the incoming `value` and the outgoing `value` passed to the `onChange` callback.
  *
  * @param props The props holding the `value` and `onChange` callbacks.
  * @param options Options for `useTransform`.
