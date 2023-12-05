@@ -2,6 +2,7 @@ import {
   type PromiseStatus,
   type StateUpdater,
   isPromise,
+  timeout,
   useEffect,
   useMemo,
   useState,
@@ -22,7 +23,7 @@ type PromiseState<T> = {
  * @returns A promise state object
  */
 export function usePromise<T>(promise?: Promise<T> | T) {
-  const { 0: state, 1: onChangeState } = useState<PromiseState<T>>({
+  const [state, onChangeState] = useState<PromiseState<T>>({
     status: "idle",
   });
   const observer = useMemo(
@@ -30,7 +31,10 @@ export function usePromise<T>(promise?: Promise<T> | T) {
     [promise, onChangeState],
   );
   useEffect(() => observer.dispose, [observer.dispose]);
-  return observer.state.promise !== state.promise ? observer.state : state;
+  if (observer.state.promise !== state.promise) {
+    return observer.state;
+  }
+  return state;
 }
 
 function attachPromise<T>(
@@ -68,30 +72,32 @@ function attachPromise<T>(
     status: "pending",
     value: undefined,
   } as const;
-  onChangeState(state);
-  promise.then(
-    (value) => {
-      if (!mounted) {
-        return;
-      }
-      onChangeState((state) =>
-        state.promise !== promise
-          ? state
-          : { ...state, status: "fulfilled", value },
-      );
-      return value;
-    },
-    (reason) => {
-      if (!mounted) {
-        return;
-      }
-      onChangeState((state) =>
-        state.promise !== promise
-          ? state
-          : { ...state, reason, status: "rejected" },
-      );
-    },
-  );
+  timeout(0, () => {
+    onChangeState(state);
+    promise.then(
+      (value) => {
+        if (!mounted) {
+          return;
+        }
+        onChangeState((state) =>
+          state.promise !== promise
+            ? state
+            : { ...state, status: "fulfilled", value },
+        );
+        return value;
+      },
+      (reason) => {
+        if (!mounted) {
+          return;
+        }
+        onChangeState((state) =>
+          state.promise !== promise
+            ? state
+            : { ...state, reason, status: "rejected" },
+        );
+      },
+    );
+  });
   return {
     dispose: () => {
       mounted = false;
