@@ -25,6 +25,10 @@ function toNumber(value: string): number {
 /**
  * Takes an array and returns a function that generates the required props for handling an array item value.
  * That function also contains three callables: `loop`, `add`, and `remove`.
+ *
+ * @param props The props holding the array `value`.
+ * @param itemId An optional function that returns a unique identifier for a given array `item`.
+ * @returns The `item` function that returns the props for a specific item `index`.
  */
 export function useArray<
   A extends any[] | undefined,

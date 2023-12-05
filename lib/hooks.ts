@@ -11,4 +11,5 @@ export { useRemove } from "./hooks/useRemove.js";
 export { useResilient } from "./hooks/useResilient.js";
 export { useSyncedSignal } from "./hooks/useSyncedSignal.js";
 export { useSyncedState } from "./hooks/useSyncedState.js";
+export { useTransform } from "./hooks/useTransform.js";
 export { useValidator } from "./hooks/useValidator.js";

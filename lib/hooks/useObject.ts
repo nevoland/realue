@@ -12,6 +12,9 @@ import type {
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
+ *
+ * @param props The props holding the object `value`.
+ * @returns The `property` function that returns the props for a specific property `name`.
  */
 export function useObject<
   T extends object,
