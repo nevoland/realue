@@ -8,7 +8,7 @@ import type {
 } from "../types";
 
 /**
- * Transforms the incoming `value` and the outgoing `value` passed to the `onChange` callback, and optionally the incoming `error` and the outgoing `error` passed to the `onChangeError` callback.
+ * Transforms the incoming `value` and the outgoing `value` passed to the `onChange` callback, and optionally the incoming `error` and the outgoing `error` passed to the `onChangeError` callback. If the incoming and outgoing `error` transforms are not provided, returned props will not contain `error` nor `onChangeError`.
  *
  * @param props The props holding the `value` and `onChange` callbacks.
  * @param options Options for `useTransform`.
@@ -33,9 +33,7 @@ export function useTransform<T, U>(
   );
   const error = useMemo(
     () =>
-      options.error === undefined
-        ? (props.error as unknown as ErrorReport<U>)
-        : options.error(props.error),
+      options.error === undefined ? undefined : options.error(props.error),
     [props.error, options.error],
   );
   const onChangeError: ErrorMutator<ErrorReport<U>> | undefined = useMemo(
@@ -43,7 +41,7 @@ export function useTransform<T, U>(
       props.onChangeError === undefined
         ? undefined
         : options.onChangeError === undefined
-        ? (props.onChangeError as unknown as ErrorMutator<ErrorReport<U>>)
+        ? undefined
         : (error, name) => {
             props.onChangeError!(options.onChangeError!(error), name);
           },
