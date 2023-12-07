@@ -21,6 +21,7 @@ realue
 - [Name](README.md#name)
 - [NameItem](README.md#nameitem)
 - [NameProperty](README.md#nameproperty)
+- [NeverNevoProps](README.md#nevernevoprops)
 - [NevoProps](README.md#nevoprops)
 - [NevoPropsAdapted](README.md#nevopropsadapted)
 - [ObjectProps](README.md#objectprops)
@@ -59,7 +60,7 @@ realue
 
 #### Defined in
 
-[types.ts:5](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L5)
+[types.ts:5](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L5)
 
 ___
 
@@ -93,7 +94,7 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 
 #### Defined in
 
-[types.ts:46](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L46)
+[types.ts:46](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L46)
 
 ___
 
@@ -110,7 +111,7 @@ ___
 
 #### Defined in
 
-[types.ts:101](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L101)
+[types.ts:112](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L112)
 
 ___
 
@@ -126,7 +127,7 @@ ___
 
 #### Defined in
 
-[types.ts:107](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L107)
+[types.ts:118](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L118)
 
 ___
 
@@ -142,7 +143,7 @@ ___
 
 #### Defined in
 
-[types.ts:113](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L113)
+[types.ts:124](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L124)
 
 ___
 
@@ -173,7 +174,7 @@ ___
 
 #### Defined in
 
-[types.ts:51](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L51)
+[types.ts:51](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L51)
 
 ___
 
@@ -191,7 +192,7 @@ ___
 
 #### Defined in
 
-[types.ts:147](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L147)
+[types.ts:158](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L158)
 
 ___
 
@@ -201,7 +202,7 @@ ___
 
 #### Defined in
 
-[types.ts:16](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L16)
+[types.ts:16](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L16)
 
 ___
 
@@ -211,7 +212,7 @@ ___
 
 #### Defined in
 
-[types.ts:20](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L20)
+[types.ts:20](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L20)
 
 ___
 
@@ -221,7 +222,29 @@ ___
 
 #### Defined in
 
-[types.ts:18](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L18)
+[types.ts:18](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L18)
+
+___
+
+### NeverNevoProps
+
+Ƭ **NeverNevoProps**: `Object`
+
+Excludes the props following the NEVO pattern. Useful for creating discriminated union types that enable component uses that do not necessitate the NEVO pattern.
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `error?` | `never` |
+| `name?` | `never` |
+| `onChange?` | `never` |
+| `onChangeError?` | `never` |
+| `value?` | `never` |
+
+#### Defined in
+
+[types.ts:87](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L87)
 
 ___
 
@@ -256,7 +279,7 @@ Set of properties that define the NEVO pattern:
 
 #### Defined in
 
-[types.ts:61](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L61)
+[types.ts:61](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L61)
 
 ___
 
@@ -275,7 +298,7 @@ ___
 
 #### Defined in
 
-[types.ts:84](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L84)
+[types.ts:95](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L95)
 
 ___
 
@@ -302,7 +325,7 @@ ___
 
 #### Defined in
 
-[types.ts:139](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L139)
+[types.ts:150](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L150)
 
 ___
 
@@ -320,7 +343,7 @@ ___
 
 #### Defined in
 
-[types.ts:95](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L95)
+[types.ts:106](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L106)
 
 ___
 
@@ -354,7 +377,7 @@ Function that changes a `value`. Used as the signature for the `onChange` callba
 
 #### Defined in
 
-[types.ts:33](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L33)
+[types.ts:33](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L33)
 
 ___
 
@@ -380,7 +403,7 @@ Function that removes an array item at index `name`.
 
 #### Defined in
 
-[types.ts:41](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L41)
+[types.ts:41](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L41)
 
 ___
 
@@ -414,7 +437,7 @@ Function that valides a `value` with a given `name` and returns a promise that r
 
 #### Defined in
 
-[types.ts:25](https://github.com/nevoland/realue/blob/d5fcce9/lib/types.ts#L25)
+[types.ts:25](https://github.com/nevoland/realue/blob/e10a3c8/lib/types.ts#L25)
 
 ## Functions
 
@@ -450,7 +473,7 @@ Adapts the provided `props` to the specified `propertyName`.
 
 #### Defined in
 
-[tools/adapt.ts:17](https://github.com/nevoland/realue/blob/d5fcce9/lib/tools/adapt.ts#L17)
+[tools/adapt.ts:17](https://github.com/nevoland/realue/blob/e10a3c8/lib/tools/adapt.ts#L17)
 
 ___
 
@@ -476,7 +499,7 @@ ___
 
 #### Defined in
 
-[tools/capitalize.ts:1](https://github.com/nevoland/realue/blob/d5fcce9/lib/tools/capitalize.ts#L1)
+[tools/capitalize.ts:1](https://github.com/nevoland/realue/blob/e10a3c8/lib/tools/capitalize.ts#L1)
 
 ___
 
@@ -500,7 +523,7 @@ The props necessary to disable changes or not.
 
 #### Defined in
 
-[tools/disable.ts:7](https://github.com/nevoland/realue/blob/d5fcce9/lib/tools/disable.ts#L7)
+[tools/disable.ts:7](https://github.com/nevoland/realue/blob/e10a3c8/lib/tools/disable.ts#L7)
 
 ___
 
@@ -531,7 +554,7 @@ A unique identifier string for this item.
 
 #### Defined in
 
-[tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/d5fcce9/lib/tools/itemIdDefault.ts#L8)
+[tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/e10a3c8/lib/tools/itemIdDefault.ts#L8)
 
 ___
 
@@ -567,7 +590,7 @@ Normalizes the provided `props` from the provided `propertyName`.
 
 #### Defined in
 
-[tools/normalize.ts:17](https://github.com/nevoland/realue/blob/d5fcce9/lib/tools/normalize.ts#L17)
+[tools/normalize.ts:17](https://github.com/nevoland/realue/blob/e10a3c8/lib/tools/normalize.ts#L17)
 
 ___
 
@@ -602,7 +625,7 @@ The `item` function that returns the props for a specific item `index`.
 
 #### Defined in
 
-[hooks/useArray.ts:33](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useArray.ts#L33)
+[hooks/useArray.ts:33](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useArray.ts#L33)
 
 ___
 
@@ -629,7 +652,7 @@ ___
 
 #### Defined in
 
-[hooks/useChange.ts:4](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useChange.ts#L4)
+[hooks/useChange.ts:4](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useChange.ts#L4)
 
 ___
 
@@ -666,7 +689,7 @@ ___
 
 #### Defined in
 
-[hooks/useDebounce.ts:4](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useDebounce.ts#L4)
+[hooks/useDebounce.ts:4](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useDebounce.ts#L4)
 
 ___
 
@@ -694,7 +717,7 @@ ___
 
 #### Defined in
 
-[hooks/useInput.ts:4](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useInput.ts#L4)
+[hooks/useInput.ts:4](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useInput.ts#L4)
 
 ___
 
@@ -715,7 +738,7 @@ ___
 
 #### Defined in
 
-[hooks/useLog.ts:6](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useLog.ts#L6)
+[hooks/useLog.ts:6](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useLog.ts#L6)
 
 ___
 
@@ -747,7 +770,7 @@ The `property` function that returns the props for a specific property `name`.
 
 #### Defined in
 
-[hooks/useObject.ts:19](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useObject.ts#L19)
+[hooks/useObject.ts:19](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useObject.ts#L19)
 
 ___
 
@@ -775,7 +798,7 @@ ___
 
 #### Defined in
 
-[hooks/useOption.ts:4](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useOption.ts#L4)
+[hooks/useOption.ts:4](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useOption.ts#L4)
 
 ___
 
@@ -806,7 +829,7 @@ A promise state object
 
 #### Defined in
 
-[hooks/usePromise.ts:25](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/usePromise.ts#L25)
+[hooks/usePromise.ts:25](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/usePromise.ts#L25)
 
 ___
 
@@ -828,7 +851,7 @@ ___
 
 #### Defined in
 
-[hooks/useRemove.ts:4](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useRemove.ts#L4)
+[hooks/useRemove.ts:4](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useRemove.ts#L4)
 
 ___
 
@@ -860,7 +883,7 @@ The last non-undefined version of the provided `value`, or `undefined`.
 
 #### Defined in
 
-[hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useResilient.ts#L11)
+[hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useResilient.ts#L11)
 
 ___
 
@@ -886,7 +909,7 @@ ___
 
 #### Defined in
 
-[hooks/useSyncedSignal.ts:3](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useSyncedSignal.ts#L3)
+[hooks/useSyncedSignal.ts:3](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useSyncedSignal.ts#L3)
 
 ___
 
@@ -918,7 +941,7 @@ The `[state, onChangeState]` tuple.
 
 #### Defined in
 
-[hooks/useSyncedState.ts:12](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useSyncedState.ts#L12)
+[hooks/useSyncedState.ts:12](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useSyncedState.ts#L12)
 
 ___
 
@@ -950,7 +973,7 @@ Updated props.
 
 #### Defined in
 
-[hooks/useTransform.ts:31](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useTransform.ts#L31)
+[hooks/useTransform.ts:31](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useTransform.ts#L31)
 
 ___
 
@@ -978,4 +1001,4 @@ ___
 
 #### Defined in
 
-[hooks/useValidator.ts:6](https://github.com/nevoland/realue/blob/d5fcce9/lib/hooks/useValidator.ts#L6)
+[hooks/useValidator.ts:6](https://github.com/nevoland/realue/blob/e10a3c8/lib/hooks/useValidator.ts#L6)
