@@ -140,7 +140,10 @@ export type UseTransformOptions<T, U> = {
         error: ErrorReport<U> | undefined,
       ) => ErrorReport<T> | undefined;
     }
-  | never
+  | {
+      error?: never;
+      onChangeError?: never;
+    }
 );
 
 export type OptionPropsAdapted<
