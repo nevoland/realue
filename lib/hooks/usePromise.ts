@@ -10,7 +10,7 @@ import {
 
 type PromiseState<T> = {
   value?: T;
-  promise?: Promise<T | undefined> | T;
+  promise?: Promise<T | undefined>;
   status: PromiseStatus;
   reason?: Error;
 };
@@ -60,7 +60,6 @@ function attachPromise<T>(
       status: "fulfilled",
       value: promise,
     } as const;
-    onChangeState(state);
     return {
       dispose: undefined,
       state,

@@ -16,7 +16,7 @@ export function useValidator<T, N extends string>(
       if (onValidate === undefined || onChangeError === undefined) {
         return undefined;
       }
-      return onValidate?.(value, name);
+      return onValidate(value, name);
     }, [value, onValidate, onChangeError, name]),
   );
   const errorPromiseValue = errorPromise.value;
