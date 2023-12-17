@@ -7,7 +7,7 @@ import { capitalize } from "./capitalize.js";
  *
  * @example
  * ```tsx
- * <SomeComponent value="example" {...adapt("option", property("option"))} />
+ * <SomeComponent {...property("value")} {...adapt("option", property("option"))} />
  * ```
  *
  * @param propertyName Name of the value property.
