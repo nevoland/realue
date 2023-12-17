@@ -40,7 +40,7 @@ The name of the property for which to generate the props.
 
 #### Defined in
 
-[types.ts:183](https://github.com/nevoland/realue/blob/b785fa4/lib/types.ts#L183)
+[types.ts:183](https://github.com/nevoland/realue/blob/acaa912/lib/types.ts#L183)
 
 ### PropertyCallbable
 
@@ -52,4 +52,4 @@ The name of the property for which to generate the props.
 
 #### Defined in
 
-[types.ts:190](https://github.com/nevoland/realue/blob/b785fa4/lib/types.ts#L190)
+[types.ts:190](https://github.com/nevoland/realue/blob/acaa912/lib/types.ts#L190)
