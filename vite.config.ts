@@ -35,8 +35,16 @@ export default defineConfig({
         extension: "js",
         language: "ts",
       },
-      outputPath: "lib/tools.ts",
-      rootPath: "lib/tools",
+      outputPath: "lib/hooks.ts",
+      rootPath: "lib/hooks",
+    }),
+    moduleList({
+      mode: {
+        language: "ts",
+        type: true,
+      },
+      outputPath: "lib/types.ts",
+      rootPath: "lib/types",
     }),
     preact(),
   ],

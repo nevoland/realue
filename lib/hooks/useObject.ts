@@ -7,7 +7,7 @@ import {
 import type {
   ErrorReportObject,
   ObjectProps,
-  PropertyCallbable,
+  PropertyCallable,
 } from "../types";
 
 /**
@@ -20,7 +20,7 @@ export function useObject<
   T extends object,
   N extends string,
   E extends ErrorReportObject<T>,
->(props: ObjectProps<T, E>): PropertyCallbable<T, N, E> {
+>(props: ObjectProps<T, E>): PropertyCallable<T, N, E> {
   const { name, value = {} as T, onChange, error, onChangeError } = props;
   const state = useRef(value);
   state.current = value;
@@ -79,7 +79,7 @@ export function useObject<
           onChangeError: onChangePropertyError,
           value: state.current[propertyName],
         };
-      }) as PropertyCallbable<T, N, E>,
+      }) as PropertyCallable<T, N, E>,
     [onChange, onChangeError],
   );
 }
