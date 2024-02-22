@@ -6,10 +6,15 @@ import {
   useMemo,
   useRef,
 } from "../dependencies.js";
+import { globalError } from "../tools/globalError.js";
+import { isArray } from "../tools/isArray.js";
+import { itemError as itemErrorMap } from "../tools/itemError.js";
 import { itemIdDefault } from "../tools/itemIdDefault.js";
+import { normalizedError } from "../tools/normalizedError.js";
 import type {
   ErrorMutator,
   ErrorReportArray,
+  ErrorReportValue,
   ItemCallable,
   ItemId,
   ItemProps,
@@ -20,6 +25,28 @@ import type {
 
 function toNumber(value: string): number {
   return +value;
+}
+
+function nextError<
+  T extends any[] | undefined,
+  E extends ErrorReportArray<NonNullable<T>>,
+>(
+  error: E | undefined,
+  itemName: number | "",
+  itemError: ErrorReportValue | E[number] | undefined,
+): E | undefined {
+  if (isArray(error)) {
+    if (itemName === "" || itemError === undefined) {
+      return itemError as E | undefined;
+    }
+    return {
+      "": error,
+      [itemName]: itemError,
+    } as E;
+  }
+  return normalizedError(
+    setProperty(error, itemName as keyof E, itemError as any),
+  ) as E | undefined;
 }
 
 /**
@@ -38,7 +65,7 @@ export function useArray<
 >(
   props: NevoProps<A, N, E>,
   itemId: ItemId<T> = itemIdDefault,
-): ItemCallable<T, N, E> {
+): ItemCallable<T, N> {
   const { name, value = [], onChange, error, onChangeError } = props;
   const state = useRef(value);
   state.current = value;
@@ -69,18 +96,20 @@ export function useArray<
           ? undefined
           : (itemError, itemIndex): void => {
               const itemName = itemIndex === undefined ? "" : +itemIndex;
-              if (itemError === stateError.current?.[itemName]) {
+              if (
+                (itemName === "" &&
+                  itemError === globalError(stateError.current)) ||
+                itemError === itemErrorMap(stateError.current)?.[itemName]
+              ) {
                 return;
               }
               onChangeError(
-                (stateError.current = undefinedIfEmpty(
-                  setProperty(
-                    stateError.current,
-                    itemName,
-                    itemError as E[number | ""] | undefined,
-                  ),
+                (stateError.current = nextError<A, E>(
+                  stateError.current,
+                  itemName,
+                  itemError,
                 )),
-                stateName.current,
+                name,
               );
             },
       [onChangeError],
@@ -91,7 +120,7 @@ export function useArray<
         (itemIndex?: number) => {
           if (itemIndex === undefined) {
             return {
-              error: stateError.current?.[""],
+              error: globalError(stateError.current),
               name: "",
               onChange,
               onChangeError: onChangeItemError,
@@ -101,7 +130,7 @@ export function useArray<
           const value = state.current?.[itemIndex];
           const id = itemId(itemIndex, value);
           return {
-            error: stateError.current?.[itemIndex],
+            error: itemErrorMap(stateError.current)?.[itemIndex],
             id,
             key: id,
             name: `${itemIndex}`,
@@ -161,13 +190,13 @@ export function useArray<
                       (stateError.current = itemErrorList),
                       stateName.current,
                     );
-                  }) as ItemCallable<T, N, E>["add"]),
+                  }) as ItemCallable<T, N>["add"]),
           },
           loop: {
             configurable: false,
             value: ((
-              Component: FunctionComponent<ItemProps<T, N, E>>,
-              extraProps?: {} | ((props: ItemProps<T, N, E>) => {}),
+              Component: FunctionComponent<ItemProps<T, N>>,
+              extraProps?: {} | ((props: ItemProps<T, N>) => {}),
             ) => {
               const getExtraProps =
                 extraProps === undefined
@@ -176,7 +205,7 @@ export function useArray<
                   ? extraProps
                   : () => extraProps;
               return state.current.map((_, index) => {
-                const props: ItemProps<T, N, E> = item(index);
+                const props: ItemProps<T, N> = item(index);
                 return createElement(
                   Component,
                   getExtraProps !== undefined
@@ -184,7 +213,7 @@ export function useArray<
                     : props,
                 );
               });
-            }) as ItemCallable<T, N, E>["loop"],
+            }) as ItemCallable<T, N>["loop"],
           },
           remove: {
             configurable: false,
@@ -235,11 +264,11 @@ export function useArray<
                       (stateError.current = undefinedIfEmpty(itemErrorList)),
                       stateName.current,
                     );
-                  }) as ItemCallable<T, N, E>["remove"]),
+                  }) as ItemCallable<T, N>["remove"]),
           },
         },
-      ) as ItemCallable<T, N, E>,
+      ) as ItemCallable<T, N>,
     [onChangeItem, onChangeItemError, itemId],
   );
-  return item as ItemCallable<T, N, E>;
+  return item as ItemCallable<T, N>;
 }

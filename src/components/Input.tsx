@@ -9,7 +9,7 @@ type InputProps<T, N extends string> = NevoProps<T, N, ErrorMessage[]> & {
   onValidate?: ValueValidator<T, N>;
 };
 
-function useDelay(value: any, delay?: number, inputs?: any[]) {
+function useDelay<T>(value: T, delay?: number, inputs?: any[]): T {
   const { 0: state, 1: onChangeState } = useState(value);
   useEffect(() => {
     if (!delay) {

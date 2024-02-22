@@ -1,4 +1,4 @@
-import type { ErrorMessage } from "./ErrorMessage";
+import type { ErrorReportValue } from "./ErrorReportValue";
 import type { Name } from "./Name";
 
 /**
@@ -7,4 +7,4 @@ import type { Name } from "./Name";
 export type ValueValidator<T, N extends string = Name> = (
   value: T,
   name: N,
-) => Promise<ErrorMessage[] | undefined> | ErrorMessage[] | undefined;
+) => Promise<ErrorReportValue | undefined> | ErrorReportValue | undefined;

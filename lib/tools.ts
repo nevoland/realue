@@ -2,5 +2,10 @@
 export { adapt } from "./tools/adapt.js";
 export { capitalize } from "./tools/capitalize.js";
 export { disable } from "./tools/disable.js";
+export { globalError } from "./tools/globalError.js";
+export { isArray } from "./tools/isArray.js";
+export { itemError } from "./tools/itemError.js";
 export { itemIdDefault } from "./tools/itemIdDefault.js";
 export { normalize } from "./tools/normalize.js";
+export { normalizedError } from "./tools/normalizedError.js";
+export { propertyError } from "./tools/propertyError.js";

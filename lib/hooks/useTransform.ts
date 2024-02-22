@@ -45,7 +45,7 @@ export function useTransform<T, U>(
         : (error, name) => {
             props.onChangeError!(options.onChangeError!(error), name);
           },
-    [props.error, options.error],
+    [props.onChangeError, options.onChangeError],
   );
   return { error, name: props.name, onChange, onChangeError, value };
 }

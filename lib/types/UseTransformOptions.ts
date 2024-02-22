@@ -1,4 +1,5 @@
-import type { ErrorReport } from "./ErrorReport";
+import type { ErrorTransformer } from "./ErrorTransformer";
+import type { ValueTransformer } from "./ValueTransformer";
 
 /**
  * Options for `useTransform`.
@@ -10,14 +11,14 @@ export type UseTransformOptions<T, U> = {
    * @param value The incoming `value` to transform.
    * @returns The transformed value.
    */
-  value: (value: T) => U;
+  value: ValueTransformer<T, U>;
   /**
    * Transforms the outgoing `value` passed to the `onChange` callback.
    *
    * @param value The outgoing `value` to transform.
    * @returns The transformed value.
    */
-  onChange: (value: U) => T;
+  onChange: ValueTransformer<U, T>;
 } & (
   | {
       /**
@@ -26,16 +27,14 @@ export type UseTransformOptions<T, U> = {
        * @param error The incoming `error` to transform.
        * @returns The transformed error.
        */
-      error: (error: ErrorReport<T> | undefined) => ErrorReport<U> | undefined;
+      error: ErrorTransformer<T, U>;
       /**
        * Optionally transform the outgoing `error` passed to the `onChangeError` callback.
        *
        * @param error The outgoing `error` to transform.
        * @returns The transformed error.
        */
-      onChangeError: (
-        error: ErrorReport<U> | undefined,
-      ) => ErrorReport<T> | undefined;
+      onChangeError: ErrorTransformer<U, T>;
     }
   | {
       error?: never;

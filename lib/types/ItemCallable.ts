@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "../dependencies";
 
-import type { ErrorReportArray } from "./ErrorReportArray";
+import type { ErrorReportValue } from "./ErrorReportValue";
 import type { ItemProps } from "./ItemProps";
 import type { NevoProps } from "./NevoProps";
 
@@ -9,13 +9,9 @@ import type { NevoProps } from "./NevoProps";
  *
  * @param itemIndex The index of the item for which to generate the props.
  */
-export interface ItemCallable<
-  T,
-  N extends string,
-  E extends ErrorReportArray<T[]>,
-> {
-  (itemIndex: number): ItemProps<T, N, E>;
-  (): NevoProps<T[], N, E[""]>;
+export interface ItemCallable<T, N extends string> {
+  (itemIndex: number): ItemProps<T, N>;
+  (): NevoProps<T[], N, ErrorReportValue>;
   /**
    * Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
    *
@@ -24,8 +20,8 @@ export interface ItemCallable<
    * @returns An array containing the produced elements out of `Component`.
    */
   readonly loop: (
-    Component: FunctionComponent<ItemProps<T, N, E>>,
-    extraProps?: {} | ((props: ItemProps<T, N, E>) => {}),
+    Component: FunctionComponent<ItemProps<T, N>>,
+    extraProps?: {} | ((props: ItemProps<T, N>) => {}),
   ) => ReturnType<FunctionComponent>[];
   /**
    * Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.

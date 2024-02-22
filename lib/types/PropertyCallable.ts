@@ -1,5 +1,5 @@
 import type { ErrorReport } from "./ErrorReport";
-import type { ErrorReportObject } from "./ErrorReportObject";
+import type { ErrorReportValue } from "./ErrorReportValue";
 import type { NevoProps } from "./NevoProps";
 
 /**
@@ -7,17 +7,9 @@ import type { NevoProps } from "./NevoProps";
  *
  * @param propertyName The name of the property for which to generate the props.
  */
-export interface PropertyCallable<
-  T extends object,
-  N extends string,
-  E extends ErrorReportObject<T>,
-> {
+export interface PropertyCallable<T extends object, N extends string> {
   <K extends keyof T>(
     propertyName: K,
-  ): NevoProps<
-    T[K],
-    N,
-    Partial<{ [K in keyof T]: ErrorReport<T[K], NonNullable<T[K]>> }>[K]
-  > & { key: string };
-  (): NevoProps<T, N, E[""]>;
+  ): NevoProps<T[K], N, ErrorReport<T[K]>> & { key: string };
+  (): NevoProps<T, N, ErrorReportValue>;
 }

@@ -1,14 +1,36 @@
-import {
-  setProperty,
-  undefinedIfEmpty,
-  useMemo,
-  useRef,
-} from "../dependencies.js";
+import { setProperty, useMemo, useRef } from "../dependencies.js";
+import { globalError } from "../tools/globalError.js";
+import { isArray } from "../tools/isArray.js";
+import { normalizedError } from "../tools/normalizedError.js";
+import { propertyError } from "../tools/propertyError.js";
 import type {
   ErrorReportObject,
+  ErrorReportValue,
   ObjectProps,
   PropertyCallable,
 } from "../types";
+
+function nextError<
+  T extends object | undefined,
+  E extends ErrorReportObject<NonNullable<T>>,
+>(
+  error: E | undefined,
+  itemName: keyof E | "",
+  itemError: ErrorReportValue | E[keyof E] | undefined,
+): E | undefined {
+  if (isArray(error)) {
+    if (itemName === "" || itemError === undefined) {
+      return itemError as E | undefined;
+    }
+    return {
+      "": error,
+      [itemName]: itemError,
+    } as E;
+  }
+  return normalizedError(
+    setProperty(error, itemName as keyof E, itemError as any),
+  ) as E | undefined;
+}
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
@@ -20,7 +42,7 @@ export function useObject<
   T extends object,
   N extends string,
   E extends ErrorReportObject<T>,
->(props: ObjectProps<T, E>): PropertyCallable<T, N, E> {
+>(props: ObjectProps<T, E>): PropertyCallable<T, N> {
   const { name, value = {} as T, onChange, error, onChangeError } = props;
   const state = useRef(value);
   state.current = value;
@@ -46,13 +68,15 @@ export function useObject<
     () =>
       onChangeError === undefined
         ? undefined
-        : <K extends keyof T>(
+        : <K extends keyof E>(
             propertyError: E[K] | undefined,
             propertyName: K,
           ): void => {
             onChangeError(
-              (stateError.current = undefinedIfEmpty(
-                setProperty(stateError.current, propertyName, propertyError),
+              (stateError.current = nextError(
+                stateError.current,
+                propertyName,
+                propertyError,
               )),
               stateName.current,
             );
@@ -64,7 +88,7 @@ export function useObject<
       (<K extends keyof T>(propertyName?: K) => {
         if (propertyName === undefined) {
           return {
-            error: stateError.current?.[""],
+            error: globalError(stateError.current),
             name: "",
             onChange,
             onChangeError: onChangePropertyError,
@@ -72,14 +96,14 @@ export function useObject<
           };
         }
         return {
-          error: stateError.current?.[propertyName],
+          error: propertyError<T>(stateError.current)?.[propertyName],
           key: propertyName,
           name: propertyName,
           onChange: onChangeProperty,
           onChangeError: onChangePropertyError,
           value: state.current[propertyName],
         };
-      }) as PropertyCallable<T, N, E>,
+      }) as PropertyCallable<T, N>,
     [onChange, onChangeError],
   );
 }

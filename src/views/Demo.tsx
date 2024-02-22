@@ -1,5 +1,6 @@
 import {
   adapt,
+  globalError,
   normalize,
   useArray,
   useObject,
@@ -58,9 +59,7 @@ const FriendList = memo((props: FriendListProps) => {
   const { length: lastIndex } = props.value ?? [];
   return (
     <div class="flex flex-col">
-      {item.loop((props) => (
-        <Friend {...props} onRemove={item.remove} />
-      ))}
+      {item.loop(Friend, { onRemove: item.remove })}
       <Friend
         key={`${lastIndex}`}
         name={`${lastIndex}`}
@@ -156,7 +155,7 @@ const Person = memo((props: PersonProps) => {
       <div class="flex flex-row space-x-2">
         <h3>Person</h3>
         <p class="text-red-500 dark:text-red-300">
-          {props.error?.[""]?.join(" ")}
+          {globalError(props.error)?.join(" ")}
         </p>
       </div>
       <div class="flex flex-row space-x-2">

@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "../dependencies.js";
 import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
 
 import { usePromise } from "./usePromise.js";
+import { useResilient } from "./useResilient.js";
 
 export function useValidator<T, N extends string>(
   props: Pick<
@@ -19,7 +20,10 @@ export function useValidator<T, N extends string>(
       return onValidate(value, name);
     }, [value, onValidate, onChangeError, name]),
   );
-  const errorPromiseValue = errorPromise.value;
+  const errorPromiseValue = useResilient(
+    errorPromise.value,
+    errorPromise.value !== undefined || errorPromise.status !== "pending",
+  );
   useEffect(() => {
     if (onChangeError === undefined) {
       return;
