@@ -1,5 +1,4 @@
 import {
-  type PromiseStatus,
   type StateUpdater,
   isPromise,
   timeout,
@@ -7,13 +6,7 @@ import {
   useMemo,
   useState,
 } from "../dependencies.js";
-
-type PromiseState<T> = {
-  value?: T;
-  promise?: Promise<T | undefined>;
-  status: PromiseStatus;
-  reason?: Error;
-};
+import type { PromiseState } from "../types.js";
 
 /**
  * Returns a promise state object to track the provided `promise`.

@@ -18,8 +18,8 @@ import { Input } from "../components/Input.jsx";
 import { InputNumber } from "../components/InputNumber.jsx";
 import { memo, sleep, uid, useCallback, useState } from "../dependencies.js";
 
-const result = adapt("option", { name: "test", value: 1 });
-const resultNormalized = normalize("option", result);
+const result = adapt({ name: "test", value: 1 }, "option");
+const resultNormalized = normalize(result, "option");
 resultNormalized.value;
 
 type PersonData = {

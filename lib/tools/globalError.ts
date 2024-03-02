@@ -1,10 +1,10 @@
-import type { ErrorMessage, ErrorReport } from "../types";
+import type { ErrorReport, ErrorReportValue } from "../types";
 
 const { isArray } = Array;
 
 export function globalError<T>(
   error?: ErrorReport<T>,
-): ErrorMessage[] | undefined {
+): ErrorReportValue | undefined {
   if (error === undefined) {
     return undefined;
   }

@@ -1,12 +1,12 @@
 import { useEffect, useMemo } from "../dependencies.js";
-import type { ErrorMessage, NevoProps, ValueValidator } from "../types";
+import type { ErrorReportValue, NevoProps, ValueValidator } from "../types";
 
 import { usePromise } from "./usePromise.js";
 import { useResilient } from "./useResilient.js";
 
 export function useValidator<T, N extends string>(
   props: Pick<
-    NevoProps<T, N, ErrorMessage[]>,
+    NevoProps<T, N, ErrorReportValue>,
     "name" | "error" | "value" | "onChangeError"
   >,
   onValidate?: ValueValidator<T, N>,
@@ -37,7 +37,7 @@ export function useValidator<T, N extends string>(
   return errorPromise;
 }
 
-function isEqualError(a?: ErrorMessage[], b?: ErrorMessage[]): boolean {
+function isEqualError(a?: ErrorReportValue, b?: ErrorReportValue): boolean {
   if (a === b) {
     return true;
   }

@@ -1,6 +1,6 @@
 [realue](../README.md) / ItemCallable
 
-# Interface: ItemCallable<T, N, E\>
+# Interface: ItemCallable<T, N\>
 
 Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
 
@@ -14,13 +14,12 @@ The index of the item for which to generate the props.
 | :------ | :------ |
 | `T` | `T` |
 | `N` | extends `string` |
-| `E` | extends [`ErrorReportArray`](../README.md#errorreportarray)<`T`[]\> |
 
 ## Callable
 
 ### ItemCallable
 
-▸ **ItemCallable**(`itemIndex`): [`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>
+▸ **ItemCallable**(`itemIndex`): [`ItemProps`](../README.md#itemprops)<`T`, `N`\>
 
 #### Parameters
 
@@ -30,23 +29,23 @@ The index of the item for which to generate the props.
 
 #### Returns
 
-[`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>
+[`ItemProps`](../README.md#itemprops)<`T`, `N`\>
 
 #### Defined in
 
-[types.ts:217](https://github.com/nevoland/realue/blob/acaa912/lib/types.ts#L217)
+[lib/types/ItemCallable.ts:13](https://github.com/nevoland/realue/blob/6d2e230/lib/types/ItemCallable.ts#L13)
 
 ### ItemCallable
 
-▸ **ItemCallable**(): [`NevoProps`](../README.md#nevoprops)<`T`[], `N`, `E`[``""``]\>
+▸ **ItemCallable**(): [`NevoProps`](../README.md#nevoprops)<`T`[], `N`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
 
 #### Returns
 
-[`NevoProps`](../README.md#nevoprops)<`T`[], `N`, `E`[``""``]\>
+[`NevoProps`](../README.md#nevoprops)<`T`[], `N`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
 
 #### Defined in
 
-[types.ts:218](https://github.com/nevoland/realue/blob/acaa912/lib/types.ts#L218)
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/6d2e230/lib/types/ItemCallable.ts#L14)
 
 ## Table of contents
 
@@ -81,13 +80,13 @@ Inserts an item at the specified index, shifting by one the previous item found 
 
 #### Defined in
 
-[types.ts:236](https://github.com/nevoland/realue/blob/acaa912/lib/types.ts#L236)
+[lib/types/ItemCallable.ts:32](https://github.com/nevoland/realue/blob/6d2e230/lib/types/ItemCallable.ts#L32)
 
 ___
 
 ### loop
 
-• `Readonly` **loop**: (`Component`: `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>\>, `extraProps?`: {} \| (`props`: [`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>) => {}) => (``null`` \| `VNode`<`any`\>)[]
+• `Readonly` **loop**: (`Component`: `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`\>\>, `extraProps?`: {} \| (`props`: [`ItemProps`](../README.md#itemprops)<`T`, `N`\>) => {}) => (``null`` \| `VNode`<`any`\>)[]
 
 #### Type declaration
 
@@ -99,8 +98,8 @@ Returns an array that maps each item with an element out of `Component` with the
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `Component` | `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>\> |  |
-| `extraProps?` | {} \| (`props`: [`ItemProps`](../README.md#itemprops)<`T`, `N`, `E`\>) => {} | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
+| `Component` | `FunctionComponent`<[`ItemProps`](../README.md#itemprops)<`T`, `N`\>\> |  |
+| `extraProps?` | {} \| (`props`: [`ItemProps`](../README.md#itemprops)<`T`, `N`\>) => {} | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
 
 ##### Returns
 
@@ -110,7 +109,7 @@ An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-[types.ts:226](https://github.com/nevoland/realue/blob/acaa912/lib/types.ts#L226)
+[lib/types/ItemCallable.ts:22](https://github.com/nevoland/realue/blob/6d2e230/lib/types/ItemCallable.ts#L22)
 
 ___
 
@@ -136,4 +135,4 @@ Removes the item found at the specified `index`.
 
 #### Defined in
 
-[types.ts:242](https://github.com/nevoland/realue/blob/acaa912/lib/types.ts#L242)
+[lib/types/ItemCallable.ts:38](https://github.com/nevoland/realue/blob/6d2e230/lib/types/ItemCallable.ts#L38)

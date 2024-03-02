@@ -7,16 +7,16 @@ import { capitalize } from "./capitalize.js";
  *
  * @example
  * ```tsx
- * <SomeComponent {...property("value")} {...adapt("option", property("option"))} />
+ * <SomeComponent {...property("value")} {...adapt(property("option"), "option")} />
  * ```
  *
+ * @param props Properties according to the Nevo pattern.
  * @param propertyName Name of the value property.
- * @param props Propertyes according to the Nevo pattern.
  * @returns
  */
 export function adapt<T, const K extends string>(
-  propertyName: K,
   props: NevoProps<T>,
+  propertyName: K,
 ): NevoPropsAdapted<T, K> {
   const capitalizedPropertyName = capitalize(propertyName);
   return {

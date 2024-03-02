@@ -1,8 +1,12 @@
 import { useDebounce, useInput, useValidator } from "../../lib/main.js";
-import type { ErrorMessage, NevoProps, ValueValidator } from "../../lib/types";
+import type {
+  ErrorReportValue,
+  NevoProps,
+  ValueValidator,
+} from "../../lib/types";
 import { memo, timeout, useEffect, useState } from "../dependencies.js";
 
-type InputProps<T, N extends string> = NevoProps<T, N, ErrorMessage[]> & {
+type InputProps<T, N extends string> = NevoProps<T, N, ErrorReportValue> & {
   label?: string;
   placeholder?: string;
   delay?: number;

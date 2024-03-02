@@ -10,7 +10,7 @@ import { globalError } from "../tools/globalError.js";
 import { isArray } from "../tools/isArray.js";
 import { itemError as itemErrorMap } from "../tools/itemError.js";
 import { itemIdDefault } from "../tools/itemIdDefault.js";
-import { normalizedError } from "../tools/normalizedError.js";
+import { normalizeError } from "../tools/normalizeError.js";
 import type {
   ErrorMutator,
   ErrorReportArray,
@@ -44,7 +44,7 @@ function nextError<
       [itemName]: itemError,
     } as E;
   }
-  return normalizedError(
+  return normalizeError(
     setProperty(error, itemName as keyof E, itemError as any),
   ) as E | undefined;
 }
@@ -99,7 +99,8 @@ export function useArray<
               if (
                 (itemName === "" &&
                   itemError === globalError(stateError.current)) ||
-                itemError === itemErrorMap(stateError.current)?.[itemName]
+                itemError ===
+                  itemErrorMap(stateError.current)?.[itemName as number]
               ) {
                 return;
               }
