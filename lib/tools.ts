@@ -7,5 +7,5 @@ export { isArray } from "./tools/isArray.js";
 export { itemError } from "./tools/itemError.js";
 export { itemIdDefault } from "./tools/itemIdDefault.js";
 export { normalize } from "./tools/normalize.js";
-export { normalizedError } from "./tools/normalizedError.js";
+export { normalizeError as normalizedError } from "./tools/normalizeError.js";
 export { propertyError } from "./tools/propertyError.js";

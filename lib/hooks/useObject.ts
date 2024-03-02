@@ -1,7 +1,7 @@
 import { setProperty, useMemo, useRef } from "../dependencies.js";
 import { globalError } from "../tools/globalError.js";
 import { isArray } from "../tools/isArray.js";
-import { normalizedError } from "../tools/normalizedError.js";
+import { normalizeError } from "../tools/normalizeError.js";
 import { propertyError } from "../tools/propertyError.js";
 import type {
   ErrorReportObject,
@@ -27,7 +27,7 @@ function nextError<
       [itemName]: itemError,
     } as E;
   }
-  return normalizedError(
+  return normalizeError(
     setProperty(error, itemName as keyof E, itemError as any),
   ) as E | undefined;
 }

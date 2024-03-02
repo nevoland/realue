@@ -1,15 +1,13 @@
-import type { ErrorReport, ErrorReportArray, ErrorReportValue } from "../types";
+import type { ErrorReport, ErrorReportArray } from "../types";
 
 const { isArray } = Array;
 
 export function itemError<T extends unknown[]>(
   error?: ErrorReportArray<T>,
 ):
-  | (Partial<{
+  | Partial<{
       [K in keyof T as number]: ErrorReport<T[K]>;
-    }> & {
-      ""?: ErrorReportValue;
-    })
+    }>
   | undefined {
   if (error === undefined) {
     return undefined;

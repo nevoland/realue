@@ -10,13 +10,13 @@ import { capitalize } from "./capitalize.js";
  * <SomeComponent {...normalize("option", props)} />
  * ```
  *
- * @param propertyName Name of the value property.
  * @param props Propertyes according to the Nevo pattern.
+ * @param propertyName Name of the value property.
  * @returns
  */
 export function normalize<T, const K extends string>(
-  propertyName: K,
   props: NevoPropsAdapted<T, K>,
+  propertyName: K,
 ): NevoProps<T> {
   const capitalizedPropertyName = capitalize(propertyName);
   return {
