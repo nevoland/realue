@@ -7,10 +7,8 @@ import type { ValueMutator } from "./ValueMutator";
 export type NevoPropsAdapted<
   T,
   K extends string,
-  N extends string = Name,
-  E = ErrorReport<T>,
-> = Property<`${K}Name`, N> &
-  Property<`${K}Error`, E> &
+> = Property<`${K}Name`, Name> &
+  Property<`${K}Error`, ErrorReport<T>> &
   Property<K, T> &
-  Property<`onChange${Capitalize<K>}`, ValueMutator<T, N>> &
-  Property<`onChange${Capitalize<K>}Error`, ErrorMutator<E, N>>;
+  Property<`onChange${Capitalize<K>}`, ValueMutator<T>> &
+  Property<`onChange${Capitalize<K>}Error`, ErrorMutator<T>>;

@@ -36,7 +36,7 @@ export function useTransform<T, U>(
       options.error === undefined ? undefined : options.error(props.error),
     [props.error, options.error],
   );
-  const onChangeError: ErrorMutator<ErrorReport<U>> | undefined = useMemo(
+  const onChangeError: ErrorMutator<U> | undefined = useMemo(
     () =>
       props.onChangeError === undefined
         ? undefined

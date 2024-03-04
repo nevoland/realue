@@ -18,7 +18,6 @@ import type {
   ItemCallable,
   ItemId,
   ItemProps,
-  NameItem,
   NevoProps,
   ValueMutator,
 } from "../types";
@@ -28,10 +27,10 @@ function toNumber(value: string): number {
 }
 
 function nextError<
-  T extends any[] | undefined,
-  E extends ErrorReportArray<NonNullable<T>>,
+  T extends unknown[] | undefined,
+  E extends ErrorReportArray<NonNullable<T>> = ErrorReportArray<NonNullable<T>>
 >(
-  error: E | undefined,
+  error: ErrorReportArray<NonNullable<T>>,
   itemName: number | "",
   itemError: ErrorReportValue | E[number] | undefined,
 ): E | undefined {
@@ -45,7 +44,7 @@ function nextError<
     } as E;
   }
   return normalizeError(
-    setProperty(error, itemName as keyof E, itemError as any),
+    setProperty(error, itemName as keyof T, itemError as any),
   ) as E | undefined;
 }
 
@@ -59,13 +58,12 @@ function nextError<
  */
 export function useArray<
   A extends any[] | undefined,
-  N extends string,
   E extends ErrorReportArray<NonNullable<A>>,
   T = A extends (infer H)[] ? H : never,
 >(
-  props: NevoProps<A, N, E>,
+  props: NevoProps<A>,
   itemId: ItemId<T> = itemIdDefault,
-): ItemCallable<T, N> {
+): ItemCallable<T> {
   const { name, value = [], onChange, error, onChangeError } = props;
   const state = useRef(value);
   state.current = value;
@@ -73,7 +71,7 @@ export function useArray<
   stateError.current = error;
   const stateName = useRef(name);
   stateName.current = name;
-  const onChangeItem: ValueMutator<T, NameItem> | undefined = useMemo(
+  const onChangeItem: ValueMutator<A> | undefined = useMemo(
     () =>
       onChange === undefined
         ? undefined
@@ -89,7 +87,7 @@ export function useArray<
           },
     [onChange],
   );
-  const onChangeItemError: ErrorMutator<E[number], NameItem> | undefined =
+  const onChangeItemError: ErrorMutator<T> | undefined =
     useMemo(
       () =>
         onChangeError === undefined
@@ -99,7 +97,7 @@ export function useArray<
               if (
                 (itemName === "" &&
                   itemError === globalError(stateError.current)) ||
-                itemError === itemErrorMap(stateError.current)?.[itemName]
+                itemError === itemErrorMap(stateError.current)?.[itemName as number]
               ) {
                 return;
               }
@@ -190,13 +188,13 @@ export function useArray<
                       (stateError.current = itemErrorList),
                       stateName.current,
                     );
-                  }) as ItemCallable<T, N>["add"]),
+                  }) as ItemCallable<T>["add"]),
           },
           loop: {
             configurable: false,
             value: ((
-              Component: FunctionComponent<ItemProps<T, N>>,
-              extraProps?: {} | ((props: ItemProps<T, N>) => {}),
+              Component: FunctionComponent<ItemProps<T>>,
+              extraProps?: {} | ((props: ItemProps<T>) => {}),
             ) => {
               const getExtraProps =
                 extraProps === undefined
@@ -205,7 +203,7 @@ export function useArray<
                   ? extraProps
                   : () => extraProps;
               return state.current.map((_, index) => {
-                const props: ItemProps<T, N> = item(index);
+                const props: ItemProps<T> = item(index);
                 return createElement(
                   Component,
                   getExtraProps !== undefined
@@ -213,7 +211,7 @@ export function useArray<
                     : props,
                 );
               });
-            }) as ItemCallable<T, N>["loop"],
+            }) as ItemCallable<T>["loop"],
           },
           remove: {
             configurable: false,
@@ -264,11 +262,11 @@ export function useArray<
                       (stateError.current = undefinedIfEmpty(itemErrorList)),
                       stateName.current,
                     );
-                  }) as ItemCallable<T, N>["remove"]),
+                  }) as ItemCallable<T>["remove"]),
           },
         },
-      ) as ItemCallable<T, N>,
+      ) as ItemCallable<T>,
     [onChangeItem, onChangeItemError, itemId],
   );
-  return item as ItemCallable<T, N>;
+  return item as ItemCallable<T>;
 }

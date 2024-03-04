@@ -1,7 +1,6 @@
-import type { ErrorReport } from "./ErrorReport";
 import type { NevoProps } from "./NevoProps";
 
-export type ItemProps<T, N extends string> = NevoProps<T, N, ErrorReport<T>> & {
+export type ItemProps<T> = NevoProps<T> & {
   key: string;
   id: string;
 };

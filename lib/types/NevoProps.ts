@@ -11,15 +11,15 @@ import type { ValueMutator } from "./ValueMutator";
  * - `onChange`: The callback the component uses to notify the parent component about changes of the `value`.
  * - `onChangeError`: The callback the component uses to notify the parent component about changes of the `error`.
  */
-export type NevoProps<T, N extends string = Name, E = ErrorReport<T>> = {
+export type NevoProps<T> = {
   /**
    * The name used to identify the entity represented by the `value`.
    */
-  name: N;
+  name: Name;
   /**
    * An error object describing issues to be shown.
    */
-  error?: E;
+  error?: ErrorReport<T>;
   /**
    * The value to be handled by a component.
    */
@@ -27,9 +27,9 @@ export type NevoProps<T, N extends string = Name, E = ErrorReport<T>> = {
   /**
    * The callback the component uses to notify the parent component about changes of the `value`.
    */
-  onChange?: ValueMutator<T, N>;
+  onChange?: ValueMutator<T>;
   /**
    * The callback the component uses to notify the parent component about changes of the `error`.
    */
-  onChangeError?: ErrorMutator<E, N>;
+  onChangeError?: ErrorMutator<T>;
 };

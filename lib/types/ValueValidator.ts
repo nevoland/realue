@@ -4,7 +4,7 @@ import type { Name } from "./Name";
 /**
  * Function that valides a `value` with a given `name` and returns a promise that resolves to an error, if any.
  */
-export type ValueValidator<T, N extends string = Name> = (
+export type ValueValidator<T> = (
   value: T,
-  name: N,
+  name: Name,
 ) => Promise<ErrorReportValue | undefined> | ErrorReportValue | undefined;
