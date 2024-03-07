@@ -1,4 +1,4 @@
-import { setProperty, useMemo, useRef } from "../dependencies.js";
+import { EMPTY_OBJECT, setProperty, useMemo, useRef } from "../dependencies.js";
 import { globalError } from "../tools/globalError.js";
 import { isArray } from "../tools/isArray.js";
 import { normalizeError } from "../tools/normalizeError.js";
@@ -6,6 +6,7 @@ import { propertyError } from "../tools/propertyError.js";
 import type {
   ErrorReportObject,
   ErrorReportValue,
+  Name,
   ObjectProps,
   PropertyCallable,
 } from "../types";
@@ -40,10 +41,16 @@ function nextError<
  */
 export function useObject<
   T extends object,
-  N extends string,
-  E extends ErrorReportObject<T>,
+  N extends Name = Name,
+  E extends ErrorReportObject<T> = ErrorReportObject<T>,
 >(props: ObjectProps<T, E>): PropertyCallable<T, N> {
-  const { name, value = {} as T, onChange, error, onChangeError } = props;
+  const {
+    name,
+    value = EMPTY_OBJECT as T,
+    onChange,
+    error,
+    onChangeError,
+  } = props;
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);

@@ -5,18 +5,14 @@ import {
   useArray,
   useObject,
   useRemove,
+  useSyncedProps,
   useValidator,
 } from "../../lib/main.js";
-import type {
-  ErrorReport,
-  NevoProps,
-  ValueRemover,
-  ValueValidator,
-} from "../../lib/types";
+import type { NevoProps, ValueRemover, ValueValidator } from "../../lib/types";
 import { Checkbox } from "../components/Checkbox.jsx";
 import { Input } from "../components/Input.jsx";
 import { InputNumber } from "../components/InputNumber.jsx";
-import { memo, sleep, uid, useCallback, useState } from "../dependencies.js";
+import { memo, sleep, uid, useCallback } from "../dependencies.js";
 
 const result = adapt({ name: "test", value: 1 }, "option");
 const resultNormalized = normalize(result, "option");
@@ -226,15 +222,14 @@ const Person = memo((props: PersonProps) => {
   );
 });
 
+const INITIAL_VALUE = [{ friends: ["Bob", "Alice"], id: uid() }, { id: uid() }];
+
 export function Demo() {
-  const [value, onChange] = useState<PersonData[]>([
-    { friends: ["Bob", "Alice"], id: uid() },
-    { id: uid() },
-  ]);
-  const [error, onChangeError] = useState<
-    ErrorReport<PersonData[]> | undefined
-  >();
-  const props = { error, name: "", onChange, onChangeError, value };
+  const props = useSyncedProps<PersonData[]>({
+    value: INITIAL_VALUE,
+    name: "",
+  });
+  const { value, error } = props;
   // logProps("State", { value, error });
   const item = useArray(props, (_, item) => item.id);
   // const onRemoveItem = useCallback(
