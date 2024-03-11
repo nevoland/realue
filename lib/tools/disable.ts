@@ -1,15 +1,17 @@
-import type { NevoProps } from "../types";
-
 /**
- * Updates the props following the NEVO pattern by removing the callbacks to disable changes if `condition` is truthy.
+ * Returns the props with `onChange` and `onChangeError` the `condition` is truthy. Useful for disabling edits in some cases.
  *
- * @param props Props following the NEVO pattern.
+ * @example
+ * ```tsx
+ * <Component {...props} {...disable(status === "pending")} />
+ * ```
+ *
  * @param condition Boolean that disables changes if true.
  * @returns The props necessary to disable changes or not.
  */
-export function disable<T>(props: NevoProps<T>, condition: boolean) {
+export function disable(condition: boolean) {
   if (condition) {
-    return { ...props, onChange: undefined, onChangeError: undefined };
+    return { onChange: undefined, onChangeError: undefined };
   }
-  return props;
+  return null;
 }
