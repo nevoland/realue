@@ -6,6 +6,7 @@ export type { ErrorReportArray } from "./types/ErrorReportArray";
 export type { ErrorReportObject } from "./types/ErrorReportObject";
 export type { ErrorReportValue } from "./types/ErrorReportValue";
 export type { ErrorTransformer } from "./types/ErrorTransformer";
+export type { Fetch } from "./types/Fetch";
 export type { ItemCallable } from "./types/ItemCallable";
 export type { ItemId } from "./types/ItemId";
 export type { ItemProps } from "./types/ItemProps";

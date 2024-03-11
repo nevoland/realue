@@ -3,6 +3,7 @@ export {
   type Component,
   type FunctionComponent,
   h as createElement,
+  createContext,
   Fragment,
 } from "preact";
 export { memo } from "preact/compat";
