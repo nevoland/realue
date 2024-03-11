@@ -4,5 +4,5 @@ export type PromiseState<T> = {
   value?: T;
   promise?: Promise<T | undefined>;
   status: PromiseStatus;
-  reason?: Error;
+  reason?: unknown;
 };
