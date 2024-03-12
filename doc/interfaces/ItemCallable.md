@@ -33,7 +33,7 @@ The index of the item for which to generate the props.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:13](https://github.com/nevoland/realue/blob/3b607f0/lib/types/ItemCallable.ts#L13)
+[lib/types/ItemCallable.ts:13](https://github.com/nevoland/realue/blob/e86da7c/lib/types/ItemCallable.ts#L13)
 
 ### ItemCallable
 
@@ -45,7 +45,7 @@ The index of the item for which to generate the props.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/3b607f0/lib/types/ItemCallable.ts#L14)
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/e86da7c/lib/types/ItemCallable.ts#L14)
 
 ## Table of contents
 
@@ -80,7 +80,7 @@ Inserts an item at the specified index, shifting by one the previous item found 
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:32](https://github.com/nevoland/realue/blob/3b607f0/lib/types/ItemCallable.ts#L32)
+[lib/types/ItemCallable.ts:32](https://github.com/nevoland/realue/blob/e86da7c/lib/types/ItemCallable.ts#L32)
 
 ___
 
@@ -109,7 +109,7 @@ An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:22](https://github.com/nevoland/realue/blob/3b607f0/lib/types/ItemCallable.ts#L22)
+[lib/types/ItemCallable.ts:22](https://github.com/nevoland/realue/blob/e86da7c/lib/types/ItemCallable.ts#L22)
 
 ___
 
@@ -135,4 +135,4 @@ Removes the item found at the specified `index`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:38](https://github.com/nevoland/realue/blob/3b607f0/lib/types/ItemCallable.ts#L38)
+[lib/types/ItemCallable.ts:38](https://github.com/nevoland/realue/blob/e86da7c/lib/types/ItemCallable.ts#L38)
