@@ -4,7 +4,7 @@ import {
   EMPTY_ARRAY,
   useCallback,
   useEffect,
-  useRef,
+  useState,
 } from "../dependencies.js";
 
 /**
@@ -12,16 +12,17 @@ import {
  *
  * @returns Callback that returns a new `AbortController`.
  */
-export function useAbortController(inputs: Inputs = EMPTY_ARRAY) {
-  const controllerRef = useRef<AbortController>();
+export function useAbortController() {
+  const [controller, onChangeController] = useState<AbortController>();
   useEffect(
     () => () => {
-      controllerRef.current?.abort();
+      controller?.abort();
     },
-    inputs,
+    [controller],
   );
   return useCallback(() => {
-    controllerRef.current = new AbortController();
-    return controllerRef.current;
+    const controller = new AbortController();
+    onChangeController(controller);
+    return controller;
   }, EMPTY_ARRAY);
 }

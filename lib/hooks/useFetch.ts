@@ -45,7 +45,7 @@ export function useFetch<T>(
       // Ignore
     }
   }, [requestState.status, props?.onChangeError, props?.onChange]);
-  const abortController = useAbortController([promise]);
+  const abortController = useAbortController();
   const onRequest = useCallback(
     <R>(request: R) => onChangePromise(fetch(request, abortController())),
     EMPTY_ARRAY,
