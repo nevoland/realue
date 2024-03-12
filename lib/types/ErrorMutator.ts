@@ -5,5 +5,5 @@ import type { Name } from "./Name";
  */
 export type ErrorMutator<E, N extends string = Name> = (
   error: E | undefined,
-  name?: N | "",
+  name: N | "",
 ) => void;

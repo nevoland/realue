@@ -73,7 +73,7 @@ realue
 
 ### ErrorMutator
 
-Ƭ **ErrorMutator**<`E`, `N`\>: (`error`: `E` \| `undefined`, `name?`: `N` \| ``""``) => `void`
+Ƭ **ErrorMutator**<`E`, `N`\>: (`error`: `E` \| `undefined`, `name`: `N` \| ``""``) => `void`
 
 #### Type parameters
 
@@ -84,7 +84,7 @@ realue
 
 #### Type declaration
 
-▸ (`error`, `name?`): `void`
+▸ (`error`, `name`): `void`
 
 Function that mutates an `error`. Used as the signature for the `onChangeError` callback of the NEVO pattern.
 
@@ -93,7 +93,7 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 | Name | Type |
 | :------ | :------ |
 | `error` | `E` \| `undefined` |
-| `name?` | `N` \| ``""`` |
+| `name` | `N` \| ``""`` |
 
 ##### Returns
 
@@ -101,7 +101,7 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 
 #### Defined in
 
-[lib/types/ErrorMutator.ts:6](https://github.com/nevoland/realue/blob/10cda46/lib/types/ErrorMutator.ts#L6)
+[lib/types/ErrorMutator.ts:6](https://github.com/nevoland/realue/blob/f7bb4e3/lib/types/ErrorMutator.ts#L6)
 
 ___
 
