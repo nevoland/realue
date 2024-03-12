@@ -19,7 +19,7 @@ import { usePromise } from "./usePromise.js";
 export function useFetch<T extends object, Q extends unknown>(
   fetch: Fetch<T, Q> = defaultFetch as Fetch<T, Q>,
   props?: NevoProps<T>,
-): [PromiseState<T>, (request: Q) => void] {
+): [PromiseState<T>, (request?: Q) => void] {
   const [promise, onChangePromise] = useState<Promise<T>>();
   const requestState = usePromise(promise);
   useEffect(() => {
