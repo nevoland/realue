@@ -10,16 +10,16 @@ import { useAbortController } from "./useAbortController.js";
 import { usePromise } from "./usePromise.js";
 
 /**
- * Handles a single concurrent request and updates the `value` or `error` through the provided `onChange` and `onChangeError` callbacks.
+ * Handles a single concurrent request and updates the `value` or `error` through the provided `onChange` and `onChangeError` callbacks. The callback in the returned tuple enables issuing new request. If the callback is called with no argument, it resets the request back to the `idle` state, aborting the prior request if it was not fulfilled.
  *
  * @param fetch An optional request fetcher that defaults to using the standard `fetch` method.
  * @param props The optional `onChange` and `onChangeError` callbacks to notify about the resulting `value` or `error`, and the `name`.
  * @returns A tuple consisting of the current request state and a callback to issue a new request.
  */
-export function useFetch<T extends object, R extends unknown>(
-  fetch: Fetch<T, R> = defaultFetch as Fetch<T, R>,
+export function useFetch<T extends object, Q extends unknown>(
+  fetch: Fetch<T, Q> = defaultFetch as Fetch<T, Q>,
   props?: NevoProps<T>,
-): [PromiseState<T>, (request: R) => void] {
+): [PromiseState<T>, (request: Q) => void] {
   const [promise, onChangePromise] = useState<Promise<T>>();
   const requestState = usePromise(promise);
   useEffect(() => {
@@ -46,7 +46,11 @@ export function useFetch<T extends object, R extends unknown>(
     }
   }, [requestState.status, props?.onChangeError, props?.onChange]);
   const abortController = useAbortController();
-  const onRequest = useCallback((request: R) => {
+  const onRequest = useCallback((request?: Q) => {
+    if (request === undefined) {
+      onChangePromise(undefined);
+      return;
+    }
     onChangePromise(fetch(request, abortController()));
   }, EMPTY_ARRAY);
   return [requestState, onRequest];
