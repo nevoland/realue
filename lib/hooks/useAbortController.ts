@@ -1,5 +1,3 @@
-import type { Inputs } from "preact/hooks";
-
 import {
   EMPTY_ARRAY,
   useCallback,
