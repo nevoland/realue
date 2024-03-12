@@ -8,7 +8,11 @@ import type { ErrorReport, NevoProps } from "../types.js";
  * @param props Properties according to the Nevo pattern.
  * @returns Properties according to the Nevo pattern.
  */
-export function useSyncedProps<T>(props: NevoProps<T>): NevoProps<T> {
+
+export function useSyncedProps<T>(
+  props: NevoProps<T>,
+): Pick<NevoProps<T>, "name" | "error" | "value"> &
+  Required<Pick<NevoProps<T>, "onChange" | "onChangeError">> {
   const [value, onChangeValueState] = useState<T>(props.value);
   useEffect(() => {
     onChangeValueState(props.value);
