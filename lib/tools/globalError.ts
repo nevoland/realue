@@ -1,6 +1,6 @@
 import type { ErrorReport, ErrorReportValue } from "../types";
 
-const { isArray } = Array;
+import { isArray } from "./isArray.js";
 
 export function globalError<T>(
   error?: ErrorReport<T>,
