@@ -6,11 +6,15 @@ import type {
 } from "../../lib/types";
 import { memo, timeout, useEffect, useState } from "../dependencies.js";
 
-type InputProps<T, N extends string> = NevoProps<T, N, ErrorReportValue> & {
+type InputProps<T extends string | undefined, N extends string> = NevoProps<
+  T,
+  N,
+  ErrorReportValue
+> & {
   label?: string;
   placeholder?: string;
   delay?: number;
-  onValidate?: ValueValidator<T, N>;
+  onValidate?: ValueValidator<T, N, ErrorReportValue>;
 };
 
 function useDelay<T>(value: T, delay?: number, inputs?: any[]): T {

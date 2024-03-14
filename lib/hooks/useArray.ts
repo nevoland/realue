@@ -1,20 +1,18 @@
 import {
   type FunctionComponent,
   createElement,
-  setProperty,
   undefinedIfEmpty,
   useMemo,
   useRef,
 } from "../dependencies.js";
+import { childrenError } from "../tools/childrenError.js";
 import { globalError } from "../tools/globalError.js";
-import { isArray } from "../tools/isArray.js";
-import { itemError as itemErrorMap } from "../tools/itemError.js";
 import { itemIdDefault } from "../tools/itemIdDefault.js";
-import { normalizeError } from "../tools/normalizeError.js";
+import { changeError } from "../tools.js";
 import type {
   ErrorMutator,
+  ErrorReport,
   ErrorReportArray,
-  ErrorReportValue,
   ItemCallable,
   ItemId,
   ItemProps,
@@ -22,32 +20,6 @@ import type {
   NevoProps,
   ValueMutator,
 } from "../types";
-
-function toNumber(value: string): number {
-  return +value;
-}
-
-function nextError<
-  T extends any[] | undefined,
-  E extends ErrorReportArray<NonNullable<T>>,
->(
-  error: E | undefined,
-  itemName: number | "",
-  itemError: ErrorReportValue | E[number] | undefined,
-): E | undefined {
-  if (isArray(error)) {
-    if (itemName === "" || itemError === undefined) {
-      return itemError as E | undefined;
-    }
-    return {
-      "": error,
-      [itemName]: itemError,
-    } as E;
-  }
-  return normalizeError(
-    setProperty(error, itemName as keyof E, itemError as any),
-  ) as E | undefined;
-}
 
 /**
  * Takes an array and returns a function that generates the required props for handling an array item value.
@@ -66,7 +38,8 @@ export function useArray<
   props: NevoProps<A, N, E>,
   itemId: ItemId<T> = itemIdDefault,
 ): ItemCallable<T, N> {
-  const { name, value = [], onChange, error, onChangeError } = props;
+  const { name, onChange, error, onChangeError } = props;
+  const value: T[] = props.value ?? [];
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);
@@ -89,7 +62,7 @@ export function useArray<
           },
     [onChange],
   );
-  const onChangeItemError: ErrorMutator<E[number], NameItem> | undefined =
+  const onChangeItemError: ErrorMutator<ErrorReport<T>, NameItem> | undefined =
     useMemo(
       () =>
         onChangeError === undefined
@@ -100,15 +73,15 @@ export function useArray<
                 (itemName === "" &&
                   itemError === globalError(stateError.current)) ||
                 itemError ===
-                  itemErrorMap(stateError.current)?.[itemName as number]
+                  childrenError(stateError.current)?.[itemName as number]
               ) {
                 return;
               }
               onChangeError(
-                (stateError.current = nextError<A, E>(
+                (stateError.current = changeError<A, E>(
                   stateError.current,
                   itemName,
-                  itemError,
+                  itemError as any,
                 )),
                 name,
               );
@@ -131,7 +104,7 @@ export function useArray<
           const value = state.current?.[itemIndex];
           const id = itemId(itemIndex, value);
           return {
-            error: itemErrorMap(stateError.current)?.[itemIndex],
+            error: childrenError(stateError.current)?.[itemIndex],
             id,
             key: id,
             name: `${itemIndex}`,
@@ -272,4 +245,8 @@ export function useArray<
     [onChangeItem, onChangeItemError, itemId],
   );
   return item as ItemCallable<T, N>;
+}
+
+function toNumber(value: string): number {
+  return +value;
 }

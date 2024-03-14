@@ -1,8 +1,8 @@
 import { debounce, useEffect, useMemo, useState } from "../dependencies.js";
 import type { DebouncedFunction, NevoProps, ValueMutator } from "../types";
 
-export function useDebounce<T, N extends string, E>(
-  props: NevoProps<T, N, E>,
+export function useDebounce<T, N extends string>(
+  props: Pick<NevoProps<T, N>, "value" | "name" | "onChange">,
   delay?: number,
 ) {
   const { 0: value, 1: onChange } = useState(props.value);

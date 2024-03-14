@@ -8,7 +8,7 @@ import {
   useSyncedProps,
   useValidator,
 } from "../../lib/main.js";
-import type { NevoProps, ValueRemover, ValueValidator } from "../../lib/types";
+import type { NevoProps, ValueRemover } from "../../lib/types";
 import { Checkbox } from "../components/Checkbox.jsx";
 import { Input } from "../components/Input.jsx";
 import { InputNumber } from "../components/InputNumber.jsx";
@@ -109,7 +109,7 @@ function onValidateAge(value?: number) {
   return undefined;
 }
 
-const onValidatePerson: ValueValidator<PersonData> = (value) => {
+function onValidatePerson(value: PersonData) {
   const errorList: string[] = [];
   if (value?.lastName == null || value?.age == null) {
     errorList.push("The last name and the age must be set.");
@@ -122,7 +122,7 @@ const onValidatePerson: ValueValidator<PersonData> = (value) => {
     errorList.push("The number of active years cannot be longer than the age.");
   }
   return errorList.length > 0 ? errorList : undefined;
-};
+}
 
 async function onValidateUsername(value?: string) {
   if (!value) {
@@ -145,6 +145,9 @@ const Person = memo((props: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
   const onRemove = useRemove(props);
+  const globalProps = property();
+  globalProps.value;
+  globalProps.error;
   useValidator(property(), onValidatePerson);
   return (
     <div class="group/person flex flex-col space-y-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">

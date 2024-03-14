@@ -1,37 +1,13 @@
-import { EMPTY_OBJECT, setProperty, useMemo, useRef } from "../dependencies.js";
+import { EMPTY_OBJECT, useMemo, useRef } from "../dependencies.js";
+import { childrenError } from "../tools/childrenError.js";
 import { globalError } from "../tools/globalError.js";
-import { isArray } from "../tools/isArray.js";
-import { normalizeError } from "../tools/normalizeError.js";
-import { propertyError } from "../tools/propertyError.js";
+import { changeError } from "../tools.js";
 import type {
   ErrorReportObject,
-  ErrorReportValue,
   Name,
-  ObjectProps,
+  NevoProps,
   PropertyCallable,
 } from "../types";
-
-function nextError<
-  T extends object | undefined,
-  E extends ErrorReportObject<NonNullable<T>>,
->(
-  error: E | undefined,
-  itemName: keyof E | "",
-  itemError: ErrorReportValue | E[keyof E] | undefined,
-): E | undefined {
-  if (isArray(error)) {
-    if (itemName === "" || itemError === undefined) {
-      return itemError as E | undefined;
-    }
-    return {
-      "": error,
-      [itemName]: itemError,
-    } as E;
-  }
-  return normalizeError(
-    setProperty(error, itemName as keyof E, itemError as any),
-  ) as E | undefined;
-}
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
@@ -40,17 +16,14 @@ function nextError<
  * @returns The `property` function that returns the props for a specific property `name`.
  */
 export function useObject<
-  T extends object,
+  T extends object | undefined,
   N extends Name = Name,
-  E extends ErrorReportObject<T> = ErrorReportObject<T>,
->(props: ObjectProps<T, E>): PropertyCallable<T, N> {
-  const {
-    name,
-    value = EMPTY_OBJECT as T,
-    onChange,
-    error,
-    onChangeError,
-  } = props;
+  E extends ErrorReportObject<NonNullable<T>> = ErrorReportObject<
+    NonNullable<T>
+  >,
+>(props: NevoProps<T, N, E>): PropertyCallable<NonNullable<T>, N> {
+  const { name, onChange, error, onChangeError } = props;
+  const value: NonNullable<T> = props.value ?? EMPTY_OBJECT;
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);
@@ -80,7 +53,7 @@ export function useObject<
             propertyName: K,
           ): void => {
             onChangeError(
-              (stateError.current = nextError(
+              (stateError.current = changeError(
                 stateError.current,
                 propertyName,
                 propertyError,
@@ -103,14 +76,16 @@ export function useObject<
           };
         }
         return {
-          error: propertyError<T>(stateError.current)?.[propertyName],
+          error: childrenError<NonNullable<T>>(stateError.current)?.[
+            propertyName
+          ],
           key: propertyName,
           name: propertyName,
           onChange: onChangeProperty,
           onChangeError: onChangePropertyError,
-          value: state.current[propertyName],
+          value: state.current![propertyName],
         };
-      }) as PropertyCallable<T, N>,
+      }) as PropertyCallable<NonNullable<T>, N>,
     [onChange, onChangeError],
   );
 }

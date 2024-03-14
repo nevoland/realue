@@ -1,5 +1,9 @@
+import type { Any } from "./Any";
 import type { ErrorMutator } from "./ErrorMutator";
 import type { ErrorReport } from "./ErrorReport";
+import type { ErrorReportArray } from "./ErrorReportArray";
+import type { ErrorReportObject } from "./ErrorReportObject";
+import type { ErrorReportValue } from "./ErrorReportValue";
 import type { Name } from "./Name";
 import type { ValueMutator } from "./ValueMutator";
 
@@ -11,7 +15,12 @@ import type { ValueMutator } from "./ValueMutator";
  * - `onChange`: The callback the component uses to notify the parent component about changes of the `value`.
  * - `onChangeError`: The callback the component uses to notify the parent component about changes of the `error`.
  */
-export type NevoProps<T, N extends string = Name, E = ErrorReport<T>> = {
+
+export type NevoProps<
+  T,
+  N extends string = Name,
+  E extends ErrorReport<Any> = ErrorReport<T>,
+> = {
   /**
    * The name used to identify the entity represented by the `value`.
    */
