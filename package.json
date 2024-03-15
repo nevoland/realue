@@ -24,7 +24,7 @@
     "dev:test": "vitest",
     "build": "rm -rf dist/; tsc --project tsconfig.package.json;",
     "build:doc": "typedoc",
-    "build:doc:save": "typedoc --tsconfig tsconfig.package.json && git add -A && git commit -a -m 'Update doc'",
+    "build:doc:save": "typedoc --tsconfig tsconfig.package.json && git add -A && git commit -a -m 'chore: update doc'",
     "prepare": "npm run build",
     "start": "vite preview",
     "format": "prettier --check \"{src,scripts}/**/*.[jt]s\"",
