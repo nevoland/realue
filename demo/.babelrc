@@ -1,4 +1,0 @@
-{
-	"plugins": ["babel-plugin-set-display-name"],
-	"presets": ["@babel/preset-env"]
-}

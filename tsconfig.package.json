@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": true
+  },
+  "include": ["lib"],
+  "exclude": ["**/*.test.ts", "lib/old"],
+  "extends": "./tsconfig.json"
+}
