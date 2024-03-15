@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "../dependencies.js";
+import { useCallback, useLayoutEffect, useState } from "../dependencies.js";
 import type { ErrorReport, NevoProps } from "../types.js";
 
 /**
@@ -8,34 +8,34 @@ import type { ErrorReport, NevoProps } from "../types.js";
  * @param props Properties according to the Nevo pattern.
  * @returns Properties according to the Nevo pattern.
  */
-
 export function useSyncedProps<T>(
   props: NevoProps<T>,
 ): Pick<NevoProps<T>, "name" | "error" | "value"> &
   Required<Pick<NevoProps<T>, "onChange" | "onChangeError">> {
   const [value, onChangeValueState] = useState<T>(props.value);
-  useEffect(() => {
+  const { name } = props;
+  useLayoutEffect(() => {
     onChangeValueState(props.value);
   }, [props.value]);
   const onChange = useCallback(
     (value: T) => {
       onChangeValueState(value);
-      props.onChange?.(value, props.name);
+      props.onChange?.(value, name);
     },
-    [props.onChange],
+    [props.onChange, name],
   );
   const [error, onChangeErrorState] = useState<ErrorReport<T> | undefined>(
     props.error,
   );
-  useEffect(() => {
+  useLayoutEffect(() => {
     onChangeErrorState(props.error);
   }, [props.error]);
   const onChangeError = useCallback(
     (error: ErrorReport<T> | undefined) => {
       onChangeErrorState(error);
-      props.onChangeError?.(error, props.name);
+      props.onChangeError?.(error, name);
     },
-    [props.onChangeError],
+    [props.onChangeError, name],
   );
-  return { error, name: props.name, onChange, onChangeError, value };
+  return { error, name, onChange, onChangeError, value };
 }

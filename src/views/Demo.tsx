@@ -3,6 +3,7 @@ import {
   globalError,
   normalize,
   useArray,
+  useLog,
   useObject,
   useRemove,
   useSyncedProps,
@@ -145,9 +146,6 @@ const Person = memo((props: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
   const onRemove = useRemove(props);
-  const globalProps = property();
-  globalProps.value;
-  globalProps.error;
   useValidator(property(), onValidatePerson);
   return (
     <div class="group/person flex flex-col space-y-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
@@ -233,7 +231,6 @@ export function Demo() {
     name: "",
   });
   const { value, error } = props;
-  // logProps("State", { value, error });
   const item = useArray(props, (_, item) => item.id);
   // const onRemoveItem = useCallback(
   //   (itemName: Name) => item.remove(+itemName),
