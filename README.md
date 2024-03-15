@@ -1,6 +1,6 @@
 # Realue
 
-⚙️ Simple value management for React components.
+⚛️ Simple value management for React components.
 
 ### Features
 
