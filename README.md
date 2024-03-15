@@ -14,7 +14,7 @@
 Install with the [Node Package Manager](https://www.npmjs.com/package/realue):
 
 ```bash
-npm install realue@next
+npm install realue
 ```
 
 ## Usage
