@@ -232,10 +232,6 @@ export function Demo() {
   });
   const { value, error } = props;
   const item = useArray(props, (_, item) => item.id);
-  // const onRemoveItem = useCallback(
-  //   (itemName: Name) => item.remove(+itemName),
-  //   [item.remove],
-  // );
   const onAppendItem = useCallback(() => item.add?.({ id: uid() }), [item]);
   const onPrependItem = useCallback(() => item.add?.({ id: uid() }, 0), [item]);
   const onAppendThreeItems = useCallback(() => {
