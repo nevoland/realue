@@ -4,10 +4,10 @@
 
 ### Features
 
-- Frees developers from value handling logic so that they can focus on the user experience.
-- Enforces reusable components based on the `{ name, error, value, onChange(value, name), onChangeError(error, name) }` properties, also called "NEVO".
-- Ensures that components can be used in places
-- Provides helpers for structured value types (arrays and objects, aka lists and maps).
+- Enforces reusable components based on the `{ name, error, value, onChange(value, name), onChangeError(error, name) }` properties, also called the "NEVO" pattern.
+- Provides helpers for effortlessly handling complex structured value types (arrays and objects, aka lists and maps) and their potential errors.
+- Considerably reduces boilerplate code by handling the application state directly in components, and shaping it through the component structure.
+- Brings efficient asynchronous handlers for sending data to persistence systems.
 
 ## Installation
 
