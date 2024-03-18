@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "../dependencies.js";
 import { isEqualError } from "../tools/isEqualError.js";
 import type {
+  Any,
   ErrorReport,
   ErrorReportArray,
   ErrorReportObject,
@@ -33,7 +34,7 @@ export function useValidator<
   props: NevoProps<T, E>,
   onValidate?: ValueValidator<T, E>,
 ): PromiseState<E | undefined>;
-export function useValidator<T, E extends ErrorReport<T>>(
+export function useValidator<T, E extends ErrorReport<Any>>(
   props: NevoProps<T, E>,
   onValidate?: ValueValidator<T, E>,
 ): PromiseState<E | undefined> {
