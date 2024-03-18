@@ -17,6 +17,7 @@ const GLOBAL_NAME_LIST = [
   "fetch",
   "HTMLElement",
   "HTMLInputElement",
+  "NoInfer",
   "process",
 ];
 

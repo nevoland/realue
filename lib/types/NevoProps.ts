@@ -33,9 +33,9 @@ export type NevoProps<
   /**
    * The callback the component uses to notify the parent component about changes of the `value`.
    */
-  onChange?: ValueMutator<T, N>;
+  onChange?: ValueMutator<NoInfer<T>, NoInfer<N>>;
   /**
    * The callback the component uses to notify the parent component about changes of the `error`.
    */
-  onChangeError?: ErrorMutator<E, N>;
+  onChangeError?: ErrorMutator<NoInfer<E>, NoInfer<N>>;
 };

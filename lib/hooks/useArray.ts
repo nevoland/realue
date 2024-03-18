@@ -179,7 +179,7 @@ export function useArray<
                   ? extraProps
                   : () => extraProps;
               return state.current.map((_, index) => {
-                const props: ItemProps<T, N> = item(index);
+                const props: ItemProps<T, NameItem> = item(index);
                 return createElement(
                   Component,
                   getExtraProps !== undefined
