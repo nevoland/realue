@@ -34,11 +34,11 @@ type PersonData = {
   friends?: (string | undefined)[];
 };
 
-type FriendProps<N extends string> = NevoProps<string | undefined, N> & {
+type FriendProps = NevoProps<string | undefined> & {
   onRemove?: ValueRemover;
 };
 
-function Friend<N extends string>(props: FriendProps<N>) {
+function Friend(props: FriendProps) {
   const onRemove = useRemove(props);
   return (
     <div class="flex flex-row" key={props.name}>
@@ -56,12 +56,7 @@ const FriendList = memo((props: FriendListProps) => {
   return (
     <div class="flex flex-col">
       {item.loop(Friend, { onRemove: item.remove })}
-      <Friend
-        key={`${lastIndex}`}
-        name={`${lastIndex}`}
-        onChange={item.add}
-        value={undefined}
-      />
+      <button onClick={() => item.add("", lastIndex)}>Add friend</button>
     </div>
   );
 });

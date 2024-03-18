@@ -2,12 +2,7 @@ import { EMPTY_OBJECT, useMemo, useRef } from "../dependencies.js";
 import { childrenError } from "../tools/childrenError.js";
 import { globalError } from "../tools/globalError.js";
 import { changeError } from "../tools.js";
-import type {
-  ErrorReportObject,
-  Name,
-  NevoProps,
-  PropertyCallable,
-} from "../types";
+import type { ErrorReportObject, NevoProps, PropertyCallable } from "../types";
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
@@ -17,11 +12,10 @@ import type {
  */
 export function useObject<
   T extends object | undefined,
-  N extends Name = Name,
   E extends ErrorReportObject<NonNullable<T>> = ErrorReportObject<
     NonNullable<T>
   >,
->(props: NevoProps<T, N, E>): PropertyCallable<NonNullable<T>, N> {
+>(props: NevoProps<T, E>): PropertyCallable<NonNullable<T>> {
   const { name, onChange, error, onChangeError } = props;
   const value: NonNullable<T> = props.value ?? EMPTY_OBJECT;
   const state = useRef(value);
@@ -85,7 +79,7 @@ export function useObject<
           onChangeError: onChangePropertyError,
           value: state.current![propertyName],
         };
-      }) as PropertyCallable<NonNullable<T>, N>,
+      }) as PropertyCallable<NonNullable<T>>,
     [onChange, onChangeError],
   );
 }

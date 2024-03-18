@@ -1,14 +1,19 @@
 import { debounce, useEffect, useMemo, useState } from "../dependencies.js";
-import type { DebouncedFunction, NevoProps, ValueMutator } from "../types";
+import type {
+  DebouncedFunction,
+  Name,
+  NevoProps,
+  ValueMutator,
+} from "../types";
 
-export function useDebounce<T, N extends string>(
-  props: Pick<NevoProps<T, N>, "value" | "name" | "onChange">,
+export function useDebounce<T>(
+  props: Pick<NevoProps<T>, "value" | "name" | "onChange">,
   delay?: number,
 ) {
   const { 0: value, 1: onChange } = useState(props.value);
   const wrappedOnChange:
-    | ValueMutator<T, N>
-    | DebouncedFunction<ValueMutator<T, N>>
+    | ValueMutator<T>
+    | DebouncedFunction<ValueMutator<T>>
     | undefined = useMemo(() => {
     if (props.onChange === undefined) {
       return undefined;
@@ -17,7 +22,7 @@ export function useDebounce<T, N extends string>(
       return props.onChange;
     }
     const debouncedOnChange = debounce(props.onChange, delay);
-    const result = (value: T, name: N) => {
+    const result = (value: T, name: Name) => {
       debouncedOnChange(value, name);
       onChange(value);
     };

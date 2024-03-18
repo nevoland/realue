@@ -6,15 +6,14 @@ import type {
 } from "../../lib/types";
 import { memo, timeout, useEffect, useState } from "../dependencies.js";
 
-type InputProps<T extends string | undefined, N extends string> = NevoProps<
+type InputProps<T extends string | undefined> = NevoProps<
   T,
-  N,
   ErrorReportValue
 > & {
   label?: string;
   placeholder?: string;
   delay?: number;
-  onValidate?: ValueValidator<T, N, ErrorReportValue>;
+  onValidate?: ValueValidator<T, ErrorReportValue>;
 };
 
 function useDelay<T>(value: T, delay?: number, inputs?: any[]): T {
@@ -41,13 +40,13 @@ function extractValue<T extends string | undefined>({
   return (value === "" ? undefined : value) as T;
 }
 
-export const Input = memo(function Input<N extends string>({
+export const Input = memo(function Input({
   label,
   placeholder,
   onValidate,
   delay,
   ...props
-}: InputProps<string | undefined, N>) {
+}: InputProps<string | undefined>) {
   const validator = useValidator(props, onValidate);
   const { value = "", name, onChange } = useDebounce(props, delay);
   const onInput = useInput(props, extractValue);
