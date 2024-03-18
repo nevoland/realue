@@ -41,10 +41,13 @@ function extractValue<T extends string | undefined>({
   return (value === "" ? undefined : value) as T;
 }
 
-export const Input = memo(function Input<
-  T extends string | undefined,
-  N extends string,
->({ label, placeholder, onValidate, delay, ...props }: InputProps<T, N>) {
+export const Input = memo(function Input<N extends string>({
+  label,
+  placeholder,
+  onValidate,
+  delay,
+  ...props
+}: InputProps<string | undefined, N>) {
   const validator = useValidator(props, onValidate);
   const { value = "", name, onChange } = useDebounce(props, delay);
   const onInput = useInput(props, extractValue);
