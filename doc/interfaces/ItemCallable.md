@@ -15,7 +15,7 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 ### ItemCallable
 
-▸ **ItemCallable**(`itemIndex`): [`ItemProps`](../README.md#itemprops)\<`T`, `N`\>
+▸ **ItemCallable**(`itemIndex`): [`ItemProps`](../README.md#itemprops)\<`T`, \`$\{number}\`\>
 
 #### Parameters
 
@@ -25,11 +25,11 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 #### Returns
 
-[`ItemProps`](../README.md#itemprops)\<`T`, `N`\>
+[`ItemProps`](../README.md#itemprops)\<`T`, \`$\{number}\`\>
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:13](https://github.com/nevoland/realue/blob/a14bc1a/lib/types/ItemCallable.ts#L13)
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L14)
 
 ### ItemCallable
 
@@ -41,7 +41,7 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/a14bc1a/lib/types/ItemCallable.ts#L14)
+[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L15)
 
 ## Table of contents
 
@@ -76,7 +76,7 @@ Inserts an item at the specified index, shifting by one the previous item found 
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:32](https://github.com/nevoland/realue/blob/a14bc1a/lib/types/ItemCallable.ts#L32)
+[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L33)
 
 ___
 
@@ -103,7 +103,7 @@ Returns an array that maps each item with an element out of `Component` with the
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:22](https://github.com/nevoland/realue/blob/a14bc1a/lib/types/ItemCallable.ts#L22)
+[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L23)
 
 ___
 
@@ -129,4 +129,4 @@ Removes the item found at the specified `index`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:38](https://github.com/nevoland/realue/blob/a14bc1a/lib/types/ItemCallable.ts#L38)
+[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L39)

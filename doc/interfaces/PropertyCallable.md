@@ -15,7 +15,7 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 
 ### PropertyCallable
 
-▸ **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../README.md#nevoprops)\<`T`[`K`], `N`, [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
+▸ **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../README.md#nevoprops)\<`T`[`K`], `string`, [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
 
 #### Type parameters
 
@@ -31,11 +31,11 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 
 #### Returns
 
-[`NevoProps`](../README.md#nevoprops)\<`T`[`K`], `N`, [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
+[`NevoProps`](../README.md#nevoprops)\<`T`[`K`], `string`, [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
 
 #### Defined in
 
-[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/a14bc1a/lib/types/PropertyCallable.ts#L11)
+[lib/types/PropertyCallable.ts:12](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/PropertyCallable.ts#L12)
 
 ### PropertyCallable
 
@@ -47,4 +47,4 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 
 #### Defined in
 
-[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/a14bc1a/lib/types/PropertyCallable.ts#L14)
+[lib/types/PropertyCallable.ts:15](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/PropertyCallable.ts#L15)
