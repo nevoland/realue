@@ -10,6 +10,7 @@ import { globalError } from "../tools/globalError.js";
 import { itemIdDefault } from "../tools/itemIdDefault.js";
 import { changeError } from "../tools.js";
 import type {
+  Any,
   ErrorMutator,
   ErrorReport,
   ErrorReportArray,
@@ -30,9 +31,13 @@ import type {
  */
 export function useArray<
   A extends any[] | undefined,
-  E extends ErrorReportArray<NonNullable<A>>,
+  G extends ErrorReportArray<NonNullable<A>>,
   T = A extends (infer H)[] ? H : never,
->(props: NevoProps<A, E>, itemId: ItemId<T> = itemIdDefault): ItemCallable<T> {
+  E extends ErrorReport<Any> = ErrorReport<T>,
+>(
+  props: NevoProps<A, G>,
+  itemId: ItemId<T> = itemIdDefault,
+): ItemCallable<T, E> {
   const { name, onChange, error, onChangeError } = props;
   const value: T[] = props.value ?? [];
   const state = useRef(value);
@@ -72,7 +77,7 @@ export function useArray<
               return;
             }
             onChangeError(
-              (stateError.current = changeError<A, E>(
+              (stateError.current = changeError<A, G>(
                 stateError.current,
                 itemName,
                 itemError as any,
@@ -141,7 +146,7 @@ export function useArray<
                     if (indexList[indexList.length - 1] < itemIndex) {
                       return;
                     }
-                    const itemErrorList = {} as E;
+                    const itemErrorList = {} as G;
                     for (let index = 0; index < indexList.length; index++) {
                       const currentItemIndex = indexList[index];
                       if (currentItemIndex < itemIndex) {
@@ -158,7 +163,7 @@ export function useArray<
                       (stateError.current = itemErrorList),
                       stateName.current,
                     );
-                  }) as ItemCallable<T>["add"]),
+                  }) as ItemCallable<T, E>["add"]),
           },
           loop: {
             configurable: false,
@@ -173,7 +178,7 @@ export function useArray<
                   ? extraProps
                   : () => extraProps;
               return state.current.map((_, index) => {
-                const props: ItemProps<T> = item(index);
+                const props: ItemProps<T, E> = item(index);
                 return createElement(
                   Component,
                   getExtraProps !== undefined
@@ -181,7 +186,7 @@ export function useArray<
                     : props,
                 );
               });
-            }) as ItemCallable<T>["loop"],
+            }) as ItemCallable<T, E>["loop"],
           },
           remove: {
             configurable: false,
@@ -215,7 +220,7 @@ export function useArray<
                       return;
                     }
                     indexList.sort();
-                    const itemErrorList = {} as E;
+                    const itemErrorList = {} as G;
                     for (let index = 0; index < indexList.length; index++) {
                       const currentItemIndex = indexList[index];
                       if (currentItemIndex < itemIndex) {
@@ -232,13 +237,13 @@ export function useArray<
                       (stateError.current = undefinedIfEmpty(itemErrorList)),
                       stateName.current,
                     );
-                  }) as ItemCallable<T>["remove"]),
+                  }) as ItemCallable<T, E>["remove"]),
           },
         },
-      ) as ItemCallable<T>,
+      ) as ItemCallable<T, E>,
     [onChangeItem, onChangeItemError, itemId],
   );
-  return item as ItemCallable<T>;
+  return item as ItemCallable<T, E>;
 }
 
 function toNumber(value: string): number {
