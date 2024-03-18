@@ -1,6 +1,6 @@
 [realue](../README.md) / PropertyCallable
 
-# Interface: PropertyCallable\<T, N\>
+# Interface: PropertyCallable\<T\>
 
 Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
 
@@ -9,13 +9,12 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 | Name | Type |
 | :------ | :------ |
 | `T` | extends `object` |
-| `N` | extends `string` |
 
 ## Callable
 
 ### PropertyCallable
 
-▸ **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../README.md#nevoprops)\<`T`[`K`], `string`, [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
+▸ **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../README.md#nevoprops)\<`T`[`K`], [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
 
 #### Type parameters
 
@@ -31,20 +30,20 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 
 #### Returns
 
-[`NevoProps`](../README.md#nevoprops)\<`T`[`K`], `string`, [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
+[`NevoProps`](../README.md#nevoprops)\<`T`[`K`], [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
 
 #### Defined in
 
-[lib/types/PropertyCallable.ts:12](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/PropertyCallable.ts#L12)
+[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/PropertyCallable.ts#L11)
 
 ### PropertyCallable
 
-▸ **PropertyCallable**(): [`NevoProps`](../README.md#nevoprops)\<`T`, `N`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
+▸ **PropertyCallable**(): [`NevoProps`](../README.md#nevoprops)\<`T`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
 
 #### Returns
 
-[`NevoProps`](../README.md#nevoprops)\<`T`, `N`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
+[`NevoProps`](../README.md#nevoprops)\<`T`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
 
 #### Defined in
 
-[lib/types/PropertyCallable.ts:15](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/PropertyCallable.ts#L15)
+[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/PropertyCallable.ts#L14)

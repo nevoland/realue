@@ -1,21 +1,20 @@
 [realue](../README.md) / ItemCallable
 
-# Interface: ItemCallable\<T, N\>
+# Interface: ItemCallable\<T\>
 
 Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `T` |
-| `N` | extends `string` |
+| Name |
+| :------ |
+| `T` |
 
 ## Callable
 
 ### ItemCallable
 
-▸ **ItemCallable**(`itemIndex`): [`ItemProps`](../README.md#itemprops)\<`T`, \`$\{number}\`\>
+▸ **ItemCallable**(`itemIndex`): [`ItemProps`](../README.md#itemprops)\<`T`\>
 
 #### Parameters
 
@@ -25,23 +24,23 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 #### Returns
 
-[`ItemProps`](../README.md#itemprops)\<`T`, \`$\{number}\`\>
+[`ItemProps`](../README.md#itemprops)\<`T`\>
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L14)
+[lib/types/ItemCallable.ts:13](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L13)
 
 ### ItemCallable
 
-▸ **ItemCallable**(): [`NevoProps`](../README.md#nevoprops)\<`T`[], `N`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
+▸ **ItemCallable**(): [`NevoProps`](../README.md#nevoprops)\<`T`[], [`ErrorReportValue`](../README.md#errorreportvalue)\>
 
 #### Returns
 
-[`NevoProps`](../README.md#nevoprops)\<`T`[], `N`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
+[`NevoProps`](../README.md#nevoprops)\<`T`[], [`ErrorReportValue`](../README.md#errorreportvalue)\>
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L15)
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L14)
 
 ## Table of contents
 
@@ -76,13 +75,13 @@ Inserts an item at the specified index, shifting by one the previous item found 
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L33)
+[lib/types/ItemCallable.ts:32](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L32)
 
 ___
 
 ### loop
 
-• `Readonly` **loop**: (`Component`: `FunctionComponent`\<[`ItemProps`](../README.md#itemprops)\<`T`, `N`\>\>, `extraProps?`: {} \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`, `N`\>) => {}) => (``null`` \| `VNode`\<`any`\>)[]
+• `Readonly` **loop**: (`Component`: `FunctionComponent`\<[`ItemProps`](../README.md#itemprops)\<`T`\>\>, `extraProps?`: {} \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`\>) => {}) => (``null`` \| `VNode`\<`any`\>)[]
 
 Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
 
@@ -94,8 +93,8 @@ Returns an array that maps each item with an element out of `Component` with the
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `Component` | `FunctionComponent`\<[`ItemProps`](../README.md#itemprops)\<`T`, `N`\>\> |  |
-| `extraProps?` | {} \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`, `N`\>) => {} | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
+| `Component` | `FunctionComponent`\<[`ItemProps`](../README.md#itemprops)\<`T`\>\> |  |
+| `extraProps?` | {} \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`\>) => {} | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
 
 ##### Returns
 
@@ -103,7 +102,7 @@ Returns an array that maps each item with an element out of `Component` with the
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L23)
+[lib/types/ItemCallable.ts:22](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L22)
 
 ___
 
@@ -129,4 +128,4 @@ Removes the item found at the specified `index`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemCallable.ts#L39)
+[lib/types/ItemCallable.ts:38](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L38)

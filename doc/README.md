@@ -79,13 +79,13 @@ realue
 
 #### Defined in
 
-[lib/types/Any.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/Any.ts#L1)
+[lib/types/Any.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/Any.ts#L1)
 
 ___
 
 ### ErrorMutator
 
-Ƭ **ErrorMutator**\<`E`, `N`\>: (`error`: `E` \| `undefined`, `name`: `N` \| ``""``) => `void`
+Ƭ **ErrorMutator**\<`E`\>: (`error`: `E` \| `undefined`, `name`: [`Name`](README.md#name)) => `void`
 
 Function that mutates an `error`. Used as the signature for the `onChangeError` callback of the NEVO pattern.
 
@@ -94,7 +94,6 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 | Name | Type |
 | :------ | :------ |
 | `E` | extends [`ErrorReport`](README.md#errorreport)\<[`Any`](README.md#any)\> |
-| `N` | extends `string` = [`Name`](README.md#name) |
 
 #### Type declaration
 
@@ -105,7 +104,7 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 | Name | Type |
 | :------ | :------ |
 | `error` | `E` \| `undefined` |
-| `name` | `N` \| ``""`` |
+| `name` | [`Name`](README.md#name) |
 
 ##### Returns
 
@@ -113,7 +112,7 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 
 #### Defined in
 
-[lib/types/ErrorMutator.ts:8](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ErrorMutator.ts#L8)
+[lib/types/ErrorMutator.ts:8](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ErrorMutator.ts#L8)
 
 ___
 
@@ -130,7 +129,7 @@ ___
 
 #### Defined in
 
-[lib/types/ErrorReport.ts:5](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ErrorReport.ts#L5)
+[lib/types/ErrorReport.ts:5](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ErrorReport.ts#L5)
 
 ___
 
@@ -146,7 +145,7 @@ ___
 
 #### Defined in
 
-[lib/types/ErrorReportArray.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ErrorReportArray.ts#L4)
+[lib/types/ErrorReportArray.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ErrorReportArray.ts#L4)
 
 ___
 
@@ -162,7 +161,7 @@ ___
 
 #### Defined in
 
-[lib/types/ErrorReportChildren.ts:3](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ErrorReportChildren.ts#L3)
+[lib/types/ErrorReportChildren.ts:3](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ErrorReportChildren.ts#L3)
 
 ___
 
@@ -178,7 +177,7 @@ ___
 
 #### Defined in
 
-[lib/types/ErrorReportObject.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ErrorReportObject.ts#L4)
+[lib/types/ErrorReportObject.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ErrorReportObject.ts#L4)
 
 ___
 
@@ -188,7 +187,7 @@ ___
 
 #### Defined in
 
-[lib/types/ErrorReportValue.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ErrorReportValue.ts#L1)
+[lib/types/ErrorReportValue.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ErrorReportValue.ts#L1)
 
 ___
 
@@ -219,7 +218,7 @@ ___
 
 #### Defined in
 
-[lib/types/ErrorTransformer.ts:3](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ErrorTransformer.ts#L3)
+[lib/types/ErrorTransformer.ts:3](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ErrorTransformer.ts#L3)
 
 ___
 
@@ -251,7 +250,7 @@ ___
 
 #### Defined in
 
-[lib/types/Fetch.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/Fetch.ts#L1)
+[lib/types/Fetch.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/Fetch.ts#L1)
 
 ___
 
@@ -282,24 +281,23 @@ ___
 
 #### Defined in
 
-[lib/types/ItemId.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemId.ts#L1)
+[lib/types/ItemId.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemId.ts#L1)
 
 ___
 
 ### ItemProps
 
-Ƭ **ItemProps**\<`T`, `N`\>: [`NevoProps`](README.md#nevoprops)\<`T`, `N`, [`ErrorReport`](README.md#errorreport)\<`T`\>\> & \{ `id`: `string` ; `key`: `string`  }
+Ƭ **ItemProps**\<`T`\>: [`NevoProps`](README.md#nevoprops)\<`T`, [`ErrorReport`](README.md#errorreport)\<`T`\>\> & \{ `id`: `string` ; `key`: `string`  }
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `T` |
-| `N` | extends `string` |
+| Name |
+| :------ |
+| `T` |
 
 #### Defined in
 
-[lib/types/ItemProps.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ItemProps.ts#L4)
+[lib/types/ItemProps.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemProps.ts#L4)
 
 ___
 
@@ -309,7 +307,7 @@ ___
 
 #### Defined in
 
-[lib/types/Name.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/Name.ts#L4)
+[lib/types/Name.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/Name.ts#L4)
 
 ___
 
@@ -319,7 +317,7 @@ ___
 
 #### Defined in
 
-[lib/types/NameItem.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/NameItem.ts#L1)
+[lib/types/NameItem.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/NameItem.ts#L1)
 
 ___
 
@@ -329,7 +327,7 @@ ___
 
 #### Defined in
 
-[lib/types/NameProperty.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/NameProperty.ts#L1)
+[lib/types/NameProperty.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/NameProperty.ts#L1)
 
 ___
 
@@ -351,13 +349,13 @@ Excludes the props following the NEVO pattern. Useful for creating discriminated
 
 #### Defined in
 
-[lib/types/NeverNevoProps.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/NeverNevoProps.ts#L4)
+[lib/types/NeverNevoProps.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/NeverNevoProps.ts#L4)
 
 ___
 
 ### NevoProps
 
-Ƭ **NevoProps**\<`T`, `N`, `E`\>: `Object`
+Ƭ **NevoProps**\<`T`, `E`\>: `Object`
 
 Set of properties that define the NEVO pattern:
 - `name`: The name used to identify the entity represented by the `value`.
@@ -371,7 +369,6 @@ Set of properties that define the NEVO pattern:
 | Name | Type |
 | :------ | :------ |
 | `T` | `T` |
-| `N` | extends `string` = [`Name`](README.md#name) |
 | `E` | extends [`ErrorReport`](README.md#errorreport)\<[`Any`](README.md#any)\> = [`ErrorReport`](README.md#errorreport)\<`T`\> |
 
 #### Type declaration
@@ -379,20 +376,20 @@ Set of properties that define the NEVO pattern:
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `error?` | `E` | An error object describing issues to be shown. |
-| `name` | `N` | The name used to identify the entity represented by the `value`. |
-| `onChange?` | [`ValueMutator`](README.md#valuemutator)\<`NoInfer`\<`T`\>, `NoInfer`\<`N`\>\> | The callback the component uses to notify the parent component about changes of the `value`. |
-| `onChangeError?` | [`ErrorMutator`](README.md#errormutator)\<`NoInfer`\<`E`\>, `NoInfer`\<`N`\>\> | The callback the component uses to notify the parent component about changes of the `error`. |
+| `name` | [`Name`](README.md#name) | The name used to identify the entity represented by the `value`. |
+| `onChange?` | [`ValueMutator`](README.md#valuemutator)\<`NoInfer`\<`T`\>\> | The callback the component uses to notify the parent component about changes of the `value`. |
+| `onChangeError?` | [`ErrorMutator`](README.md#errormutator)\<`NoInfer`\<`E`\>\> | The callback the component uses to notify the parent component about changes of the `error`. |
 | `value` | `T` | The value to be handled by a component. |
 
 #### Defined in
 
-[lib/types/NevoProps.ts:16](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/NevoProps.ts#L16)
+[lib/types/NevoProps.ts:16](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/NevoProps.ts#L16)
 
 ___
 
 ### NevoPropsAdapted
 
-Ƭ **NevoPropsAdapted**\<`T`, `K`, `N`, `E`\>: [`Property`](README.md#property)\<\`$\{K}Name\`, `N`\> & [`Property`](README.md#property)\<\`$\{K}Error\`, `E`\> & [`Property`](README.md#property)\<`K`, `T`\> & [`Property`](README.md#property)\<\`onChange$\{Capitalize\<K\>}\`, [`ValueMutator`](README.md#valuemutator)\<`T`, `N`\>\> & [`Property`](README.md#property)\<\`onChange$\{Capitalize\<K\>}Error\`, [`ErrorMutator`](README.md#errormutator)\<`E`, `N`\>\>
+Ƭ **NevoPropsAdapted**\<`T`, `K`, `E`\>: [`Property`](README.md#property)\<\`$\{K}Name\`, [`Name`](README.md#name)\> & [`Property`](README.md#property)\<\`$\{K}Error\`, `E`\> & [`Property`](README.md#property)\<`K`, `T`\> & [`Property`](README.md#property)\<\`onChange$\{Capitalize\<K\>}\`, [`ValueMutator`](README.md#valuemutator)\<`T`\>\> & [`Property`](README.md#property)\<\`onChange$\{Capitalize\<K\>}Error\`, [`ErrorMutator`](README.md#errormutator)\<`E`\>\>
 
 #### Type parameters
 
@@ -400,18 +397,17 @@ ___
 | :------ | :------ |
 | `T` | `T` |
 | `K` | extends `string` |
-| `N` | extends `string` = [`Name`](README.md#name) |
 | `E` | extends [`ErrorReport`](README.md#errorreport)\<[`Any`](README.md#any)\> = [`ErrorReport`](README.md#errorreport)\<`T`\> |
 
 #### Defined in
 
-[lib/types/NevoPropsAdapted.ts:8](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/NevoPropsAdapted.ts#L8)
+[lib/types/NevoPropsAdapted.ts:8](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/NevoPropsAdapted.ts#L8)
 
 ___
 
 ### OptionPropsAdapted
 
-Ƭ **OptionPropsAdapted**\<`T`, `K`, `N`\>: [`Property`](README.md#property)\<`K`, `T`\> & [`Property`](README.md#property)\<\`onChange$\{Capitalize\<K\>}\`, [`ValueMutator`](README.md#valuemutator)\<`T`, `N`\>\>
+Ƭ **OptionPropsAdapted**\<`T`, `K`\>: [`Property`](README.md#property)\<`K`, `T`\> & [`Property`](README.md#property)\<\`onChange$\{Capitalize\<K\>}\`, [`ValueMutator`](README.md#valuemutator)\<`T`\>\>
 
 #### Type parameters
 
@@ -419,11 +415,10 @@ ___
 | :------ | :------ |
 | `T` | `T` |
 | `K` | extends `string` |
-| `N` | extends `string` = [`Name`](README.md#name) |
 
 #### Defined in
 
-[lib/types/OptionPropsAdapted.ts:5](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/OptionPropsAdapted.ts#L5)
+[lib/types/OptionPropsAdapted.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/OptionPropsAdapted.ts#L4)
 
 ___
 
@@ -448,7 +443,7 @@ ___
 
 #### Defined in
 
-[lib/types/PromiseState.ts:3](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/PromiseState.ts#L3)
+[lib/types/PromiseState.ts:3](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/PromiseState.ts#L3)
 
 ___
 
@@ -467,7 +462,7 @@ Returns an object type with a single property.
 
 #### Defined in
 
-[lib/types/Property.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/Property.ts#L4)
+[lib/types/Property.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/Property.ts#L4)
 
 ___
 
@@ -486,22 +481,21 @@ Options for `useTransform`.
 
 #### Defined in
 
-[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/UseTransformOptions.ts#L7)
+[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/UseTransformOptions.ts#L7)
 
 ___
 
 ### ValueMutator
 
-Ƭ **ValueMutator**\<`T`, `N`\>: (`value`: `T`, `name`: `N`) => `void`
+Ƭ **ValueMutator**\<`T`\>: (`value`: `T`, `name`: [`Name`](README.md#name)) => `void`
 
 Function that changes a `value`. Used as the signature for the `onChange` callback of the NEVO pattern.
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `T` |
-| `N` | extends `string` = [`Name`](README.md#name) |
+| Name |
+| :------ |
+| `T` |
 
 #### Type declaration
 
@@ -512,7 +506,7 @@ Function that changes a `value`. Used as the signature for the `onChange` callba
 | Name | Type |
 | :------ | :------ |
 | `value` | `T` |
-| `name` | `N` |
+| `name` | [`Name`](README.md#name) |
 
 ##### Returns
 
@@ -520,7 +514,7 @@ Function that changes a `value`. Used as the signature for the `onChange` callba
 
 #### Defined in
 
-[lib/types/ValueMutator.ts:6](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ValueMutator.ts#L6)
+[lib/types/ValueMutator.ts:6](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ValueMutator.ts#L6)
 
 ___
 
@@ -546,7 +540,7 @@ Function that removes an array item at index `name`.
 
 #### Defined in
 
-[lib/types/ValueRemover.ts:6](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ValueRemover.ts#L6)
+[lib/types/ValueRemover.ts:6](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ValueRemover.ts#L6)
 
 ___
 
@@ -577,13 +571,13 @@ ___
 
 #### Defined in
 
-[lib/types/ValueTransformer.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ValueTransformer.ts#L1)
+[lib/types/ValueTransformer.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ValueTransformer.ts#L1)
 
 ___
 
 ### ValueValidator
 
-Ƭ **ValueValidator**\<`T`, `N`, `E`\>: (`value`: `T`, `name`: `N`, `error`: `E` \| `undefined`) => `Promise`\<`E` \| `undefined`\> \| `E` \| `undefined`
+Ƭ **ValueValidator**\<`T`, `E`\>: (`value`: `T`, `name`: [`Name`](README.md#name), `error`: `E` \| `undefined`) => `Promise`\<`E` \| `undefined`\> \| `E` \| `undefined`
 
 Function that valides a `value` with a given `name` and returns a promise that resolves to an error, if any.
 
@@ -592,7 +586,6 @@ Function that valides a `value` with a given `name` and returns a promise that r
 | Name | Type |
 | :------ | :------ |
 | `T` | `T` |
-| `N` | extends `string` = [`Name`](README.md#name) |
 | `E` | extends [`ErrorReport`](README.md#errorreport)\<[`Any`](README.md#any)\> = [`ErrorReport`](README.md#errorreport)\<`T`\> |
 
 #### Type declaration
@@ -604,7 +597,7 @@ Function that valides a `value` with a given `name` and returns a promise that r
 | Name | Type |
 | :------ | :------ |
 | `value` | `T` |
-| `name` | `N` |
+| `name` | [`Name`](README.md#name) |
 | `error` | `E` \| `undefined` |
 
 ##### Returns
@@ -613,7 +606,7 @@ Function that valides a `value` with a given `name` and returns a promise that r
 
 #### Defined in
 
-[lib/types/ValueValidator.ts:6](https://github.com/nevoland/realue/blob/d9b96c1/lib/types/ValueValidator.ts#L6)
+[lib/types/ValueValidator.ts:6](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ValueValidator.ts#L6)
 
 ## Functions
 
@@ -649,7 +642,7 @@ Adapts the provided `props` to the specified `propertyName`.
 
 #### Defined in
 
-[lib/tools/adapt.ts:17](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/adapt.ts#L17)
+[lib/tools/adapt.ts:17](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/adapt.ts#L17)
 
 ___
 
@@ -675,7 +668,7 @@ ___
 
 #### Defined in
 
-[lib/tools/capitalize.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/capitalize.ts#L1)
+[lib/tools/capitalize.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/capitalize.ts#L1)
 
 ___
 
@@ -704,7 +697,7 @@ ___
 
 #### Defined in
 
-[lib/tools/changeError.ts:12](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/changeError.ts#L12)
+[lib/tools/changeError.ts:12](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/changeError.ts#L12)
 
 ▸ **changeError**\<`T`, `E`\>(`error`, `itemName`, `itemError`): `E` \| `undefined`
 
@@ -729,7 +722,7 @@ ___
 
 #### Defined in
 
-[lib/tools/changeError.ts:20](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/changeError.ts#L20)
+[lib/tools/changeError.ts:20](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/changeError.ts#L20)
 
 ___
 
@@ -755,7 +748,7 @@ ___
 
 #### Defined in
 
-[lib/tools/childrenError.ts:10](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/childrenError.ts#L10)
+[lib/tools/childrenError.ts:10](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/childrenError.ts#L10)
 
 ▸ **childrenError**\<`T`\>(`error?`): `Partial`\<\{ [K in keyof T]: ErrorReport\<T[K]\> }\> \| `undefined`
 
@@ -777,7 +770,7 @@ ___
 
 #### Defined in
 
-[lib/tools/childrenError.ts:17](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/childrenError.ts#L17)
+[lib/tools/childrenError.ts:17](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/childrenError.ts#L17)
 
 ___
 
@@ -810,7 +803,7 @@ The props necessary to disable changes or not.
 
 #### Defined in
 
-[lib/tools/disable.ts:17](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/disable.ts#L17)
+[lib/tools/disable.ts:17](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/disable.ts#L17)
 
 ___
 
@@ -836,7 +829,7 @@ ___
 
 #### Defined in
 
-[lib/tools/globalError.ts:5](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/globalError.ts#L5)
+[lib/tools/globalError.ts:5](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/globalError.ts#L5)
 
 ___
 
@@ -856,7 +849,7 @@ arg is any[]
 
 #### Defined in
 
-[lib/tools/isArray.ts:1](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/isArray.ts#L1)
+[lib/tools/isArray.ts:1](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/isArray.ts#L1)
 
 ___
 
@@ -887,7 +880,7 @@ Returns `true` if the two provided error values have the same errors messages.
 
 #### Defined in
 
-[lib/tools/isEqualError.ts:12](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/isEqualError.ts#L12)
+[lib/tools/isEqualError.ts:12](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/isEqualError.ts#L12)
 
 ___
 
@@ -918,7 +911,7 @@ A unique identifier string for this item.
 
 #### Defined in
 
-[lib/tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/itemIdDefault.ts#L8)
+[lib/tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/itemIdDefault.ts#L8)
 
 ___
 
@@ -954,7 +947,7 @@ Normalizes the provided `props` from the provided `propertyName`.
 
 #### Defined in
 
-[lib/tools/normalize.ts:17](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/normalize.ts#L17)
+[lib/tools/normalize.ts:17](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/normalize.ts#L17)
 
 ___
 
@@ -980,7 +973,7 @@ ___
 
 #### Defined in
 
-[lib/tools/normalizeError.ts:5](https://github.com/nevoland/realue/blob/d9b96c1/lib/tools/normalizeError.ts#L5)
+[lib/tools/normalizeError.ts:5](https://github.com/nevoland/realue/blob/2e4adbf/lib/tools/normalizeError.ts#L5)
 
 ___
 
@@ -1004,13 +997,13 @@ Callback that returns a new `AbortController`.
 
 #### Defined in
 
-[lib/hooks/useAbortController.ts:13](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useAbortController.ts#L13)
+[lib/hooks/useAbortController.ts:13](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useAbortController.ts#L13)
 
 ___
 
 ### useArray
 
-▸ **useArray**\<`A`, `N`, `E`, `T`\>(`props`, `itemId?`): [`ItemCallable`](interfaces/ItemCallable.md)\<`T`, `N`\>
+▸ **useArray**\<`A`, `E`, `T`\>(`props`, `itemId?`): [`ItemCallable`](interfaces/ItemCallable.md)\<`T`\>
 
 Takes an array and returns a function that generates the required props for handling an array item value.
 That function also contains three callables: `loop`, `add`, and `remove`.
@@ -1020,7 +1013,6 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 | Name | Type |
 | :------ | :------ |
 | `A` | extends `undefined` \| `any`[] |
-| `N` | extends `string` |
 | `E` | extends [`ErrorReportArray`](README.md#errorreportarray)\<`NonNullable`\<`A`\>\> |
 | `T` | `A` extends `H`[] ? `H` : `never` |
 
@@ -1028,18 +1020,18 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
-| `props` | [`NevoProps`](README.md#nevoprops)\<`A`, `N`, `E`\> | `undefined` | The props holding the array `value`. |
+| `props` | [`NevoProps`](README.md#nevoprops)\<`A`, `E`\> | `undefined` | The props holding the array `value`. |
 | `itemId` | [`ItemId`](README.md#itemid)\<`T`\> | `itemIdDefault` | An optional function that returns a unique identifier for a given array `item`. |
 
 #### Returns
 
-[`ItemCallable`](interfaces/ItemCallable.md)\<`T`, `N`\>
+[`ItemCallable`](interfaces/ItemCallable.md)\<`T`\>
 
 The `item` function that returns the props for a specific item `index`.
 
 #### Defined in
 
-[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useArray.ts#L32)
+[lib/hooks/useArray.ts:31](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useArray.ts#L31)
 
 ___
 
@@ -1066,26 +1058,25 @@ ___
 
 #### Defined in
 
-[lib/hooks/useChange.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useChange.ts#L4)
+[lib/hooks/useChange.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useChange.ts#L4)
 
 ___
 
 ### useDebounce
 
-▸ **useDebounce**\<`T`, `N`\>(`props`, `delay?`): `Object`
+▸ **useDebounce**\<`T`\>(`props`, `delay?`): `Object`
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `T` |
-| `N` | extends `string` |
+| Name |
+| :------ |
+| `T` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | `Pick`\<[`NevoProps`](README.md#nevoprops)\<`T`, `N`\>, ``"name"`` \| ``"onChange"`` \| ``"value"``\> |
+| `props` | `Pick`\<[`NevoProps`](README.md#nevoprops)\<`T`\>, ``"name"`` \| ``"onChange"`` \| ``"value"``\> |
 | `delay?` | `number` |
 
 #### Returns
@@ -1094,13 +1085,13 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `name` | `N` | The name used to identify the entity represented by the `value`. |
-| `onChange` | `undefined` \| [`ValueMutator`](README.md#valuemutator)\<`T`, `N`\> | - |
+| `name` | `string` | The name used to identify the entity represented by the `value`. |
+| `onChange` | `undefined` \| [`ValueMutator`](README.md#valuemutator)\<`T`\> | - |
 | `value` | `T` | - |
 
 #### Defined in
 
-[lib/hooks/useDebounce.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useDebounce.ts#L4)
+[lib/hooks/useDebounce.ts:9](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useDebounce.ts#L9)
 
 ___
 
@@ -1132,27 +1123,26 @@ A tuple consisting of the current request state and a callback to issue a new re
 
 #### Defined in
 
-[lib/hooks/useFetch.ts:19](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useFetch.ts#L19)
+[lib/hooks/useFetch.ts:19](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useFetch.ts#L19)
 
 ___
 
 ### useInput
 
-▸ **useInput**\<`T`, `N`, `E`\>(`props`, `extractValue`): `undefined` \| (`event`: `TargetedEvent`\<`HTMLInputElement`, `Event`\>) => `void`
+▸ **useInput**\<`T`, `E`\>(`props`, `extractValue`): `undefined` \| (`event`: `TargetedEvent`\<`HTMLInputElement`, `Event`\>) => `void`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `T` | `T` |
-| `N` | extends `string` |
 | `E` | extends [`ErrorReportArray`](README.md#errorreportarray)\<`any`\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `N`, `E`\> |
+| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `E`\> |
 | `extractValue` | (`element`: `HTMLInputElement`) => `T` |
 
 #### Returns
@@ -1161,7 +1151,7 @@ ___
 
 #### Defined in
 
-[lib/hooks/useInput.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useInput.ts#L4)
+[lib/hooks/useInput.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useInput.ts#L4)
 
 ___
 
@@ -1182,13 +1172,13 @@ ___
 
 #### Defined in
 
-[lib/hooks/useLog.ts:6](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useLog.ts#L6)
+[lib/hooks/useLog.ts:6](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useLog.ts#L6)
 
 ___
 
 ### useObject
 
-▸ **useObject**\<`T`, `N`, `E`\>(`props`): [`PropertyCallable`](interfaces/PropertyCallable.md)\<`NonNullable`\<`T`\>, `N`\>
+▸ **useObject**\<`T`, `E`\>(`props`): [`PropertyCallable`](interfaces/PropertyCallable.md)\<`NonNullable`\<`T`\>\>
 
 Takes an object and returns a function that generates the required props for handling an object property value.
 
@@ -1197,24 +1187,23 @@ Takes an object and returns a function that generates the required props for han
 | Name | Type |
 | :------ | :------ |
 | `T` | extends `undefined` \| `object` |
-| `N` | extends `string` = `string` |
 | `E` | extends [`ErrorReportObject`](README.md#errorreportobject)\<`NonNullable`\<`T`\>\> = [`ErrorReportObject`](README.md#errorreportobject)\<`NonNullable`\<`T`\>\> |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `N`, `E`\> | The props holding the object `value`. |
+| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `E`\> | The props holding the object `value`. |
 
 #### Returns
 
-[`PropertyCallable`](interfaces/PropertyCallable.md)\<`NonNullable`\<`T`\>, `N`\>
+[`PropertyCallable`](interfaces/PropertyCallable.md)\<`NonNullable`\<`T`\>\>
 
 The `property` function that returns the props for a specific property `name`.
 
 #### Defined in
 
-[lib/hooks/useObject.ts:18](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useObject.ts#L18)
+[lib/hooks/useObject.ts:13](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useObject.ts#L13)
 
 ___
 
@@ -1242,7 +1231,7 @@ ___
 
 #### Defined in
 
-[lib/hooks/useOption.ts:10](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useOption.ts#L10)
+[lib/hooks/useOption.ts:10](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useOption.ts#L10)
 
 ___
 
@@ -1272,7 +1261,7 @@ The previous value.
 
 #### Defined in
 
-[lib/hooks/usePrevious.ts:9](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/usePrevious.ts#L9)
+[lib/hooks/usePrevious.ts:9](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/usePrevious.ts#L9)
 
 ___
 
@@ -1315,7 +1304,7 @@ A callback that receives the argument value and returns the result of the provid
 
 #### Defined in
 
-[lib/hooks/usePreviousArgument.ts:9](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/usePreviousArgument.ts#L9)
+[lib/hooks/usePreviousArgument.ts:9](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/usePreviousArgument.ts#L9)
 
 ___
 
@@ -1358,7 +1347,7 @@ A callback that receives the argument value list and returns the result of the p
 
 #### Defined in
 
-[lib/hooks/usePreviousArgumentList.ts:9](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/usePreviousArgumentList.ts#L9)
+[lib/hooks/usePreviousArgumentList.ts:9](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/usePreviousArgumentList.ts#L9)
 
 ___
 
@@ -1389,7 +1378,7 @@ A promise state object
 
 #### Defined in
 
-[lib/hooks/usePromise.ts:18](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/usePromise.ts#L18)
+[lib/hooks/usePromise.ts:18](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/usePromise.ts#L18)
 
 ___
 
@@ -1411,7 +1400,7 @@ ___
 
 #### Defined in
 
-[lib/hooks/useRemove.ts:4](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useRemove.ts#L4)
+[lib/hooks/useRemove.ts:4](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useRemove.ts#L4)
 
 ___
 
@@ -1443,7 +1432,7 @@ The last non-undefined version of the provided `value`, or `undefined`.
 
 #### Defined in
 
-[lib/hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useResilient.ts#L11)
+[lib/hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useResilient.ts#L11)
 
 ___
 
@@ -1474,7 +1463,7 @@ Properties according to the Nevo pattern.
 
 #### Defined in
 
-[lib/hooks/useSyncedProps.ts:11](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useSyncedProps.ts#L11)
+[lib/hooks/useSyncedProps.ts:11](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useSyncedProps.ts#L11)
 
 ___
 
@@ -1500,7 +1489,7 @@ ___
 
 #### Defined in
 
-[lib/hooks/useSyncedSignal.ts:3](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useSyncedSignal.ts#L3)
+[lib/hooks/useSyncedSignal.ts:3](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useSyncedSignal.ts#L3)
 
 ___
 
@@ -1532,7 +1521,7 @@ The `[state, onChangeState]` tuple.
 
 #### Defined in
 
-[lib/hooks/useSyncedState.ts:12](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useSyncedState.ts#L12)
+[lib/hooks/useSyncedState.ts:12](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useSyncedState.ts#L12)
 
 ___
 
@@ -1564,7 +1553,7 @@ Updated props.
 
 #### Defined in
 
-[lib/hooks/useTransform.ts:17](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useTransform.ts#L17)
+[lib/hooks/useTransform.ts:17](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useTransform.ts#L17)
 
 ___
 
@@ -1584,8 +1573,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `N`, `E`\> |
-| `onValidate?` | [`ValueValidator`](README.md#valuevalidator)\<`T`, `N`, `E`\> |
+| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `E`\> |
+| `onValidate?` | [`ValueValidator`](README.md#valuevalidator)\<`T`, `E`\> |
 
 #### Returns
 
@@ -1593,7 +1582,7 @@ ___
 
 #### Defined in
 
-[lib/hooks/useValidator.ts:16](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useValidator.ts#L16)
+[lib/hooks/useValidator.ts:16](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useValidator.ts#L16)
 
 ▸ **useValidator**\<`T`, `N`, `E`\>(`props`, `onValidate?`): [`PromiseState`](README.md#promisestate)\<`E` \| `undefined`\>
 
@@ -1609,8 +1598,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `N`, `E`\> |
-| `onValidate?` | [`ValueValidator`](README.md#valuevalidator)\<`T`, `N`, `E`\> |
+| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `E`\> |
+| `onValidate?` | [`ValueValidator`](README.md#valuevalidator)\<`T`, `E`\> |
 
 #### Returns
 
@@ -1618,7 +1607,7 @@ ___
 
 #### Defined in
 
-[lib/hooks/useValidator.ts:20](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useValidator.ts#L20)
+[lib/hooks/useValidator.ts:20](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useValidator.ts#L20)
 
 ▸ **useValidator**\<`T`, `N`, `E`\>(`props`, `onValidate?`): [`PromiseState`](README.md#promisestate)\<`E` \| `undefined`\>
 
@@ -1634,8 +1623,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `N`, `E`\> |
-| `onValidate?` | [`ValueValidator`](README.md#valuevalidator)\<`T`, `N`, `E`\> |
+| `props` | [`NevoProps`](README.md#nevoprops)\<`T`, `E`\> |
+| `onValidate?` | [`ValueValidator`](README.md#valuevalidator)\<`T`, `E`\> |
 
 #### Returns
 
@@ -1643,4 +1632,4 @@ ___
 
 #### Defined in
 
-[lib/hooks/useValidator.ts:28](https://github.com/nevoland/realue/blob/d9b96c1/lib/hooks/useValidator.ts#L28)
+[lib/hooks/useValidator.ts:28](https://github.com/nevoland/realue/blob/2e4adbf/lib/hooks/useValidator.ts#L28)
