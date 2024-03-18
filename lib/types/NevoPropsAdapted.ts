@@ -1,4 +1,3 @@
-import type { Any } from "./Any";
 import type { ErrorMutator } from "./ErrorMutator";
 import type { ErrorReport } from "./ErrorReport";
 import type { Name } from "./Name";
@@ -8,7 +7,7 @@ import type { ValueMutator } from "./ValueMutator";
 export type NevoPropsAdapted<
   T,
   K extends string,
-  E extends ErrorReport<Any> = ErrorReport<T>,
+  E extends ErrorReport<any> = ErrorReport<T>,
 > = Property<`${K}Name`, Name> &
   Property<`${K}Error`, E> &
   Property<K, T> &

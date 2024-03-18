@@ -1,4 +1,3 @@
-import type { Any } from "./Any";
 import type { ErrorMutator } from "./ErrorMutator";
 import type { ErrorReport } from "./ErrorReport";
 import type { Name } from "./Name";
@@ -13,7 +12,7 @@ import type { ValueMutator } from "./ValueMutator";
  * - `onChangeError`: The callback the component uses to notify the parent component about changes of the `error`.
  */
 
-export type NevoProps<T, E extends ErrorReport<Any> = ErrorReport<T>> = {
+export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> = {
   /**
    * The name used to identify the entity represented by the `value`.
    */

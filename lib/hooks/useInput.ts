@@ -1,7 +1,7 @@
 import { type JSX, useMemo } from "../dependencies.js";
-import type { Any, ErrorReport, NevoProps } from "../types";
+import type { ErrorReport, NevoProps } from "../types";
 
-export function useInput<T, E extends ErrorReport<Any>>(
+export function useInput<T, E extends ErrorReport<any>>(
   props: NevoProps<T, E>,
   extractValue: (element: HTMLInputElement) => T,
 ) {

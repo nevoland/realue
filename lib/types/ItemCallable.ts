@@ -1,6 +1,5 @@
 import type { FunctionComponent } from "../dependencies";
 
-import type { Any } from "./Any";
 import type { ErrorReport } from "./ErrorReport";
 import type { ErrorReportValue } from "./ErrorReportValue";
 import type { ItemProps } from "./ItemProps";
@@ -11,7 +10,7 @@ import type { NevoProps } from "./NevoProps";
  *
  * @param itemIndex The index of the item for which to generate the props.
  */
-export interface ItemCallable<T, E extends ErrorReport<Any>> {
+export interface ItemCallable<T, E extends ErrorReport<any>> {
   (itemIndex: number): ItemProps<T, E>;
   (): NevoProps<T[], ErrorReportValue>;
   /**

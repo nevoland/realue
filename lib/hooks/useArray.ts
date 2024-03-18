@@ -10,7 +10,6 @@ import { globalError } from "../tools/globalError.js";
 import { itemIdDefault } from "../tools/itemIdDefault.js";
 import { changeError } from "../tools.js";
 import type {
-  Any,
   ErrorMutator,
   ErrorReport,
   ErrorReportArray,
@@ -33,7 +32,7 @@ export function useArray<
   A extends any[] | undefined,
   G extends ErrorReportArray<NonNullable<A>>,
   T = A extends (infer H)[] ? H : never,
-  E extends ErrorReport<Any> = ErrorReport<T>,
+  E extends ErrorReport<any> = ErrorReport<T>,
 >(
   props: NevoProps<A, G>,
   itemId: ItemId<T> = itemIdDefault,
