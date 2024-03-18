@@ -19,10 +19,13 @@ export interface ItemCallable<T> {
    * @param extraProps An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add.
    * @returns An array containing the produced elements out of `Component`.
    */
-  readonly loop: (
-    Component: FunctionComponent<ItemProps<T>>,
-    extraProps?: {} | ((props: ItemProps<T>) => {}),
-  ) => ReturnType<FunctionComponent>[];
+  readonly loop: <
+    P extends object,
+    C extends FunctionComponent<ItemProps<T> & P>,
+  >(
+    Component: C,
+    extraProps?: P | ((props: ItemProps<T>) => P),
+  ) => ReturnType<C>[];
   /**
    * Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
    *
