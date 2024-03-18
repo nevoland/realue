@@ -1,1 +1,1 @@
-export type Any = unknown[] | object | any | undefined;
+export type Any = unknown[] | unknown | undefined;
