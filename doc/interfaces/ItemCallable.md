@@ -28,7 +28,7 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:13](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L13)
+[lib/types/ItemCallable.ts:13](https://github.com/nevoland/realue/blob/005032d/lib/types/ItemCallable.ts#L13)
 
 ### ItemCallable
 
@@ -40,7 +40,7 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L14)
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/005032d/lib/types/ItemCallable.ts#L14)
 
 ## Table of contents
 
@@ -75,34 +75,41 @@ Inserts an item at the specified index, shifting by one the previous item found 
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:32](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L32)
+[lib/types/ItemCallable.ts:35](https://github.com/nevoland/realue/blob/005032d/lib/types/ItemCallable.ts#L35)
 
 ___
 
 ### loop
 
-• `Readonly` **loop**: (`Component`: `FunctionComponent`\<[`ItemProps`](../README.md#itemprops)\<`T`\>\>, `extraProps?`: {} \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`\>) => {}) => (``null`` \| `VNode`\<`any`\>)[]
+• `Readonly` **loop**: \<P, C\>(`Component`: `C`, `extraProps?`: `P` \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`\>) => `P`) => `ReturnType`\<`C`\>[]
 
 Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
 
 #### Type declaration
 
-▸ (`Component`, `extraProps?`): (``null`` \| `VNode`\<`any`\>)[]
+▸ \<`P`, `C`\>(`Component`, `extraProps?`): `ReturnType`\<`C`\>[]
+
+##### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `P` | extends `object` |
+| `C` | extends `FunctionComponent`\<[`NevoProps`](../README.md#nevoprops)\<`T`, [`ErrorReport`](../README.md#errorreport)\<`T`, `NonNullable`\<`T`\>\>\> & \{ `id`: `string` ; `key`: `string`  } & `P`\> |
 
 ##### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `Component` | `FunctionComponent`\<[`ItemProps`](../README.md#itemprops)\<`T`\>\> |  |
-| `extraProps?` | {} \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`\>) => {} | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
+| `Component` | `C` |  |
+| `extraProps?` | `P` \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`\>) => `P` | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
 
 ##### Returns
 
-(``null`` \| `VNode`\<`any`\>)[]
+`ReturnType`\<`C`\>[]
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:22](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L22)
+[lib/types/ItemCallable.ts:22](https://github.com/nevoland/realue/blob/005032d/lib/types/ItemCallable.ts#L22)
 
 ___
 
@@ -128,4 +135,4 @@ Removes the item found at the specified `index`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:38](https://github.com/nevoland/realue/blob/2e4adbf/lib/types/ItemCallable.ts#L38)
+[lib/types/ItemCallable.ts:41](https://github.com/nevoland/realue/blob/005032d/lib/types/ItemCallable.ts#L41)
