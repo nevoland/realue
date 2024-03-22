@@ -15,6 +15,7 @@ export type { Name } from "./types/Name";
 export type { NameItem } from "./types/NameItem";
 export type { NameProperty } from "./types/NameProperty";
 export type { NeverNevoProps } from "./types/NeverNevoProps";
+export type { NevoName } from "./types/NevoName";
 export type { NevoProps } from "./types/NevoProps";
 export type { NevoPropsAdapted } from "./types/NevoPropsAdapted";
 export type { OptionPropsAdapted } from "./types/OptionPropsAdapted";
