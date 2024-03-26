@@ -8,6 +8,12 @@
     "types": "./dist/main.d.ts",
     "import": "./dist/main.js"
   },
+  "author": "David Bonnet <david@bonnet.cc>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nevoland/realue.git"
+  },
   "files": [
     "dist",
     "lib",
