@@ -6,7 +6,7 @@ import type { NevoName, NevoProps } from "../types";
  * @param props Properties according to the Nevo pattern with extra properties.
  * @returns The propterties without the ones according to the Nevo pattern.
  */
-export function withoutNevoProps<P extends NevoProps<any>>(
+export function withoutNevoProps<T, P extends NevoProps<T>>(
   props: P,
 ): Omit<P, NevoName> {
   const { name, error, value, onChange, onChangeError, ...otherProps } = props;
