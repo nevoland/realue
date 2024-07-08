@@ -174,8 +174,8 @@ export function useArray<
                 extraProps === undefined
                   ? undefined
                   : typeof extraProps === "function"
-                  ? extraProps
-                  : () => extraProps;
+                    ? extraProps
+                    : () => extraProps;
               return state.current.map((_, index) => {
                 const props: ItemProps<T, E> = item(index);
                 return createElement(
@@ -237,6 +237,11 @@ export function useArray<
                       stateName.current,
                     );
                   }) as ItemCallable<T, E>["remove"]),
+          },
+          get: {
+            configurable: false,
+            value: ((itemIndexOrName) =>
+              state.current[+itemIndexOrName]) as ItemCallable<T, E>["get"],
           },
         },
       ) as ItemCallable<T, E>,
