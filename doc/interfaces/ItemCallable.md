@@ -29,7 +29,7 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/ee9601c/lib/types/ItemCallable.ts#L14)
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/28ae39c/lib/types/ItemCallable.ts#L14)
 
 ### ItemCallable
 
@@ -41,7 +41,7 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/ee9601c/lib/types/ItemCallable.ts#L15)
+[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/28ae39c/lib/types/ItemCallable.ts#L15)
 
 ## Table of contents
 
@@ -77,7 +77,7 @@ Inserts an item at the specified index, shifting by one the previous item found 
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/ee9601c/lib/types/ItemCallable.ts#L33)
+[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/28ae39c/lib/types/ItemCallable.ts#L33)
 
 ___
 
@@ -103,7 +103,7 @@ Retreives the item found at the specified `index`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/ee9601c/lib/types/ItemCallable.ts#L45)
+[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/28ae39c/lib/types/ItemCallable.ts#L45)
 
 ___
 
@@ -136,7 +136,7 @@ Returns an array that maps each item with an element out of `Component` with the
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/ee9601c/lib/types/ItemCallable.ts#L23)
+[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/28ae39c/lib/types/ItemCallable.ts#L23)
 
 ___
 
@@ -162,4 +162,4 @@ Removes the item found at the specified `index`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/ee9601c/lib/types/ItemCallable.ts#L39)
+[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/28ae39c/lib/types/ItemCallable.ts#L39)
