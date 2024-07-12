@@ -24,6 +24,7 @@ export type { Property } from "./types/Property";
 export type { PropertyCallable } from "./types/PropertyCallable";
 export type { UseTransformOptions } from "./types/UseTransformOptions";
 export type { ValueMutator } from "./types/ValueMutator";
+export type { ValueMutatorNamed } from "./types/ValueMutatorNamed";
 export type { ValueRemover } from "./types/ValueRemover";
 export type { ValueTransformer } from "./types/ValueTransformer";
 export type { ValueValidator } from "./types/ValueValidator";
