@@ -11,9 +11,10 @@ import type { PromiseState } from "../types.js";
 /**
  * Returns a promise state object to track the provided `promise`.
  * Ignores outdated promises or ones that resolve when the component got unmounted.
+ * Non-promise values are immediately resolved, avoiding a second render.
  *
  * @param promise The promise to track.
- * @returns A promise state object
+ * @returns A promise state object.
  */
 export function usePromise<T>(promise?: Promise<T> | T) {
   const [state, onChangeState] = useState<PromiseState<T>>({

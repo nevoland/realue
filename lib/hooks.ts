@@ -6,6 +6,7 @@ export { useDebounce } from "./hooks/useDebounce.js";
 export { useFetch } from "./hooks/useFetch.js";
 export { useInput } from "./hooks/useInput.js";
 export { useLog } from "./hooks/useLog.js";
+export { useMutator } from "./hooks/useMutator.js";
 export { useObject } from "./hooks/useObject.js";
 export { useOption } from "./hooks/useOption.js";
 export { usePrevious } from "./hooks/usePrevious.js";
