@@ -6,7 +6,7 @@ import type { NevoProps } from "../types";
  * If `props.value` changes, the internal `state` is also updated.
  * Calls to `onChangeState(value)` trigger a call of `props.onChange(state, props.name)`.
  *
- * @param props The NEVO props.
+ * @param props Properties according to the NEVO pattern.
  * @returns The `[state, onChangeState]` tuple.
  */
 export function useSyncedState<T>(

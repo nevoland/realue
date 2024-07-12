@@ -13,6 +13,18 @@ import type {
 import { usePromise } from "./usePromise.js";
 import { useResilient } from "./useResilient.js";
 
+/**
+ * Validates the provided `value` property using the `onValidate` asynchronous callback function.
+ * This function returns a promise state object that tracks the status of the validation process.
+ *
+ * The `onValidate` callback function is expected to return a value or a promise that resolves with one of the following:
+ *   - An error value indicating that validation has failed.
+ *   - `undefined` if the validation succeeds without errors.
+ *
+ * @param props Properties according to the NEVO pattern.
+ * @param onValidate Synchronous or asynchronous value validator.
+ * @returns The promise state object.
+ */
 export function useValidator<T, N extends string, E extends ErrorReportValue>(
   props: NevoProps<T, E>,
   onValidate?: ValueValidator<T, E>,

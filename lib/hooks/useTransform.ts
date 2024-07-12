@@ -10,9 +10,9 @@ import type {
 /**
  * Transforms the incoming `value` and the outgoing `value` passed to the `onChange` callback, and optionally the incoming `error` and the outgoing `error` passed to the `onChangeError` callback. If the incoming and outgoing `error` transforms are not provided, returned props will not contain `error` nor `onChangeError`.
  *
- * @param props The props holding the `value` and `onChange` callbacks.
+ * @param props Properties according to the NEVO pattern.
  * @param options Options for `useTransform`.
- * @returns Updated props.
+ * @returns Updated properties according to the NEVO pattern.
  */
 export function useTransform<T, U>(
   props: NevoProps<T>,
@@ -41,10 +41,10 @@ export function useTransform<T, U>(
       props.onChangeError === undefined
         ? undefined
         : options.onChangeError === undefined
-        ? undefined
-        : (error, name) => {
-            props.onChangeError!(options.onChangeError!(error), name);
-          },
+          ? undefined
+          : (error, name) => {
+              props.onChangeError!(options.onChangeError!(error), name);
+            },
     [props.onChangeError, options.onChangeError],
   );
   return { error, name: props.name, onChange, onChangeError, value };

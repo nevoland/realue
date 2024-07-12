@@ -5,8 +5,8 @@ import type { ErrorReport, NevoProps } from "../types.js";
  * Creates a local state of `value` and `error` values and syncs them with the parent `props`, if provided.
  * Usefull if you need to handle a local state while ensuring that new values provided from the parent component are taken into consideration, or to let the parent know about `value` and `error` changes.
  *
- * @param props Optional properties according to the Nevo pattern.
- * @returns Properties according to the Nevo pattern.
+ * @param props Optional properties according to the NEVO pattern.
+ * @returns Properties according to the NEVO pattern.
  */
 export function useSyncedProps<T>(
   props?: NevoProps<T>,
