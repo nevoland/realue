@@ -1,13 +1,15 @@
 import { useMemo } from "../dependencies.js";
-import type { NevoProps } from "../types";
+import type { NevoProps, ValueMutatorNamed } from "../types";
 
 /**
- * Take an `onChange` and `name` and returns the onChange applied to the name.
+ * Returns a simple mutator that takes only the new `value` as argument.
  *
- * @param props The props holding the `name` and `onChange` callbacks.
- * @returns onChange callback.
+ * @param props Properties according to the NEVO pattern.
+ * @returns Simple mutator that takes only the new `value` as argument.
  */
-export function useMutator<T>(props: NevoProps<T>) {
+export function useMutator<T>(
+  props: NevoProps<T>,
+): ValueMutatorNamed<T> | undefined {
   const { onChange, name } = props;
   return useMemo(() => {
     if (onChange === undefined) {
