@@ -2,25 +2,27 @@ import {
   EMPTY_ARRAY,
   useCallback,
   useEffect,
-  useState,
+  useRef,
 } from "../dependencies.js";
 
 /**
- * Creates an on-demand `AbortController` that triggers when the provided `inputs` change (at least when the element unmounts).
+ * Returns a function that creates an `AbortController` and aborts the previous one (if any).
+ * The last created `AbortController` is aborted when the component unmounts.
  *
  * @returns Callback that returns a new `AbortController`.
  */
 export function useAbortController() {
-  const [controller, onChangeController] = useState<AbortController>();
+  const controllerRef = useRef<AbortController>();
   useEffect(
     () => () => {
-      controller?.abort();
+      controllerRef.current?.abort();
     },
-    [controller],
+    EMPTY_ARRAY,
   );
   return useCallback(() => {
+    controllerRef.current?.abort();
     const controller = new AbortController();
-    onChangeController(controller);
+    controllerRef.current = controller;
     return controller;
   }, EMPTY_ARRAY);
 }
