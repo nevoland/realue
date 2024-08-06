@@ -1,6 +1,9 @@
 import { identity, useMemo } from "../dependencies.js";
 import type { NevoProps } from "../types";
 
+/**
+ * @deprecated Use `useInput` instead.
+ */
 export function useChange<T>(
   props: Pick<NevoProps<T>, "value" | "name" | "onChange">,
   transformValue: (value: T) => T = identity,
