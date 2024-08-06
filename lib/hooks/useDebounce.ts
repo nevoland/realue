@@ -6,6 +6,13 @@ import type {
   ValueMutator,
 } from "../types";
 
+/**
+ * Debounces calls of the value mutator `onChange` while immediately updating the local `value`.
+ *
+ * @param props Properties according to the NEVO pattern.
+ * @param delay The debounce delay in milliseconds.
+ * @returns Properties according to the NEVO pattern, with `onChange` being a debounced value mutator.
+ */
 export function useDebounce<T>(
   props: Pick<NevoProps<T>, "value" | "name" | "onChange">,
   delay?: number,
