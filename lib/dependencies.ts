@@ -7,7 +7,6 @@ export {
   Fragment,
 } from "preact";
 export { memo } from "preact/compat";
-export { debounce, identity } from "lodash-es";
 export {
   useRef,
   useCallback,
@@ -34,4 +33,10 @@ export {
   EMPTY_OBJECT,
 } from "unchangeable";
 
-export type { DebouncedFunc as DebouncedFunction } from "lodash-es";
+export type { DelayedFunction, DelayOptions } from "futurise";
+
+export function identity<T>(value: T): T {
+  return value;
+}
+
+export function noop() {}

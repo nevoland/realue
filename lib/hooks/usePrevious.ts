@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef } from "../dependencies.js";
 
 /**
  * Returns the previous value.

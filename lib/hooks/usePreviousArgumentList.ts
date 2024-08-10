@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "preact/hooks";
+import { useCallback, useRef } from "../dependencies.js";
 
 /**
  * Returns a callback that calls the provided `callback` with both the current and previous value of the argument list.
