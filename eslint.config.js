@@ -12,13 +12,17 @@ const GLOBAL_NAME_LIST = [
   "AbortController",
   "AbortSignal",
   "console",
-  "Request",
   "document",
+  "Element",
   "fetch",
   "HTMLElement",
   "HTMLInputElement",
   "NoInfer",
   "process",
+  "Request",
+  "ResizeObserverBoxOptions",
+  "ResizeObserverCallback",
+  "ResizeObserverEntry",
 ];
 
 /** @type { import("eslint").Linter.FlatConfig[] } */
