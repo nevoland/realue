@@ -15,6 +15,7 @@ export { usePrevious } from "./hooks/usePrevious.js";
 export { usePreviousArgument } from "./hooks/usePreviousArgument.js";
 export { usePreviousArgumentList } from "./hooks/usePreviousArgumentList.js";
 export { usePromise } from "./hooks/usePromise.js";
+export { useReferencedState } from "./hooks/useReferencedState.js";
 export { useRefresh } from "./hooks/useRefresh.js";
 export { useRemove } from "./hooks/useRemove.js";
 export { useResilient } from "./hooks/useResilient.js";
