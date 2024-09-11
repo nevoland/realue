@@ -161,7 +161,7 @@ const Person = memo((props: PersonProps) => {
           onValidate={onValidateName}
           placeholder="Brown"
           {...property("lastName")}
-          // delay={300}
+          delay={300}
         />
         <Input
           label="Username"

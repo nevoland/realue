@@ -30,8 +30,8 @@ export const Input = memo(function Input({
   ...props
 }: InputProps<string | undefined>) {
   const validator = useValidator(props, onValidate);
-  const { value = "", name, onChange } = useDelay(props, delay);
-  const onInput = useInput(props, extractValue);
+  const inputProps = useDelay(props, delay);
+  const onInput = useInput(inputProps, extractValue);
 
   const status = useDefer(validator.status, delay);
   const error = useDefer(props.error, delay);
@@ -43,11 +43,11 @@ export const Input = memo(function Input({
       {error && <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>}
       <input
         autoComplete="new-password"
-        disabled={!onChange}
-        name={name}
-        onInput={onChange ? onInput : undefined}
+        disabled={onInput === undefined}
+        name={inputProps.name}
+        onInput={onInput}
         placeholder={placeholder}
-        value={value}
+        value={inputProps.value}
       />
     </div>
   );
