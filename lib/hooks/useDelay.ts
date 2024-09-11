@@ -28,7 +28,7 @@ export function useDelay<T>(
     if (props.onChange === undefined) {
       return undefined;
     }
-    if (!duration) {
+    if (duration === undefined) {
       return props.onChange;
     }
     const delayedOnChange = delay(duration, props.onChange, options);
@@ -67,7 +67,7 @@ export function useDelay<T>(
   );
   return {
     ...props,
-    onChange: wrappedOnChange,
     value: !duration ? props.value : value,
+    onChange: wrappedOnChange,
   };
 }

@@ -5,6 +5,7 @@ import type { DelayOptions } from "../types";
 
 /**
  * Returns a deferred version of the provided `value` by a given delay `duration`. If the `duration` is `undefined`, immediately returns the actual value.
+ * Changes to the `duration` or the delay `options` will cancel the delayed invocation, if any, and call it again with the new parameters.
  *
  * @param value Current value.
  * @param duration The delay at which to update the value.
@@ -14,9 +15,13 @@ import type { DelayOptions } from "../types";
 export function useDefer<T>(
   value: T,
   duration?: number,
-  options?: DelayOptions,
+  options?: DelayOptions<T>,
 ) {
-  const [state, onChangeState] = useState<T>(value);
+  const { 0: state, 1: onChangeState } = useState<T>(
+    options !== undefined && "initialValue" in options
+      ? options.initialValue!
+      : value,
+  );
   const immediate = duration === undefined;
   const onChange = useMemo(() => {
     if (immediate) {
@@ -24,12 +29,13 @@ export function useDefer<T>(
     }
     return delay(duration, onChangeState, options);
   }, [duration, options?.immediate, options?.throttle]);
+  useEffect(() => onChange?.cancel, [onChange]);
   useEffect(() => {
     if (immediate) {
       return;
     }
     onChange!(value);
-  }, [value]);
+  }, [value, onChange]);
   if (immediate) {
     return value;
   }
