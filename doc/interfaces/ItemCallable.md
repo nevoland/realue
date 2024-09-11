@@ -1,165 +1,155 @@
+[**realue**](../README.md) • **Docs**
+
+***
+
 [realue](../README.md) / ItemCallable
 
-# Interface: ItemCallable\<T, E\>
+# Interface: ItemCallable()\<T, E\>
 
 Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
 
-## Type parameters
+## Param
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `T` |
-| `E` | extends [`ErrorReport`](../README.md#errorreport)\<`any`\> |
+The index of the item for which to generate the props.
 
-## Callable
+## Type Parameters
 
-### ItemCallable
+• **T**
 
-▸ **ItemCallable**(`itemIndex`): [`ItemProps`](../README.md#itemprops)\<`T`, `E`\>
+• **E** *extends* [`ErrorReport`](../type-aliases/ErrorReport.md)\<`any`\>
 
-#### Parameters
+> **ItemCallable**(`itemIndex`): [`ItemProps`](../type-aliases/ItemProps.md)\<`T`, `E`\>
 
-| Name | Type |
-| :------ | :------ |
-| `itemIndex` | `number` |
+Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
 
-#### Returns
+## Parameters
 
-[`ItemProps`](../README.md#itemprops)\<`T`, `E`\>
+• **itemIndex**: `number`
 
-#### Defined in
+## Returns
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/44e3508/lib/types/ItemCallable.ts#L14)
+[`ItemProps`](../type-aliases/ItemProps.md)\<`T`, `E`\>
 
-### ItemCallable
+## Param
 
-▸ **ItemCallable**(): [`NevoProps`](../README.md#nevoprops)\<`T`[], [`ErrorReportValue`](../README.md#errorreportvalue)\>
+The index of the item for which to generate the props.
 
-#### Returns
+## Defined in
 
-[`NevoProps`](../README.md#nevoprops)\<`T`[], [`ErrorReportValue`](../README.md#errorreportvalue)\>
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ItemCallable.ts#L14)
 
-#### Defined in
+> **ItemCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`[], [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
-[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/44e3508/lib/types/ItemCallable.ts#L15)
+Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
 
-## Table of contents
+## Returns
 
-### Properties
+[`NevoProps`](../type-aliases/NevoProps.md)\<`T`[], [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
-- [add](ItemCallable.md#add)
-- [get](ItemCallable.md#get)
-- [loop](ItemCallable.md#loop)
-- [remove](ItemCallable.md#remove)
+## Param
+
+The index of the item for which to generate the props.
+
+## Defined in
+
+[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ItemCallable.ts#L15)
 
 ## Properties
 
-### add
+### add()
 
-• `Readonly` **add**: (`item`: `T`, `index?`: `number` \| \`$\{number}\`) => `void`
+> `readonly` **add**: (`item`, `index`?) => `void`
 
 Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
 
-#### Type declaration
+#### Parameters
 
-▸ (`item`, `index?`): `void`
+• **item**: `T`
 
-##### Parameters
+The item to add.
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `item` | `T` | The item to add. |
-| `index?` | `number` \| \`$\{number}\` | The index where to add this item. |
+• **index?**: `number` \| \`$\{number\}\`
 
-##### Returns
+The index where to add this item.
+
+#### Returns
 
 `void`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/44e3508/lib/types/ItemCallable.ts#L33)
+[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ItemCallable.ts#L33)
 
-___
+***
 
-### get
+### get()
 
-• `Readonly` **get**: (`index`: `number` \| \`$\{number}\`) => `undefined` \| `T`
+> `readonly` **get**: (`index`) => `undefined` \| `T`
 
 Retreives the item found at the specified `index`.
 
-#### Type declaration
+#### Parameters
 
-▸ (`index`): `undefined` \| `T`
+• **index**: `number` \| \`$\{number\}\`
 
-##### Parameters
+The index of the item to retreive, or `undefined` if none was found.
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `index` | `number` \| \`$\{number}\` | The index of the item to retreive, or `undefined` if none was found. |
-
-##### Returns
+#### Returns
 
 `undefined` \| `T`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/44e3508/lib/types/ItemCallable.ts#L45)
+[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ItemCallable.ts#L45)
 
-___
+***
 
-### loop
+### loop()
 
-• `Readonly` **loop**: \<P\>(`Component`: `FunctionComponent`\<[`NevoProps`](../README.md#nevoprops)\<`T`, `E`\> & \{ `id`: `string` ; `key`: `string`  } & `P`\>, `extraProps?`: `P` \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`, `E`\>) => `P`) => (``null`` \| `VNode`\<`any`\>)[]
+> `readonly` **loop**: \<`P`\>(`Component`, `extraProps`?) => (`null` \| `VNode`\<`any`\>)[]
 
 Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
 
-#### Type declaration
+#### Type Parameters
 
-▸ \<`P`\>(`Component`, `extraProps?`): (``null`` \| `VNode`\<`any`\>)[]
+• **P** *extends* `object`
 
-##### Type parameters
+#### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `P` | extends `object` |
+• **Component**: `FunctionComponent`\<[`NevoProps`](../type-aliases/NevoProps.md)\<`T`, `E`\> & `object` & `P`\>
 
-##### Parameters
+• **extraProps?**: `P` \| (`props`) => `P`
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `Component` | `FunctionComponent`\<[`NevoProps`](../README.md#nevoprops)\<`T`, `E`\> & \{ `id`: `string` ; `key`: `string`  } & `P`\> |  |
-| `extraProps?` | `P` \| (`props`: [`ItemProps`](../README.md#itemprops)\<`T`, `E`\>) => `P` | An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add. |
+An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add.
 
-##### Returns
+#### Returns
 
-(``null`` \| `VNode`\<`any`\>)[]
+(`null` \| `VNode`\<`any`\>)[]
+
+An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/44e3508/lib/types/ItemCallable.ts#L23)
+[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ItemCallable.ts#L23)
 
-___
+***
 
-### remove
+### remove()
 
-• `Readonly` **remove**: (`index`: `number` \| \`$\{number}\`) => `void`
+> `readonly` **remove**: (`index`) => `void`
 
 Removes the item found at the specified `index`.
 
-#### Type declaration
+#### Parameters
 
-▸ (`index`): `void`
+• **index**: `number` \| \`$\{number\}\`
 
-##### Parameters
+The index of the item to remove.
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `index` | `number` \| \`$\{number}\` | The index of the item to remove. |
-
-##### Returns
+#### Returns
 
 `void`
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/44e3508/lib/types/ItemCallable.ts#L39)
+[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ItemCallable.ts#L39)

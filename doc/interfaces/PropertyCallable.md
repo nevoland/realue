@@ -1,49 +1,57 @@
+[**realue**](../README.md) • **Docs**
+
+***
+
 [realue](../README.md) / PropertyCallable
 
-# Interface: PropertyCallable\<T\>
+# Interface: PropertyCallable()\<T\>
 
 Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
 
-## Type parameters
+## Param
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `object` |
+The name of the property for which to generate the props.
 
-## Callable
+## Type Parameters
 
-### PropertyCallable
+• **T** *extends* `object`
 
-▸ **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../README.md#nevoprops)\<`T`[`K`], [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
+> **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\[`K`\], [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\[`K`\], `NonNullable`\<`T`\[`K`\]\>\>\> & `object`
 
-#### Type parameters
+Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends `string` \| `number` \| `symbol` |
+## Type Parameters
 
-#### Parameters
+• **K** *extends* `string` \| `number` \| `symbol`
 
-| Name | Type |
-| :------ | :------ |
-| `propertyName` | `K` |
+## Parameters
 
-#### Returns
+• **propertyName**: `K`
 
-[`NevoProps`](../README.md#nevoprops)\<`T`[`K`], [`ErrorReport`](../README.md#errorreport)\<`T`[`K`], `NonNullable`\<`T`[`K`]\>\>\> & \{ `key`: `string`  }
+## Returns
 
-#### Defined in
+[`NevoProps`](../type-aliases/NevoProps.md)\<`T`\[`K`\], [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\[`K`\], `NonNullable`\<`T`\[`K`\]\>\>\> & `object`
 
-[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/44e3508/lib/types/PropertyCallable.ts#L11)
+## Param
 
-### PropertyCallable
+The name of the property for which to generate the props.
 
-▸ **PropertyCallable**(): [`NevoProps`](../README.md#nevoprops)\<`T`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
+## Defined in
 
-#### Returns
+[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/PropertyCallable.ts#L11)
 
-[`NevoProps`](../README.md#nevoprops)\<`T`, [`ErrorReportValue`](../README.md#errorreportvalue)\>
+> **PropertyCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`, [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
-#### Defined in
+Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
 
-[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/44e3508/lib/types/PropertyCallable.ts#L14)
+## Returns
+
+[`NevoProps`](../type-aliases/NevoProps.md)\<`T`, [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
+
+## Param
+
+The name of the property for which to generate the props.
+
+## Defined in
+
+[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/PropertyCallable.ts#L14)
