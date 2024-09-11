@@ -1,4 +1,5 @@
 import {
+  type Dispatch,
   type StateUpdater,
   isPromise,
   timeout,
@@ -32,7 +33,7 @@ export function usePromise<T>(promise?: Promise<T> | T) {
 }
 
 function attachPromise<T>(
-  onChangeState: StateUpdater<PromiseState<T>>,
+  onChangeState: Dispatch<StateUpdater<PromiseState<T>>>,
   promise?: Promise<T> | T,
 ): { dispose?: () => void; state: PromiseState<T> } {
   let mounted = true;
