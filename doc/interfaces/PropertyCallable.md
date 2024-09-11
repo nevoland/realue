@@ -34,7 +34,7 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 
 #### Defined in
 
-[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/edc48a9/lib/types/PropertyCallable.ts#L11)
+[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/44e3508/lib/types/PropertyCallable.ts#L11)
 
 ### PropertyCallable
 
@@ -46,4 +46,4 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 
 #### Defined in
 
-[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/edc48a9/lib/types/PropertyCallable.ts#L14)
+[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/44e3508/lib/types/PropertyCallable.ts#L14)
