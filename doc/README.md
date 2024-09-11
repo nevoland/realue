@@ -69,6 +69,7 @@
 - [usePreviousArgument](functions/usePreviousArgument.md)
 - [usePreviousArgumentList](functions/usePreviousArgumentList.md)
 - [usePromise](functions/usePromise.md)
+- [useReferencedState](functions/useReferencedState.md)
 - [useRefresh](functions/useRefresh.md)
 - [useRemove](functions/useRemove.md)
 - [useResilient](functions/useResilient.md)

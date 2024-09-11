@@ -26,4 +26,4 @@
 
 ## Defined in
 
-[lib/types/ItemProps.ts:4](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ItemProps.ts#L4)
+[lib/types/ItemProps.ts:4](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/types/ItemProps.ts#L4)

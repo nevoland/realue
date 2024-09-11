@@ -26,4 +26,4 @@ Whether parents should be observed as well.
 
 ## Defined in
 
-[lib/types/ResizeEffectOptions.ts:4](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ResizeEffectOptions.ts#L4)
+[lib/types/ResizeEffectOptions.ts:4](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/types/ResizeEffectOptions.ts#L4)

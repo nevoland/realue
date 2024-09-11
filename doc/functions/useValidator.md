@@ -43,7 +43,7 @@ The promise state object.
 
 ### Defined in
 
-[lib/hooks/useValidator.ts:28](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/hooks/useValidator.ts#L28)
+[lib/hooks/useValidator.ts:28](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useValidator.ts#L28)
 
 ## useValidator(props, onValidate)
 
@@ -69,7 +69,7 @@ The promise state object.
 
 ### Defined in
 
-[lib/hooks/useValidator.ts:32](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/hooks/useValidator.ts#L32)
+[lib/hooks/useValidator.ts:32](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useValidator.ts#L32)
 
 ## useValidator(props, onValidate)
 
@@ -95,4 +95,4 @@ The promise state object.
 
 ### Defined in
 
-[lib/hooks/useValidator.ts:40](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/hooks/useValidator.ts#L40)
+[lib/hooks/useValidator.ts:40](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useValidator.ts#L40)

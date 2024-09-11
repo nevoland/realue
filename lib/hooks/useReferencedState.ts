@@ -10,5 +10,5 @@ export function useReferencedState<T>(value: T) {
   const { 0: state, 1: onChangeState } = useState(value);
   const stateRef = useRef(state);
   stateRef.current = state;
-  return [stateRef, onChangeState];
+  return [stateRef, onChangeState] as const;
 }

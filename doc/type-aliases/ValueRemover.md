@@ -20,4 +20,4 @@ Function that removes an array item at index `name`.
 
 ## Defined in
 
-[lib/types/ValueRemover.ts:6](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/types/ValueRemover.ts#L6)
+[lib/types/ValueRemover.ts:6](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/types/ValueRemover.ts#L6)

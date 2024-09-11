@@ -30,4 +30,4 @@ A promise state object.
 
 ## Defined in
 
-[lib/hooks/usePromise.ts:20](https://github.com/nevoland/realue/blob/f4b19517a70849cd9acdbd330ff073726e13ba1f/lib/hooks/usePromise.ts#L20)
+[lib/hooks/usePromise.ts:20](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/usePromise.ts#L20)
