@@ -18,7 +18,7 @@ export function changeError<
   itemError: ErrorReportValue | E[keyof E] | undefined,
 ): E | undefined;
 export function changeError<
-  T extends any[] | undefined,
+  T extends readonly any[] | undefined,
   E extends ErrorReportArray<NonNullable<T>>,
 >(
   error: E | undefined,
@@ -26,7 +26,7 @@ export function changeError<
   itemError: ErrorReportValue | E[number] | undefined,
 ): E | undefined;
 export function changeError<
-  T extends object | any[] | undefined,
+  T extends object | readonly any[] | undefined,
   E extends ErrorReport<NonNullable<T>>,
 >(
   error: E | undefined,

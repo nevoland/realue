@@ -1,3 +1,5 @@
+import { EMPTY_ARRAY } from "unchangeable";
+
 import {
   adapt,
   globalError,
@@ -31,8 +33,14 @@ type PersonData = {
     phone?: string;
   };
   showFriends?: boolean;
-  friends?: (string | undefined)[];
+  friends?: readonly (string | undefined)[];
 };
+
+type TestData = NevoProps<string[] | undefined>;
+
+export function TestComponent({ value = EMPTY_ARRAY }: TestData) {
+  return <div>{value.join(",")}</div>;
+}
 
 type FriendProps = NevoProps<string | undefined> & {
   onRemove?: ValueRemover;
@@ -48,7 +56,7 @@ function Friend(props: FriendProps) {
   );
 }
 
-type FriendListProps = NevoProps<(string | undefined)[] | undefined>;
+type FriendListProps = NevoProps<readonly (string | undefined)[] | undefined>;
 
 const FriendList = memo((props: FriendListProps) => {
   const item = useArray(props);
