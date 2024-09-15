@@ -60,12 +60,12 @@ function attachPromise<T>(
       state,
     };
   }
-  const state = {
-    promise,
-    reason: undefined,
+  const state: PromiseState<T> = {
     status: "pending",
+    promise,
     value: undefined,
-  } as const;
+    reason: undefined,
+  };
   timeout(0, () => {
     onChangeState(state);
     promise.then(
@@ -76,7 +76,7 @@ function attachPromise<T>(
         onChangeState((state) =>
           state.promise !== promise
             ? state
-            : { ...state, status: "fulfilled", value },
+            : { status: "fulfilled", promise, value, reason: undefined },
         );
         return value;
       },
@@ -87,7 +87,7 @@ function attachPromise<T>(
         onChangeState((state) =>
           state.promise !== promise
             ? state
-            : { ...state, reason, status: "rejected" },
+            : { status: "rejected", promise, value: undefined, reason },
         );
       },
     );
