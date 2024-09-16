@@ -12,7 +12,7 @@ export function useSyncedProps<T>(
   props?: NevoProps<T>,
 ): Pick<NevoProps<T>, "name" | "error" | "value"> &
   Required<Pick<NevoProps<T>, "onChange" | "onChangeError">> {
-  const [value, onChangeValueState] = useState<T>(props?.value as T);
+  const { 0: value, 1: onChangeValueState } = useState<T>(props?.value as T);
   const name = props?.name ?? "";
   useLayoutEffect(() => {
     onChangeValueState(props?.value as T);
@@ -24,9 +24,9 @@ export function useSyncedProps<T>(
     },
     [props?.onChange, name],
   );
-  const [error, onChangeErrorState] = useState<ErrorReport<T> | undefined>(
-    props?.error,
-  );
+  const { 0: error, 1: onChangeErrorState } = useState<
+    ErrorReport<T> | undefined
+  >(props?.error);
   useLayoutEffect(() => {
     onChangeErrorState(props?.error);
   }, [props?.error]);

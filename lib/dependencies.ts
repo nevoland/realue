@@ -20,6 +20,7 @@ export {
 } from "preact/hooks";
 export { useSignal } from "@preact/signals";
 export type { PromiseStatus } from "futurise";
+export type { Inputs } from "preact/compat";
 
 export { timeout, sleep } from "futurise";
 
