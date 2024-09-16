@@ -10,7 +10,14 @@ import {
   useRef,
   useState,
 } from "../dependencies.js";
-import type { Fetch, Name, NevoProps } from "../types";
+import type {
+  ErrorReport,
+  Fetch,
+  Name,
+  NevoProps,
+  ValueMutator,
+  ValueRemover,
+} from "../types";
 
 import { useAbortController } from "./useAbortController.js";
 import { usePromise } from "./usePromise.js";
@@ -18,75 +25,158 @@ import { usePromise } from "./usePromise.js";
 type AsyncPropsOptions<T, Q> = {
   value?: () => Q;
   onChange?: (value: T, name: Name) => Q;
+  onRemove?: (name: Name) => void;
   fetch: Fetch<T, Q>;
   subscribe?: (query: Q, callback: () => void) => () => void;
 };
 
 export function useAsyncProps<T, Q>(
-  props: NevoProps<T> | undefined,
+  props: undefined,
   options: AsyncPropsOptions<T, Q>,
-  dependencies: Inputs,
-): NevoProps<T> & { status: PromiseStatus; onAbort: () => void } {
+  dependencies?: Inputs,
+): NevoProps<T | undefined> & {
+  status: PromiseStatus;
+  onAbort: () => void;
+  onRefresh: () => void;
+  onRemove?: ValueRemover;
+};
+export function useAsyncProps<T, Q>(
+  props: NevoProps<T> & { onRemove?: ValueRemover },
+  options: AsyncPropsOptions<T, Q>,
+  dependencies?: Inputs,
+): NevoProps<T> & {
+  status: PromiseStatus;
+  onAbort: () => void;
+  onRefresh: () => void;
+  onRemove?: ValueRemover;
+};
+export function useAsyncProps<T, Q>(
+  props: (NevoProps<T> & { onRemove?: ValueRemover }) | undefined,
+  options: AsyncPropsOptions<T, Q>,
+  dependencies: Inputs = EMPTY_ARRAY,
+): NevoProps<T> & {
+  status: PromiseStatus;
+  onAbort: () => void;
+  onRefresh: () => void;
+  onRemove?: ValueRemover;
+} {
   const {
     value: queryValue,
     onChange: queryOnChange,
+    onRemove: queryOnRemove,
     fetch,
     subscribe,
   } = options;
   const abortController = useAbortController();
   const abort = useRef<AbortController>();
   const query = useRef<Q>();
-
-  const valueStatus = usePromise(
-    useMemo(
-      () => {
-        if (queryValue === undefined) {
-          return undefined;
-        }
-        query.current = queryValue();
-        if (query.current === undefined) {
-          return undefined;
-        }
-        abort.current = abortController();
-        return fetch(query.current, abort.current);
-      },
-      dependencies === undefined ? undefined : [fetch, ...dependencies],
-    ),
+  const [refresh, setRefresh] = useState(false);
+  const onRefresh = useCallback(
+    () => setRefresh((value) => !value),
+    EMPTY_ARRAY,
   );
 
-  const { 0: promise, 1: onChangePromise } = useState<Promise<T>>();
-  const { 0: value, 1: onChangeValue } = useState<T>();
+  const valueStatus = usePromise(
+    useMemo(() => {
+      if (queryValue === undefined) {
+        return undefined;
+      }
+      query.current = queryValue();
+      if (query.current === undefined) {
+        return undefined;
+      }
+      abort.current = abortController();
+      return fetch(query.current, abort.current);
+    }, [refresh, ...dependencies]),
+  );
 
-  const onChange = useMemo(
+  const { 0: promise, 1: setPromise } = useState<Promise<T>>();
+
+  const onChange = useMemo<ValueMutator<Readonly<T>> | undefined>(
     () =>
       queryOnChange === undefined && props?.onChange === undefined
         ? undefined
-        : (value: T, name: Name) => {
-            const query = queryOnChange!(value, name);
-            onChangeValue(value);
+        : (value, name) => {
             props?.onChange?.(value, name);
+            if (queryOnChange === undefined) {
+              return;
+            }
+            const query = queryOnChange(value, name);
             if (query === undefined) {
               return;
             }
             abort.current = abortController();
-            onChangePromise(fetch(query, abort.current));
+            setPromise(fetch(query, abort.current));
           },
-    [fetch, ...dependencies],
+    dependencies,
   );
+
   const onChangeStatus = usePromise(promise);
 
-  useEffect(() => subscribe(query.current), [query.current]);
+  const onRemove = useMemo<ValueRemover | undefined>(
+    () =>
+      queryOnRemove === undefined && props?.onRemove === undefined
+        ? undefined
+        : (name) => {
+            props?.onRemove?.(name);
+            if (queryOnRemove === undefined) {
+              return;
+            }
+            const query = queryOnRemove(name);
+            if (query === undefined) {
+              return;
+            }
+            abort.current = abortController();
+            setPromise(fetch(query, abort.current));
+          },
+    dependencies,
+  );
+
+  useEffect(() => {
+    if (query.current === undefined || subscribe === undefined) {
+      return;
+    }
+    return subscribe(query.current, onRefresh);
+  }, [subscribe, ...dependencies]);
 
   const onAbort = useCallback(() => {
     abort.current?.abort();
   }, EMPTY_ARRAY);
 
-  return {
-    ...props,
-    onAbort,
+  const valueStatusError = valueStatus.reason as ErrorReport<T> | undefined;
+  const onChangeStatusError = onChangeStatus.reason as
+    | ErrorReport<T>
+    | undefined;
 
+  const { 0: error, 1: setError } = useState(
+    valueStatusError ?? onChangeStatusError,
+  );
+
+  const onChangeError = useCallback(
+    (error: ErrorReport<T> | undefined, name: Name) => {
+      setError(error);
+      props?.onChangeError?.(error, name);
+    },
+    [props?.onChangeError],
+  );
+
+  useEffect(() => {
+    setError(valueStatusError);
+  }, [valueStatusError]);
+
+  useEffect(() => {
+    setError(onChangeStatusError);
+  }, [onChangeStatusError]);
+
+  return {
+    error,
+    name: props?.name ?? "",
+    onAbort,
     onChange,
+    onChangeError,
+    onRefresh,
+    onRemove,
     status: reduceStatusList(valueStatus.status, onChangeStatus.status),
-    value: valueStatus.value ?? props.value,
+    value: (valueStatus.value ?? props?.value) as Readonly<T>,
   };
 }

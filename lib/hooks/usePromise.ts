@@ -23,7 +23,7 @@ export function usePromise<T>(promise?: Promise<T> | T) {
   });
   const observer = useMemo(
     () => attachPromise(onChangeState, promise),
-    [promise, onChangeState],
+    [promise],
   );
   useEffect(() => observer.dispose, [observer.dispose]);
   if (observer.state.promise !== state.promise) {

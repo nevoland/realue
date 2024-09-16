@@ -5,6 +5,7 @@ import {
   globalError,
   normalize,
   useArray,
+  useAsyncProps,
   useObject,
   useRemove,
   useSyncedProps,
@@ -243,6 +244,7 @@ export function Demo() {
   }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
+      <AsyncTest />
       {item.loop(Person, { onRemove: item.remove })}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
@@ -273,6 +275,33 @@ export function Demo() {
     </div>
   );
 }
+
+const AsyncTest = memo(() => {
+  const props = useAsyncProps<PersonData, { context: { id: string } }>(
+    undefined,
+    {
+      value: () => ({
+        type: "person",
+        method: "read",
+        context: {
+          id: "3",
+        },
+      }),
+      onRemove: (name) => ({
+        type: "person",
+        method: "delete",
+        context: {
+          id: name,
+        },
+      }),
+      fetch: async (query) => ({
+        id: query.context.id,
+        name: "Alice",
+      }),
+    },
+  );
+  return <pre>{JSON.stringify(props, null, 2)}</pre>;
+});
 
 function formatJson(_key: any, value: any) {
   if (value === undefined) {
