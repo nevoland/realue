@@ -1,3 +1,5 @@
+import EventEmitter from "eventemitter3";
+import { timeout, until } from "futurise";
 import { EMPTY_ARRAY } from "unchangeable";
 
 import {
@@ -245,6 +247,7 @@ export function Demo() {
   return (
     <div class="m-3 flex flex-col space-y-2">
       <AsyncTest />
+      <AsyncTest />
       {item.loop(Person, { onRemove: item.remove })}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
@@ -276,16 +279,67 @@ export function Demo() {
   );
 }
 
+type Query = {
+  method?: "read" | "update" | "create" | "delete";
+  type: string;
+  context: { id: string };
+  value: {};
+};
+
+const eventEmitter = new EventEmitter();
+
+let STORE = {
+  id: "3",
+  name: "Alice",
+  email: "alice@bingo.com",
+  deleted: false,
+};
+
+async function customFetch(query: Query) {
+  // Custom fetch
+  console.log("query", query);
+
+  switch (query.method) {
+    case "create":
+    case "update":
+      await until(timeout(2000));
+      STORE = { ...STORE, ...query.value };
+      eventEmitter.emit(query.type, query.method);
+      return STORE;
+    case "delete":
+      await until(timeout(2000));
+      STORE = { ...STORE, deleted: true };
+      eventEmitter.emit(query.type, query.method);
+      return STORE;
+    case "read":
+    default:
+      await until(timeout(2000));
+      return STORE;
+  }
+}
+
+function customSubscribe(query: Query, onRefresh: () => void) {
+  if (query.method !== "read" && query.method !== undefined) {
+    return;
+  }
+  eventEmitter.on(query.type, onRefresh);
+  return () => {
+    eventEmitter.off(query.type, onRefresh);
+  };
+}
+
 const AsyncTest = memo(() => {
-  const props = useAsyncProps<PersonData, { context: { id: string } }>(
-    undefined,
+  const props = useAsyncProps<PersonData | undefined, Query>(
+    { value: {}, name: "3" },
     {
-      value: () => ({
+      fetch: customFetch,
+      onChange: (value, name) => ({
         type: "person",
-        method: "read",
+        method: value?.id === undefined ? "create" : "update",
         context: {
-          id: "3",
+          id: name,
         },
+        value,
       }),
       onRemove: (name) => ({
         type: "person",
@@ -294,13 +348,32 @@ const AsyncTest = memo(() => {
           id: name,
         },
       }),
-      fetch: async (query) => ({
-        id: query.context.id,
-        name: "Alice",
+      subscribe: customSubscribe,
+      value: (name) => ({
+        type: "person",
+        method: "read",
+        context: {
+          id: name,
+        },
       }),
     },
   );
-  return <pre>{JSON.stringify(props, null, 2)}</pre>;
+  return (
+    <div class="flex gap-3">
+      <button
+        onClick={() =>
+          props.onChange!({ ...props.value, name: "Bob" }, props.name)
+        }
+      >
+        Update
+      </button>
+      <button onClick={() => props.onRemove!(props.name as any)}>Remove</button>
+      <strong class={props.status === "pending" ? "text-gray-400" : undefined}>
+        {props.value?.name ?? "…"}
+      </strong>
+      {/* <pre>{JSON.stringify(props, null, 2)}</pre> */}
+    </div>
+  );
 });
 
 function formatJson(_key: any, value: any) {

@@ -23,7 +23,7 @@ import { useAbortController } from "./useAbortController.js";
 import { usePromise } from "./usePromise.js";
 
 type AsyncPropsOptions<T, Q> = {
-  value?: () => Q;
+  value?: (name: Name) => Q;
   onChange?: (value: T, name: Name) => Q;
   onRemove?: (name: Name) => void;
   fetch: Fetch<T, Q>;
@@ -81,7 +81,7 @@ export function useAsyncProps<T, Q>(
       if (queryValue === undefined) {
         return undefined;
       }
-      query.current = queryValue();
+      query.current = queryValue(props?.name ?? "");
       if (query.current === undefined) {
         return undefined;
       }
