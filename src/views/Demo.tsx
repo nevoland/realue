@@ -332,7 +332,7 @@ const AsyncTest = memo(() => {
   /* 
   Case 
   */
-  const props = useAsyncProps<PersonData, Query>(
+  const props = useAsyncProps<PersonData | undefined, Query>(
     {
       value: useMemo(() => ({ name: "Loading…" }), []) as PersonData,
       name: "3",
@@ -353,18 +353,16 @@ const AsyncTest = memo(() => {
             },
       onChange: (value, name) => ({
         type: "person",
-        method: value?.id === undefined ? "create" : "update",
+        method:
+          value === undefined
+            ? "delete"
+            : value?.id === undefined
+              ? "create"
+              : "update",
         context: {
           id: name,
         },
         value,
-      }),
-      onRemove: (name) => ({
-        type: "person",
-        method: "delete",
-        context: {
-          id: name,
-        },
       }),
       fetch: customFetch,
       subscribe: customSubscribe,
@@ -393,7 +391,9 @@ const AsyncTest = memo(() => {
       >
         Update to Alice
       </button>
-      <button onClick={() => props.onRemove(props.name as any)}>Remove</button>
+      <button onClick={() => props.onChange(undefined, props.name)}>
+        Remove
+      </button>
       <strong class={props.status === "pending" ? "text-gray-400" : undefined}>
         {props.value?.name ?? "…"}
       </strong>
