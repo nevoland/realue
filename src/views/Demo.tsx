@@ -297,7 +297,7 @@ let STORE = {
 
 async function customFetch(query: Query): Promise<PersonData> {
   // Custom fetch
-  console.log("query", query);
+  // console.log("query", query);
 
   switch (query.method) {
     case "create":
@@ -333,8 +333,13 @@ const AsyncTest = memo(() => {
   Case 
   */
   const props = useAsyncProps<PersonData, Query>(
-    // { value: {}, name: "3" },
-    undefined,
+    {
+      value: { name: "Loading…" } as PersonData,
+      name: "3",
+      // Remove
+      // onRemove: () => {},
+    },
+    // undefined,
     {
       value: (name) =>
         !name
@@ -369,12 +374,12 @@ const AsyncTest = memo(() => {
     <div class="flex gap-3">
       <button
         onClick={() =>
-          props.onChange!({ ...props.value, name: "Bob" }, props.name)
+          props.onChange({ ...props.value, name: "Bob" }, props.name)
         }
       >
         Update
       </button>
-      <button onClick={() => props.onRemove!(props.name as any)}>Remove</button>
+      <button onClick={() => props.onRemove(props.name as any)}>Remove</button>
       <strong class={props.status === "pending" ? "text-gray-400" : undefined}>
         {props.value?.name ?? "…"}
       </strong>

@@ -1,5 +1,3 @@
-import { reduceStatusList } from "futurise";
-
 import {
   EMPTY_ARRAY,
   type Inputs,
@@ -15,6 +13,7 @@ import type {
   Fetch,
   Name,
   NevoProps,
+  Select,
   ValueMutator,
   ValueRemover,
 } from "../types";
@@ -25,43 +24,74 @@ import { usePromise } from "./usePromise.js";
 type Subscribe<Q> = (query: Q, onRefresh: () => void) => (() => void) | void;
 
 type AsyncPropsOptions<T, Q> = {
-  value?: (name: Name) => Q | void;
-  onChange?: (value: T, name: Name) => Q | void;
-  onRemove?: (name: Name) => Q | void;
+  value?: (name: Name) => Q | undefined;
+  onChange?: (value: T, name: Name) => Q | undefined;
+  onRemove?: (name: Name) => Q | undefined;
   fetch: Fetch<T, Q>;
   subscribe?: Subscribe<Q>;
 };
 
+type AsyncPropsResult<T> = NevoProps<T> & {
+  status: PromiseStatus;
+  onAbort: () => void;
+  onRefresh: () => void;
+  onRemove?: ValueRemover;
+};
+
+type NevoosProps<T> = NevoProps<T> & {
+  onRemove?: ValueRemover;
+  status?: PromiseStatus;
+  onChangeStatus?: ValueMutator<PromiseStatus>;
+};
+
+// No parent props
 export function useAsyncProps<T, Q>(
   props: undefined,
-  options: AsyncPropsOptions<T, Q>,
+  options: Select<AsyncPropsOptions<T, Q>, "onRemove" | "onChange", never>,
   dependencies?: Inputs,
-): NevoProps<T | undefined> & {
-  status: PromiseStatus;
-  onAbort: () => void;
-  onRefresh: () => void;
-  onRemove?: ValueRemover;
-};
+): Select<AsyncPropsResult<T | undefined>, "onRemove" | "onChange", never>;
 export function useAsyncProps<T, Q>(
-  props: NevoProps<T> & { onRemove?: ValueRemover },
-  options: AsyncPropsOptions<T, Q>,
+  props: undefined,
+  options: Select<AsyncPropsOptions<T, Q>, "onRemove", "onChange">,
   dependencies?: Inputs,
-): NevoProps<T> & {
-  status: PromiseStatus;
-  onAbort: () => void;
-  onRefresh: () => void;
-  onRemove?: ValueRemover;
-};
+): Select<AsyncPropsResult<T | undefined>, "onRemove", "onChange">;
 export function useAsyncProps<T, Q>(
-  props: (NevoProps<T> & { onRemove?: ValueRemover }) | undefined,
+  props: undefined,
+  options: Select<AsyncPropsOptions<T, Q>, "onChange", "onRemove">,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T | undefined>, "onChange", "onRemove">;
+export function useAsyncProps<T, Q>(
+  props: undefined,
+  options: Select<AsyncPropsOptions<T, Q>, never, "onRemove" | "onChange">,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T | undefined>, never, "onRemove" | "onChange">;
+// With parent props
+export function useAsyncProps<T, Q>(
+  props: NevoosProps<T>,
+  options: Select<AsyncPropsOptions<T, Q>, "onRemove" | "onChange", never>,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T>, "onRemove" | "onChange", never>;
+export function useAsyncProps<T, Q>(
+  props: NevoosProps<T>,
+  options: Select<AsyncPropsOptions<T, Q>, "onChange", "onRemove">,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T>, "onChange", never>;
+export function useAsyncProps<T, Q>(
+  props: NevoosProps<T>,
+  options: Select<AsyncPropsOptions<T, Q>, "onRemove", "onChange">,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T>, "onRemove", never>;
+export function useAsyncProps<T, Q>(
+  props: NevoosProps<T>,
+  options: Select<AsyncPropsOptions<T, Q>, never, "onRemove" | "onChange">,
+  dependencies?: Inputs,
+): AsyncPropsResult<T>;
+// Implementation
+export function useAsyncProps<T, Q>(
+  props: NevoosProps<T> | undefined,
   options: AsyncPropsOptions<T, Q>,
   dependencies: Inputs = EMPTY_ARRAY,
-): NevoProps<T> & {
-  status: PromiseStatus;
-  onAbort: () => void;
-  onRefresh: () => void;
-  onRemove?: ValueRemover;
-} {
+): AsyncPropsResult<T> {
   const {
     value: queryValue,
     onChange: queryOnChange,
@@ -71,7 +101,8 @@ export function useAsyncProps<T, Q>(
   } = options;
   const abortController = useAbortController();
   const abort = useRef<AbortController>();
-  const query = useRef<Q>();
+  const valueQuery = useRef<Q>();
+  const onChangeQuery = useRef<Q>();
   const [refresh, setRefresh] = useState(false);
   const onRefresh = useCallback(
     () => setRefresh((value) => !value),
@@ -83,12 +114,13 @@ export function useAsyncProps<T, Q>(
       if (queryValue === undefined) {
         return undefined;
       }
-      query.current = queryValue(props?.name ?? "");
-      if (query.current === undefined) {
+      const query = queryValue(props?.name ?? "");
+      valueQuery.current = query;
+      if (query === undefined) {
         return undefined;
       }
       abort.current = abortController();
-      return fetch(query.current, abort.current);
+      return fetch(query, abort.current);
     }, [refresh, ...dependencies]),
   );
 
@@ -104,6 +136,7 @@ export function useAsyncProps<T, Q>(
               return;
             }
             const query = queryOnChange(value, name);
+            onChangeQuery.current = query;
             if (query === undefined) {
               return;
             }
@@ -135,11 +168,11 @@ export function useAsyncProps<T, Q>(
   );
 
   useEffect(() => {
-    if (query.current === undefined || subscribe === undefined) {
+    if (valueQuery.current === undefined || subscribe === undefined) {
       return;
     }
-    return subscribe(query.current, onRefresh);
-  }, [subscribe, ...dependencies]);
+    return subscribe(valueQuery.current, onRefresh);
+  }, dependencies);
 
   const onAbort = useCallback(() => {
     abort.current?.abort();
@@ -149,11 +182,9 @@ export function useAsyncProps<T, Q>(
   const onChangeStatusError = onChangeStatus.reason as
     | ErrorReport<T>
     | undefined;
-
   const { 0: error, 1: setError } = useState(
     valueStatusError ?? onChangeStatusError,
   );
-
   const onChangeError = useCallback(
     (error: ErrorReport<T> | undefined, name: Name) => {
       setError(error);
@@ -161,14 +192,29 @@ export function useAsyncProps<T, Q>(
     },
     [props?.onChangeError],
   );
-
   useEffect(() => {
     setError(valueStatusError);
   }, [valueStatusError]);
-
   useEffect(() => {
     setError(onChangeStatusError);
   }, [onChangeStatusError]);
+
+  const valueStatusStatus = valueStatus.status;
+  const onChangeStatusStatus = onChangeStatus.status;
+  const status = useMemo(() => {
+    if (
+      PROMISE_STATUS_RANK[valueStatusStatus] >
+      PROMISE_STATUS_RANK[onChangeStatusStatus]
+    ) {
+      return valueStatusStatus;
+    }
+    return onChangeStatusStatus;
+  }, [valueStatusStatus, onChangeStatusStatus]);
+  useEffect(() => {
+    props?.onChangeStatus?.(status, props?.name);
+  }, [status]);
+
+  const value = (valueStatus.value ?? props?.value) as Readonly<T>;
 
   return {
     error,
@@ -178,7 +224,15 @@ export function useAsyncProps<T, Q>(
     onChangeError,
     onRefresh,
     onRemove,
-    status: reduceStatusList(valueStatus.status, onChangeStatus.status),
-    value: (valueStatus.value ?? props?.value) as Readonly<T>,
+    status,
+    value,
+    // TODO: Return `query`
   };
 }
+
+const PROMISE_STATUS_RANK: Record<PromiseStatus, number> = {
+  idle: 0,
+  fulfilled: 1,
+  rejected: 2,
+  pending: 3,
+};
