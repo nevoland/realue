@@ -165,11 +165,7 @@ export default [
         },
       ],
       "sort-keys": "off",
-      "sortkeys/sort-keys-fix": [
-        "error",
-        "asc",
-        { caseSensitive: false, minKeys: 5, natural: true },
-      ],
+      "sortkeys/sort-keys-fix": "off",
       "spaced-comment": [
         "error",
         "always",
