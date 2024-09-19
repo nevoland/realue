@@ -22,12 +22,14 @@ import type {
 import { useAbortController } from "./useAbortController.js";
 import { usePromise } from "./usePromise.js";
 
+type Subscribe<Q> = (query: Q, onRefresh: () => void) => (() => void) | void;
+
 type AsyncPropsOptions<T, Q> = {
-  value?: (name: Name) => Q;
-  onChange?: (value: T, name: Name) => Q;
-  onRemove?: (name: Name) => void;
+  value?: (name: Name) => Q | void;
+  onChange?: (value: T, name: Name) => Q | void;
+  onRemove?: (name: Name) => Q | void;
   fetch: Fetch<T, Q>;
-  subscribe?: (query: Q, callback: () => void) => () => void;
+  subscribe?: Subscribe<Q>;
 };
 
 export function useAsyncProps<T, Q>(

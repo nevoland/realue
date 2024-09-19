@@ -23,21 +23,21 @@ const result = adapt({ name: "test", value: 1 }, "option");
 const resultNormalized = normalize(result, "option");
 resultNormalized.value;
 
-type PersonData = {
+type PersonData = Partial<{
   id: string;
-  name?: string;
-  lastName?: string;
-  userName?: string;
-  age?: number;
-  activeSince?: number;
-  showContact?: boolean;
-  contact?: {
-    email?: string;
-    phone?: string;
-  };
-  showFriends?: boolean;
-  friends?: readonly (string | undefined)[];
-};
+  name: string;
+  lastName: string;
+  userName: string;
+  age: number;
+  activeSince: number;
+  showContact: boolean;
+  contact: Partial<{
+    email: string;
+    phone: string;
+  }>;
+  showFriends: boolean;
+  friends: readonly (string | undefined)[];
+}>;
 
 type TestData = NevoProps<string[] | undefined>;
 
@@ -283,7 +283,7 @@ type Query = {
   method?: "read" | "update" | "create" | "delete";
   type: string;
   context: { id: string };
-  value: {};
+  value?: {};
 };
 
 const eventEmitter = new EventEmitter();
@@ -295,7 +295,7 @@ let STORE = {
   deleted: false,
 };
 
-async function customFetch(query: Query) {
+async function customFetch(query: Query): Promise<PersonData> {
   // Custom fetch
   console.log("query", query);
 
@@ -329,10 +329,23 @@ function customSubscribe(query: Query, onRefresh: () => void) {
 }
 
 const AsyncTest = memo(() => {
-  const props = useAsyncProps<PersonData | undefined, Query>(
-    { value: {}, name: "3" },
+  /* 
+  Case 
+  */
+  const props = useAsyncProps<PersonData, Query>(
+    // { value: {}, name: "3" },
+    undefined,
     {
-      fetch: customFetch,
+      value: (name) =>
+        !name
+          ? undefined
+          : {
+              type: "person",
+              method: "read",
+              context: {
+                id: name,
+              },
+            },
       onChange: (value, name) => ({
         type: "person",
         method: value?.id === undefined ? "create" : "update",
@@ -348,14 +361,8 @@ const AsyncTest = memo(() => {
           id: name,
         },
       }),
+      fetch: customFetch,
       subscribe: customSubscribe,
-      value: (name) => ({
-        type: "person",
-        method: "read",
-        context: {
-          id: name,
-        },
-      }),
     },
   );
   return (
