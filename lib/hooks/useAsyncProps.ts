@@ -4,6 +4,7 @@ import {
   type PromiseStatus,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -21,12 +22,15 @@ import type {
 import { useAbortController } from "./useAbortController.js";
 import { usePromise } from "./usePromise.js";
 
-type Subscribe<Q> = (query: Q, onRefresh: () => void) => (() => void) | void;
+type Subscribe<Q> = (
+  query: Q,
+  onRefresh: (query: Q) => void,
+) => (() => void) | void;
 
 type AsyncPropsOptions<T, Q> = {
   value?: (name: Name) => Q | undefined;
-  onChange?: (value: T, name: Name) => Q | undefined;
-  onRemove?: (name: Name) => Q | undefined;
+  onChange?: (value: T, name: Name) => Q;
+  onRemove?: (name: Name) => Q;
   fetch: Fetch<T, Q>;
   subscribe?: Subscribe<Q>;
 };
@@ -42,6 +46,14 @@ type NevoosProps<T> = NevoProps<T> & {
   onRemove?: ValueRemover;
   status?: PromiseStatus;
   onChangeStatus?: ValueMutator<PromiseStatus>;
+};
+
+type AsyncPropsState<T, Q> = {
+  value?: Readonly<T>;
+  error?: ErrorReport<T>;
+  valueQuery?: Q;
+  mutationQuery?: Q;
+  abort?: AbortController;
 };
 
 // No parent props
@@ -100,53 +112,94 @@ export function useAsyncProps<T, Q>(
     subscribe,
   } = options;
   const abortController = useAbortController();
-  const abort = useRef<AbortController>();
-  const valueQuery = useRef<Q>();
-  const onChangeQuery = useRef<Q>();
-  const [refresh, setRefresh] = useState(false);
-  const onRefresh = useCallback(
-    () => setRefresh((value) => !value),
-    EMPTY_ARRAY,
-  );
+  const state = useRef<AsyncPropsState<T, Q>>({
+    value: props?.value,
+    error: props?.error,
+  });
 
-  const valueStatus = usePromise(
+  useLayoutEffect(() => {
+    state.current.value = props?.value;
+  }, [props?.value]);
+
+  const [refresh, setRefresh] = useState(false);
+  const onRefresh = useCallback((query?: Q) => {
+    if (state.current.mutationQuery === query) {
+      return;
+    }
+    setRefresh((value) => !value);
+  }, EMPTY_ARRAY);
+
+  const valueState = usePromise(
     useMemo(() => {
       if (queryValue === undefined) {
         return undefined;
       }
       const query = queryValue(props?.name ?? "");
-      valueQuery.current = query;
+      state.current.valueQuery = query;
       if (query === undefined) {
         return undefined;
       }
-      abort.current = abortController();
-      return fetch(query, abort.current);
+      state.current.abort = abortController();
+      return fetch(query, state.current.abort);
     }, [refresh, ...dependencies]),
   );
+  useMemo(() => {
+    if (state.current.valueQuery === undefined || subscribe === undefined) {
+      return;
+    }
+    return subscribe(state.current.valueQuery, onRefresh);
+  }, dependencies);
+  useMemo(() => {
+    switch (valueState.status) {
+      case "idle":
+      case "pending":
+        return;
+      case "fulfilled":
+        state.current.value = valueState.value;
+        return;
+      case "rejected":
+        state.current.error = valueState.reason as ErrorReport<T>;
+        return;
+      default:
+      // Ignore
+    }
+  }, [valueState.status]);
 
   const { 0: promise, 1: setPromise } = useState<Promise<T>>();
+  const mutationState = usePromise(promise);
+  useMemo(() => {
+    switch (mutationState.status) {
+      case "idle":
+      case "pending":
+        return;
+      case "fulfilled":
+        state.current.value = mutationState.value;
+        return;
+      case "rejected":
+        state.current.error = mutationState.reason as ErrorReport<T>;
+        return;
+      default:
+      // Ignore
+    }
+  }, [mutationState.status]);
 
   const onChange = useMemo<ValueMutator<Readonly<T>> | undefined>(
     () =>
       queryOnChange === undefined && props?.onChange === undefined
         ? undefined
-        : (value, name) => {
-            props?.onChange?.(value, name);
+        : (nextValue, name) => {
+            props?.onChange?.(nextValue, name);
+            state.current.value = nextValue;
             if (queryOnChange === undefined) {
               return;
             }
-            const query = queryOnChange(value, name);
-            onChangeQuery.current = query;
-            if (query === undefined) {
-              return;
-            }
-            abort.current = abortController();
-            setPromise(fetch(query, abort.current));
+            const query = queryOnChange(nextValue, name);
+            state.current.mutationQuery = query;
+            state.current.abort = abortController();
+            setPromise(fetch(query, state.current.abort));
           },
     dependencies,
   );
-
-  const onChangeStatus = usePromise(promise);
 
   const onRemove = useMemo<ValueRemover | undefined>(
     () =>
@@ -158,75 +211,41 @@ export function useAsyncProps<T, Q>(
               return;
             }
             const query = queryOnRemove(name);
-            if (query === undefined) {
-              return;
-            }
-            abort.current = abortController();
-            setPromise(fetch(query, abort.current));
+            state.current.mutationQuery = query;
+            state.current.abort = abortController();
+            setPromise(fetch(query, state.current.abort));
           },
     dependencies,
   );
 
-  useEffect(() => {
-    if (valueQuery.current === undefined || subscribe === undefined) {
-      return;
-    }
-    return subscribe(valueQuery.current, onRefresh);
-  }, dependencies);
-
   const onAbort = useCallback(() => {
-    abort.current?.abort();
+    state.current.abort?.abort();
   }, EMPTY_ARRAY);
 
-  const valueStatusError = valueStatus.reason as ErrorReport<T> | undefined;
-  const onChangeStatusError = onChangeStatus.reason as
-    | ErrorReport<T>
-    | undefined;
-  const { 0: error, 1: setError } = useState(
-    valueStatusError ?? onChangeStatusError,
-  );
-  const onChangeError = useCallback(
-    (error: ErrorReport<T> | undefined, name: Name) => {
-      setError(error);
-      props?.onChangeError?.(error, name);
-    },
-    [props?.onChangeError],
-  );
-  useEffect(() => {
-    setError(valueStatusError);
-  }, [valueStatusError]);
-  useEffect(() => {
-    setError(onChangeStatusError);
-  }, [onChangeStatusError]);
-
-  const valueStatusStatus = valueStatus.status;
-  const onChangeStatusStatus = onChangeStatus.status;
-  const status = useMemo(() => {
+  const valueStatus = valueState.status;
+  const mutationStatus = mutationState.status;
+  const status: PromiseStatus = useMemo(() => {
     if (
-      PROMISE_STATUS_RANK[valueStatusStatus] >
-      PROMISE_STATUS_RANK[onChangeStatusStatus]
+      PROMISE_STATUS_RANK[valueStatus] > PROMISE_STATUS_RANK[mutationStatus]
     ) {
-      return valueStatusStatus;
+      return valueStatus;
     }
-    return onChangeStatusStatus;
-  }, [valueStatusStatus, onChangeStatusStatus]);
+    return mutationStatus;
+  }, [valueStatus, mutationStatus]);
   useEffect(() => {
     props?.onChangeStatus?.(status, props?.name);
   }, [status]);
 
-  const value = (valueStatus.value ?? props?.value) as Readonly<T>;
-
   return {
-    error,
+    error: state.current.error,
     name: props?.name ?? "",
     onAbort,
     onChange,
-    onChangeError,
+    onChangeError: props?.onChangeError,
     onRefresh,
     onRemove,
     status,
-    value,
-    // TODO: Return `query`
+    value: state.current.value as Readonly<T>,
   };
 }
 

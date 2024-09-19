@@ -15,7 +15,6 @@ export { useOption } from "./hooks/useOption.js";
 export { usePrevious } from "./hooks/usePrevious.js";
 export { usePreviousArgument } from "./hooks/usePreviousArgument.js";
 export { usePreviousArgumentList } from "./hooks/usePreviousArgumentList.js";
-export { useProcess } from "./hooks/useProcess.js";
 export { usePromise } from "./hooks/usePromise.js";
 export { useReferencedState } from "./hooks/useReferencedState.js";
 export { useRefresh } from "./hooks/useRefresh.js";

@@ -17,7 +17,7 @@ import type { NevoProps, ValueRemover } from "../../lib/types";
 import { Checkbox } from "../components/Checkbox.jsx";
 import { Input } from "../components/Input.jsx";
 import { InputNumber } from "../components/InputNumber.jsx";
-import { memo, sleep, uid, useCallback } from "../dependencies.js";
+import { memo, sleep, uid, useCallback, useMemo } from "../dependencies.js";
 
 const result = adapt({ name: "test", value: 1 }, "option");
 const resultNormalized = normalize(result, "option");
@@ -236,7 +236,7 @@ export function Demo() {
     name: "",
   });
   const { value, error } = props;
-  const item = useArray(props, (_, item) => item.id);
+  const item = useArray(props, (index, item) => item.id ?? `${index}`);
   const onAppendItem = useCallback(() => item.add?.({ id: uid() }), [item]);
   const onPrependItem = useCallback(() => item.add?.({ id: uid() }, 0), [item]);
   const onAppendThreeItems = useCallback(() => {
@@ -304,12 +304,12 @@ async function customFetch(query: Query): Promise<PersonData> {
     case "update":
       await until(timeout(2000));
       STORE = { ...STORE, ...query.value };
-      eventEmitter.emit(query.type, query.method);
+      eventEmitter.emit(query.type, query);
       return STORE;
     case "delete":
       await until(timeout(2000));
       STORE = { ...STORE, deleted: true };
-      eventEmitter.emit(query.type, query.method);
+      eventEmitter.emit(query.type, query);
       return STORE;
     case "read":
     default:
@@ -318,7 +318,7 @@ async function customFetch(query: Query): Promise<PersonData> {
   }
 }
 
-function customSubscribe(query: Query, onRefresh: () => void) {
+function customSubscribe(query: Query, onRefresh: (query: Query) => void) {
   if (query.method !== "read" && query.method !== undefined) {
     return;
   }
@@ -334,7 +334,7 @@ const AsyncTest = memo(() => {
   */
   const props = useAsyncProps<PersonData, Query>(
     {
-      value: { name: "Loading…" } as PersonData,
+      value: useMemo(() => ({ name: "Loading…" }), []) as PersonData,
       name: "3",
       // Remove
       // onRemove: () => {},
@@ -377,7 +377,21 @@ const AsyncTest = memo(() => {
           props.onChange({ ...props.value, name: "Bob" }, props.name)
         }
       >
-        Update
+        Update to Bob
+      </button>
+      <button
+        onClick={() =>
+          props.onChange({ ...props.value, name: "Michel" }, props.name)
+        }
+      >
+        Update to Michel
+      </button>
+      <button
+        onClick={() =>
+          props.onChange({ ...props.value, name: "Alice" }, props.name)
+        }
+      >
+        Update to Alice
       </button>
       <button onClick={() => props.onRemove(props.name as any)}>Remove</button>
       <strong class={props.status === "pending" ? "text-gray-400" : undefined}>
