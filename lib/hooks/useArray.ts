@@ -25,21 +25,21 @@ import type {
  * Takes an array and returns a function that generates the required props for handling an array item value.
  * That function also contains three callables: `loop`, `add`, and `remove`.
  *
- * @param props The props holding the array `value`.
+ * @param props Properties according to the NEVO pattern, where the `value` holds an array.
  * @param itemId An optional function that returns a unique identifier for a given array `item`.
  * @returns The `item` function that returns the props for a specific item `index`.
  */
 export function useArray<
   A extends readonly any[] | undefined,
   G extends ErrorReportArray<NonNullable<A>>,
-  T = A extends readonly (infer H)[] ? H : never,
+  T = NonNullable<A> extends readonly (infer H)[] ? H : never,
   E extends ErrorReport<any> = ErrorReport<T>,
 >(
   props: NevoProps<A, G>,
   itemId: ItemId<T> = itemIdDefault,
 ): ItemCallable<T, E> {
   const { name, onChange, error, onChangeError } = props;
-  const value: NonNullable<A> = props.value ?? EMPTY_ARRAY;
+  const value = (props.value ?? EMPTY_ARRAY) as NonNullable<A>;
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);
