@@ -29,7 +29,7 @@ type Subscribe<Q> = (
 type AsyncPropsOptions<T, Q> = {
   value?: (name: Name) => Q | undefined;
   onChange?: (value: T, name: Name) => Q;
-  fetch: Fetch<T, Q>;
+  handle: Fetch<T, Q>;
   subscribe?: Subscribe<Q>;
 };
 
@@ -52,7 +52,20 @@ type AsyncPropsState<T, Q> = {
   abort?: AbortController;
 };
 
-// No parent props
+/**
+ * Asynchronously handles getting the `value` and its `onChange`s by `handle`ing queries and `subscribing` to updates.
+ * If `options.value(name)` is set, uses the defined return value (a "query") and passes it to `options.handle(query)`. If `options.value(name)` returns an undefined value, nothing happens.
+ * If `options.onChange(value, name)` is set, uses the defined return value (a "query") and passes it to `options.handle(query)`. If `options.onChange(value, name)` returns an undefined value, nothing happens.
+ * The `options.handle(query)` function returns asynchronously (or, if needed, synchronously) a `value` that gets returned in the result.
+ * Asynchronous tasks can be tracked with the returned `status` property, and aborted using the returned `onAbort()` method. Ongoing operations are automatically aborted when the element that runs this hook unmounts.
+ * The asynchronous task that gets the `value` can be re-executed using the returned `onRefresh()` method.
+ * If `options.subscribe(query, onRefresh)` is defined, it is called everytime a new `query` is returned by `options.value(name)`, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
+ *
+ * @param props Optional properties according to the NEVO pattern, where the `value` sets the initial value of the returned `value`. Optionally supports `status` and `onChangeStatus` for tracking `status` updates.
+ * @param options
+ * @param dependencies
+ * @returns The properties according to the NEVO pattern, with the
+ */
 export function useAsyncProps<T, Q>(
   props: undefined,
   options: Select<AsyncPropsOptions<T, Q>, "onChange", never>,
@@ -63,7 +76,16 @@ export function useAsyncProps<T, Q>(
   options: Select<AsyncPropsOptions<T, Q>, never, "onChange">,
   dependencies?: Inputs,
 ): Select<AsyncPropsResult<T | undefined>, never, "onChange">;
-// With parent props
+export function useAsyncProps<T, Q>(
+  props: Select<NevosProps<T>, never, "onChange">,
+  options: Select<AsyncPropsOptions<T, Q>, "onChange", never>,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T>, "onChange", never>;
+export function useAsyncProps<T, Q>(
+  props: Select<NevosProps<T>, never, "onChange">,
+  options: Select<AsyncPropsOptions<T, Q>, never, "onChange">,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T>, never, "onChange">;
 export function useAsyncProps<T, Q>(
   props: NevosProps<T>,
   options: Select<AsyncPropsOptions<T, Q>, "onChange", never>,
@@ -74,7 +96,6 @@ export function useAsyncProps<T, Q>(
   options: Select<AsyncPropsOptions<T, Q>, never, "onChange">,
   dependencies?: Inputs,
 ): AsyncPropsResult<T>;
-// Implementation
 export function useAsyncProps<T, Q>(
   props: NevosProps<T> | undefined,
   options: AsyncPropsOptions<T, Q>,
@@ -83,7 +104,7 @@ export function useAsyncProps<T, Q>(
   const {
     value: queryValue,
     onChange: queryOnChange,
-    fetch,
+    handle,
     subscribe,
   } = options;
   const abortController = useAbortController();
@@ -98,7 +119,7 @@ export function useAsyncProps<T, Q>(
 
   const [refresh, setRefresh] = useState(false);
   const onRefresh = useCallback((query?: Q) => {
-    if (state.current.changeQuery === query) {
+    if (query !== undefined && state.current.changeQuery === query) {
       return;
     }
     setRefresh((value) => !value);
@@ -115,7 +136,7 @@ export function useAsyncProps<T, Q>(
         return undefined;
       }
       state.current.abort = abortController();
-      return fetch(query, state.current.abort);
+      return handle(query, state.current.abort);
     }, [refresh, ...dependencies]),
   );
   useMemo(() => {
@@ -140,8 +161,8 @@ export function useAsyncProps<T, Q>(
     }
   }, [valueState.status]);
 
-  const { 0: promise, 1: setPromise } = useState<Promise<T>>();
-  const changeState = usePromise(promise);
+  const { 0: changePromise, 1: setChangePromise } = useState<Promise<T>>();
+  const changeState = usePromise(changePromise);
   useMemo(() => {
     switch (changeState.status) {
       case "idle":
@@ -171,7 +192,7 @@ export function useAsyncProps<T, Q>(
             const query = queryOnChange(nextValue, name);
             state.current.changeQuery = query;
             state.current.abort = abortController();
-            setPromise(fetch(query, state.current.abort));
+            setChangePromise(handle(query, state.current.abort));
           },
     dependencies,
   );
