@@ -17,7 +17,7 @@ import type { NevoProps, ValueRemover } from "../../lib/types";
 import { Checkbox } from "../components/Checkbox.jsx";
 import { Input } from "../components/Input.jsx";
 import { InputNumber } from "../components/InputNumber.jsx";
-import { memo, sleep, uid, useCallback, useMemo } from "../dependencies.js";
+import { memo, sleep, uid, useCallback } from "../dependencies.js";
 
 const result = adapt({ name: "test", value: 1 }, "option");
 const resultNormalized = normalize(result, "option");
