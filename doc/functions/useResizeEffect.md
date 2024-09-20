@@ -30,4 +30,4 @@ Observation options.
 
 ## Defined in
 
-[lib/hooks/useResizeEffect.ts:15](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/hooks/useResizeEffect.ts#L15)
+[lib/hooks/useResizeEffect.ts:15](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useResizeEffect.ts#L15)

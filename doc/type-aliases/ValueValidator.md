@@ -30,4 +30,4 @@ Function that valides a `value` with a given `name` and returns a promise that r
 
 ## Defined in
 
-[lib/types/ValueValidator.ts:6](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/types/ValueValidator.ts#L6)
+[lib/types/ValueValidator.ts:6](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/types/ValueValidator.ts#L6)
