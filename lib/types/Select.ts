@@ -1,8 +1,9 @@
 /**
- * Selects keys to make them required and omits keys.
+ * Updates the object type `T` to make `RequiredKeys` required and `OmittedKeys` optionally `undefined`.
  */
 export type Select<
   T,
-  R extends keyof T = never,
-  O extends keyof T = never,
-> = Omit<T, R | O> & Required<Pick<T, R>>;
+  RequiredKeys extends keyof T = never,
+  OmittedKeys extends keyof T = never,
+> = Omit<T, RequiredKeys | OmittedKeys> &
+  Required<Pick<T, RequiredKeys>> & { [key in OmittedKeys]?: undefined };
