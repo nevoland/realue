@@ -11,11 +11,17 @@
 > **useAsyncProps**\<`T`, `Q`\>(`props`, `options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `"onChange"`, `never`\>
 
 Asynchronously handles getting the `value` and its `onChange`s by `handle`ing queries and `subscribing` to updates.
+
 If `options.value(name)` is set, uses the defined return value (a "query") and passes it to `options.handle(query)`. If `options.value(name)` returns an undefined value, nothing happens.
+
 If `options.onChange(value, name)` is set, uses the defined return value (a "query") and passes it to `options.handle(query)`. If `options.onChange(value, name)` returns an undefined value, nothing happens.
+
 The `options.handle(query)` function returns asynchronously (or, if needed, synchronously) a `value` that gets returned in the result.
+
 Asynchronous tasks can be tracked with the returned `status` property, and aborted using the returned `onAbort()` method. Ongoing operations are automatically aborted when the element that runs this hook unmounts.
+
 The asynchronous task that gets the `value` can be re-executed using the returned `onRefresh()` method.
+
 If `options.subscribe(query, onRefresh)` is defined, it is called everytime a new `query` is returned by `options.value(name)`, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
 
 ### Type Parameters
@@ -42,7 +48,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:69](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useAsyncProps.ts#L69)
+[lib/hooks/useAsyncProps.ts:75](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L75)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -68,7 +74,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:74](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useAsyncProps.ts#L74)
+[lib/hooks/useAsyncProps.ts:80](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L80)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -94,7 +100,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:79](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useAsyncProps.ts#L79)
+[lib/hooks/useAsyncProps.ts:85](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L85)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -120,7 +126,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:84](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useAsyncProps.ts#L84)
+[lib/hooks/useAsyncProps.ts:90](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L90)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -146,7 +152,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:89](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useAsyncProps.ts#L89)
+[lib/hooks/useAsyncProps.ts:95](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L95)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -172,4 +178,4 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:94](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useAsyncProps.ts#L94)
+[lib/hooks/useAsyncProps.ts:100](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L100)

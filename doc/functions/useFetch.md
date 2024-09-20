@@ -34,4 +34,4 @@ A tuple consisting of the current request state and a callback to issue a new re
 
 ## Defined in
 
-[lib/hooks/useFetch.ts:19](https://github.com/nevoland/realue/blob/3ee19205f96a631a4bd1adc96c572cca62bfa0d1/lib/hooks/useFetch.ts#L19)
+[lib/hooks/useFetch.ts:19](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useFetch.ts#L19)
