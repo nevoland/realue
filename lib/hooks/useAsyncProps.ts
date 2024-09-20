@@ -68,9 +68,9 @@ type AsyncPropsState<T, Q> = {
  * If `options.subscribe(query, onRefresh)` is defined, it is called everytime a new `query` is returned by `options.value(name)`, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
  *
  * @param props Optional properties according to the NEVO pattern, where the `value` sets the initial value of the returned `value`. Optionally supports `status` and `onChangeStatus` for tracking `status` updates.
- * @param options
- * @param dependencies
- * @returns The properties according to the NEVO pattern, with the
+ * @param options Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, and the optional `subscribe(query, onRefresh)` method.
+ * @param dependencies List of values that, when changing, trigger a new asynchronous `value` loading task, if `options.value(name)` is set, refresh the subscription, if `options.subscribe(query, onRefresh)` is set, and updates the definition of the returned `onChange` function.
+ * @returns The properties according to the NEVO pattern, with the `status` of the ongoing task, and the `onRefresh()` and `onAbort()` methods.
  */
 export function useAsyncProps<T, Q>(
   props: undefined,
