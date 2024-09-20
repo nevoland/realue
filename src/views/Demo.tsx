@@ -1,5 +1,4 @@
-import EventEmitter from "eventemitter3";
-import { timeout, until } from "futurise";
+import { EventEmitter, on, timeout, until } from "futurise";
 import { EMPTY_ARRAY } from "unchangeable";
 
 import {
@@ -288,12 +287,14 @@ export function Demo() {
 
 type Query = {
   method?: "read" | "update" | "create" | "delete";
-  type: string;
+  type: "person";
   context: { id: string };
   value?: {};
 };
 
-const eventEmitter = new EventEmitter();
+const eventEmitter = new EventEmitter<{
+  [key in NonNullable<Query["type"]>]: Query;
+}>();
 
 let STORE = {
   id: "3",
@@ -303,20 +304,17 @@ let STORE = {
 };
 
 async function customFetch(query: Query): Promise<PersonData> {
-  // Custom fetch
-  // console.log("query", query);
-
   switch (query.method) {
     case "create":
     case "update":
       await until(timeout(2000));
       STORE = { ...STORE, ...query.value };
-      eventEmitter.emit(query.type, query);
+      eventEmitter.dispatchEvent(query.type, query);
       return STORE;
     case "delete":
       await until(timeout(2000));
       STORE = { ...STORE, deleted: true };
-      eventEmitter.emit(query.type, query);
+      eventEmitter.dispatchEvent(query.type, query);
       return STORE;
     case "read":
     default:
@@ -329,40 +327,41 @@ function customSubscribe(query: Query, onRefresh: (query: Query) => void) {
   if (query.method !== "read" && query.method !== undefined) {
     return;
   }
-  eventEmitter.on(query.type, onRefresh);
-  return () => {
-    eventEmitter.off(query.type, onRefresh);
-  };
+  return on(eventEmitter, query.type, onRefresh);
 }
 
 const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
-  const props = useAsyncProps<PersonData | undefined, Query>(parentProps, {
-    value: (name) =>
-      !name
-        ? undefined
-        : {
-            type: "person",
-            method: "read",
-            context: {
-              id: name,
+  const props = useAsyncProps<PersonData | undefined, Query>(
+    parentProps,
+    {
+      value: (name) =>
+        !name
+          ? undefined
+          : {
+              type: "person",
+              method: "read",
+              context: {
+                id: name,
+              },
             },
-          },
-    onChange: (value, name) => ({
-      type: "person",
-      method:
-        value === undefined
-          ? "delete"
-          : value?.id === undefined
-            ? "create"
-            : "update",
-      context: {
-        id: name,
-      },
-      value,
-    }),
-    handle: customFetch,
-    subscribe: customSubscribe,
-  });
+      onChange: (value, name) => ({
+        type: "person",
+        method:
+          value === undefined
+            ? "delete"
+            : value?.id === undefined
+              ? "create"
+              : "update",
+        context: {
+          id: name,
+        },
+        value,
+      }),
+      handle: customFetch,
+      subscribe: customSubscribe,
+    },
+    [parentProps.name],
+  );
   return (
     <div class="flex gap-3">
       <button
