@@ -230,6 +230,13 @@ const Person = memo((props: PersonProps) => {
 
 const INITIAL_VALUE = [{ friends: ["Bob", "Alice"], id: uid() }, { id: uid() }];
 
+const INITIAL_ASYNC_TEST_VALUE = {
+  value: { name: "Loading…" },
+  name: "3",
+  // Remove
+  // onChange: () => {},
+} as const;
+
 export function Demo() {
   const props = useSyncedProps<PersonData[]>({
     value: INITIAL_VALUE,
@@ -246,8 +253,8 @@ export function Demo() {
   }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
-      <AsyncTest />
-      <AsyncTest />
+      <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
+      <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       {item.loop(Person, { onRemove: item.remove })}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
@@ -328,46 +335,34 @@ function customSubscribe(query: Query, onRefresh: (query: Query) => void) {
   };
 }
 
-const AsyncTest = memo(() => {
-  /* 
-  Case 
-  */
-  const props = useAsyncProps<PersonData | undefined, Query>(
-    {
-      value: useMemo(() => ({ name: "Loading…" }), []) as PersonData,
-      name: "3",
-      // Remove
-      // onRemove: () => {},
-    },
-    // undefined,
-    {
-      value: (name) =>
-        !name
-          ? undefined
-          : {
-              type: "person",
-              method: "read",
-              context: {
-                id: name,
-              },
+const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
+  const props = useAsyncProps<PersonData | undefined, Query>(parentProps, {
+    value: (name) =>
+      !name
+        ? undefined
+        : {
+            type: "person",
+            method: "read",
+            context: {
+              id: name,
             },
-      onChange: (value, name) => ({
-        type: "person",
-        method:
-          value === undefined
-            ? "delete"
-            : value?.id === undefined
-              ? "create"
-              : "update",
-        context: {
-          id: name,
-        },
-        value,
-      }),
-      fetch: customFetch,
-      subscribe: customSubscribe,
-    },
-  );
+          },
+    onChange: (value, name) => ({
+      type: "person",
+      method:
+        value === undefined
+          ? "delete"
+          : value?.id === undefined
+            ? "create"
+            : "update",
+      context: {
+        id: name,
+      },
+      value,
+    }),
+    handle: customFetch,
+    subscribe: customSubscribe,
+  });
   return (
     <div class="flex gap-3">
       <button
