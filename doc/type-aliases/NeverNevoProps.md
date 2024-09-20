@@ -34,4 +34,4 @@ Excludes the props following the NEVO pattern. Useful for creating discriminated
 
 ## Defined in
 
-[lib/types/NeverNevoProps.ts:4](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/types/NeverNevoProps.ts#L4)
+[lib/types/NeverNevoProps.ts:4](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/types/NeverNevoProps.ts#L4)

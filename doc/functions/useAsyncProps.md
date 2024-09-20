@@ -38,17 +38,21 @@ Optional properties according to the NEVO pattern, where the `value` sets the in
 
 • **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"onChange"`, `never`\>
 
+Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, and the optional `subscribe(query, onRefresh)` method.
+
 • **dependencies?**: `Inputs`
+
+List of values that, when changing, trigger a new asynchronous `value` loading task, if `options.value(name)` is set, refresh the subscription, if `options.subscribe(query, onRefresh)` is set, and updates the definition of the returned `onChange` function.
 
 ### Returns
 
 [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `"onChange"`, `never`\>
 
-The properties according to the NEVO pattern, with the
+The properties according to the NEVO pattern, with the `status` of the ongoing task, and the `onRefresh()` and `onAbort()` methods.
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:75](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L75)
+[lib/hooks/useAsyncProps.ts:75](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L75)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -74,7 +78,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:80](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L80)
+[lib/hooks/useAsyncProps.ts:80](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L80)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -100,7 +104,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:85](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L85)
+[lib/hooks/useAsyncProps.ts:85](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L85)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -126,7 +130,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:90](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L90)
+[lib/hooks/useAsyncProps.ts:90](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L90)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -152,7 +156,7 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:95](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L95)
+[lib/hooks/useAsyncProps.ts:95](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L95)
 
 ## useAsyncProps(props, options, dependencies)
 
@@ -178,4 +182,4 @@ The properties according to the NEVO pattern, with the
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:100](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useAsyncProps.ts#L100)
+[lib/hooks/useAsyncProps.ts:100](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L100)

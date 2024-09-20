@@ -30,4 +30,4 @@ The `[state, onChangeState]` tuple.
 
 ## Defined in
 
-[lib/hooks/useSyncedState.ts:12](https://github.com/nevoland/realue/blob/23357baeee67e2e83a0bceccc257348ca52e5775/lib/hooks/useSyncedState.ts#L12)
+[lib/hooks/useSyncedState.ts:12](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useSyncedState.ts#L12)
