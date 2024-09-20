@@ -7,7 +7,7 @@ import type { ErrorReportObject, NevoProps, PropertyCallable } from "../types";
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
  *
- * @param props The props holding the object `value`.
+ * @param props Properties according to the NEVO pattern, where the `value` holds an object.
  * @returns The `property` function that returns the props for a specific property `name`.
  */
 export function useObject<

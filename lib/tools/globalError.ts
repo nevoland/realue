@@ -2,8 +2,8 @@ import type { ErrorReport, ErrorReportValue } from "../types";
 
 import { isArray } from "./isArray.js";
 
-export function globalError<T>(
-  error?: ErrorReport<T>,
+export function globalError(
+  error?: ErrorReport<any>,
 ): ErrorReportValue | undefined {
   if (error === undefined) {
     return undefined;

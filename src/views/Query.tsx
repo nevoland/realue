@@ -8,8 +8,13 @@ async function fetchUsers() {
 }
 
 export function Query() {
-  const [query, onChangeQuery] = useState<Promise<any> | undefined>(undefined);
+  const [query, onChangeQuery] = useState<Promise<any> | undefined>(
+    undefined,
+  );
   const result = usePromise(query);
+  if (result.status === "fulfilled") {
+    result.value;
+  }
   return (
     <div class="flex flex-col space-y-2">
       <button onClick={() => onChangeQuery(fetchUsers())}>Refresh</button>

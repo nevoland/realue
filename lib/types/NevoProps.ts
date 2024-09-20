@@ -23,11 +23,13 @@ export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> = {
   /**
    * The value to be handled by a component.
    */
-  value: T;
+  value: undefined extends T ? Readonly<T> | undefined : Readonly<T>;
   /**
    * The callback the component uses to notify the parent component about changes of the `value`.
    */
-  onChange?: ValueMutator<NoInfer<T>>;
+  onChange?: ValueMutator<
+    undefined extends NoInfer<T> ? Readonly<T> | undefined : Readonly<T>
+  >;
   /**
    * The callback the component uses to notify the parent component about changes of the `error`.
    */

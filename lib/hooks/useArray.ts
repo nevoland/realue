@@ -1,4 +1,5 @@
 import {
+  EMPTY_ARRAY,
   type FunctionComponent,
   createElement,
   undefinedIfEmpty,
@@ -24,21 +25,21 @@ import type {
  * Takes an array and returns a function that generates the required props for handling an array item value.
  * That function also contains three callables: `loop`, `add`, and `remove`.
  *
- * @param props The props holding the array `value`.
+ * @param props Properties according to the NEVO pattern, where the `value` holds an array.
  * @param itemId An optional function that returns a unique identifier for a given array `item`.
  * @returns The `item` function that returns the props for a specific item `index`.
  */
 export function useArray<
-  A extends any[] | undefined,
+  A extends readonly any[] | undefined,
   G extends ErrorReportArray<NonNullable<A>>,
-  T = A extends (infer H)[] ? H : never,
+  T = NonNullable<A> extends readonly (infer H)[] ? H : never,
   E extends ErrorReport<any> = ErrorReport<T>,
 >(
   props: NevoProps<A, G>,
   itemId: ItemId<T> = itemIdDefault,
 ): ItemCallable<T, E> {
   const { name, onChange, error, onChangeError } = props;
-  const value: T[] = props.value ?? [];
+  const value = (props.value ?? EMPTY_ARRAY) as NonNullable<A>;
   const state = useRef(value);
   state.current = value;
   const stateError = useRef(error);
@@ -55,7 +56,7 @@ export function useArray<
                 ...state.current.slice(0, +itemIndex),
                 itemValue,
                 ...state.current.slice(+itemIndex + 1),
-              ]) as A,
+              ] as unknown as NonNullable<A>),
               stateName.current,
             );
           },
@@ -124,7 +125,7 @@ export function useArray<
                         ...state.current.slice(0, itemIndex),
                         itemValue,
                         ...state.current.slice(itemIndex),
-                      ]) as A,
+                      ] as unknown as NonNullable<A>),
                       stateName.current,
                     );
                     const currentErrorList = stateError.current;
@@ -149,12 +150,12 @@ export function useArray<
                     for (let index = 0; index < indexList.length; index++) {
                       const currentItemIndex = indexList[index];
                       if (currentItemIndex < itemIndex) {
-                        itemErrorList[currentItemIndex] =
+                        (itemErrorList as any)[currentItemIndex] =
                           currentErrorList[currentItemIndex];
                         continue;
                       }
                       if (currentItemIndex >= itemIndex) {
-                        itemErrorList[currentItemIndex + 1] =
+                        (itemErrorList as any)[currentItemIndex + 1] =
                           currentErrorList[currentItemIndex];
                       }
                     }
@@ -195,13 +196,12 @@ export function useArray<
                 : (((itemIndexOrName) => {
                     const itemIndex = +itemIndexOrName;
                     onChange(
-                      (state.current =
-                        itemIndex === 0
-                          ? [...state.current.slice(1)]
-                          : [
-                              ...state.current.slice(0, itemIndex),
-                              ...state.current.slice(itemIndex + 1),
-                            ]) as A,
+                      (state.current = (itemIndex === 0
+                        ? [...state.current.slice(1)]
+                        : [
+                            ...state.current.slice(0, itemIndex),
+                            ...state.current.slice(itemIndex + 1),
+                          ]) as unknown as NonNullable<A>),
                       stateName.current,
                     );
                     const currentErrorList = stateError.current;
@@ -223,12 +223,12 @@ export function useArray<
                     for (let index = 0; index < indexList.length; index++) {
                       const currentItemIndex = indexList[index];
                       if (currentItemIndex < itemIndex) {
-                        itemErrorList[currentItemIndex] =
+                        (itemErrorList as any)[currentItemIndex] =
                           currentErrorList[currentItemIndex];
                         continue;
                       }
                       if (currentItemIndex > itemIndex) {
-                        itemErrorList[currentItemIndex - 1] =
+                        (itemErrorList as any)[currentItemIndex - 1] =
                           currentErrorList[currentItemIndex];
                       }
                     }

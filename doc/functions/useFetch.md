@@ -8,11 +8,11 @@
 
 > **useFetch**\<`T`, `Q`\>(`fetch`, `props`?): [[`PromiseState`](../type-aliases/PromiseState.md)\<`T`\>, (`request`?) => `void`]
 
-Handles a single concurrent request and updates the `value` or `error` through the provided `onChange` and `onChangeError` callbacks. The callback in the returned tuple enables issuing new request. If the callback is called with no argument, it resets the request back to the `idle` state, aborting the prior request if it was not fulfilled.
+Handles a single concurrent request and updates the `value` or `error` through the provided `onChange` and `onChangeError` callbacks. The callback in the returned tuple enables issuing a new request. If the callback is called with no arguments, it resets the request back to the `idle` state, aborting the prior request if it was not fulfilled.
 
 ## Type Parameters
 
-• **T** *extends* `object`
+• **T**
 
 • **Q** *extends* `unknown`
 
@@ -34,4 +34,4 @@ A tuple consisting of the current request state and a callback to issue a new re
 
 ## Defined in
 
-[lib/hooks/useFetch.ts:19](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useFetch.ts#L19)
+[lib/hooks/useFetch.ts:19](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/hooks/useFetch.ts#L19)
