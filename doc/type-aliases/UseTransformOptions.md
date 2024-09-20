@@ -40,4 +40,4 @@ The incoming `value` to transform.
 
 ## Defined in
 
-[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/types/UseTransformOptions.ts#L7)
+[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/types/UseTransformOptions.ts#L7)

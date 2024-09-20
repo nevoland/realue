@@ -20,7 +20,7 @@ Takes an object and returns a function that generates the required props for han
 
 • **props**: [`NevoProps`](../type-aliases/NevoProps.md)\<`T`, `E`\>
 
-The props holding the object `value`.
+Properties according to the NEVO pattern, where the `value` holds an object.
 
 ## Returns
 
@@ -30,4 +30,4 @@ The `property` function that returns the props for a specific property `name`.
 
 ## Defined in
 
-[lib/hooks/useObject.ts:13](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useObject.ts#L13)
+[lib/hooks/useObject.ts:13](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/hooks/useObject.ts#L13)

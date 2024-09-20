@@ -16,7 +16,7 @@ Function that changes a `value`. Used as the signature for the `onChange` callba
 
 ## Parameters
 
-• **value**: `T`
+• **value**: `Readonly`\<`T`\>
 
 • **name**: [`Name`](Name.md)
 
@@ -26,4 +26,4 @@ Function that changes a `value`. Used as the signature for the `onChange` callba
 
 ## Defined in
 
-[lib/types/ValueMutator.ts:6](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/types/ValueMutator.ts#L6)
+[lib/types/ValueMutator.ts:6](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/types/ValueMutator.ts#L6)

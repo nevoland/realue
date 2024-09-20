@@ -30,7 +30,7 @@
 
 ### Defined in
 
-[lib/tools/changeError.ts:12](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/tools/changeError.ts#L12)
+[lib/tools/changeError.ts:12](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/tools/changeError.ts#L12)
 
 ## changeError(error, itemName, itemError)
 
@@ -38,7 +38,7 @@
 
 ### Type Parameters
 
-• **T** *extends* `undefined` \| `any`[]
+• **T** *extends* `undefined` \| readonly `any`[]
 
 • **E** *extends* [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`NonNullable`\<`T`\>\>
 
@@ -56,4 +56,4 @@
 
 ### Defined in
 
-[lib/tools/changeError.ts:20](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/tools/changeError.ts#L20)
+[lib/tools/changeError.ts:20](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/tools/changeError.ts#L20)

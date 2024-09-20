@@ -28,4 +28,4 @@ A callback with `name` applied to `onRemove(name)`.
 
 ## Defined in
 
-[lib/hooks/useRemove.ts:10](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useRemove.ts#L10)
+[lib/hooks/useRemove.ts:10](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/hooks/useRemove.ts#L10)

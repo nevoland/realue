@@ -6,7 +6,7 @@
 
 # Function: useReferencedState()
 
-> **useReferencedState**\<`T`\>(`value`): readonly [`MutableRef`\<`T`\>, `Dispatch`\<`StateUpdater`\<`T`\>\>]
+> **useReferencedState**\<`T`\>(`value`): readonly [`MutableRef`\<`T`\>, (`value`) => `void`]
 
 Same as `useState`, but returns the value in a reference to use it in callbacks without having to regenerate them.
 
@@ -22,10 +22,10 @@ Initial value.
 
 ## Returns
 
-readonly [`MutableRef`\<`T`\>, `Dispatch`\<`StateUpdater`\<`T`\>\>]
+readonly [`MutableRef`\<`T`\>, (`value`) => `void`]
 
 A couple containing the reference to the current state value, and the state updater function.
 
 ## Defined in
 
-[lib/hooks/useReferencedState.ts:9](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useReferencedState.ts#L9)
+[lib/hooks/useReferencedState.ts:15](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/hooks/useReferencedState.ts#L15)

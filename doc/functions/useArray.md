@@ -13,11 +13,11 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 
 ## Type Parameters
 
-• **A** *extends* `undefined` \| `any`[]
+• **A** *extends* `undefined` \| readonly `any`[]
 
 • **G** *extends* [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`NonNullable`\<`A`\>\>
 
-• **T** = `A` *extends* `H`[] ? `H` : `never`
+• **T** = `NonNullable`\<`A`\> *extends* readonly `H`[] ? `H` : `never`
 
 • **E** *extends* [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`any`\> = [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\>
 
@@ -25,7 +25,7 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 
 • **props**: [`NevoProps`](../type-aliases/NevoProps.md)\<`A`, `G`\>
 
-The props holding the array `value`.
+Properties according to the NEVO pattern, where the `value` holds an array.
 
 • **itemId**: [`ItemId`](../type-aliases/ItemId.md)\<`T`\> = `itemIdDefault`
 
@@ -39,4 +39,4 @@ The `item` function that returns the props for a specific item `index`.
 
 ## Defined in
 
-[lib/hooks/useArray.ts:31](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/hooks/useArray.ts#L31)
+[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/hooks/useArray.ts#L32)

@@ -4,32 +4,16 @@
 
 [realue](../README.md) / PromiseState
 
-# Type Alias: PromiseState\<T\>
+# Type Alias: PromiseState\<T, E\>
 
-> **PromiseState**\<`T`\>: `object`
+> **PromiseState**\<`T`, `E`\>: `object` \| `object` \| `object` \| `object`
 
 ## Type Parameters
 
 • **T**
 
-## Type declaration
-
-### promise?
-
-> `optional` **promise**: `Promise`\<`T` \| `undefined`\>
-
-### reason?
-
-> `optional` **reason**: `unknown`
-
-### status
-
-> **status**: `PromiseStatus`
-
-### value?
-
-> `optional` **value**: `T`
+• **E** = `unknown`
 
 ## Defined in
 
-[lib/types/PromiseState.ts:3](https://github.com/nevoland/realue/blob/f5d92f5c2955b3005b70a2c994484a9ed93968ca/lib/types/PromiseState.ts#L3)
+[lib/types/PromiseState.ts:1](https://github.com/nevoland/realue/blob/b0a59c2aa8e01af359fa1933a59bc53236ad21c6/lib/types/PromiseState.ts#L1)
