@@ -25,6 +25,7 @@ export type { Property } from "./types/Property";
 export type { PropertyCallable } from "./types/PropertyCallable";
 export type { ResizeEffectOptions } from "./types/ResizeEffectOptions";
 export type { Select } from "./types/Select";
+export type { Subscribe } from "./types/Subscribe";
 export type { UseTransformOptions } from "./types/UseTransformOptions";
 export type { ValueMutator } from "./types/ValueMutator";
 export type { ValueMutatorNamed } from "./types/ValueMutatorNamed";

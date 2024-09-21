@@ -15,16 +15,12 @@ import type {
   Name,
   NevoProps,
   Select,
+  Subscribe,
   ValueMutator,
 } from "../types";
 
 import { useAbortController } from "./useAbortController.js";
 import { usePromise } from "./usePromise.js";
-
-type Subscribe<Q> = (
-  query: Q,
-  onRefresh: (query: Q) => void,
-) => (() => void) | void;
 
 type AsyncPropsOptions<T, Q> = {
   value?: (name: Name) => Q | undefined;
@@ -39,17 +35,17 @@ type AsyncPropsResult<T> = NevoProps<T> & {
   onRefresh: () => void;
 };
 
-type NevosProps<T> = NevoProps<T> & {
-  status?: PromiseStatus;
-  onChangeStatus?: ValueMutator<PromiseStatus>;
-};
-
 type AsyncPropsState<T, Q> = {
   value?: Readonly<T>;
   error?: ErrorReport<T>;
   valueQuery?: Q;
   changeQuery?: Q;
   abort?: AbortController;
+};
+
+type NevosProps<T> = NevoProps<T> & {
+  status?: PromiseStatus;
+  onChangeStatus?: ValueMutator<PromiseStatus>;
 };
 
 /**
