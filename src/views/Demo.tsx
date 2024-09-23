@@ -332,18 +332,14 @@ function customSubscribe(query: Query, onRefresh: (query: Query) => void) {
 
 const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
   const props = useAsyncProps<PersonData | undefined, Query>(
-    parentProps,
     {
-      value: (name) =>
-        !name
-          ? undefined
-          : {
-              type: "person",
-              method: "read",
-              context: {
-                id: name,
-              },
-            },
+      value: (name) => ({
+        type: "person",
+        method: "read",
+        context: {
+          id: name,
+        },
+      }),
       onChange: (value, name) => ({
         type: "person",
         method:
@@ -357,6 +353,7 @@ const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
         },
         value,
       }),
+      props: { value: { name: "Bingo" }, name: "" },
       handle: customFetch,
       subscribe: customSubscribe,
     },

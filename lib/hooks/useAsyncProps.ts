@@ -14,6 +14,7 @@ import type {
   Fetch,
   Name,
   NevoProps,
+  NevoPropsReadonly,
   Select,
   Subscribe,
   ValueMutator,
@@ -27,6 +28,7 @@ type AsyncPropsOptions<T, Q> = {
   onChange?: (value: T, name: Name) => Q;
   handle: Fetch<T, Q>;
   subscribe?: Subscribe<Q>;
+  props?: NevosProps<T>;
 };
 
 type AsyncPropsResult<T> = NevoProps<T> & {
@@ -43,6 +45,9 @@ type AsyncPropsState<T, Q> = {
   abort?: AbortController;
 };
 
+/**
+ * Properties according to the NEVO pattern, where the `value` sets the initial value of the returned `value`. Optionally supports `status` and `onChangeStatus` for tracking `status` updates.
+ */
 type NevosProps<T> = NevoProps<T> & {
   status?: PromiseStatus;
   onChangeStatus?: ValueMutator<PromiseStatus>;
@@ -63,43 +68,40 @@ type NevosProps<T> = NevoProps<T> & {
  *
  * If `options.subscribe(query, onRefresh)` is defined, it is called everytime a new `query` is returned by `options.value(name)`, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
  *
- * @param props Optional properties according to the NEVO pattern, where the `value` sets the initial value of the returned `value`. Optionally supports `status` and `onChangeStatus` for tracking `status` updates.
- * @param options Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, and the optional `subscribe(query, onRefresh)` method.
+ * @param options Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, the optional `subscribe(query, onRefresh)` method, and the optional parent props according to the NEVO pattern (with support for `status` and `onChangeStatus`).
  * @param dependencies List of values that, when changing, trigger a new asynchronous `value` loading task, if `options.value(name)` is set, refresh the subscription, if `options.subscribe(query, onRefresh)` is set, and updates the definition of the returned `onChange` function.
  * @returns The properties according to the NEVO pattern, with the `status` of the ongoing task, and the `onRefresh()` and `onAbort()` methods.
  */
+
 export function useAsyncProps<T, Q>(
-  props: undefined,
-  options: Select<AsyncPropsOptions<T, Q>, "onChange", never>,
+  options: Select<AsyncPropsOptions<T, Q>, "onChange", "props">,
   dependencies?: Inputs,
 ): Select<AsyncPropsResult<T | undefined>, "onChange", never>;
 export function useAsyncProps<T, Q>(
-  props: undefined,
-  options: Select<AsyncPropsOptions<T, Q>, never, "onChange">,
+  options: Select<AsyncPropsOptions<T, Q>, never, "onChange" | "props"> & {
+    props: NevoPropsReadonly<T>;
+  },
   dependencies?: Inputs,
 ): Select<AsyncPropsResult<T | undefined>, never, "onChange">;
 export function useAsyncProps<T, Q>(
-  props: Select<NevosProps<T>, never, "onChange">,
-  options: Select<AsyncPropsOptions<T, Q>, "onChange", never>,
+  options: Select<AsyncPropsOptions<T, Q>, never, "onChange" | "props">,
+  dependencies?: Inputs,
+): Select<AsyncPropsResult<T | undefined>, never, "onChange">;
+export function useAsyncProps<T, Q>(
+  options: Select<AsyncPropsOptions<T, Q>, "onChange", "props"> & {
+    props: NevoPropsReadonly<T>;
+  },
   dependencies?: Inputs,
 ): Select<AsyncPropsResult<T>, "onChange", never>;
 export function useAsyncProps<T, Q>(
-  props: Select<NevosProps<T>, never, "onChange">,
-  options: Select<AsyncPropsOptions<T, Q>, never, "onChange">,
-  dependencies?: Inputs,
-): Select<AsyncPropsResult<T>, never, "onChange">;
-export function useAsyncProps<T, Q>(
-  props: NevosProps<T>,
-  options: Select<AsyncPropsOptions<T, Q>, "onChange", never>,
+  options: Select<AsyncPropsOptions<T, Q>, "props" | "onChange", never>,
   dependencies?: Inputs,
 ): Select<AsyncPropsResult<T>, "onChange", never>;
 export function useAsyncProps<T, Q>(
-  props: NevosProps<T>,
-  options: Select<AsyncPropsOptions<T, Q>, never, "onChange">,
+  options: Select<AsyncPropsOptions<T, Q>, "props", "onChange">,
   dependencies?: Inputs,
 ): AsyncPropsResult<T>;
 export function useAsyncProps<T, Q>(
-  props: NevosProps<T> | undefined,
   options: AsyncPropsOptions<T, Q>,
   dependencies: Inputs = EMPTY_ARRAY,
 ): AsyncPropsResult<T> {
@@ -108,6 +110,7 @@ export function useAsyncProps<T, Q>(
     onChange: queryOnChange,
     handle,
     subscribe,
+    props,
   } = options;
   const abortController = useAbortController();
   const state = useRef<AsyncPropsState<T, Q>>({
