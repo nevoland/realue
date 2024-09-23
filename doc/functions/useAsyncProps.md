@@ -6,9 +6,9 @@
 
 # Function: useAsyncProps()
 
-## useAsyncProps(props, options, dependencies)
+## useAsyncProps(options, dependencies)
 
-> **useAsyncProps**\<`T`, `Q`\>(`props`, `options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `"onChange"`, `never`\>
+> **useAsyncProps**\<`T`, `Q`\>(`options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `"onChange"`, `never`\>
 
 Asynchronously handles getting the `value` and its `onChange`s by `handle`ing queries and `subscribing` to updates.
 
@@ -32,13 +32,9 @@ If `options.subscribe(query, onRefresh)` is defined, it is called everytime a ne
 
 ### Parameters
 
-• **props**: `undefined`
+• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"onChange"`, `"props"`\>
 
-Optional properties according to the NEVO pattern, where the `value` sets the initial value of the returned `value`. Optionally supports `status` and `onChangeStatus` for tracking `status` updates.
-
-• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"onChange"`, `never`\>
-
-Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, and the optional `subscribe(query, onRefresh)` method.
+Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, the optional `subscribe(query, onRefresh)` method, and the optional parent props according to the NEVO pattern (with support for `status` and `onChangeStatus`).
 
 • **dependencies?**: `Inputs`
 
@@ -52,11 +48,11 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:75](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L75)
+[lib/hooks/useAsyncProps.ts:76](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useAsyncProps.ts#L76)
 
-## useAsyncProps(props, options, dependencies)
+## useAsyncProps(options, dependencies)
 
-> **useAsyncProps**\<`T`, `Q`\>(`props`, `options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `never`, `"onChange"`\>
+> **useAsyncProps**\<`T`, `Q`\>(`options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `never`, `"onChange"`\>
 
 ### Type Parameters
 
@@ -66,9 +62,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Parameters
 
-• **props**: `undefined`
-
-• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `never`, `"onChange"`\>
+• **options**: `never`
 
 • **dependencies?**: `Inputs`
 
@@ -78,11 +72,11 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:80](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L80)
+[lib/hooks/useAsyncProps.ts:80](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useAsyncProps.ts#L80)
 
-## useAsyncProps(props, options, dependencies)
+## useAsyncProps(options, dependencies)
 
-> **useAsyncProps**\<`T`, `Q`\>(`props`, `options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T`\>, `"onChange"`, `never`\>
+> **useAsyncProps**\<`T`, `Q`\>(`options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `never`, `"onChange"`\>
 
 ### Type Parameters
 
@@ -92,9 +86,31 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Parameters
 
-• **props**: [`Select`](../type-aliases/Select.md)\<`NevosProps`\<`T`\>, `never`, `"onChange"`\>
+• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `never`, `"onChange"` \| `"props"`\>
 
-• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"onChange"`, `never`\>
+• **dependencies?**: `Inputs`
+
+### Returns
+
+[`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T` \| `undefined`\>, `never`, `"onChange"`\>
+
+### Defined in
+
+[lib/hooks/useAsyncProps.ts:86](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useAsyncProps.ts#L86)
+
+## useAsyncProps(options, dependencies)
+
+> **useAsyncProps**\<`T`, `Q`\>(`options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T`\>, `"onChange"`, `never`\>
+
+### Type Parameters
+
+• **T**
+
+• **Q**
+
+### Parameters
+
+• **options**: `never`
 
 • **dependencies?**: `Inputs`
 
@@ -104,37 +120,11 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:85](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L85)
+[lib/hooks/useAsyncProps.ts:90](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useAsyncProps.ts#L90)
 
-## useAsyncProps(props, options, dependencies)
+## useAsyncProps(options, dependencies)
 
-> **useAsyncProps**\<`T`, `Q`\>(`props`, `options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T`\>, `never`, `"onChange"`\>
-
-### Type Parameters
-
-• **T**
-
-• **Q**
-
-### Parameters
-
-• **props**: [`Select`](../type-aliases/Select.md)\<`NevosProps`\<`T`\>, `never`, `"onChange"`\>
-
-• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `never`, `"onChange"`\>
-
-• **dependencies?**: `Inputs`
-
-### Returns
-
-[`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T`\>, `never`, `"onChange"`\>
-
-### Defined in
-
-[lib/hooks/useAsyncProps.ts:90](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L90)
-
-## useAsyncProps(props, options, dependencies)
-
-> **useAsyncProps**\<`T`, `Q`\>(`props`, `options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T`\>, `"onChange"`, `never`\>
+> **useAsyncProps**\<`T`, `Q`\>(`options`, `dependencies`?): [`Select`](../type-aliases/Select.md)\<`AsyncPropsResult`\<`T`\>, `"onChange"`, `never`\>
 
 ### Type Parameters
 
@@ -144,9 +134,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Parameters
 
-• **props**: `NevosProps`\<`T`\>
-
-• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"onChange"`, `never`\>
+• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"onChange"` \| `"props"`, `never`\>
 
 • **dependencies?**: `Inputs`
 
@@ -156,11 +144,11 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:95](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L95)
+[lib/hooks/useAsyncProps.ts:96](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useAsyncProps.ts#L96)
 
-## useAsyncProps(props, options, dependencies)
+## useAsyncProps(options, dependencies)
 
-> **useAsyncProps**\<`T`, `Q`\>(`props`, `options`, `dependencies`?): `AsyncPropsResult`\<`T`\>
+> **useAsyncProps**\<`T`, `Q`\>(`options`, `dependencies`?): `AsyncPropsResult`\<`T`\>
 
 ### Type Parameters
 
@@ -170,9 +158,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Parameters
 
-• **props**: `NevosProps`\<`T`\>
-
-• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `never`, `"onChange"`\>
+• **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"props"`, `"onChange"`\>
 
 • **dependencies?**: `Inputs`
 
@@ -182,4 +168,4 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:100](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useAsyncProps.ts#L100)
+[lib/hooks/useAsyncProps.ts:100](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useAsyncProps.ts#L100)

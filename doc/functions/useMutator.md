@@ -16,7 +16,7 @@ Returns a simple mutator that takes only the new `value` as argument.
 
 ## Parameters
 
-• **props**: `Pick`\<[`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>, `"name"` \| `"value"` \| `"onChange"`\>
+• **props**: `Pick`\<[`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>, `"onChange"` \| `"name"` \| `"value"`\>
 
 Properties `name` and `onChange` according to the NEVO pattern.
 
@@ -28,4 +28,4 @@ Simple mutator that takes only the new `value` as argument.
 
 ## Defined in
 
-[lib/hooks/useMutator.ts:10](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/hooks/useMutator.ts#L10)
+[lib/hooks/useMutator.ts:10](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useMutator.ts#L10)

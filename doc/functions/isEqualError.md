@@ -32,4 +32,4 @@ Error value
 
 ## Defined in
 
-[lib/tools/isEqualError.ts:12](https://github.com/nevoland/realue/blob/3b94de974007eb3f6e3fed9f3fba05ea8113f723/lib/tools/isEqualError.ts#L12)
+[lib/tools/isEqualError.ts:12](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/tools/isEqualError.ts#L12)
