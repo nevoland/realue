@@ -4,7 +4,7 @@
 
 [realue](../README.md) / useFetch
 
-# Function: useFetch()
+# Function: ~~useFetch()~~
 
 > **useFetch**\<`T`, `Q`\>(`fetch`, `props`?): [[`PromiseState`](../type-aliases/PromiseState.md)\<`T`\>, (`request`?) => `void`]
 
@@ -32,6 +32,10 @@ The optional `onChange` and `onChangeError` callbacks to notify about the result
 
 A tuple consisting of the current request state and a callback to issue a new request.
 
+## Deprecated
+
+Use `useAsyncProps` instead.
+
 ## Defined in
 
-[lib/hooks/useFetch.ts:19](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useFetch.ts#L19)
+[lib/hooks/useFetch.ts:21](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/hooks/useFetch.ts#L21)

@@ -23,4 +23,4 @@ Callback that returns a new `AbortController`.
 
 ## Defined in
 
-[lib/hooks/useAbortController.ts:14](https://github.com/nevoland/realue/blob/fecd9dbe42b1c423720c721f1e676e4fdf968b4d/lib/hooks/useAbortController.ts#L14)
+[lib/hooks/useAbortController.ts:14](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/hooks/useAbortController.ts#L14)
