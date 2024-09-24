@@ -22,4 +22,4 @@
 
 ## Defined in
 
-[lib/tools/capitalize.ts:1](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/tools/capitalize.ts#L1)
+[lib/tools/capitalize.ts:1](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/tools/capitalize.ts#L1)

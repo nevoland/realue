@@ -22,4 +22,4 @@
 
 ## Defined in
 
-[lib/hooks/useSyncedSignal.ts:3](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/hooks/useSyncedSignal.ts#L3)
+[lib/hooks/useSyncedSignal.ts:3](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/hooks/useSyncedSignal.ts#L3)

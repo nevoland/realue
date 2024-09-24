@@ -38,4 +38,4 @@ A callback that receives the argument value and returns the result of the provid
 
 ## Defined in
 
-[lib/hooks/usePreviousArgument.ts:9](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/hooks/usePreviousArgument.ts#L9)
+[lib/hooks/usePreviousArgument.ts:9](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/hooks/usePreviousArgument.ts#L9)

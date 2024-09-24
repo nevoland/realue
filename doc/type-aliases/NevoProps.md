@@ -55,4 +55,4 @@ The value to be handled by a component.
 
 ## Defined in
 
-[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/types/NevoProps.ts#L14)
+[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/types/NevoProps.ts#L14)

@@ -6,26 +6,44 @@
 
 # Function: useReferencedState()
 
-> **useReferencedState**\<`T`\>(`value`): readonly [`MutableRef`\<`T`\>, (`value`) => `void`]
+## useReferencedState(value)
+
+> **useReferencedState**\<`T`\>(`value`): `ReferenceStateResult`\<`T`\>
 
 Same as `useState`, but returns the value in a reference to use it in callbacks without having to regenerate them.
 
-## Type Parameters
+### Type Parameters
 
 • **T**
 
-## Parameters
+### Parameters
 
 • **value**: `T`
 
 Initial value.
 
-## Returns
+### Returns
 
-readonly [`MutableRef`\<`T`\>, (`value`) => `void`]
+`ReferenceStateResult`\<`T`\>
 
 A couple containing the reference to the current state value, and the state updater function.
 
-## Defined in
+### Defined in
 
-[lib/hooks/useReferencedState.ts:15](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/hooks/useReferencedState.ts#L15)
+[lib/hooks/useReferencedState.ts:22](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/hooks/useReferencedState.ts#L22)
+
+## useReferencedState()
+
+> **useReferencedState**\<`T`\>(): `ReferenceStateResult`\<`T` \| `undefined`\>
+
+### Type Parameters
+
+• **T** = `undefined`
+
+### Returns
+
+`ReferenceStateResult`\<`T` \| `undefined`\>
+
+### Defined in
+
+[lib/hooks/useReferencedState.ts:23](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/hooks/useReferencedState.ts#L23)

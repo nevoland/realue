@@ -38,7 +38,7 @@ The name of the property for which to generate the props.
 
 ## Defined in
 
-[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/types/PropertyCallable.ts#L11)
+[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/types/PropertyCallable.ts#L11)
 
 > **PropertyCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`, [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
@@ -54,4 +54,4 @@ The name of the property for which to generate the props.
 
 ## Defined in
 
-[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/types/PropertyCallable.ts#L14)
+[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/types/PropertyCallable.ts#L14)

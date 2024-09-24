@@ -38,4 +38,4 @@ Use `useAsyncProps` instead.
 
 ## Defined in
 
-[lib/hooks/useFetch.ts:21](https://github.com/nevoland/realue/blob/bda2c81a122722d2211255b398b35c625b1e6a1c/lib/hooks/useFetch.ts#L21)
+[lib/hooks/useFetch.ts:21](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/hooks/useFetch.ts#L21)
