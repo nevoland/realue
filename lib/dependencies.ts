@@ -17,6 +17,7 @@ export {
   useLayoutEffect,
   type StateUpdater,
   type Dispatch,
+  type MutableRef,
 } from "preact/hooks";
 export { useSignal } from "@preact/signals";
 export type { PromiseStatus } from "futurise";
