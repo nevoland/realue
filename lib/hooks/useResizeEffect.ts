@@ -3,7 +3,8 @@ import { getGlobal } from "@nevoland/get-global";
 import { EMPTY_ARRAY, EMPTY_OBJECT, useLayoutEffect } from "../dependencies.js";
 import type { ResizeEffectOptions } from "../types";
 
-const { ResizeObserver, requestAnimationFrame } = getGlobal();
+const { ResizeObserver, requestAnimationFrame, cancelAnimationFrame } =
+  getGlobal();
 
 /**
  * Reports changes to the dimensions of the border box of an `element` by calling a provided `callback`.
@@ -22,15 +23,14 @@ export function useResizeEffect(
     if (!element || !ResizeObserver) {
       return;
     }
-    let calling = false;
+    let animationFrame: number | undefined = undefined;
     const observer = new ResizeObserver((mutationList, observer) => {
-      if (calling) {
-        return;
+      if (animationFrame !== undefined) {
+        cancelAnimationFrame(animationFrame);
       }
-      calling = true;
-      requestAnimationFrame(() => {
+      animationFrame = requestAnimationFrame(() => {
         callback(mutationList, observer);
-        calling = false;
+        animationFrame = undefined;
       });
     });
     callback(EMPTY_ARRAY as ResizeObserverEntry[], observer);
@@ -42,6 +42,11 @@ export function useResizeEffect(
         parentElement = parentElement.parentElement;
       }
     }
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (animationFrame !== undefined) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
   }, [element, callback, parents, box]);
 }
