@@ -5,7 +5,6 @@ import {
   useMemo,
   useRef,
 } from "../dependencies.js";
-import type { Name } from "../types.js";
 
 import { useRefresh } from "./useRefresh.js";
 
@@ -18,15 +17,10 @@ import { useRefresh } from "./useRefresh.js";
  * @param setState The optional parent state udpater.
  * @returns The `[state, setState]` tuple.
  */
-export function useSyncedState<T>(value: T): [T, Dispatch<StateUpdater<T>>];
-export function useSyncedState<T>(
-  value: T,
-  setValue: Dispatch<StateUpdater<T>>,
-): [T, Dispatch<StateUpdater<T>>];
 export function useSyncedState<T>(
   value: T,
   setValue?: Dispatch<StateUpdater<T>>,
-): [T, (value: T, name?: Name) => void] {
+): [T, Dispatch<StateUpdater<T>>] {
   const onRefresh = useRefresh();
   const state = useRef(value);
   useMemo(() => {
