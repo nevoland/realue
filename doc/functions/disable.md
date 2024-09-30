@@ -33,4 +33,4 @@ The props necessary to disable changes or not.
 
 ## Defined in
 
-[lib/tools/disable.ts:17](https://github.com/nevoland/realue/blob/8a6a0e0e2cd5cbfd6cdb8d7ce380fc07ff18b38d/lib/tools/disable.ts#L17)
+[lib/tools/disable.ts:17](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/tools/disable.ts#L17)
