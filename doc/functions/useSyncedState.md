@@ -6,28 +6,50 @@
 
 # Function: useSyncedState()
 
-> **useSyncedState**\<`T`\>(`props`): [`T`, (`value`) => `void`]
+## useSyncedState(value)
 
-Creates a state that is synced with its parent.
-If `props.value` changes, the internal `state` is also updated.
-Calls to `onChangeState(value)` trigger a call of `props.onChange(state, props.name)`.
+> **useSyncedState**\<`T`\>(`value`): [`T`, `Dispatch`\<`StateUpdater`\<`T`\>\>]
 
-## Type Parameters
+Creates a state that is synced with its parent state.
+If the provided `state` changes, the returned `state` is set to that provided state.
+Calls to the returned `setState(state)` also triggers a call to the optionally provided `setState(state)`.
+
+### Type Parameters
 
 • **T**
 
-## Parameters
+### Parameters
 
-• **props**: [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>
+• **value**: `T`
 
-Properties according to the NEVO pattern.
+### Returns
 
-## Returns
+[`T`, `Dispatch`\<`StateUpdater`\<`T`\>\>]
 
-[`T`, (`value`) => `void`]
+The `[state, setState]` tuple.
 
-The `[state, onChangeState]` tuple.
+### Defined in
 
-## Defined in
+[lib/hooks/useSyncedState.ts:21](https://github.com/nevoland/realue/blob/8a6a0e0e2cd5cbfd6cdb8d7ce380fc07ff18b38d/lib/hooks/useSyncedState.ts#L21)
 
-[lib/hooks/useSyncedState.ts:12](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/hooks/useSyncedState.ts#L12)
+## useSyncedState(value, setValue)
+
+> **useSyncedState**\<`T`\>(`value`, `setValue`): [`T`, `Dispatch`\<`StateUpdater`\<`T`\>\>]
+
+### Type Parameters
+
+• **T**
+
+### Parameters
+
+• **value**: `T`
+
+• **setValue**: `Dispatch`\<`StateUpdater`\<`T`\>\>
+
+### Returns
+
+[`T`, `Dispatch`\<`StateUpdater`\<`T`\>\>]
+
+### Defined in
+
+[lib/hooks/useSyncedState.ts:22](https://github.com/nevoland/realue/blob/8a6a0e0e2cd5cbfd6cdb8d7ce380fc07ff18b38d/lib/hooks/useSyncedState.ts#L22)

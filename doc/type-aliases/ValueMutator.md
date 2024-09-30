@@ -26,4 +26,4 @@ Function that changes a `value`. Used as the signature for the `onChange` callba
 
 ## Defined in
 
-[lib/types/ValueMutator.ts:6](https://github.com/nevoland/realue/blob/0e31f412c843509c611a819f4eb2d8d824b887cf/lib/types/ValueMutator.ts#L6)
+[lib/types/ValueMutator.ts:6](https://github.com/nevoland/realue/blob/8a6a0e0e2cd5cbfd6cdb8d7ce380fc07ff18b38d/lib/types/ValueMutator.ts#L6)
