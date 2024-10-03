@@ -18,7 +18,7 @@ import type { PromiseState } from "../types.js";
  * @returns A promise state object.
  */
 export function usePromise<T>(promise?: Promise<T> | T) {
-  const [state, onChangeState] = useState<PromiseState<T>>({
+  const { 0: state, 1: onChangeState } = useState<PromiseState<T>>({
     status: "idle",
   });
   const observer = useMemo(
