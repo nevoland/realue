@@ -226,7 +226,7 @@ export function useAsyncProps<T, Q>(
     onChangeError: props?.onChangeError,
     onRefresh,
     status,
-    value: state.current.value as Readonly<T>,
+    value: state.current.value as T,
   };
 }
 

@@ -38,7 +38,7 @@ type PersonData = Partial<{
   friends: readonly (string | undefined)[];
 }>;
 
-type TestData = NevoProps<string[] | undefined>;
+type TestData = NevoProps<readonly string[] | undefined>;
 
 export function TestComponent({ value = EMPTY_ARRAY }: TestData) {
   return <div>{value.join(",")}</div>;
