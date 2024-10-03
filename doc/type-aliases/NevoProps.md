@@ -37,22 +37,22 @@ The name used to identify the entity represented by the `value`.
 
 ### onChange?
 
-> `optional` **onChange**: [`ValueMutator`](ValueMutator.md)\<`undefined` *extends* `NoInfer`\<`T`\> ? `Readonly`\<`T`\> \| `undefined` : `Readonly`\<`T`\>\>
+> `optional` **onChange**: `NoInfer`\<[`ValueMutator`](ValueMutator.md)\<`T`\>\>
 
 The callback the component uses to notify the parent component about changes of the `value`.
 
 ### onChangeError?
 
-> `optional` **onChangeError**: [`ErrorMutator`](ErrorMutator.md)\<`NoInfer`\<`E`\>\>
+> `optional` **onChangeError**: `NoInfer`\<[`ErrorMutator`](ErrorMutator.md)\<`E`\>\>
 
 The callback the component uses to notify the parent component about changes of the `error`.
 
 ### value
 
-> **value**: `undefined` *extends* `T` ? `Readonly`\<`T`\> \| `undefined` : `Readonly`\<`T`\>
+> **value**: `T`
 
 The value to be handled by a component.
 
 ## Defined in
 
-[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/types/NevoProps.ts#L14)
+[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/types/NevoProps.ts#L14)

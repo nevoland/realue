@@ -48,7 +48,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:76](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useAsyncProps.ts#L76)
+[lib/hooks/useAsyncProps.ts:77](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useAsyncProps.ts#L77)
 
 ## useAsyncProps(options, dependencies)
 
@@ -72,7 +72,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:80](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useAsyncProps.ts#L80)
+[lib/hooks/useAsyncProps.ts:81](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useAsyncProps.ts#L81)
 
 ## useAsyncProps(options, dependencies)
 
@@ -96,7 +96,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:86](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useAsyncProps.ts#L86)
+[lib/hooks/useAsyncProps.ts:87](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useAsyncProps.ts#L87)
 
 ## useAsyncProps(options, dependencies)
 
@@ -120,7 +120,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:90](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useAsyncProps.ts#L90)
+[lib/hooks/useAsyncProps.ts:91](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useAsyncProps.ts#L91)
 
 ## useAsyncProps(options, dependencies)
 
@@ -144,7 +144,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:96](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useAsyncProps.ts#L96)
+[lib/hooks/useAsyncProps.ts:97](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useAsyncProps.ts#L97)
 
 ## useAsyncProps(options, dependencies)
 
@@ -168,4 +168,4 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:100](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useAsyncProps.ts#L100)
+[lib/hooks/useAsyncProps.ts:101](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useAsyncProps.ts#L101)

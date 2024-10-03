@@ -44,8 +44,8 @@ The name used to identify the entity represented by the `value`.
 
 ### value
 
-> **value**: `undefined` *extends* `T` ? `Readonly`\<`T`\> \| `T` & `undefined` : `Readonly`\<`T`\>
+> **value**: `T`
 
 ## Defined in
 
-[lib/hooks/useDelay.ts:18](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useDelay.ts#L18)
+[lib/hooks/useDelay.ts:18](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useDelay.ts#L18)

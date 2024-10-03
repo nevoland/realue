@@ -20,4 +20,4 @@
 
 ## Defined in
 
-[lib/hooks/useLog.ts:6](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/hooks/useLog.ts#L6)
+[lib/hooks/useLog.ts:6](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useLog.ts#L6)

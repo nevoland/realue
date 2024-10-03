@@ -24,7 +24,7 @@
 
 ### Defined in
 
-[lib/tools/childrenError.ts:10](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/tools/childrenError.ts#L10)
+[lib/tools/childrenError.ts:10](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/tools/childrenError.ts#L10)
 
 ## childrenError(error)
 
@@ -44,4 +44,4 @@
 
 ### Defined in
 
-[lib/tools/childrenError.ts:17](https://github.com/nevoland/realue/blob/ed7bf05d18ab306716405186215c6769c3cbd8d7/lib/tools/childrenError.ts#L17)
+[lib/tools/childrenError.ts:17](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/tools/childrenError.ts#L17)
