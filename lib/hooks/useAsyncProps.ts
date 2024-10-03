@@ -22,6 +22,7 @@ import type {
 
 import { useAbortController } from "./useAbortController.js";
 import { usePromise } from "./usePromise.js";
+import { useRefresh } from "./useRefresh.js";
 
 type AsyncPropsOptions<T, Q> = {
   value?: (name: Name) => Q | undefined;
@@ -122,12 +123,12 @@ export function useAsyncProps<T, Q>(
     state.current.value = props?.value;
   }, [props?.value]);
 
-  const [refresh, setRefresh] = useState(false);
+  const refresh = useRefresh();
   const onRefresh = useCallback((query?: Q) => {
     if (query !== undefined && state.current.changeQuery === query) {
       return;
     }
-    setRefresh((value) => !value);
+    refresh();
   }, EMPTY_ARRAY);
 
   const valueState = usePromise(
@@ -142,7 +143,7 @@ export function useAsyncProps<T, Q>(
       }
       state.current.abort = abortController();
       return handle(query, state.current.abort);
-    }, [refresh, ...dependencies]),
+    }, [refresh.value, ...dependencies]),
   );
   useMemo(() => {
     if (state.current.valueQuery === undefined || subscribe === undefined) {
