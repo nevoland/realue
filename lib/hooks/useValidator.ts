@@ -60,7 +60,7 @@ export function useValidator<T, E extends ErrorReport<any>>(
   );
   const errorPromiseValue = useResilient(
     errorPromise.value,
-    () => errorPromise.value !== undefined || errorPromise.status !== "pending",
+    errorPromise.value !== undefined || errorPromise.status !== "pending",
   );
   useEffect(() => {
     if (onChangeError === undefined) {
