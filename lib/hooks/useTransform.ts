@@ -20,7 +20,7 @@ export function useTransform<T, U>(
 ): NevoProps<U> {
   const value = useMemo(
     () => options.value(props.value),
-    [props.value, options.value],
+    [JSON.stringify(props.value), options.value],
   );
   const onChange: ValueMutator<U> | undefined = useMemo(
     () =>
