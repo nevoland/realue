@@ -19,7 +19,7 @@ import { useRefresh } from "./useRefresh.js";
  */
 export function useSyncedState<T>(
   value: T,
-  setValue?: Dispatch<StateUpdater<T>>,
+  setValue?: Dispatch<T>,
 ): [T, Dispatch<StateUpdater<T>>] {
   const onRefresh = useRefresh();
   const state = useRef(value);
