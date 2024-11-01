@@ -1,11 +1,4 @@
-export {
-  type JSX,
-  type Component,
-  type FunctionComponent,
-  h as createElement,
-  createContext,
-  Fragment,
-} from "preact";
+export { h as createElement, createContext, Fragment } from "preact";
 export { memo } from "preact/compat";
 export {
   useRef,
@@ -15,13 +8,8 @@ export {
   useMemo,
   useId,
   useLayoutEffect,
-  type StateUpdater,
-  type Dispatch,
-  type MutableRef,
 } from "preact/hooks";
 export { useSignal } from "@preact/signals";
-export type { PromiseStatus } from "futurise";
-export type { Inputs } from "preact/compat";
 
 export { timeout, sleep } from "futurise";
 
@@ -35,8 +23,6 @@ export {
   EMPTY_ARRAY,
   EMPTY_OBJECT,
 } from "unchangeable";
-
-export type { DelayedFunction, DelayOptions } from "futurise";
 
 export function identity<T>(value: T): T {
   return value;

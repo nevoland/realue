@@ -1,4 +1,4 @@
-import type { FunctionComponent } from "../dependencies";
+import type { FunctionComponent } from "../dependencies/types";
 
 import type { ErrorReport } from "./ErrorReport";
 import type { ErrorReportValue } from "./ErrorReportValue";

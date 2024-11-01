@@ -1,7 +1,6 @@
+import type { Inputs, PromiseStatus } from "../dependencies/types";
 import {
   EMPTY_ARRAY,
-  type Inputs,
-  type PromiseStatus,
   useCallback,
   useEffect,
   useLayoutEffect,

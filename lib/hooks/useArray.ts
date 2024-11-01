@@ -1,6 +1,6 @@
+import type { FunctionComponent } from "../dependencies/types";
 import {
   EMPTY_ARRAY,
-  type FunctionComponent,
   createElement,
   undefinedIfEmpty,
   useMemo,

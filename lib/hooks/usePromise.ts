@@ -1,6 +1,5 @@
+import type { Dispatch, StateUpdater } from "../dependencies/types";
 import {
-  type Dispatch,
-  type StateUpdater,
   isPromise,
   timeout,
   useEffect,
