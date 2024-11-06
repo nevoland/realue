@@ -1,4 +1,4 @@
-import { useMemo } from "../dependencies.js";
+import { EMPTY_ARRAY, type Inputs, useMemo } from "../dependencies.js";
 import type {
   ErrorMutator,
   ErrorReport,
@@ -12,16 +12,19 @@ import type {
  *
  * @param props Properties according to the NEVO pattern.
  * @param options Options for `useTransform`.
+ * @param dependencies List of values that, when changing, update the `value`, the `error`, and the mutators.
  * @returns Updated properties according to the NEVO pattern.
  */
 export function useTransform<T, U>(
   props: NevoProps<T>,
   options: UseTransformOptions<T, U>,
+  dependencies: Inputs = EMPTY_ARRAY,
 ): NevoProps<U> {
   const value = useMemo(
     () => options.value(props.value),
-    [props.value, options.value],
+    [props.value, ...dependencies],
   );
+
   const onChange: ValueMutator<U> | undefined = useMemo(
     () =>
       props.onChange === undefined
@@ -29,13 +32,15 @@ export function useTransform<T, U>(
         : (value, name) => {
             props.onChange!(options.onChange(value), name);
           },
-    [props.onChange, options.onChange],
+    [props.onChange, ...dependencies],
   );
+
   const error = useMemo(
     () =>
       options.error === undefined ? undefined : options.error(props.error),
-    [props.error, options.error],
+    [props.error, ...dependencies],
   );
+
   const onChangeError: ErrorMutator<ErrorReport<U>> | undefined = useMemo(
     () =>
       props.onChangeError === undefined
@@ -45,7 +50,8 @@ export function useTransform<T, U>(
           : (error, name) => {
               props.onChangeError!(options.onChangeError!(error), name);
             },
-    [props.onChangeError, options.onChangeError],
+    [props.onChangeError, ...dependencies],
   );
+
   return { error, name: props.name, onChange, onChangeError, value };
 }
