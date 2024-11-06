@@ -6,7 +6,7 @@
 
 # Function: useTransform()
 
-> **useTransform**\<`T`, `U`\>(`props`, `options`): [`NevoProps`](../type-aliases/NevoProps.md)\<`U`\>
+> **useTransform**\<`T`, `U`\>(`props`, `options`, `dependencies`): [`NevoProps`](../type-aliases/NevoProps.md)\<`U`\>
 
 Transforms the incoming `value` and the outgoing `value` passed to the `onChange` callback, and optionally the incoming `error` and the outgoing `error` passed to the `onChangeError` callback. If the incoming and outgoing `error` transforms are not provided, returned props will not contain `error` nor `onChangeError`.
 
@@ -26,6 +26,10 @@ Properties according to the NEVO pattern.
 
 Options for `useTransform`.
 
+• **dependencies**: `Inputs` = `EMPTY_ARRAY`
+
+List of values that, when changing, update the `value`, the `error`, and the mutators.
+
 ## Returns
 
 [`NevoProps`](../type-aliases/NevoProps.md)\<`U`\>
@@ -34,4 +38,4 @@ Updated properties according to the NEVO pattern.
 
 ## Defined in
 
-[lib/hooks/useTransform.ts:17](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useTransform.ts#L17)
+[lib/hooks/useTransform.ts:18](https://github.com/nevoland/realue/blob/02eadad2b1348179ffb758c002c1a34797a6b7aa/lib/hooks/useTransform.ts#L18)

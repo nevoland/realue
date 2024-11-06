@@ -26,4 +26,4 @@
 
 ## Defined in
 
-[lib/types/Fetch.ts:1](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/types/Fetch.ts#L1)
+[lib/types/Fetch.ts:1](https://github.com/nevoland/realue/blob/02eadad2b1348179ffb758c002c1a34797a6b7aa/lib/types/Fetch.ts#L1)

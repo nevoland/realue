@@ -37,4 +37,4 @@ The deferred value.
 
 ## Defined in
 
-[lib/hooks/useDefer.ts:15](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useDefer.ts#L15)
+[lib/hooks/useDefer.ts:15](https://github.com/nevoland/realue/blob/02eadad2b1348179ffb758c002c1a34797a6b7aa/lib/hooks/useDefer.ts#L15)

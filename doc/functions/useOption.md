@@ -34,4 +34,4 @@ Properties `${optionName}` and `onChange${capitalized(optionName)}`.
 
 ## Defined in
 
-[lib/hooks/useOption.ts:11](https://github.com/nevoland/realue/blob/1fa38fef80c9df28c076a8a44728e2fb20f56b0b/lib/hooks/useOption.ts#L11)
+[lib/hooks/useOption.ts:11](https://github.com/nevoland/realue/blob/02eadad2b1348179ffb758c002c1a34797a6b7aa/lib/hooks/useOption.ts#L11)
