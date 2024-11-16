@@ -1,5 +1,6 @@
 import type { Dispatch, StateUpdater } from "../dependencies/types";
 import { useCallback, useMemo, useRef } from "../dependencies.js";
+import type { StateMutator } from "../types/StateMutator";
 
 import { useRefresh } from "./useRefresh.js";
 
@@ -15,7 +16,7 @@ import { useRefresh } from "./useRefresh.js";
 export function useSyncedState<T>(
   value: T,
   setValue?: Dispatch<T>,
-): [T, Dispatch<StateUpdater<T>>] {
+): [T, StateMutator<T>] {
   const onRefresh = useRefresh();
   const state = useRef(value);
   useMemo(() => {
