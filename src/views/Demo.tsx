@@ -10,6 +10,7 @@ import {
   useObject,
   useRemove,
   useSyncedProps,
+  useTransform,
   useValidator,
 } from "../../lib/main.js";
 import type { NevoProps, ValueRemover } from "../../lib/types";
@@ -236,6 +237,18 @@ const INITIAL_ASYNC_TEST_VALUE = {
   // onChange: () => {},
 } as const;
 
+function PersonCount(props: NevoProps<PersonData[]>) {
+  const { value } = useTransform(props, {
+    value(value) {
+      return value?.length ?? 0;
+    },
+    onChange(_) {
+      return EMPTY_ARRAY as PersonData[];
+    },
+  });
+  return <div>Count: {value}</div>;
+}
+
 export function Demo() {
   const props = useSyncedProps<PersonData[]>({
     value: INITIAL_VALUE,
@@ -252,6 +265,7 @@ export function Demo() {
   }, [onAppendItem]);
   return (
     <div class="m-3 flex flex-col space-y-2">
+      <PersonCount {...props} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       {item.loop(Person, { onRemove: item.remove })}
