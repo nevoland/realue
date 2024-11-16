@@ -1,10 +1,5 @@
-import {
-  type Dispatch,
-  type StateUpdater,
-  useCallback,
-  useMemo,
-  useRef,
-} from "../dependencies.js";
+import type { Dispatch, StateUpdater } from "../dependencies/types";
+import { useCallback, useMemo, useRef } from "../dependencies.js";
 
 import { useRefresh } from "./useRefresh.js";
 

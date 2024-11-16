@@ -1,4 +1,5 @@
-import { EMPTY_ARRAY, type Inputs, useMemo } from "../dependencies.js";
+import type { Inputs } from "../dependencies/types";
+import { EMPTY_ARRAY, useMemo } from "../dependencies.js";
 import type {
   ErrorMutator,
   ErrorReport,
