@@ -38,4 +38,4 @@ Name of the value property.
 
 ## Defined in
 
-[lib/tools/normalize.ts:17](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/tools/normalize.ts#L17)
+[lib/tools/normalize.ts:17](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/tools/normalize.ts#L17)

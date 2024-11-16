@@ -33,4 +33,4 @@ The current value, last udpated when `shouldUpdate` was `true` or returned `true
 
 ## Defined in
 
-[lib/hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/hooks/useResilient.ts#L11)
+[lib/hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/hooks/useResilient.ts#L11)

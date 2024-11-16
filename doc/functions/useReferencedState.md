@@ -30,7 +30,7 @@ A couple containing the reference to the current state value, and the state upda
 
 ### Defined in
 
-[lib/hooks/useReferencedState.ts:15](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/hooks/useReferencedState.ts#L15)
+[lib/hooks/useReferencedState.ts:15](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/hooks/useReferencedState.ts#L15)
 
 ## useReferencedState()
 
@@ -46,4 +46,4 @@ A couple containing the reference to the current state value, and the state upda
 
 ### Defined in
 
-[lib/hooks/useReferencedState.ts:16](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/hooks/useReferencedState.ts#L16)
+[lib/hooks/useReferencedState.ts:16](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/hooks/useReferencedState.ts#L16)

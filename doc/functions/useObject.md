@@ -30,4 +30,4 @@ The `property` function that returns the props for a specific property `name`.
 
 ## Defined in
 
-[lib/hooks/useObject.ts:13](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/hooks/useObject.ts#L13)
+[lib/hooks/useObject.ts:13](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/hooks/useObject.ts#L13)

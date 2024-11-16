@@ -24,4 +24,4 @@ Callback that changes a `value`.
 
 ## Defined in
 
-[lib/types/ValueMutatorNamed.ts:4](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ValueMutatorNamed.ts#L4)
+[lib/types/ValueMutatorNamed.ts:4](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/types/ValueMutatorNamed.ts#L4)

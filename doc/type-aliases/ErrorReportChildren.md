@@ -14,4 +14,4 @@
 
 ## Defined in
 
-[lib/types/ErrorReportChildren.ts:3](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ErrorReportChildren.ts#L3)
+[lib/types/ErrorReportChildren.ts:3](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/types/ErrorReportChildren.ts#L3)

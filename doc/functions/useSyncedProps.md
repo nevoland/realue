@@ -29,4 +29,4 @@ Properties according to the NEVO pattern.
 
 ## Defined in
 
-[lib/hooks/useSyncedProps.ts:11](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/hooks/useSyncedProps.ts#L11)
+[lib/hooks/useSyncedProps.ts:11](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/hooks/useSyncedProps.ts#L11)
