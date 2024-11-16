@@ -1,26 +1,27 @@
 import { useMemo, useRef } from "../dependencies.js";
 
 /**
- * Returns the provided `value` when `shouldUpdate`, called with the new value and the current one, returns `true`. Otherwise, returns the current one.
+ * Returns the provided `value` if `shouldUpdate` is strictly equal to `true` or, when called with the new value and the current one, returns `true`. Otherwise, returns the current one.
  * By default, `shouldUpdate` returns `true` if `value` is not `undefined`.
  *
  * @param value The `value` to make resilient.
- * @param shouldUpdate The function called with the new value and the current one that returns `true` if the current value should be updated to the new one.
- * @returns The current value, last udpated when `shouldUpdate` returned `true`.
+ * @param shouldUpdate Either a falsy value, `true`, or a function that is called with the new value and the current one and returns a boolean value.
+ * @returns The current value, last udpated when `shouldUpdate` was `true` or returned `true`.
  */
 export function useResilient<T>(
   value: T,
-  shouldUpdate: (nextValue: T, currentValue: T) => boolean = defaultUpdate,
+  shouldUpdate:
+    | ((nextValue: T, currentValue: T) => boolean)
+    | boolean = value !== undefined,
 ): T {
   const previous = useRef(value);
   useMemo(() => {
-    if (shouldUpdate(value, previous.current)) {
+    if (!shouldUpdate) {
+      return;
+    }
+    if (shouldUpdate === true || shouldUpdate(value, previous.current)) {
       previous.current = value;
     }
   }, [value, shouldUpdate]);
   return previous.current;
-}
-
-function defaultUpdate<T>(value: T) {
-  return value !== undefined;
 }
