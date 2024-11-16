@@ -1,4 +1,5 @@
-import { type JSX, useMemo } from "../dependencies.js";
+import type { JSX } from "../dependencies/types";
+import { useMemo } from "../dependencies.js";
 import type { NevoProps } from "../types";
 
 /**

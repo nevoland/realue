@@ -1,12 +1,5 @@
-import {
-  type Dispatch,
-  EMPTY_ARRAY,
-  type MutableRef,
-  type StateUpdater,
-  useCallback,
-  useRef,
-  useState,
-} from "../dependencies.js";
+import type { Dispatch, MutableRef, StateUpdater } from "../dependencies/types";
+import { EMPTY_ARRAY, useCallback, useRef, useState } from "../dependencies.js";
 
 type ReferenceStateResult<T> = readonly [
   MutableRef<T>,

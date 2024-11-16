@@ -1,1 +1,1 @@
-export type { DelayedFunction } from "../dependencies";
+export type { DelayedFunction } from "../dependencies/types";
