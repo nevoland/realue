@@ -6,7 +6,7 @@
 
 # Function: useOption()
 
-> **useOption**\<`T`, `K`\>(`props`, `optionName`): [`OptionPropsAdapted`](../type-aliases/OptionPropsAdapted.md)\<`T`, `K`\>
+> **useOption**\<`T`, `K`\>(`props`, `optionName`): [`OptionProps`](../type-aliases/OptionProps.md)\<`T`, `K`\>
 
 Renames the `value` prop to `${optionName}`, and renames the `onChange` prop to `onChange${capitalized(optionName)}` while transforming it into a simple mutator that takes only the new `value` as argument.
 
@@ -28,10 +28,10 @@ The name to use for the option.
 
 ## Returns
 
-[`OptionPropsAdapted`](../type-aliases/OptionPropsAdapted.md)\<`T`, `K`\>
+[`OptionProps`](../type-aliases/OptionProps.md)\<`T`, `K`\>
 
 Properties `${optionName}` and `onChange${capitalized(optionName)}`.
 
 ## Defined in
 
-[lib/hooks/useOption.ts:11](https://github.com/nevoland/realue/blob/02eadad2b1348179ffb758c002c1a34797a6b7aa/lib/hooks/useOption.ts#L11)
+[lib/hooks/useOption.ts:11](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/hooks/useOption.ts#L11)

@@ -30,7 +30,7 @@
 - [NevoProps](type-aliases/NevoProps.md)
 - [NevoPropsAdapted](type-aliases/NevoPropsAdapted.md)
 - [NevoPropsReadonly](type-aliases/NevoPropsReadonly.md)
-- [OptionPropsAdapted](type-aliases/OptionPropsAdapted.md)
+- [OptionProps](type-aliases/OptionProps.md)
 - [PromiseState](type-aliases/PromiseState.md)
 - [Property](type-aliases/Property.md)
 - [ResizeEffectOptions](type-aliases/ResizeEffectOptions.md)

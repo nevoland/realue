@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[lib/types/Name.ts:4](https://github.com/nevoland/realue/blob/02eadad2b1348179ffb758c002c1a34797a6b7aa/lib/types/Name.ts#L4)
+[lib/types/Name.ts:4](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/types/Name.ts#L4)

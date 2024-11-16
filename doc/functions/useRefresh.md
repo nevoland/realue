@@ -20,4 +20,4 @@ A function that triggers a refresh, with the `value` property.
 
 ## Defined in
 
-[lib/hooks/useRefresh.ts:15](https://github.com/nevoland/realue/blob/02eadad2b1348179ffb758c002c1a34797a6b7aa/lib/hooks/useRefresh.ts#L15)
+[lib/hooks/useRefresh.ts:15](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/hooks/useRefresh.ts#L15)
