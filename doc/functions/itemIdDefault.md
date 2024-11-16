@@ -32,8 +32,4 @@ A unique identifier string for this item.
 
 ## Defined in
 
-<<<<<<< HEAD
-[lib/tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/tools/itemIdDefault.ts#L8)
-=======
-[lib/tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/tools/itemIdDefault.ts#L8)
->>>>>>> origin/main
+[lib/tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/tools/itemIdDefault.ts#L8)

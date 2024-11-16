@@ -36,11 +36,7 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-<<<<<<< HEAD
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/types/ItemCallable.ts#L14)
-=======
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/types/ItemCallable.ts#L14)
->>>>>>> origin/main
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ItemCallable.ts#L14)
 
 > **ItemCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`[], [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
@@ -56,11 +52,7 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-<<<<<<< HEAD
-[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/types/ItemCallable.ts#L15)
-=======
-[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/types/ItemCallable.ts#L15)
->>>>>>> origin/main
+[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ItemCallable.ts#L15)
 
 ## Properties
 
@@ -86,11 +78,7 @@ The index where to add this item.
 
 #### Defined in
 
-<<<<<<< HEAD
-[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/types/ItemCallable.ts#L33)
-=======
-[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/types/ItemCallable.ts#L33)
->>>>>>> origin/main
+[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ItemCallable.ts#L33)
 
 ***
 
@@ -112,11 +100,7 @@ The index of the item to retreive, or `undefined` if none was found.
 
 #### Defined in
 
-<<<<<<< HEAD
-[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/types/ItemCallable.ts#L45)
-=======
-[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/types/ItemCallable.ts#L45)
->>>>>>> origin/main
+[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ItemCallable.ts#L45)
 
 ***
 
@@ -146,11 +130,7 @@ An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-<<<<<<< HEAD
-[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/types/ItemCallable.ts#L23)
-=======
-[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/types/ItemCallable.ts#L23)
->>>>>>> origin/main
+[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ItemCallable.ts#L23)
 
 ***
 
@@ -172,8 +152,4 @@ The index of the item to remove.
 
 #### Defined in
 
-<<<<<<< HEAD
-[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/types/ItemCallable.ts#L39)
-=======
-[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/types/ItemCallable.ts#L39)
->>>>>>> origin/main
+[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/types/ItemCallable.ts#L39)

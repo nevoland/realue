@@ -48,8 +48,4 @@ The name used to identify the entity represented by the `value`.
 
 ## Defined in
 
-<<<<<<< HEAD
-[lib/hooks/useDelay.ts:18](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/hooks/useDelay.ts#L18)
-=======
-[lib/hooks/useDelay.ts:18](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/hooks/useDelay.ts#L18)
->>>>>>> origin/main
+[lib/hooks/useDelay.ts:18](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/hooks/useDelay.ts#L18)

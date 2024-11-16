@@ -6,10 +6,10 @@
 
 # Function: useResilient()
 
-> **useResilient**\<`T`\>(`value`, `trigger`): `T`
+> **useResilient**\<`T`\>(`value`, `shouldUpdate`): `T`
 
-Returns the provided `value` when `trigger` was truthy.
-By default, `trigger` is `true` when `value` is not `undefined`.
+Returns the provided `value` if `shouldUpdate` is strictly equal to `true` or, when called with the new value and the current one, returns `true`. Otherwise, returns the current one.
+By default, `shouldUpdate` returns `true` if `value` is not `undefined`.
 
 ## Type Parameters
 
@@ -21,20 +21,16 @@ By default, `trigger` is `true` when `value` is not `undefined`.
 
 The `value` to make resilient.
 
-• **trigger**: `boolean` = `...`
+• **shouldUpdate**: `boolean` \| (`nextValue`, `currentValue`) => `boolean` = `...`
 
-The `trigger` that sets the last value if it is `truthy`.
+Either a falsy value, `true`, or a function that is called with the new value and the current one and returns a boolean value.
 
 ## Returns
 
 `T`
 
-The last `value` when `trigger` was `truthy`.
+The current value, last udpated when `shouldUpdate` was `true` or returned `true`.
 
 ## Defined in
 
-<<<<<<< HEAD
-[lib/hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/cbce77129663d64110c6eeb5270a3b7841e0b453/lib/hooks/useResilient.ts#L11)
-=======
-[lib/hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/90be82ca388547f529d338e720e90d4eeb8b3263/lib/hooks/useResilient.ts#L11)
->>>>>>> origin/main
+[lib/hooks/useResilient.ts:11](https://github.com/nevoland/realue/blob/310f29149b1c369e25b2d9305043389204bd13e0/lib/hooks/useResilient.ts#L11)
