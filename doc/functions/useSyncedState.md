@@ -6,7 +6,7 @@
 
 # Function: useSyncedState()
 
-> **useSyncedState**\<`T`\>(`value`, `setValue`?): [`T`, `StateMutator`\<`T`\>]
+> **useSyncedState**\<`T`\>(`value`, `setValue`?): [`T`, [`StateMutator`](../type-aliases/StateMutator.md)\<`T`\>]
 
 Creates a state that is synced with its parent state.
 If the provided `state` changes, the returned `state` is set to that provided state.
@@ -24,10 +24,10 @@ Calls to the returned `setState(state)` also triggers a call to the optionally p
 
 ## Returns
 
-[`T`, `StateMutator`\<`T`\>]
+[`T`, [`StateMutator`](../type-aliases/StateMutator.md)\<`T`\>]
 
 The `[state, setState]` tuple.
 
 ## Defined in
 
-[lib/hooks/useSyncedState.ts:16](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/hooks/useSyncedState.ts#L16)
+[lib/hooks/useSyncedState.ts:16](https://github.com/nevoland/realue/blob/61d16d842d4c11bef8dfade29a565911353a8f17/lib/hooks/useSyncedState.ts#L16)

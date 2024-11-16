@@ -50,4 +50,4 @@ This function was renamed to `useDelay`.
 
 ## Defined in
 
-[lib/hooks/useDebounce.ts:6](https://github.com/nevoland/realue/blob/74648764502b1dc82cd067678d4f4e304253ebad/lib/hooks/useDebounce.ts#L6)
+[lib/hooks/useDebounce.ts:6](https://github.com/nevoland/realue/blob/61d16d842d4c11bef8dfade29a565911353a8f17/lib/hooks/useDebounce.ts#L6)

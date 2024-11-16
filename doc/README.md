@@ -35,6 +35,8 @@
 - [Property](type-aliases/Property.md)
 - [ResizeEffectOptions](type-aliases/ResizeEffectOptions.md)
 - [Select](type-aliases/Select.md)
+- [StateMutator](type-aliases/StateMutator.md)
+- [StateProps](type-aliases/StateProps.md)
 - [Subscribe](type-aliases/Subscribe.md)
 - [UseTransformOptions](type-aliases/UseTransformOptions.md)
 - [ValueMutator](type-aliases/ValueMutator.md)
