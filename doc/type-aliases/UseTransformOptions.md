@@ -12,6 +12,12 @@ Options for `useTransform`.
 
 ## Type declaration
 
+### cache?
+
+> `optional` **cache**: `boolean`
+
+If `true`, caches the latest transforms. Only use this if the transforms are idempotent when used one after the other.
+
 ### onChange
 
 > **onChange**: [`ValueTransformer`](ValueTransformer.md)\<`U`, `T`\>
@@ -40,4 +46,4 @@ The incoming `value` to transform.
 
 ## Defined in
 
-[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/4e20bc322d155f810c06416a8a99a0b7b6c6ba28/lib/types/UseTransformOptions.ts#L7)
+[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/3f70cb4d9fb06b3cde8060aa67f306f2aaa9dc1d/lib/types/UseTransformOptions.ts#L7)
