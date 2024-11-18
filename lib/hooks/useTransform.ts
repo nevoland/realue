@@ -1,5 +1,5 @@
 import type { Inputs } from "../dependencies/types";
-import { EMPTY_ARRAY, EMPTY_OBJECT, useMemo, useRef } from "../dependencies.js";
+import { EMPTY_ARRAY, useMemo, useRef } from "../dependencies.js";
 import type {
   ErrorMutator,
   ErrorReport,
@@ -23,15 +23,15 @@ export function useTransform<T, U>(
   options: UseTransformOptions<T, U>,
   dependencies: Inputs = EMPTY_ARRAY,
 ): NevoProps<U> {
-  const cache = useRef<{ value: T; transformedValue: U }>(EMPTY_OBJECT);
+  const cache = useRef<{ value: T; transformedValue: U }>();
 
   useMemo(() => {
-    cache.current = EMPTY_OBJECT;
+    cache.current = undefined;
   }, dependencies);
 
   const value = useMemo(() => {
     const currentCache = cache.current;
-    if (currentCache.value === props.value) {
+    if (currentCache !== undefined && currentCache.value === props.value) {
       return currentCache.transformedValue;
     }
     const transformedValue = options.value(props.value);
@@ -45,7 +45,10 @@ export function useTransform<T, U>(
         ? undefined
         : (value, name) => {
             const currentCache = cache.current;
-            if (currentCache.transformedValue === value) {
+            if (
+              currentCache !== undefined &&
+              currentCache.transformedValue === value
+            ) {
               props.onChange!(currentCache.value, name);
               return;
             }
