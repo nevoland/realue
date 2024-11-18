@@ -22,4 +22,4 @@
 
 ## Defined in
 
-[lib/tools/normalizeError.ts:5](https://github.com/nevoland/realue/blob/3f70cb4d9fb06b3cde8060aa67f306f2aaa9dc1d/lib/tools/normalizeError.ts#L5)
+[lib/tools/normalizeError.ts:5](https://github.com/nevoland/realue/blob/0e2c9c1c8fa8490674c8cc5404b4ee41b440a4dd/lib/tools/normalizeError.ts#L5)

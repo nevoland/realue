@@ -16,7 +16,9 @@ Options for `useTransform`.
 
 > `optional` **cache**: `boolean`
 
-If `true`, caches the latest transforms. Only use this if the transforms are idempotent when used one after the other.
+If `true`, caches the latest transforms from `value` and `onChange` and returns them if identical values are presented.
+
+⚠️ Only enable the cache if the `value(value)` transform is bijective and `onChange(value)` is the complete inverse function, i.e., `value(onChange(data))` deeply equals `data`.
 
 ### onChange
 
@@ -46,4 +48,4 @@ The incoming `value` to transform.
 
 ## Defined in
 
-[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/3f70cb4d9fb06b3cde8060aa67f306f2aaa9dc1d/lib/types/UseTransformOptions.ts#L7)
+[lib/types/UseTransformOptions.ts:7](https://github.com/nevoland/realue/blob/0e2c9c1c8fa8490674c8cc5404b4ee41b440a4dd/lib/types/UseTransformOptions.ts#L7)
