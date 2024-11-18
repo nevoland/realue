@@ -20,7 +20,9 @@ export type UseTransformOptions<T, U> = {
    */
   onChange: ValueTransformer<U, T>;
   /**
-   * If `true`, caches the latest transforms. Only use this if the transforms are idempotent when used one after the other.
+   * If `true`, caches the latest transforms from `value` and `onChange` and returns them if identical values are presented.
+   *
+   * ⚠️ Only enable the cache if the `value(value)` transform is bijective and `onChange(value)` is the complete inverse function, i.e., `value(onChange(data))` deeply equals `data`.
    */
   cache?: boolean;
 } & (
