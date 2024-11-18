@@ -19,6 +19,10 @@ export type UseTransformOptions<T, U> = {
    * @returns The transformed value.
    */
   onChange: ValueTransformer<U, T>;
+  /**
+   * If `true`, caches the latest transforms. Only use this if the transforms are idempotent when used one after the other.
+   */
+  cache?: boolean;
 } & (
   | {
       /**

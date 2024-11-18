@@ -30,13 +30,16 @@ export function useTransform<T, U>(
   }, dependencies);
 
   const value = useMemo(() => {
-    const currentCache = cache.current;
-    if (currentCache !== undefined && currentCache.value === props.value) {
-      return currentCache.transformedValue;
+    if (options.cache) {
+      const currentCache = cache.current;
+      if (currentCache !== undefined && currentCache.value === props.value) {
+        return currentCache.transformedValue;
+      }
+      const transformedValue = options.value(props.value);
+      cache.current = { value: props.value, transformedValue };
+      return transformedValue;
     }
-    const transformedValue = options.value(props.value);
-    cache.current = { value: props.value, transformedValue };
-    return transformedValue;
+    return options.value(props.value);
   }, [props.value, ...dependencies]);
 
   const onChange: ValueMutator<U> | undefined = useMemo(
@@ -44,17 +47,21 @@ export function useTransform<T, U>(
       props.onChange === undefined
         ? undefined
         : (value, name) => {
-            const currentCache = cache.current;
-            if (
-              currentCache !== undefined &&
-              currentCache.transformedValue === value
-            ) {
-              props.onChange!(currentCache.value, name);
+            if (options.cache) {
+              const currentCache = cache.current;
+              if (
+                currentCache !== undefined &&
+                currentCache.transformedValue === value
+              ) {
+                props.onChange!(currentCache.value, name);
+                return;
+              }
+              const nextValue = options.onChange(value);
+              cache.current = { value: nextValue, transformedValue: value };
+              props.onChange!(nextValue, name);
               return;
             }
-            const nextValue = options.onChange(value);
-            cache.current = { value: nextValue, transformedValue: value };
-            props.onChange!(nextValue, name);
+            props.onChange!(options.onChange(value), name);
           },
     [props.onChange, ...dependencies],
   );
