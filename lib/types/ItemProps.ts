@@ -1,4 +1,5 @@
 import type { ErrorReport } from "./ErrorReport";
+import type { Name } from "./Name";
 import type { NevoProps } from "./NevoProps";
 
 export type ItemProps<
@@ -7,4 +8,5 @@ export type ItemProps<
 > = NevoProps<T, E> & {
   key: string;
   id: string;
+  name: Name;
 };
