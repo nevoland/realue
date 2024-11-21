@@ -18,6 +18,10 @@
 
 > **key**: `string`
 
+### name
+
+> **name**: [`Name`](Name.md)
+
 ## Type Parameters
 
 • **T**
@@ -26,4 +30,4 @@
 
 ## Defined in
 
-[lib/types/ItemProps.ts:4](https://github.com/nevoland/realue/blob/439801296602d9ef58e3e6fbfd3252b0bea604d8/lib/types/ItemProps.ts#L4)
+[lib/types/ItemProps.ts:5](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/types/ItemProps.ts#L5)

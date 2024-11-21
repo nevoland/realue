@@ -38,4 +38,4 @@ A callback that receives the argument value list and returns the result of the p
 
 ## Defined in
 
-[lib/hooks/usePreviousArgumentList.ts:9](https://github.com/nevoland/realue/blob/439801296602d9ef58e3e6fbfd3252b0bea604d8/lib/hooks/usePreviousArgumentList.ts#L9)
+[lib/hooks/usePreviousArgumentList.ts:9](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/hooks/usePreviousArgumentList.ts#L9)
