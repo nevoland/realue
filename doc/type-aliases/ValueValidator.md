@@ -6,7 +6,7 @@
 
 # Type Alias: ValueValidator()\<T, E\>
 
-> **ValueValidator**\<`T`, `E`\>: (`value`, `name`, `error`) => `Promise`\<`E` \| `undefined`\> \| `E` \| `undefined`
+> **ValueValidator**\<`T`, `E`\>: (`value`, `name`?, `error`?) => `Promise`\<`E` \| `undefined`\> \| `E` \| `undefined`
 
 Function that valides a `value` with a given `name` and returns a promise that resolves to an error, if any.
 
@@ -20,9 +20,9 @@ Function that valides a `value` with a given `name` and returns a promise that r
 
 • **value**: `T`
 
-• **name**: [`Name`](Name.md)
+• **name?**: [`Name`](Name.md)
 
-• **error**: `E` \| `undefined`
+• **error?**: `E`
 
 ## Returns
 
@@ -30,4 +30,4 @@ Function that valides a `value` with a given `name` and returns a promise that r
 
 ## Defined in
 
-[lib/types/ValueValidator.ts:6](https://github.com/nevoland/realue/blob/0e2c9c1c8fa8490674c8cc5404b4ee41b440a4dd/lib/types/ValueValidator.ts#L6)
+[lib/types/ValueValidator.ts:6](https://github.com/nevoland/realue/blob/439801296602d9ef58e3e6fbfd3252b0bea604d8/lib/types/ValueValidator.ts#L6)

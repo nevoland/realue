@@ -29,9 +29,9 @@ Set of properties that define the NEVO pattern:
 
 An error object describing issues to be shown.
 
-### name
+### name?
 
-> **name**: [`Name`](Name.md)
+> `optional` **name**: [`Name`](Name.md)
 
 The name used to identify the entity represented by the `value`.
 
@@ -55,4 +55,4 @@ The value to be handled by a component.
 
 ## Defined in
 
-[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/0e2c9c1c8fa8490674c8cc5404b4ee41b440a4dd/lib/types/NevoProps.ts#L14)
+[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/439801296602d9ef58e3e6fbfd3252b0bea604d8/lib/types/NevoProps.ts#L14)

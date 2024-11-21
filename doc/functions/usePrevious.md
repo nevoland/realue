@@ -28,4 +28,4 @@ The previous value.
 
 ## Defined in
 
-[lib/hooks/usePrevious.ts:9](https://github.com/nevoland/realue/blob/0e2c9c1c8fa8490674c8cc5404b4ee41b440a4dd/lib/hooks/usePrevious.ts#L9)
+[lib/hooks/usePrevious.ts:9](https://github.com/nevoland/realue/blob/439801296602d9ef58e3e6fbfd3252b0bea604d8/lib/hooks/usePrevious.ts#L9)

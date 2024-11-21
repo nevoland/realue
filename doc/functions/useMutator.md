@@ -28,4 +28,4 @@ Simple mutator that takes only the new `value` as argument.
 
 ## Defined in
 
-[lib/hooks/useMutator.ts:10](https://github.com/nevoland/realue/blob/0e2c9c1c8fa8490674c8cc5404b4ee41b440a4dd/lib/hooks/useMutator.ts#L10)
+[lib/hooks/useMutator.ts:10](https://github.com/nevoland/realue/blob/439801296602d9ef58e3e6fbfd3252b0bea604d8/lib/hooks/useMutator.ts#L10)
