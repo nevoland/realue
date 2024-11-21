@@ -15,7 +15,7 @@ export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> = {
   /**
    * The name used to identify the entity represented by the `value`.
    */
-  name: Name;
+  name?: Name;
   /**
    * An error object describing issues to be shown.
    */

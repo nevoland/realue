@@ -36,7 +36,7 @@ export interface ItemCallable<T, E extends ErrorReport<any>> {
    *
    * @param index The index of the item to remove.
    */
-  readonly remove: (index: number | `${number}`) => void;
+  readonly remove: (index?: number | `${number}`) => void;
   /**
    * Retreives the item found at the specified `index`.
    *

@@ -7,7 +7,7 @@ import type { Name, NameItem, ValueRemover } from "../types";
  * @param props Properties `name` and `onRemove(name)`.
  * @returns A callback with `name` applied to `onRemove(name)`.
  */
-export function useRemove(props: { name: Name; onRemove?: ValueRemover }) {
+export function useRemove(props: { name?: Name; onRemove?: ValueRemover }) {
   const { name, onRemove } = props;
   return useMemo(
     () =>

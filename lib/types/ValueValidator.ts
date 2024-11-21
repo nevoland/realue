@@ -5,6 +5,6 @@ import type { ErrorReport, Name } from "../types";
  */
 export type ValueValidator<T, E extends ErrorReport<any> = ErrorReport<T>> = (
   value: T,
-  name: Name,
-  error: E | undefined,
+  name?: Name,
+  error?: E | undefined,
 ) => Promise<E | undefined> | E | undefined;

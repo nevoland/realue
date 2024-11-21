@@ -363,7 +363,7 @@ const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
               ? "create"
               : "update",
         context: {
-          id: name,
+          id: name!,
         },
         value,
       }),

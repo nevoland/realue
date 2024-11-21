@@ -25,7 +25,7 @@ import { useRefresh } from "./useRefresh.js";
 
 type AsyncPropsOptions<T, Q> = {
   value?: (name: Name) => Q | undefined;
-  onChange?: (value: T, name: Name) => Q;
+  onChange?: (value: T, name?: Name) => Q;
   handle: Fetch<T, Q>;
   subscribe?: Subscribe<Q>;
   props?: NevosProps<T>;

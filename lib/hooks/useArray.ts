@@ -51,6 +51,9 @@ export function useArray<
       onChange === undefined
         ? undefined
         : (itemValue, itemIndex): void => {
+            if (itemIndex === undefined) {
+              return;
+            }
             onChange(
               (state.current = [
                 ...state.current.slice(0, +itemIndex),
@@ -194,6 +197,9 @@ export function useArray<
               onChange === undefined
                 ? undefined
                 : (((itemIndexOrName) => {
+                    if (itemIndexOrName === undefined) {
+                      return;
+                    }
                     const itemIndex = +itemIndexOrName;
                     onChange(
                       (state.current = (itemIndex === 0

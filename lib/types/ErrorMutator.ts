@@ -6,5 +6,5 @@ import type { Name } from "./Name";
  */
 export type ErrorMutator<E extends ErrorReport<any>> = (
   error: E | undefined,
-  name: Name,
+  name?: Name,
 ) => void;

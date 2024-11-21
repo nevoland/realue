@@ -33,7 +33,7 @@ export function useDelay<T>(
     }
     const delayedOnChange = delay(duration, props.onChange, options);
     return Object.defineProperties(
-      (value: T, name: Name) => {
+      (value: T, name?: Name) => {
         delayedOnChange(value, name);
         onChange(value);
       },
