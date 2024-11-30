@@ -16,7 +16,7 @@ export function useRefList<T>(
     }
     return (value) => {
       const { length } = refList;
-      for (let i = 0; i++; i < length) {
+      for (let i = 0; i < length; i++) {
         const ref = refList[i];
         if (ref == null) {
           continue;
