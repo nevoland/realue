@@ -36,7 +36,7 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/types/ItemCallable.ts#L14)
+[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L14)
 
 > **ItemCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`[], [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
@@ -52,7 +52,7 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/types/ItemCallable.ts#L15)
+[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L15)
 
 ## Properties
 
@@ -78,7 +78,7 @@ The index where to add this item.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/types/ItemCallable.ts#L33)
+[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L33)
 
 ***
 
@@ -100,7 +100,7 @@ The index of the item to retreive, or `undefined` if none was found.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/types/ItemCallable.ts#L45)
+[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L45)
 
 ***
 
@@ -130,7 +130,7 @@ An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/types/ItemCallable.ts#L23)
+[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L23)
 
 ***
 
@@ -152,4 +152,4 @@ The index of the item to remove.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/types/ItemCallable.ts#L39)
+[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L39)

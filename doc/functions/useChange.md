@@ -28,4 +28,4 @@ Use `useInput` instead.
 
 ## Defined in
 
-[lib/hooks/useChange.ts:7](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/hooks/useChange.ts#L7)
+[lib/hooks/useChange.ts:7](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/hooks/useChange.ts#L7)

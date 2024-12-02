@@ -82,6 +82,7 @@
 - [useResilient](functions/useResilient.md)
 - [useResizeEffect](functions/useResizeEffect.md)
 - [useSyncedProps](functions/useSyncedProps.md)
+- [useSyncedRef](functions/useSyncedRef.md)
 - [useSyncedSignal](functions/useSyncedSignal.md)
 - [useSyncedState](functions/useSyncedState.md)
 - [useTransform](functions/useTransform.md)

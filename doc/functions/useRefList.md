@@ -28,4 +28,4 @@ Callable ref that updates the list of refs to the value it is called with.
 
 ## Defined in
 
-[lib/hooks/useRefList.ts:10](https://github.com/nevoland/realue/blob/3725e41dc2da74d7ef5636bc888841beee7f9b39/lib/hooks/useRefList.ts#L10)
+[lib/hooks/useRefList.ts:10](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/hooks/useRefList.ts#L10)
