@@ -1,6 +1,6 @@
 import { type DelayOptions, delay } from "futurise";
 
-import { useEffect, useMemo, useState } from "../dependencies.js";
+import { useEffect, useMemo } from "../dependencies.js";
 import type {
   DelayedFunction,
   Name,
