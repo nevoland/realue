@@ -8,6 +8,8 @@ import type {
   ValueMutator,
 } from "../types.js";
 
+import { useReferencedState } from "./useReferencedState.js";
+
 /**
  * Delays calls of the value mutator `onChange` while immediately updating the local `value`.
  *
@@ -20,7 +22,7 @@ export function useDelay<T>(
   duration?: number,
   options?: DelayOptions,
 ) {
-  const { 0: value, 1: onChange } = useState(props.value);
+  const { 0: state, 1: setState } = useReferencedState(props.value);
   const wrappedOnChange:
     | ValueMutator<T>
     | DelayedFunction<ValueMutator<T>>
@@ -35,7 +37,7 @@ export function useDelay<T>(
     return Object.defineProperties(
       (value: T, name?: Name) => {
         delayedOnChange(value, name);
-        onChange(value);
+        setState(value);
       },
       {
         cancel: {
@@ -65,9 +67,12 @@ export function useDelay<T>(
     () => (wrappedOnChange as DelayedFunction<ValueMutator<T>>)?.cancel,
     [wrappedOnChange],
   );
+  useMemo(() => {
+    state.current = props.value;
+  }, [props.value]);
   return {
     ...props,
-    value: !duration ? props.value : value,
+    value: !duration ? props.value : state.current,
     onChange: wrappedOnChange,
   };
 }
