@@ -10,6 +10,6 @@ import type { NevoProps } from "./NevoProps";
 export interface PropertyCallable<T extends object> {
   <K extends keyof T>(
     propertyName: K,
-  ): NevoProps<T[K], ErrorReport<T[K]>> & { key: string };
+  ): NevoProps<T[K], ErrorReport<T[K]>> & { key: string; name: K };
   (): NevoProps<T, ErrorReportValue>;
 }
