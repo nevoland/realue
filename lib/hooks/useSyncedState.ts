@@ -1,8 +1,6 @@
 import type { Dispatch, StateUpdater } from "../dependencies/types";
-import { useCallback, useMemo, useRef } from "../dependencies.js";
+import { useCallback, useMemo, useRef, useState } from "../dependencies.js";
 import type { StateMutator } from "../types/StateMutator";
-
-import { useRefresh } from "./useRefresh.js";
 
 /**
  * Creates a state that is synced with its parent state.
@@ -17,16 +15,19 @@ export function useSyncedState<T>(
   value: T,
   setValue?: Dispatch<T>,
 ): [T, StateMutator<T>] {
-  const onRefresh = useRefresh();
+  const onRefresh = useState(false)[1];
   const state = useRef(value);
   useMemo(() => {
     state.current = value;
   }, [value]);
   const onChangeState = useCallback(
     (value: StateUpdater<T>) => {
-      state.current =
+      const nextValue =
         typeof value === "function" ? (value as any)(state.current) : value;
-      onRefresh();
+      if (nextValue === state.current) {
+        return;
+      }
+      onRefresh((state) => !state);
       setValue?.(state.current);
     },
     [setValue],
