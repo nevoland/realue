@@ -27,6 +27,7 @@ export function useSyncedState<T>(
       if (nextValue === state.current) {
         return;
       }
+      state.current = nextValue;
       onRefresh((state) => !state);
       setValue?.(state.current);
     },
