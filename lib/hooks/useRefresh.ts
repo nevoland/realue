@@ -1,6 +1,4 @@
-import { EMPTY_ARRAY, useMemo } from "../dependencies.js";
-
-import { useReferencedState } from "./useReferencedState.js";
+import { EMPTY_ARRAY, useMemo, useRef, useState } from "../dependencies.js";
 
 interface RefreshResult {
   (): void;
@@ -15,15 +13,20 @@ interface RefreshResult {
  * @returns A function that triggers a refresh, with the `value` property.
  */
 export function useRefresh(): RefreshResult {
-  const { 0: value, 1: onChange } = useReferencedState(false);
+  const onRefresh = useState(false)[1];
+  const value = useRef(false);
   return useMemo(
     () =>
-      Object.defineProperty(() => onChange((value) => !value), "value", {
-        get() {
-          return value.current;
+      Object.defineProperty(
+        () => onRefresh((state) => (value.current = !state)),
+        "value",
+        {
+          get() {
+            return value.current;
+          },
+          configurable: false,
         },
-        configurable: false,
-      }),
+      ),
     EMPTY_ARRAY,
   ) as RefreshResult;
 }
