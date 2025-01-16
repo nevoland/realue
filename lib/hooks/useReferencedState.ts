@@ -17,7 +17,7 @@ export function useReferencedState<T = undefined>(): ReferenceStateResult<
   T | undefined
 >;
 export function useReferencedState<T>(
-  value?: T,
+  value?: T | (() => T),
 ): ReferenceStateResult<T | undefined> {
   const { 0: state, 1: setState } = useState(value);
   const stateRef = useRef(state);
