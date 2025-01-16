@@ -12,7 +12,9 @@ type ReferenceStateResult<T> = readonly [
  * @param value Initial value.
  * @returns A couple containing the reference to the current state value, and the state updater function.
  */
-export function useReferencedState<T>(value: T): ReferenceStateResult<T>;
+export function useReferencedState<T>(
+  value: T | (() => T),
+): ReferenceStateResult<T>;
 export function useReferencedState<T = undefined>(): ReferenceStateResult<
   T | undefined
 >;
