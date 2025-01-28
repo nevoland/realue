@@ -158,9 +158,12 @@ export function useAsyncProps<T, Q>(
       case "fulfilled":
         state.current.value = valueState.value;
         return;
-      case "rejected":
-        state.current.error = valueState.reason as ErrorReport<T>;
+      case "rejected": {
+        const error = valueState.reason as ErrorReport<T>;
+        state.current.error = error;
+        props?.onChangeError?.(error, props?.name);
         return;
+      }
       default:
       // Ignore
     }
@@ -176,9 +179,12 @@ export function useAsyncProps<T, Q>(
       case "fulfilled":
         state.current.value = changeState.value;
         return;
-      case "rejected":
-        state.current.error = changeState.reason as ErrorReport<T>;
+      case "rejected": {
+        const error = valueState.reason as ErrorReport<T>;
+        state.current.error = error;
+        props?.onChangeError?.(error, props?.name);
         return;
+      }
       default:
       // Ignore
     }
