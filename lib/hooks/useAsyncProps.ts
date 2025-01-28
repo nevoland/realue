@@ -3,7 +3,6 @@ import {
   EMPTY_ARRAY,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
