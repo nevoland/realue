@@ -118,9 +118,10 @@ export function useAsyncProps<T, Q>(
     error: props?.error,
   });
 
-  useLayoutEffect(() => {
+  useMemo(() => {
     state.current.value = props?.value;
-  }, [props?.value]);
+    state.current.error = props?.error;
+  }, [props?.value, props?.error]);
 
   const refresh = useRefresh();
   const onRefresh = useCallback((query?: Q) => {
