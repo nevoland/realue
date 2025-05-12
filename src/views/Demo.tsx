@@ -268,6 +268,8 @@ export function Demo() {
       <PersonCount {...props} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
+      <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
+      <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       {item.loop(Person, { onRemove: item.remove })}
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
@@ -332,7 +334,7 @@ async function customFetch(query: Query): Promise<PersonData> {
       return STORE;
     case "read":
     default:
-      await until(timeout(2000));
+      // await until(timeout(2000));
       return STORE;
   }
 }
@@ -367,7 +369,7 @@ const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
         },
         value,
       }),
-      props: { value: { name: "Bingo" }, name: "" },
+      // props: { value: { name: "No name…" }, name: "" },
       handle: customFetch,
       subscribe: customSubscribe,
     },
@@ -399,9 +401,11 @@ const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
       <button onClick={() => props.onChange(undefined, props.name)}>
         Remove
       </button>
-      <strong class={props.status === "pending" ? "text-gray-400" : undefined}>
-        {props.value?.name ?? "…"}
-      </strong>
+      {props.status === "pending" ? (
+        <strong class="text-gray-400">Loading…</strong>
+      ) : (
+        <strong>{props.value?.name ?? "No name"}</strong>
+      )}
       {/* <pre>{JSON.stringify(props, null, 2)}</pre> */}
     </div>
   );
