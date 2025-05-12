@@ -144,7 +144,7 @@ export function useAsyncProps<T, Q>(
       return handle(query, state.current.abort);
     }, [refresh.value, ...dependencies]),
   );
-  useMemo(() => {
+  useEffect(() => {
     if (state.current.valueQuery === undefined || subscribe === undefined) {
       return;
     }
