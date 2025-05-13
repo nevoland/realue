@@ -180,7 +180,7 @@ export function useAsyncProps<T, Q>(
         state.current.value = changeState.value;
         return;
       case "rejected": {
-        const error = valueState.reason as ErrorReport<T>;
+        const error = changeState.reason as ErrorReport<T>;
         state.current.error = error;
         props?.onChangeError?.(error, props?.name);
         return;
