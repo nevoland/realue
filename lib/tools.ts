@@ -10,4 +10,4 @@ export { isEqualError } from "./tools/isEqualError.js";
 export { itemIdDefault } from "./tools/itemIdDefault.js";
 export { normalize } from "./tools/normalize.js";
 export { normalizeError } from "./tools/normalizeError.js";
-export { withoutNevoProps } from "./tools/withoutNevoProps.js";
+export { omitNevoProps } from "./tools/omitNevoProps.js";

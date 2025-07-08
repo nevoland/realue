@@ -20,6 +20,7 @@ export type { NevoName } from "./types/NevoName";
 export type { NevoProps } from "./types/NevoProps";
 export type { NevoPropsAdapted } from "./types/NevoPropsAdapted";
 export type { NevoPropsReadonly } from "./types/NevoPropsReadonly";
+export type { OmitNevoProps } from "./types/OmitNevoProps";
 export type { OptionProps } from "./types/OptionProps";
 export type { PromiseState } from "./types/PromiseState";
 export type { Property } from "./types/Property";
