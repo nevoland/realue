@@ -2,7 +2,9 @@ import type { FunctionComponent } from "../dependencies/types";
 
 import type { ErrorReport } from "./ErrorReport";
 import type { ErrorReportValue } from "./ErrorReportValue";
+import type { ItemAdder } from "./ItemAdder";
 import type { ItemProps } from "./ItemProps";
+import type { ItemRemover } from "./ItemRemover";
 import type { NevoProps } from "./NevoProps";
 
 /**
@@ -28,19 +30,19 @@ export interface ItemCallable<T, E extends ErrorReport<any>> {
    * Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
    *
    * @param item The item to add.
-   * @param index The index where to add this item.
+   * @param index The index where to add this item (defaults to the length of the array).
    */
-  readonly add: (item: T, index?: number | `${number}`) => void;
+  readonly add: ItemAdder<T>;
   /**
    * Removes the item found at the specified `index`.
    *
    * @param index The index of the item to remove.
    */
-  readonly remove: (index?: number | `${number}`) => void;
+  readonly remove: ItemRemover;
   /**
    * Retreives the item found at the specified `index`.
    *
    * @param index The index of the item to retreive, or `undefined` if none was found.
    */
-  readonly get: (index: number | `${number}`) => T | undefined;
+  readonly get: (index: number) => T | undefined;
 }
