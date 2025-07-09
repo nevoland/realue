@@ -1,4 +1,5 @@
 import { EventEmitter, on, timeout, until } from "futurise";
+import type { ComponentChildren } from "preact";
 import { EMPTY_ARRAY } from "unchangeable";
 
 import {
@@ -8,12 +9,11 @@ import {
   useArray,
   useAsyncProps,
   useObject,
-  useRemove,
   useSyncedProps,
   useTransform,
   useValidator,
 } from "../../lib/main.js";
-import type { NevoProps, ValueRemover } from "../../lib/types";
+import type { ItemRemover, NevoProps } from "../../lib/types";
 import { Checkbox } from "../components/Checkbox.jsx";
 import { Input } from "../components/Input.jsx";
 import { InputNumber } from "../components/InputNumber.jsx";
@@ -46,15 +46,16 @@ export function TestComponent({ value = EMPTY_ARRAY }: TestData) {
 }
 
 type FriendProps = NevoProps<string | undefined> & {
-  onRemove?: ValueRemover;
+  onRemove?: ItemRemover;
 };
 
 function Friend(props: FriendProps) {
-  const onRemove = useRemove(props);
   return (
     <div class="flex flex-row" key={props.name}>
       <Input {...props} key={props.name} placeholder="Add friend" />
-      {onRemove && <ButtonRemove onRemove={onRemove} />}
+      {props.onRemove && (
+        <ButtonRemove onRemove={props.onRemove} value={+props.name!} />
+      )}
     </div>
   );
 }
@@ -90,12 +91,46 @@ async function onValidateName(value?: string) {
   return errorList;
 }
 
-function ButtonRemove({ onRemove }: { onRemove?(): void }) {
+function Button<T>({
+  value,
+  name,
+  onChange,
+  children,
+  class:
+    className = "bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900",
+}: {
+  children: ComponentChildren;
+  class?: string;
+} & NevoProps<T>) {
+  const onClick = useCallback(() => {
+    onChange?.(value, name);
+  }, [value, name, onChange]);
+  return (
+    <button
+      class={className}
+      disabled={onChange === undefined}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+
+function ButtonRemove({
+  value,
+  onRemove,
+}: {
+  value: number;
+  onRemove?: ItemRemover;
+}) {
+  const onClick = useCallback(() => {
+    onRemove?.(value);
+  }, [value, onRemove]);
   return (
     <button
       class="bg-red-100 p-2 hover:bg-red-200 active:bg-red-900 active:text-white dark:bg-red-700 dark:hover:bg-red-800 dark:hover:active:bg-red-900"
       disabled={onRemove === undefined}
-      onClick={onRemove}
+      onClick={onClick}
     >
       Remove
     </button>
@@ -144,13 +179,12 @@ async function onValidateUsername(value?: string) {
 }
 
 type PersonProps = NevoProps<PersonData> & {
-  onRemove?: ValueRemover;
+  onRemove?: ItemRemover;
 };
 
 const Person = memo((props: PersonProps) => {
   const property = useObject(props);
   const contactProperty = useObject(property("contact"));
-  const onRemove = useRemove(props);
   useValidator(property(), onValidatePerson);
   return (
     <div class="group/person flex flex-col space-y-2 p-2 even:bg-gray-200 hover:bg-gray-100 even:hover:bg-gray-300 dark:even:bg-gray-700 dark:hover:bg-gray-700 dark:even:hover:bg-gray-600">
@@ -222,7 +256,10 @@ const Person = memo((props: PersonProps) => {
           )}
         </div>
         <div class="grow" />
-        <ButtonRemove onRemove={onRemove} />
+        <ButtonRemove onRemove={props.onRemove} value={+props.name!} />
+        <Button onChange={props.onRemove} value={+props.name!}>
+          Remove
+        </Button>
       </div>
     </div>
   );
@@ -277,12 +314,12 @@ export function Demo() {
       >
         Add person at the begining
       </button>
-      <button
-        class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
-        onClick={onAppendItem}
-      >
-        Add person
-      </button>
+      <Button onChange={(value) => item.add(value)} value={{ id: uid() }}>
+        Add person at the end
+      </Button>
+      <Button onChange={item.add} value={{ id: uid() }}>
+        Add person at the end
+      </Button>
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onAppendThreeItems}
@@ -353,7 +390,7 @@ const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
         type: "person",
         method: "read",
         context: {
-          id: name,
+          id: `${name}`,
         },
       }),
       onChange: (value, name) => ({
@@ -365,7 +402,7 @@ const AsyncTest = memo((parentProps: NevoProps<PersonData | undefined>) => {
               ? "create"
               : "update",
         context: {
-          id: name!,
+          id: `${name!}`,
         },
         value,
       }),
