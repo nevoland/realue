@@ -1,5 +1,5 @@
 import type { Property } from "./Property";
-import type { StateMutator } from "./StateMutator";
+import type { StateDispatcher } from "./StateDispatcher";
 
 export type StateProps<T, K extends string> = Property<K, T> &
-  Property<`onChange${Capitalize<K>}`, StateMutator<T>>;
+  Property<`onChange${Capitalize<K>}`, StateDispatcher<T>>;

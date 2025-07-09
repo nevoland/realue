@@ -1,3 +1,3 @@
 import type { Dispatch, StateUpdater } from "../dependencies/types";
 
-export type StateMutator<T> = Dispatch<StateUpdater<T>>;
+export type StateDispatcher<T> = Dispatch<StateUpdater<T>>;
