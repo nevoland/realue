@@ -11,25 +11,45 @@ import type { ValueMutator } from "./ValueMutator";
  * - `onChange`: The callback the component uses to notify the parent component about changes of the `value`.
  * - `onChangeError`: The callback the component uses to notify the parent component about changes of the `error`.
  */
-export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> = {
-  /**
-   * The name used to identify the entity represented by the `value`.
-   */
-  name?: Name;
-  /**
-   * An error object describing issues to be shown.
-   */
-  error?: E;
-  /**
-   * The value to be handled by a component.
-   */
-  value: T;
-  /**
-   * The callback the component uses to notify the parent component about changes of the `value`.
-   */
-  onChange?: NoInfer<ValueMutator<T>>;
-  /**
-   * The callback the component uses to notify the parent component about changes of the `error`.
-   */
-  onChangeError?: NoInfer<ErrorMutator<E>>;
-};
+export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> =
+  | {
+      /**
+       * The name used to identify the entity represented by the `value`.
+       */
+      name: Name;
+      /**
+       * An error object describing issues to be shown.
+       */
+      error?: E;
+      /**
+       * The value to be handled by a component.
+       */
+      value: T;
+      /**
+       * The callback the component uses to notify the parent component about changes of the `value`.
+       */
+      onChange?: NoInfer<ValueMutator<T>>;
+      /**
+       * The callback the component uses to notify the parent component about changes of the `error`.
+       */
+      onChangeError?: NoInfer<ErrorMutator<E>>;
+    }
+  | {
+      name?: never;
+      /**
+       * An error object describing issues to be shown.
+       */
+      error?: E;
+      /**
+       * The value to be handled by a component.
+       */
+      value: T;
+      /**
+       * The callback the component uses to notify the parent component about changes of the `value`.
+       */
+      onChange?: NoInfer<(value: T) => void>;
+      /**
+       * The callback the component uses to notify the parent component about changes of the `error`.
+       */
+      onChangeError?: NoInfer<(error: E | undefined) => void>;
+    };
