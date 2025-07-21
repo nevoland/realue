@@ -274,20 +274,20 @@ const INITIAL_ASYNC_TEST_VALUE = {
   // onChange: () => {},
 } as const;
 
-function PersonCount(props: NevoProps<PersonData[]>) {
+function PersonCount(props: NevoProps<readonly PersonData[]>) {
   const { value } = useTransform(props, {
     value(value) {
       return value?.length ?? 0;
     },
     onChange(_) {
-      return EMPTY_ARRAY as PersonData[];
+      return EMPTY_ARRAY;
     },
   });
   return <div>Count: {value}</div>;
 }
 
 export function Demo() {
-  const props = useSyncedProps<PersonData[]>({
+  const props = useSyncedProps<readonly PersonData[]>({
     value: INITIAL_VALUE,
     name: "",
   });

@@ -23,6 +23,7 @@ const GLOBAL_NAME_LIST = [
   "ResizeObserverBoxOptions",
   "ResizeObserverCallback",
   "ResizeObserverEntry",
+  "ResizeObserver",
 ];
 
 /** @type { import("eslint").Linter.FlatConfig[] } */

@@ -15,7 +15,10 @@ const { ResizeObserver, requestAnimationFrame, cancelAnimationFrame } =
  */
 export function useResizeEffect(
   element: Element | null | undefined | false,
-  callback: ResizeObserverCallback,
+  callback: (
+    entries: readonly ResizeObserverEntry[],
+    observer: ResizeObserver,
+  ) => void,
   options: ResizeEffectOptions = EMPTY_OBJECT,
 ) {
   const { parents, box } = options;
@@ -33,7 +36,7 @@ export function useResizeEffect(
         animationFrame = undefined;
       });
     });
-    callback(EMPTY_ARRAY as ResizeObserverEntry[], observer);
+    callback(EMPTY_ARRAY, observer);
     observer.observe(element, box ? { box } : undefined);
     if (parents) {
       let parentElement = element.parentElement;

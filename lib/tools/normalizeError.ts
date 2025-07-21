@@ -1,5 +1,4 @@
-import { undefinedIfEmpty } from "unchangeable";
-
+import { undefinedIfEmpty } from "../dependencies.js";
 import type { ErrorReport, ErrorReportValue } from "../types";
 
 export function normalizeError<T>(error: ErrorReport<T> | undefined) {
