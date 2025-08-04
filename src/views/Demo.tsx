@@ -17,7 +17,14 @@ import type { ItemRemover, NevoProps } from "../../lib/types";
 import { Checkbox } from "../components/Checkbox.jsx";
 import { Input } from "../components/Input.jsx";
 import { InputNumber } from "../components/InputNumber.jsx";
-import { memo, sleep, uid, useCallback } from "../dependencies.js";
+import {
+  memo,
+  sleep,
+  uid,
+  useCallback,
+  useEffect,
+  useState,
+} from "../dependencies.js";
 
 const result = adapt({ name: "test", value: 1 }, "option");
 const resultNormalized = normalize(result, "option");
@@ -286,6 +293,38 @@ function PersonCount(props: NevoProps<readonly PersonData[]>) {
   return <div>Count: {value}</div>;
 }
 
+function StateTest() {
+  const [state, setState] = useState<{ a?: number; b?: number }>({
+    a: 1,
+    b: 2,
+  });
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log("State changed:", state);
+  });
+
+  const onChange = useCallback((value: { a?: number; b?: number }) => {
+    setState((current) => {
+      if (value.a === current.a) {
+        return current;
+      }
+      return { ...current, ...value };
+    });
+  }, []);
+
+  return (
+    <div>
+      <Button onChange={onChange} value={{ a: 1 }}>
+        Set a = 1
+      </Button>
+      <Button onChange={onChange} value={{ a: 2 }}>
+        Set a = 2
+      </Button>
+    </div>
+  );
+}
+
 export function Demo() {
   const props = useSyncedProps<readonly PersonData[]>({
     value: INITIAL_VALUE,
@@ -303,6 +342,7 @@ export function Demo() {
   return (
     <div class="m-3 flex flex-col space-y-2">
       <PersonCount {...props} />
+      <StateTest />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
