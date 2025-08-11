@@ -32,13 +32,11 @@ Properties according to the NEVO pattern, with `onChange` being a debounced valu
 
 ### ~~name?~~
 
-> `optional` **name**: `string`
+> `optional` **name**: [`Name`](../type-aliases/Name.md)
 
-The name used to identify the entity represented by the `value`.
+### ~~onChange?~~
 
-### ~~onChange~~
-
-> **onChange**: `undefined` \| [`ValueMutator`](../type-aliases/ValueMutator.md)\<`T`\> = `wrappedOnChange`
+> `optional` **onChange**: [`MaybeDelayedFunction`](../type-aliases/MaybeDelayedFunction.md)\<[`ValueMutator`](../type-aliases/ValueMutator.md)\<`T`\>\>
 
 ### ~~value~~
 
@@ -50,4 +48,4 @@ This function was renamed to `useDelay`.
 
 ## Defined in
 
-[lib/hooks/useDebounce.ts:6](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/hooks/useDebounce.ts#L6)
+[lib/hooks/useDebounce.ts:6](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/hooks/useDebounce.ts#L6)

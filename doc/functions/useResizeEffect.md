@@ -16,7 +16,7 @@ Reports changes to the dimensions of the border box of an `element` by calling a
 
 The element on which to observe resize events.
 
-• **callback**: `ResizeObserverCallback`
+• **callback**
 
 The callback called by the observer with the mutation list and the observer.
 
@@ -30,4 +30,4 @@ Observation options.
 
 ## Defined in
 
-[lib/hooks/useResizeEffect.ts:16](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/hooks/useResizeEffect.ts#L16)
+[lib/hooks/useResizeEffect.ts:16](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/hooks/useResizeEffect.ts#L16)

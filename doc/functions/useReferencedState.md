@@ -18,7 +18,7 @@ Same as `useState`, but returns the value in a reference to use it in callbacks 
 
 ### Parameters
 
-• **value**: `T`
+• **value**: `T` \| () => `T`
 
 Initial value.
 
@@ -30,7 +30,7 @@ A couple containing the reference to the current state value, and the state upda
 
 ### Defined in
 
-[lib/hooks/useReferencedState.ts:15](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/hooks/useReferencedState.ts#L15)
+[lib/hooks/useReferencedState.ts:15](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/hooks/useReferencedState.ts#L15)
 
 ## useReferencedState()
 
@@ -46,4 +46,4 @@ A couple containing the reference to the current state value, and the state upda
 
 ### Defined in
 
-[lib/hooks/useReferencedState.ts:16](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/hooks/useReferencedState.ts#L16)
+[lib/hooks/useReferencedState.ts:18](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/hooks/useReferencedState.ts#L18)

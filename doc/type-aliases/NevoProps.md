@@ -6,7 +6,7 @@
 
 # Type Alias: NevoProps\<T, E\>
 
-> **NevoProps**\<`T`, `E`\>: `object`
+> **NevoProps**\<`T`, `E`\>: `object` \| `object`
 
 Set of properties that define the NEVO pattern:
 - `name`: The name used to identify the entity represented by the `value`.
@@ -21,38 +21,6 @@ Set of properties that define the NEVO pattern:
 
 • **E** *extends* [`ErrorReport`](ErrorReport.md)\<`any`\> = [`ErrorReport`](ErrorReport.md)\<`T`\>
 
-## Type declaration
-
-### error?
-
-> `optional` **error**: `E`
-
-An error object describing issues to be shown.
-
-### name?
-
-> `optional` **name**: [`Name`](Name.md)
-
-The name used to identify the entity represented by the `value`.
-
-### onChange?
-
-> `optional` **onChange**: `NoInfer`\<[`ValueMutator`](ValueMutator.md)\<`T`\>\>
-
-The callback the component uses to notify the parent component about changes of the `value`.
-
-### onChangeError?
-
-> `optional` **onChangeError**: `NoInfer`\<[`ErrorMutator`](ErrorMutator.md)\<`E`\>\>
-
-The callback the component uses to notify the parent component about changes of the `error`.
-
-### value
-
-> **value**: `T`
-
-The value to be handled by a component.
-
 ## Defined in
 
-[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/NevoProps.ts#L14)
+[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/NevoProps.ts#L14)

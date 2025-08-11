@@ -18,7 +18,7 @@ The index of the item for which to generate the props.
 
 • **E** *extends* [`ErrorReport`](../type-aliases/ErrorReport.md)\<`any`\>
 
-> **ItemCallable**(`itemIndex`): [`ItemProps`](../type-aliases/ItemProps.md)\<`T`, `E`\>
+> **ItemCallable**(`itemIndex`): `object`
 
 Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
 
@@ -28,7 +28,45 @@ Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex`
 
 ## Returns
 
-[`ItemProps`](../type-aliases/ItemProps.md)\<`T`, `E`\>
+`object`
+
+### error?
+
+> `optional` **error**: `E`
+
+An error object describing issues to be shown.
+
+### id
+
+> **id**: `string`
+
+### key
+
+> **key**: `string`
+
+### name
+
+> **name**: `string`
+
+The name used to identify the entity represented by the `value`.
+
+### onChange?
+
+> `optional` **onChange**: `NoInfer`\<[`ValueMutator`](../type-aliases/ValueMutator.md)\<`T`\>\>
+
+The callback the component uses to notify the parent component about changes of the `value`.
+
+### onChangeError?
+
+> `optional` **onChangeError**: `NoInfer`\<[`ErrorMutator`](../type-aliases/ErrorMutator.md)\<`E`\>\>
+
+The callback the component uses to notify the parent component about changes of the `error`.
+
+### value
+
+> **value**: `T`
+
+The value to be handled by a component.
 
 ## Param
 
@@ -36,7 +74,7 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-[lib/types/ItemCallable.ts:14](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L14)
+[lib/types/ItemCallable.ts:16](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L16)
 
 > **ItemCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`[], [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
@@ -52,33 +90,27 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-[lib/types/ItemCallable.ts:15](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L15)
+[lib/types/ItemCallable.ts:17](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L17)
 
 ## Properties
 
-### add()
+### add
 
-> `readonly` **add**: (`item`, `index`?) => `void`
+> `readonly` **add**: [`ItemAdder`](../type-aliases/ItemAdder.md)\<`T`\>
 
 Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
 
-#### Parameters
-
-• **item**: `T`
+#### Param
 
 The item to add.
 
-• **index?**: `number` \| \`$\{number\}\`
+#### Param
 
-The index where to add this item.
-
-#### Returns
-
-`void`
+The index where to add this item (defaults to the length of the array).
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:33](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L33)
+[lib/types/ItemCallable.ts:35](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L35)
 
 ***
 
@@ -90,7 +122,7 @@ Retreives the item found at the specified `index`.
 
 #### Parameters
 
-• **index**: `number` \| \`$\{number\}\`
+• **index**: `number`
 
 The index of the item to retreive, or `undefined` if none was found.
 
@@ -100,7 +132,7 @@ The index of the item to retreive, or `undefined` if none was found.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:45](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L45)
+[lib/types/ItemCallable.ts:47](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L47)
 
 ***
 
@@ -116,7 +148,7 @@ Returns an array that maps each item with an element out of `Component` with the
 
 #### Parameters
 
-• **Component**: `FunctionComponent`\<[`NevoProps`](../type-aliases/NevoProps.md)\<`T`, `E`\> & `object` & `P`\>
+• **Component**: `FunctionComponent`\<`object` & `P`\>
 
 • **extraProps?**: `P` \| (`props`) => `P`
 
@@ -130,26 +162,20 @@ An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:23](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L23)
+[lib/types/ItemCallable.ts:25](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L25)
 
 ***
 
-### remove()
+### remove
 
-> `readonly` **remove**: (`index`?) => `void`
+> `readonly` **remove**: [`ItemRemover`](../type-aliases/ItemRemover.md)
 
 Removes the item found at the specified `index`.
 
-#### Parameters
-
-• **index?**: `number` \| \`$\{number\}\`
+#### Param
 
 The index of the item to remove.
 
-#### Returns
-
-`void`
-
 #### Defined in
 
-[lib/types/ItemCallable.ts:39](https://github.com/nevoland/realue/blob/bd94583533dfd64901173bd4809940f1a6c957d9/lib/types/ItemCallable.ts#L39)
+[lib/types/ItemCallable.ts:41](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L41)
