@@ -3,6 +3,7 @@ export { useAbortController } from "./hooks/useAbortController.js";
 export { useArray } from "./hooks/useArray.js";
 export { useAsyncProps } from "./hooks/useAsyncProps.js";
 export { useChange } from "./hooks/useChange.js";
+export { useCurrentMemo } from "./hooks/useCurrentMemo.js";
 export { useDebounce } from "./hooks/useDebounce.js";
 export { useDefer } from "./hooks/useDefer.js";
 export { useDelay } from "./hooks/useDelay.js";
