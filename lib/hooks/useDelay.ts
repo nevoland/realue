@@ -63,9 +63,11 @@ export function useDelay<T>(
       );
     }, [props.onChange, duration]);
 
-  useLayoutEffect(() => {
+  useMemo(() => {
+    if (wrappedOnChange?.pending) {
+      return;
+    }
     state.current = props.value;
-    wrappedOnChange?.cancel?.();
   }, [props.value, wrappedOnChange]);
 
   return {
