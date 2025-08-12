@@ -25,12 +25,12 @@ export function useReferencedState<T>(
   const stateRef = useRef(state);
   const onChangeStateRef = useCallback<Dispatch<StateUpdater<T | undefined>>>(
     (value) => {
-      stateRef.current =
+      const nextValue =
         typeof value === "function" ? (value as any)(stateRef.current) : value;
-      setState(value);
+      stateRef.current = nextValue;
+      setState(nextValue);
     },
     EMPTY_ARRAY,
   );
-  stateRef.current = state;
   return [stateRef, onChangeStateRef];
 }
