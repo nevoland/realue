@@ -176,13 +176,18 @@ async function onValidateUsername(value?: string) {
   if (!value) {
     return;
   }
-  const result = await fetch(
-    `https://api.github.com/users/${encodeURIComponent(value)}`,
-  );
-  if (result.status !== 200) {
-    return ["User does not exist."];
+  await sleep(2000);
+  if (value.length < 6) {
+    return ["Username does not exist."];
   }
-  return undefined;
+  return;
+  // const result = await fetch(
+  //   `https://api.github.com/users/${encodeURIComponent(value)}`,
+  // );
+  // if (result.status !== 200) {
+  //   return ["User does not exist."];
+  // }
+  // return undefined;
 }
 
 type PersonProps = NevoProps<PersonData> & {
@@ -346,8 +351,8 @@ export function Demo() {
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
       <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
-      <AsyncTest name="person" value={INITIAL_ASYNC_TEST_VALUE} />
-      {item.loop(Person, { onRemove: item.remove })}
+      <div>{item.loop(Person, { onRemove: item.remove })}</div>
+      <div>{item.loop(Person, { onRemove: item.remove })}</div>
       <button
         class="bg-green-300 p-2 hover:bg-green-400 active:bg-green-800 active:text-white dark:bg-green-700 dark:hover:bg-green-800 dark:active:bg-green-900"
         onClick={onPrependItem}

@@ -47,7 +47,7 @@ export const Input = memo(function Input({
         name={inputProps.name}
         onInput={onInput}
         placeholder={placeholder}
-        value={inputProps.value}
+        value={inputProps.value ?? ""}
       />
     </div>
   );
