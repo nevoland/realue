@@ -1,7 +1,7 @@
 {
   "name": "realue",
   "private": false,
-  "version": "5.0.0-alpha.36",
+  "version": "5.0.0-alpha.37",
   "description": "Simple value management for React components.",
   "keywords": [
     "modularity",
