@@ -28,7 +28,7 @@ export function useReferencedState<T>(
       const nextValue =
         typeof value === "function" ? (value as any)(stateRef.current) : value;
       stateRef.current = nextValue;
-      setState(nextValue);
+      setState(() => nextValue);
     },
     EMPTY_ARRAY,
   );
