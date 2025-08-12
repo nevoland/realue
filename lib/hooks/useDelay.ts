@@ -1,10 +1,8 @@
 import { type DelayOptions, delay } from "futurise";
 
-import { useEffect, useMemo } from "../dependencies.js";
+import { useLayoutEffect, useMemo, useState } from "../dependencies.js";
 import type { MaybeDelayedFunction } from "../types/MaybeDelayedFunction.js";
 import type { Name, NevoProps, ValueMutator } from "../types.js";
-
-import { useReferencedState } from "./useReferencedState.js";
 
 /**
  * Delays calls of the value mutator `onChange` while immediately updating the local `value`.
@@ -22,7 +20,8 @@ export function useDelay<T>(
   name?: Name;
   onChange?: MaybeDelayedFunction<ValueMutator<T>>;
 } {
-  const { 0: state, 1: setState } = useReferencedState(props.value);
+  const { 0: state, 1: setState } = useState(props.value);
+
   const wrappedOnChange: MaybeDelayedFunction<ValueMutator<T>> | undefined =
     useMemo(() => {
       if (props.onChange === undefined) {
@@ -61,13 +60,15 @@ export function useDelay<T>(
         },
       );
     }, [props.onChange, duration]);
-  useEffect(() => wrappedOnChange?.cancel, [wrappedOnChange]);
-  useMemo(() => {
-    state.current = props.value;
-  }, [props.value]);
+
+  useLayoutEffect(() => {
+    setState(props.value);
+    wrappedOnChange?.cancel?.();
+  }, [props.value, wrappedOnChange]);
+
   return {
     ...props,
-    value: !duration ? props.value : state.current,
+    value: state,
     onChange: wrappedOnChange,
   };
 }
