@@ -1,6 +1,6 @@
 import { type DelayOptions, delay } from "futurise";
 
-import { useLayoutEffect, useMemo } from "../dependencies.js";
+import { useMemo } from "../dependencies.js";
 import type { MaybeDelayedFunction } from "../types/MaybeDelayedFunction.js";
 import type { Name, NevoProps, ValueMutator } from "../types.js";
 
