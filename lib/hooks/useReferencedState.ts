@@ -25,9 +25,9 @@ export function useReferencedState<T>(
   const stateRef = useRef(state);
   const onChangeStateRef = useCallback<Dispatch<StateUpdater<T | undefined>>>(
     (value) => {
-      setState(value);
       stateRef.current =
         typeof value === "function" ? (value as any)(stateRef.current) : value;
+      setState(value);
     },
     EMPTY_ARRAY,
   );
