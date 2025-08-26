@@ -244,6 +244,7 @@ export function useArray<
                     );
                   }) as ItemCallable<T, E>["remove"]),
           },
+          // FIXME: Rename this to `at`
           get: {
             configurable: false,
             value: ((itemIndexOrName) =>
