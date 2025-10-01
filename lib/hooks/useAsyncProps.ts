@@ -181,8 +181,7 @@ export function useAsyncProps<T, Q>(
       case "fulfilled":
         state.current.value = changeState.value;
         state.current.error = undefined;
-        // Propagate cleared errors to consumers when the change call succeeds
-        props?.onChangeError?.(undefined as any, props?.name);
+        props?.onChangeError?.(undefined, props?.name);
         return;
       case "rejected": {
         const error = changeState.reason as ErrorReport<T>;
