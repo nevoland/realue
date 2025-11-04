@@ -55,7 +55,7 @@
     "release:beta": "npm version prerelease --preid=beta && git push origin --follow-tags && npm publish --tag=next"
   },
   "dependencies": {
-    "@preact/signals": "^1.3.0",
+    "@preact/signals": "^2.3.2",
     "is-promise": "^4.0.0",
     "preact": "^10.27.2",
     "unchangeable": "^2.1.2",
