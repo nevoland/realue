@@ -57,7 +57,7 @@
   "dependencies": {
     "@preact/signals": "^1.3.0",
     "is-promise": "^4.0.0",
-    "preact": "^10.27.0",
+    "preact": "^10.27.2",
     "unchangeable": "^2.1.2",
     "futurise": "^1.9.1"
   },
