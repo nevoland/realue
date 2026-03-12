@@ -169,7 +169,7 @@ export function useAsyncProps<T, Q>(
       default:
       // Ignore
     }
-  }, [valueState.status]);
+  }, [valueState]);
 
   const { 0: changePromise, 1: setChangePromise } = useState<Promise<T>>();
   const changeState = usePromise(changePromise);
@@ -192,7 +192,7 @@ export function useAsyncProps<T, Q>(
       default:
       // Ignore
     }
-  }, [changeState.status]);
+  }, [changeState]);
 
   const onChange = useMemo<ValueMutator<T> | undefined>(
     () =>
