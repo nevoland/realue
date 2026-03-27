@@ -74,7 +74,7 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-[lib/types/ItemCallable.ts:16](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L16)
+[lib/types/ItemCallable.ts:16](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/ItemCallable.ts#L16)
 
 > **ItemCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`[], [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
 
@@ -90,7 +90,7 @@ The index of the item for which to generate the props.
 
 ## Defined in
 
-[lib/types/ItemCallable.ts:17](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L17)
+[lib/types/ItemCallable.ts:17](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/ItemCallable.ts#L17)
 
 ## Properties
 
@@ -110,7 +110,7 @@ The index where to add this item (defaults to the length of the array).
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:35](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L35)
+[lib/types/ItemCallable.ts:35](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/ItemCallable.ts#L35)
 
 ***
 
@@ -132,13 +132,13 @@ The index of the item to retreive, or `undefined` if none was found.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:47](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L47)
+[lib/types/ItemCallable.ts:47](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/ItemCallable.ts#L47)
 
 ***
 
 ### loop()
 
-> `readonly` **loop**: \<`P`\>(`Component`, `extraProps`?) => (`null` \| `VNode`\<`any`\>)[]
+> `readonly` **loop**: \<`P`\>(`Component`, `extraProps`?) => `ComponentChildren`[]
 
 Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
 
@@ -156,13 +156,13 @@ An object containing extra properties to add to each element, or a function that
 
 #### Returns
 
-(`null` \| `VNode`\<`any`\>)[]
+`ComponentChildren`[]
 
 An array containing the produced elements out of `Component`.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:25](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L25)
+[lib/types/ItemCallable.ts:25](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/ItemCallable.ts#L25)
 
 ***
 
@@ -178,4 +178,4 @@ The index of the item to remove.
 
 #### Defined in
 
-[lib/types/ItemCallable.ts:41](https://github.com/nevoland/realue/blob/131459fc0cd410aac7d8aca18b8f481f26a49eb4/lib/types/ItemCallable.ts#L41)
+[lib/types/ItemCallable.ts:41](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/ItemCallable.ts#L41)
