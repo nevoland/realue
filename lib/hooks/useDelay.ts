@@ -1,6 +1,6 @@
 import { type DelayOptions, delay } from "futurise";
 
-import { useMemo } from "../dependencies.js";
+import { useLayoutEffect, useMemo } from "../dependencies.js";
 import type { MaybeDelayedFunction } from "../types/MaybeDelayedFunction.js";
 import type { Name, NevoProps, ValueMutator } from "../types.js";
 
@@ -9,8 +9,11 @@ import { useReferencedState } from "./useReferencedState.js";
 /**
  * Delays calls of the value mutator `onChange` while immediately updating the local `value`.
  *
- * @param props Properties according to the NEVO pattern.
- * @param duration The delay duration in milliseconds.
+ * If `onChange` changes while a delayed call is pending, the pending call will be canceled to avoid calling the outdated `onChange`. Therefore, it is important to ensure that the `onChange` function is stable (e.g., by using `useCallback`) when using this hook to prevent unintended cancellations.
+ *
+ * @param props - Properties according to the NEVO pattern.
+ * @param duration - The delay duration in milliseconds.
+ * @param options - Optional configuration for the delay behavior. See {@link DelayOptions} for details.
  * @returns Properties according to the NEVO pattern, with `onChange` being a debounced value mutator.
  */
 export function useDelay<T>(
@@ -30,6 +33,7 @@ export function useDelay<T>(
         return undefined;
       }
       if (duration === undefined) {
+        // Note that this could be already a delayed function
         return props.onChange;
       }
       const delayedOnChange = delay(duration, props.onChange, options);
@@ -61,14 +65,28 @@ export function useDelay<T>(
           },
         },
       );
-    }, [props.onChange, duration]);
+    }, [props.onChange, duration, options?.immediate, options?.throttle]);
 
-  useMemo(() => {
-    if (wrappedOnChange?.pending) {
-      return;
-    }
-    state.current = props.value;
-  }, [props.value, wrappedOnChange]);
+  useLayoutEffect(
+    () => () => {
+      if (duration === undefined) {
+        return;
+      }
+      wrappedOnChange?.cancel?.();
+    },
+    [wrappedOnChange],
+  );
+
+  useMemo(
+    () => {
+      if (duration !== undefined && wrappedOnChange?.pending) {
+        return;
+      }
+      state.current = props.value;
+    },
+    // Intentionally not including `wrappedOnChange` here as only value changes should trigger this effect
+    [props.value],
+  );
 
   return {
     ...props,
