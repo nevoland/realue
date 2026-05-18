@@ -20,4 +20,4 @@
 
 ## Defined in
 
-[lib/types/DelayOptions.ts:3](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/DelayOptions.ts#L3)
+[lib/types/DelayOptions.ts:3](https://github.com/nevoland/realue/blob/009c0e8af9c57144ac590f9427129c44b47b92fb/lib/types/DelayOptions.ts#L3)

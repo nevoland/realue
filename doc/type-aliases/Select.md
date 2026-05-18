@@ -20,4 +20,4 @@ Updates the object type `T` to make `RequiredKeys` required and `OmittedKeys` op
 
 ## Defined in
 
-[lib/types/Select.ts:4](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/Select.ts#L4)
+[lib/types/Select.ts:4](https://github.com/nevoland/realue/blob/009c0e8af9c57144ac590f9427129c44b47b92fb/lib/types/Select.ts#L4)

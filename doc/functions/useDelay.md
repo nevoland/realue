@@ -10,6 +10,8 @@
 
 Delays calls of the value mutator `onChange` while immediately updating the local `value`.
 
+If `onChange` changes while a delayed call is pending, the pending call will be canceled to avoid calling the outdated `onChange`. Therefore, it is important to ensure that the `onChange` function is stable (e.g., by using `useCallback`) when using this hook to prevent unintended cancellations.
+
 ## Type Parameters
 
 • **T**
@@ -25,6 +27,8 @@ Properties according to the NEVO pattern.
 The delay duration in milliseconds.
 
 • **options?**: `DelayOptions`
+
+Optional configuration for the delay behavior. See [DelayOptions](../type-aliases/DelayOptions.md) for details.
 
 ## Returns
 
@@ -46,4 +50,4 @@ Properties according to the NEVO pattern, with `onChange` being a debounced valu
 
 ## Defined in
 
-[lib/hooks/useDelay.ts:16](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/hooks/useDelay.ts#L16)
+[lib/hooks/useDelay.ts:19](https://github.com/nevoland/realue/blob/009c0e8af9c57144ac590f9427129c44b47b92fb/lib/hooks/useDelay.ts#L19)

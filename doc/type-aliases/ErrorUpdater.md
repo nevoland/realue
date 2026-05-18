@@ -24,4 +24,4 @@ Function that sets an `error`.
 
 ## Defined in
 
-[lib/types/ErrorUpdater.ts:6](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/types/ErrorUpdater.ts#L6)
+[lib/types/ErrorUpdater.ts:6](https://github.com/nevoland/realue/blob/009c0e8af9c57144ac590f9427129c44b47b92fb/lib/types/ErrorUpdater.ts#L6)

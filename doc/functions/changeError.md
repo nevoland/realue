@@ -30,7 +30,7 @@
 
 ### Defined in
 
-[lib/tools/changeError.ts:12](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/tools/changeError.ts#L12)
+[lib/tools/changeError.ts:12](https://github.com/nevoland/realue/blob/009c0e8af9c57144ac590f9427129c44b47b92fb/lib/tools/changeError.ts#L12)
 
 ## changeError(error, itemName, itemError)
 
@@ -56,4 +56,4 @@
 
 ### Defined in
 
-[lib/tools/changeError.ts:20](https://github.com/nevoland/realue/blob/1154642196b245a82a5b956ce38ff24ded07b589/lib/tools/changeError.ts#L20)
+[lib/tools/changeError.ts:20](https://github.com/nevoland/realue/blob/009c0e8af9c57144ac590f9427129c44b47b92fb/lib/tools/changeError.ts#L20)
