@@ -1,5 +1,5 @@
 import type { Inputs } from "../dependencies/types";
-import { EMPTY_ARRAY, useMemo, useRef } from "../dependencies.js";
+import { EMPTY_ARRAY, useMemo } from "../dependencies.js";
 import type {
   ErrorMutator,
   ErrorReport,
@@ -23,44 +23,16 @@ export function useTransform<T, U>(
   options: UseTransformOptions<T, U>,
   dependencies: Inputs = EMPTY_ARRAY,
 ): NevoProps<U> {
-  const cache = useRef<{ value: T; transformedValue: U }>();
-
-  useMemo(() => {
-    cache.current = undefined;
-  }, dependencies);
-
-  const value = useMemo(() => {
-    if (options.cache) {
-      const currentCache = cache.current;
-      if (currentCache !== undefined && currentCache.value === props.value) {
-        return currentCache.transformedValue;
-      }
-      const transformedValue = options.value(props.value);
-      cache.current = { value: props.value, transformedValue };
-      return transformedValue;
-    }
-    return options.value(props.value);
-  }, [props.value, ...dependencies]);
+  const value = useMemo(
+    () => options.value(props.value),
+    [props.value, ...dependencies],
+  );
 
   const onChange: ValueMutator<U> | undefined = useMemo(
     () =>
       props.onChange === undefined
         ? undefined
         : (value, name) => {
-            if (options.cache) {
-              const currentCache = cache.current;
-              if (
-                currentCache !== undefined &&
-                currentCache.transformedValue === value
-              ) {
-                props.onChange!(currentCache.value, name);
-                return;
-              }
-              const nextValue = options.onChange(value);
-              cache.current = { value: nextValue, transformedValue: value };
-              props.onChange!(nextValue, name);
-              return;
-            }
             props.onChange!(options.onChange(value), name);
           },
     [props.onChange, ...dependencies],
