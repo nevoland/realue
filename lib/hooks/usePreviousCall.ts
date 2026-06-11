@@ -9,7 +9,7 @@ import { useCallback, useRef } from "../dependencies.js";
  * @returns A callback that receives the previous parameters and result, and returns a callback for which the previous parameters and result are provided.
  */
 export function usePreviousCall<
-  C extends (...parameters: readonly unknown[]) => unknown,
+  C extends (...parameters: readonly any[]) => any,
 >(
   callback: (
     previousParameters: Parameters<C> | undefined,
