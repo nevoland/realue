@@ -28,4 +28,4 @@ The propterties without the ones according to the Nevo pattern.
 
 ## Defined in
 
-[lib/tools/omitNevoProps.ts:9](https://github.com/nevoland/realue/blob/52b891d9400f41f667766205b82049d537ca8c59/lib/tools/omitNevoProps.ts#L9)
+[lib/tools/omitNevoProps.ts:9](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/omitNevoProps.ts#L9)

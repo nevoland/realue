@@ -18,4 +18,4 @@
 
 ## Defined in
 
-[lib/tools/isArray.ts:1](https://github.com/nevoland/realue/blob/52b891d9400f41f667766205b82049d537ca8c59/lib/tools/isArray.ts#L1)
+[lib/tools/isArray.ts:1](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/isArray.ts#L1)
