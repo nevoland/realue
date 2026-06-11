@@ -30,4 +30,4 @@
 
 ## Defined in
 
-[lib/types/ItemProps.ts:5](https://github.com/nevoland/realue/blob/009c0e8af9c57144ac590f9427129c44b47b92fb/lib/types/ItemProps.ts#L5)
+[lib/types/ItemProps.ts:5](https://github.com/nevoland/realue/blob/52b891d9400f41f667766205b82049d537ca8c59/lib/types/ItemProps.ts#L5)
