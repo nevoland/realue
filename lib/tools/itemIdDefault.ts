@@ -6,5 +6,5 @@
  * @returns A unique identifier string for this item.
  */
 export function itemIdDefault<T>(index: number, item: T): string {
-  return (item as { id: string })?.id ?? `${index}`;
+  return String((item as { id: string })?.id ?? index);
 }
