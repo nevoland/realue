@@ -32,12 +32,14 @@ export interface ItemCallable<T, E extends ErrorReport<any>> {
    * @param item The item to add.
    * @param index The index where to add this item (defaults to the length of the array).
    */
+  // FIXME: Show as `undefined` if `onChange` is `undefined`
   readonly add: ItemAdder<T>;
   /**
    * Removes the item found at the specified `index`.
    *
    * @param index The index of the item to remove.
    */
+  // FIXME: Show as `undefined` if `onChange` is `undefined`
   readonly remove: ItemRemover;
   /**
    * Retreives the item found at the specified `index`.
