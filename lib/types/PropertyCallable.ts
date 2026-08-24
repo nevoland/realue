@@ -10,4 +10,5 @@ export interface PropertyCallable<T extends object> {
     propertyName: K,
   ): NevoProps<T[K]> & { key: string; name: K };
   (): NevoProps<T>;
+  readonly value: T;
 }

@@ -31,21 +31,17 @@ export interface ItemCallable<T> {
    * @param item The item to add.
    * @param index The index where to add this item (defaults to the length of the array).
    */
-  // FIXME: Show as `undefined` if `onChange` is `undefined`
-  readonly add: ItemAdder<T>;
+  readonly add?: ItemAdder<T>;
   /**
    * Removes the item found at the specified `index`.
    *
    * @param index The index of the item to remove.
    */
-  // FIXME: Show as `undefined` if `onChange` is `undefined`
-  readonly remove: ItemRemover;
+  readonly remove?: ItemRemover;
   /**
-   * Retreives the item found at the specified `index`.
-   *
-   * @param index The index of the item to retreive, or `undefined` if none was found.
+   * Current array `value`.
    */
-  readonly at: (index: number) => T | undefined;
+  readonly value: readonly T[];
   /**
    * Returns the unique identifier of the provided `item` found at the specified `index`. Used as the `id` and `key` of the item props.
    *

@@ -75,7 +75,7 @@ const FriendList = memo((props: FriendListProps) => {
   return (
     <div class="flex flex-col">
       {item.loop(Friend, { onRemove: item.remove })}
-      <button onClick={() => item.add("", lastIndex)}>Add friend</button>
+      <button onClick={() => item.add?.("", lastIndex)}>Add friend</button>
     </div>
   );
 });
@@ -359,7 +359,7 @@ export function Demo() {
       >
         Add person at the begining
       </button>
-      <Button onChange={(value) => item.add(value)} value={{ id: uid() }}>
+      <Button onChange={(value) => item.add?.(value)} value={{ id: uid() }}>
         Add person at the end
       </Button>
       <Button onChange={item.add} value={{ id: uid() }}>

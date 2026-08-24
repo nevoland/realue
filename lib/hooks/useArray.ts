@@ -249,10 +249,9 @@ export function useArray<
                     );
                   }) as ItemCallable<T>["remove"]),
           },
-          at: {
+          value: {
             configurable: false,
-            value: ((itemIndexOrName) =>
-              state.current[+itemIndexOrName]) as ItemCallable<T>["at"],
+            get: () => state.current,
           },
           itemId: {
             configurable: false,

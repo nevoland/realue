@@ -68,29 +68,36 @@ export function useObject<T extends object | undefined>(
   );
   return useMemo(
     () =>
-      (<K extends keyof NonNullable<T>>(propertyName?: K) => {
-        if (propertyName === undefined) {
+      Object.defineProperty(
+        (<K extends keyof NonNullable<T>>(propertyName?: K) => {
+          if (propertyName === undefined) {
+            return {
+              error: globalError(stateError.current),
+              name: "",
+              onChange,
+              onChangeError: onChangePropertyError,
+              value: state.current,
+            };
+          }
           return {
-            error: globalError(stateError.current),
-            name: "",
-            onChange,
+            error: childrenError<NonNullable<T>>(
+              stateError.current as
+                | ErrorReportObject<NonNullable<T>>
+                | undefined,
+            )?.[propertyName],
+            key: propertyName,
+            name: propertyName,
+            onChange: onChangeProperty,
             onChangeError: onChangePropertyError,
-            value: state.current,
+            value: (state.current as NonNullable<T>)[propertyName],
           };
-        }
-        return {
-          error: childrenError<NonNullable<T>>(
-            stateError.current as
-              | ErrorReportObject<NonNullable<T>>
-              | undefined,
-          )?.[propertyName],
-          key: propertyName,
-          name: propertyName,
-          onChange: onChangeProperty,
-          onChangeError: onChangePropertyError,
-          value: (state.current as NonNullable<T>)[propertyName],
-        };
-      }) as PropertyCallable<NonNullable<T>>,
+        }) as PropertyCallable<NonNullable<T>>,
+        "value",
+        {
+          configurable: false,
+          get: () => state.current,
+        },
+      ),
     [onChange, onChangeError],
   );
 }
