@@ -11,7 +11,7 @@ export function normalizeError<T>(error: ErrorReport<T> | undefined) {
   return undefinedIfEmpty(error);
 }
 
-function isOnlyGlobalError(error: object): error is { "": ErrorReportValue } {
+function isOnlyGlobalError(error: any): error is { "": ErrorReportValue } {
   let foundGlobal = false;
   for (const name in error) {
     if (name === "") {

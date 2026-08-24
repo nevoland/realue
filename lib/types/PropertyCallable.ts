@@ -1,5 +1,3 @@
-import type { ErrorReport } from "./ErrorReport";
-import type { ErrorReportValue } from "./ErrorReportValue";
 import type { NevoProps } from "./NevoProps";
 
 /**
@@ -10,6 +8,6 @@ import type { NevoProps } from "./NevoProps";
 export interface PropertyCallable<T extends object> {
   <K extends keyof T>(
     propertyName: K,
-  ): NevoProps<T[K], ErrorReport<T[K]>> & { key: string; name: K };
-  (): NevoProps<T, ErrorReportValue>;
+  ): NevoProps<T[K]> & { key: string; name: K };
+  (): NevoProps<T>;
 }

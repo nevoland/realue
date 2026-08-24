@@ -1,11 +1,7 @@
-import type { ErrorReport } from "./ErrorReport";
 import type { Name } from "./Name";
 import type { NevoProps } from "./NevoProps";
 
-export type ItemProps<
-  T,
-  E extends ErrorReport<any> = ErrorReport<T>,
-> = NevoProps<T, E> & {
+export type ItemProps<T> = NevoProps<T> & {
   key: string;
   id: string;
   name: Name;

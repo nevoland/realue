@@ -2,7 +2,6 @@ import type { Inputs } from "../dependencies/types";
 import { EMPTY_ARRAY, useMemo } from "../dependencies.js";
 import type {
   ErrorMutator,
-  ErrorReport,
   NevoProps,
   UseTransformOptions,
   ValueMutator,
@@ -44,7 +43,7 @@ export function useTransform<T, U>(
     [props.error, ...dependencies],
   );
 
-  const onChangeError: ErrorMutator<ErrorReport<U>> | undefined = useMemo(
+  const onChangeError: ErrorMutator<U> | undefined = useMemo(
     () =>
       props.onChangeError === undefined
         ? undefined

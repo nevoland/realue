@@ -2,9 +2,6 @@ import { useEffect, useMemo } from "../dependencies.js";
 import { isEqualError } from "../tools/isEqualError.js";
 import type {
   ErrorReport,
-  ErrorReportArray,
-  ErrorReportObject,
-  ErrorReportValue,
   NevoProps,
   PromiseState,
   ValueValidator,
@@ -25,30 +22,10 @@ import { useResilient } from "./useResilient.js";
  * @param onValidate Synchronous or asynchronous value validator.
  * @returns The promise state object.
  */
-export function useValidator<T, N extends string, E extends ErrorReportValue>(
-  props: NevoProps<T, E>,
-  onValidate?: ValueValidator<T, E>,
-): PromiseState<E | undefined>;
-export function useValidator<
-  T extends object,
-  N extends string,
-  E extends ErrorReportObject<T>,
->(
-  props: NevoProps<T, E>,
-  onValidate?: ValueValidator<T, E>,
-): PromiseState<E | undefined>;
-export function useValidator<
-  T extends unknown[],
-  N extends string,
-  E extends ErrorReportArray<T>,
->(
-  props: NevoProps<T, E>,
-  onValidate?: ValueValidator<T, E>,
-): PromiseState<E | undefined>;
-export function useValidator<T, E extends ErrorReport<any>>(
-  props: NevoProps<T, E>,
-  onValidate?: ValueValidator<T, E>,
-): PromiseState<E | undefined> {
+export function useValidator<T>(
+  props: NevoProps<T>,
+  onValidate?: ValueValidator<T>,
+): PromiseState<ErrorReport<T> | undefined> {
   const { name, error, value, onChangeError } = props;
   const errorPromise = usePromise(
     useMemo(() => {
@@ -67,7 +44,7 @@ export function useValidator<T, E extends ErrorReport<any>>(
       return;
     }
     const nextError = errorPromiseValue;
-    if (isEqualError(nextError, error)) {
+    if (isEqualError<T>(nextError, error)) {
       return;
     }
     onChangeError(nextError, name);

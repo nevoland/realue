@@ -6,10 +6,7 @@ import type {
 } from "../../lib/types";
 import { memo } from "../dependencies.js";
 
-type InputProps<T extends string | undefined> = NevoProps<
-  T,
-  ErrorReportValue
-> & {
+type InputProps<T extends string | undefined> = NevoProps<T> & {
   label?: string;
   placeholder?: string;
   delay?: number;

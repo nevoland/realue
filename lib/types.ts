@@ -3,7 +3,6 @@ export type { DelayOptions } from "./types/DelayOptions";
 export type { ErrorMutator } from "./types/ErrorMutator";
 export type { ErrorReport } from "./types/ErrorReport";
 export type { ErrorReportArray } from "./types/ErrorReportArray";
-export type { ErrorReportChildren } from "./types/ErrorReportChildren";
 export type { ErrorReportObject } from "./types/ErrorReportObject";
 export type { ErrorReportValue } from "./types/ErrorReportValue";
 export type { ErrorTransformer } from "./types/ErrorTransformer";

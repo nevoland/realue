@@ -2,7 +2,12 @@ import { EMPTY_OBJECT, useMemo, useRef } from "../dependencies.js";
 import { childrenError } from "../tools/childrenError.js";
 import { globalError } from "../tools/globalError.js";
 import { changeError } from "../tools.js";
-import type { ErrorReportObject, NevoProps, PropertyCallable } from "../types";
+import type {
+  ErrorReport,
+  ErrorReportObject,
+  NevoProps,
+  PropertyCallable,
+} from "../types";
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
@@ -10,12 +15,9 @@ import type { ErrorReportObject, NevoProps, PropertyCallable } from "../types";
  * @param props Properties according to the NEVO pattern, where the `value` holds an object.
  * @returns The `property` function that returns the props for a specific property `name`.
  */
-export function useObject<
-  T extends object | undefined,
-  E extends ErrorReportObject<NonNullable<T>> = ErrorReportObject<
-    NonNullable<T>
-  >,
->(props: NevoProps<T, E>): PropertyCallable<NonNullable<T>> {
+export function useObject<T extends object | undefined>(
+  props: NevoProps<T>,
+): PropertyCallable<NonNullable<T>> {
   const { name, onChange, error, onChangeError } = props;
   const value: NonNullable<T> = props.value ?? EMPTY_OBJECT;
   const state = useRef(value);
@@ -28,7 +30,10 @@ export function useObject<
     () =>
       onChange === undefined
         ? undefined
-        : <K extends keyof T>(propertyValue: T[K], propertyName: K) =>
+        : <K extends keyof NonNullable<T>>(
+            propertyValue: NonNullable<T>[K],
+            propertyName: K,
+          ) =>
             onChange(
               (state.current = {
                 ...state.current,
@@ -42,16 +47,20 @@ export function useObject<
     () =>
       onChangeError === undefined
         ? undefined
-        : <K extends keyof E>(
-            propertyError: E[K] | undefined,
+        : <K extends keyof NonNullable<T>>(
+            propertyError: ErrorReport<NonNullable<T>[K]> | undefined,
             propertyName: K,
           ): void => {
             onChangeError(
-              (stateError.current = changeError(
-                stateError.current,
+              (stateError.current = changeError<NonNullable<T>>(
+                stateError.current as
+                  | ErrorReportObject<NonNullable<T>>
+                  | undefined,
                 propertyName,
-                propertyError,
-              )),
+                propertyError as ErrorReport<
+                  NonNullable<T>[keyof NonNullable<T>]
+                >,
+              ) as ErrorReport<T> | undefined),
               stateName.current,
             );
           },
@@ -59,7 +68,7 @@ export function useObject<
   );
   return useMemo(
     () =>
-      (<K extends keyof T>(propertyName?: K) => {
+      (<K extends keyof NonNullable<T>>(propertyName?: K) => {
         if (propertyName === undefined) {
           return {
             error: globalError(stateError.current),
@@ -70,14 +79,16 @@ export function useObject<
           };
         }
         return {
-          error: childrenError<NonNullable<T>>(stateError.current)?.[
-            propertyName
-          ],
+          error: childrenError<NonNullable<T>>(
+            stateError.current as
+              | ErrorReportObject<NonNullable<T>>
+              | undefined,
+          )?.[propertyName],
           key: propertyName,
           name: propertyName,
           onChange: onChangeProperty,
           onChangeError: onChangePropertyError,
-          value: state.current![propertyName],
+          value: (state.current as NonNullable<T>)[propertyName],
         };
       }) as PropertyCallable<NonNullable<T>>,
     [onChange, onChangeError],

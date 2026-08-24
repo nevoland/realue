@@ -11,7 +11,7 @@ import type { ValueMutator } from "./ValueMutator";
  * - `onChange`: The callback the component uses to notify the parent component about changes of the `value`.
  * - `onChangeError`: The callback the component uses to notify the parent component about changes of the `error`.
  */
-export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> =
+export type NevoProps<T> =
   | {
       /**
        * The name used to identify the entity represented by the `value`.
@@ -20,7 +20,7 @@ export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> =
       /**
        * An error object describing issues to be shown.
        */
-      error?: E;
+      error?: ErrorReport<T>;
       /**
        * The value to be handled by a component.
        */
@@ -32,14 +32,14 @@ export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> =
       /**
        * The callback the component uses to notify the parent component about changes of the `error`.
        */
-      onChangeError?: NoInfer<ErrorMutator<E>>;
+      onChangeError?: NoInfer<ErrorMutator<T>>;
     }
   | {
       name?: never;
       /**
        * An error object describing issues to be shown.
        */
-      error?: E;
+      error?: ErrorReport<T>;
       /**
        * The value to be handled by a component.
        */
@@ -51,5 +51,5 @@ export type NevoProps<T, E extends ErrorReport<any> = ErrorReport<T>> =
       /**
        * The callback the component uses to notify the parent component about changes of the `error`.
        */
-      onChangeError?: NoInfer<(error: E | undefined) => void>;
+      onChangeError?: NoInfer<(error: ErrorReport<T> | undefined) => void>;
     };

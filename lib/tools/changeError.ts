@@ -3,46 +3,34 @@ import type {
   ErrorReport,
   ErrorReportArray,
   ErrorReportObject,
-  ErrorReportValue,
 } from "../types";
 
 import { isArray } from "./isArray.js";
 import { normalizeError } from "./normalizeError.js";
 
-export function changeError<
-  T extends object | undefined,
-  E extends ErrorReportObject<NonNullable<T>>,
->(
-  error: E | undefined,
-  itemName: keyof E | "",
-  itemError: ErrorReportValue | E[keyof E] | undefined,
-): E | undefined;
-export function changeError<
-  T extends readonly any[] | undefined,
-  E extends ErrorReportArray<NonNullable<T>>,
->(
-  error: E | undefined,
+export function changeError<T extends readonly any[] | undefined>(
+  error: ErrorReportArray<NonNullable<T>> | undefined,
   itemName: number | "",
-  itemError: ErrorReportValue | E[number] | undefined,
-): E | undefined;
-export function changeError<
-  T extends object | readonly any[] | undefined,
-  E extends ErrorReport<NonNullable<T>>,
->(
-  error: E | undefined,
-  itemName: keyof E | "",
-  itemError: ErrorReportValue | E[keyof E] | undefined,
-): E | undefined {
+  itemError: ErrorReport<NonNullable<T>[number]> | undefined,
+): ErrorReportArray<NonNullable<T>> | undefined;
+export function changeError<T extends object | undefined>(
+  error: ErrorReportObject<NonNullable<T>> | undefined,
+  itemName: keyof NonNullable<T> | "",
+  itemError: ErrorReport<NonNullable<T>[keyof NonNullable<T>]> | undefined,
+): ErrorReportObject<NonNullable<T>> | undefined;
+export function changeError(
+  error: any,
+  itemName: PropertyKey | "",
+  itemError: any,
+): any {
   if (isArray(error)) {
     if (itemName === "" || itemError === undefined) {
-      return itemError as E | undefined;
+      return itemError;
     }
     return {
       "": error,
       [itemName]: itemError,
-    } as E;
+    };
   }
-  return normalizeError(
-    setProperty(error, itemName as keyof E, itemError as any),
-  ) as E | undefined;
+  return normalizeError(setProperty(error, itemName, itemError));
 }
