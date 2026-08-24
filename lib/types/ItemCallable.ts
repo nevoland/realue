@@ -45,4 +45,12 @@ export interface ItemCallable<T> {
    * @param index The index of the item to retreive, or `undefined` if none was found.
    */
   readonly get: (index: number) => T | undefined;
+  /**
+   * Returns the unique identifier of the provided `item` found at the specified `index`. Used as the `id` and `key` of the item props.
+   *
+   * @param index The index of the item.
+   * @param item The value of the item.
+   * @returns The unique identifier of the item.
+   */
+  readonly itemId: ItemId<T>;
 }

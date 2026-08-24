@@ -255,6 +255,10 @@ export function useArray<
             value: ((itemIndexOrName) =>
               state.current[+itemIndexOrName]) as ItemCallable<T>["get"],
           },
+          itemId: {
+            configurable: false,
+            value: itemId,
+          },
         },
       ) as ItemCallable<T>,
     [onChangeItem, onChangeItemError, itemId],
