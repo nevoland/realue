@@ -16,7 +16,7 @@ The name of the property for which to generate the props.
 
 • **T** *extends* `object`
 
-> **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\[`K`\], [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\[`K`\], `NonNullable`\<`T`\[`K`\]\>\>\> & `object`
+> **PropertyCallable**\<`K`\>(`propertyName`): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\[`K`\]\> & `object`
 
 Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
 
@@ -30,7 +30,7 @@ Returns the NEVO props for the property with the specified `propertyName`. If `p
 
 ## Returns
 
-[`NevoProps`](../type-aliases/NevoProps.md)\<`T`\[`K`\], [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\[`K`\], `NonNullable`\<`T`\[`K`\]\>\>\> & `object`
+[`NevoProps`](../type-aliases/NevoProps.md)\<`T`\[`K`\]\> & `object`
 
 ## Param
 
@@ -38,15 +38,15 @@ The name of the property for which to generate the props.
 
 ## Defined in
 
-[lib/types/PropertyCallable.ts:11](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/PropertyCallable.ts#L11)
+[lib/types/PropertyCallable.ts:9](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/PropertyCallable.ts#L9)
 
-> **PropertyCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`, [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
+> **PropertyCallable**(): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>
 
 Returns the NEVO props for the property with the specified `propertyName`. If `propertyName` is not provided, returns the NEVO props for the entire object.
 
 ## Returns
 
-[`NevoProps`](../type-aliases/NevoProps.md)\<`T`, [`ErrorReportValue`](../type-aliases/ErrorReportValue.md)\>
+[`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>
 
 ## Param
 
@@ -54,4 +54,14 @@ The name of the property for which to generate the props.
 
 ## Defined in
 
-[lib/types/PropertyCallable.ts:14](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/PropertyCallable.ts#L14)
+[lib/types/PropertyCallable.ts:12](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/PropertyCallable.ts#L12)
+
+## Properties
+
+### value
+
+> `readonly` **value**: `T`
+
+#### Defined in
+
+[lib/types/PropertyCallable.ts:13](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/PropertyCallable.ts#L13)

@@ -4,16 +4,14 @@
 
 [realue](../README.md) / NevoPropsReadonly
 
-# Type Alias: NevoPropsReadonly\<T, E\>
+# Type Alias: NevoPropsReadonly\<T\>
 
-> **NevoPropsReadonly**\<`T`, `E`\>: [`Select`](Select.md)\<[`NevoProps`](NevoProps.md)\<`T`, `E`\>, `never`, `"onChange"` \| `"onChangeError"`\>
+> **NevoPropsReadonly**\<`T`\>: [`Select`](Select.md)\<[`NevoProps`](NevoProps.md)\<`T`\>, `never`, `"onChange"` \| `"onChangeError"`\>
 
 ## Type Parameters
 
 • **T**
 
-• **E** *extends* [`ErrorReport`](ErrorReport.md)\<`any`\> = [`ErrorReport`](ErrorReport.md)\<`T`\>
-
 ## Defined in
 
-[lib/types/NevoPropsReadonly.ts:5](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/NevoPropsReadonly.ts#L5)
+[lib/types/NevoPropsReadonly.ts:4](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/NevoPropsReadonly.ts#L4)

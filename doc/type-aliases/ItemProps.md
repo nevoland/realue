@@ -4,9 +4,9 @@
 
 [realue](../README.md) / ItemProps
 
-# Type Alias: ItemProps\<T, E\>
+# Type Alias: ItemProps\<T\>
 
-> **ItemProps**\<`T`, `E`\>: [`NevoProps`](NevoProps.md)\<`T`, `E`\> & `object`
+> **ItemProps**\<`T`\>: [`NevoProps`](NevoProps.md)\<`T`\> & `object`
 
 ## Type declaration
 
@@ -26,8 +26,6 @@
 
 • **T**
 
-• **E** *extends* [`ErrorReport`](ErrorReport.md)\<`any`\> = [`ErrorReport`](ErrorReport.md)\<`T`\>
-
 ## Defined in
 
-[lib/types/ItemProps.ts:5](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/ItemProps.ts#L5)
+[lib/types/ItemProps.ts:4](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/ItemProps.ts#L4)

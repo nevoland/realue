@@ -4,9 +4,9 @@
 
 [realue](../README.md) / NevoProps
 
-# Type Alias: NevoProps\<T, E\>
+# Type Alias: NevoProps\<T\>
 
-> **NevoProps**\<`T`, `E`\>: `object` \| `object`
+> **NevoProps**\<`T`\>: `object` \| `object`
 
 Set of properties that define the NEVO pattern:
 - `name`: The name used to identify the entity represented by the `value`.
@@ -19,8 +19,6 @@ Set of properties that define the NEVO pattern:
 
 • **T**
 
-• **E** *extends* [`ErrorReport`](ErrorReport.md)\<`any`\> = [`ErrorReport`](ErrorReport.md)\<`T`\>
-
 ## Defined in
 
-[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/NevoProps.ts#L14)
+[lib/types/NevoProps.ts:14](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/NevoProps.ts#L14)

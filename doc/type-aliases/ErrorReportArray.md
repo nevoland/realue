@@ -6,12 +6,12 @@
 
 # Type Alias: ErrorReportArray\<T\>
 
-> **ErrorReportArray**\<`T`\>: `{ readonly [K in keyof T as number]?: ErrorReport<T[K]> }` & `object` \| [`ErrorReportValue`](ErrorReportValue.md)
+> **ErrorReportArray**\<`T`\>: `{ readonly [K in number]?: ErrorReport<T[K]> }` & `object` \| [`ErrorReportValue`](ErrorReportValue.md)
 
 ## Type Parameters
 
-• **T** *extends* readonly `unknown`[]
+• **T** *extends* readonly `any`[]
 
 ## Defined in
 
-[lib/types/ErrorReportArray.ts:4](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/ErrorReportArray.ts#L4)
+[lib/types/ErrorReportArray.ts:4](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/ErrorReportArray.ts#L4)

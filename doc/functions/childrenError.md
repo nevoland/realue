@@ -12,7 +12,7 @@
 
 ### Type Parameters
 
-• **T** *extends* `unknown`[]
+• **T** *extends* readonly `any`[]
 
 ### Parameters
 
@@ -24,7 +24,7 @@
 
 ### Defined in
 
-[lib/tools/childrenError.ts:10](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/childrenError.ts#L10)
+[lib/tools/childrenError.ts:9](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/tools/childrenError.ts#L9)
 
 ## childrenError(error)
 
@@ -44,4 +44,4 @@
 
 ### Defined in
 
-[lib/tools/childrenError.ts:17](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/childrenError.ts#L17)
+[lib/tools/childrenError.ts:16](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/tools/childrenError.ts#L16)

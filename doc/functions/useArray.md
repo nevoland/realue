@@ -6,7 +6,7 @@
 
 # Function: useArray()
 
-> **useArray**\<`A`, `G`, `T`, `E`\>(`props`, `itemId`): [`ItemCallable`](../interfaces/ItemCallable.md)\<`T`, `E`\>
+> **useArray**\<`A`, `T`\>(`props`, `itemId`): [`ItemCallable`](../interfaces/ItemCallable.md)\<`T`\>
 
 Takes an array and returns a function that generates the required props for handling an array item value.
 That function also contains three callables: `loop`, `add`, and `remove`.
@@ -15,15 +15,11 @@ That function also contains three callables: `loop`, `add`, and `remove`.
 
 • **A** *extends* `undefined` \| readonly `any`[]
 
-• **G** *extends* [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`NonNullable`\<`A`\>\>
-
 • **T** = `NonNullable`\<`A`\> *extends* readonly `H`[] ? `H` : `never`
-
-• **E** *extends* [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`any`\> = [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\>
 
 ## Parameters
 
-• **props**: [`NevoProps`](../type-aliases/NevoProps.md)\<`A`, `G`\>
+• **props**: [`NevoProps`](../type-aliases/NevoProps.md)\<`A`\>
 
 Properties according to the NEVO pattern, where the `value` holds an array.
 
@@ -33,10 +29,10 @@ An optional function that returns a unique identifier for a given array `item`.
 
 ## Returns
 
-[`ItemCallable`](../interfaces/ItemCallable.md)\<`T`, `E`\>
+[`ItemCallable`](../interfaces/ItemCallable.md)\<`T`\>
 
 The `item` function that returns the props for a specific item `index`.
 
 ## Defined in
 
-[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/hooks/useArray.ts#L32)
+[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/hooks/useArray.ts#L32)

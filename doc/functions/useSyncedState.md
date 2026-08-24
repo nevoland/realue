@@ -30,4 +30,4 @@ The `[state, setState]` tuple.
 
 ## Defined in
 
-[lib/hooks/useSyncedState.ts:14](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/hooks/useSyncedState.ts#L14)
+[lib/hooks/useSyncedState.ts:14](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/hooks/useSyncedState.ts#L14)

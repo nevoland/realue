@@ -15,7 +15,6 @@
 - [ErrorMutator](type-aliases/ErrorMutator.md)
 - [ErrorReport](type-aliases/ErrorReport.md)
 - [ErrorReportArray](type-aliases/ErrorReportArray.md)
-- [ErrorReportChildren](type-aliases/ErrorReportChildren.md)
 - [ErrorReportObject](type-aliases/ErrorReportObject.md)
 - [ErrorReportValue](type-aliases/ErrorReportValue.md)
 - [ErrorTransformer](type-aliases/ErrorTransformer.md)

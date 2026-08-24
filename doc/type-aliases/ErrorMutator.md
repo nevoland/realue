@@ -4,19 +4,19 @@
 
 [realue](../README.md) / ErrorMutator
 
-# Type Alias: ErrorMutator()\<E\>
+# Type Alias: ErrorMutator()\<T\>
 
-> **ErrorMutator**\<`E`\>: (`error`, `name`?) => `void`
+> **ErrorMutator**\<`T`\>: (`error`, `name`?) => `void`
 
 Function that mutates an `error`. Used as the signature for the `onChangeError` callback of the NEVO pattern.
 
 ## Type Parameters
 
-• **E** *extends* [`ErrorReport`](ErrorReport.md)\<`any`\>
+• **T**
 
 ## Parameters
 
-• **error**: `E` \| `undefined`
+• **error**: [`ErrorReport`](ErrorReport.md)\<`T`\> \| `undefined`
 
 • **name?**: [`Name`](Name.md)
 
@@ -26,4 +26,4 @@ Function that mutates an `error`. Used as the signature for the `onChangeError` 
 
 ## Defined in
 
-[lib/types/ErrorMutator.ts:7](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/ErrorMutator.ts#L7)
+[lib/types/ErrorMutator.ts:7](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/ErrorMutator.ts#L7)

@@ -4,9 +4,9 @@
 
 [realue](../README.md) / NevoPropsAdapted
 
-# Type Alias: NevoPropsAdapted\<T, K, E\>
+# Type Alias: NevoPropsAdapted\<T, K\>
 
-> **NevoPropsAdapted**\<`T`, `K`, `E`\>: [`Property`](Property.md)\<\`$\{K\}Name\`, [`Name`](Name.md)\> & [`Property`](Property.md)\<\`$\{K\}Error\`, `E`\> & [`Property`](Property.md)\<`K`, `T`\> & [`Property`](Property.md)\<\`onChange$\{Capitalize\<K\>\}\`, [`ValueMutator`](ValueMutator.md)\<`T`\>\> & [`Property`](Property.md)\<\`onChange$\{Capitalize\<K\>\}Error\`, [`ErrorMutator`](ErrorMutator.md)\<`E`\>\>
+> **NevoPropsAdapted**\<`T`, `K`\>: [`Property`](Property.md)\<\`$\{K\}Name\`, [`Name`](Name.md)\> & [`Property`](Property.md)\<\`$\{K\}Error\`, [`ErrorReport`](ErrorReport.md)\<`T`\>\> & [`Property`](Property.md)\<`K`, `T`\> & [`Property`](Property.md)\<\`onChange$\{Capitalize\<K\>\}\`, [`ValueMutator`](ValueMutator.md)\<`T`\>\> & [`Property`](Property.md)\<\`onChange$\{Capitalize\<K\>\}Error\`, [`ErrorMutator`](ErrorMutator.md)\<`T`\>\>
 
 ## Type Parameters
 
@@ -14,8 +14,6 @@
 
 • **K** *extends* `string`
 
-• **E** *extends* [`ErrorReport`](ErrorReport.md)\<`any`\> = [`ErrorReport`](ErrorReport.md)\<`T`\>
-
 ## Defined in
 
-[lib/types/NevoPropsAdapted.ts:7](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/NevoPropsAdapted.ts#L7)
+[lib/types/NevoPropsAdapted.ts:7](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/NevoPropsAdapted.ts#L7)

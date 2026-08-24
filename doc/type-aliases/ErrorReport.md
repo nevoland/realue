@@ -4,16 +4,14 @@
 
 [realue](../README.md) / ErrorReport
 
-# Type Alias: ErrorReport\<T, U\>
+# Type Alias: ErrorReport\<T\>
 
-> **ErrorReport**\<`T`, `U`\>: [`U`] *extends* [readonly `unknown`[]] ? [`ErrorReportArray`](ErrorReportArray.md)\<`U`\> : [`U`] *extends* [`object`] ? [`ErrorReportObject`](ErrorReportObject.md)\<`U`\> : [`ErrorReportValue`](ErrorReportValue.md)
+> **ErrorReport**\<`T`\>: [`unknown`] *extends* [`T`] ? `unknown` : [`NonNullable`\<`T`\>] *extends* [readonly `unknown`[]] ? [`ErrorReportArray`](ErrorReportArray.md)\<`NonNullable`\<`T`\>\> : [`NonNullable`\<`T`\>] *extends* [`object`] ? [`ErrorReportObject`](ErrorReportObject.md)\<`NonNullable`\<`T`\>\> : [`ErrorReportValue`](ErrorReportValue.md)
 
 ## Type Parameters
 
 • **T**
 
-• **U** = `NonNullable`\<`T`\>
-
 ## Defined in
 
-[lib/types/ErrorReport.ts:6](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/types/ErrorReport.ts#L6)
+[lib/types/ErrorReport.ts:5](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/types/ErrorReport.ts#L5)

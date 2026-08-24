@@ -6,7 +6,7 @@
 
 # Function: normalizeError()
 
-> **normalizeError**\<`T`\>(`error`): `undefined` \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`, `NonNullable`\<`T`\>\>
+> **normalizeError**\<`T`\>(`error`): `undefined` \| [`ErrorReportValue`](../type-aliases/ErrorReportValue.md) \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\> & `null` \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\> & `object`
 
 ## Type Parameters
 
@@ -18,8 +18,8 @@
 
 ## Returns
 
-`undefined` \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`, `NonNullable`\<`T`\>\>
+`undefined` \| [`ErrorReportValue`](../type-aliases/ErrorReportValue.md) \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\> & `null` \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\> & `object`
 
 ## Defined in
 
-[lib/tools/normalizeError.ts:4](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/normalizeError.ts#L4)
+[lib/tools/normalizeError.ts:4](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/tools/normalizeError.ts#L4)

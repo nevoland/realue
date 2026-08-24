@@ -8,52 +8,48 @@
 
 ## changeError(error, itemName, itemError)
 
-> **changeError**\<`T`, `E`\>(`error`, `itemName`, `itemError`): `E` \| `undefined`
-
-### Type Parameters
-
-• **T** *extends* `undefined` \| `object`
-
-• **E** *extends* [`ErrorReportObject`](../type-aliases/ErrorReportObject.md)\<`NonNullable`\<`T`\>\>
-
-### Parameters
-
-• **error**: `undefined` \| `E`
-
-• **itemName**: `""` \| keyof `E`
-
-• **itemError**: `undefined` \| [`ErrorReportValue`](../type-aliases/ErrorReportValue.md) \| `E`\[keyof `E`\]
-
-### Returns
-
-`E` \| `undefined`
-
-### Defined in
-
-[lib/tools/changeError.ts:12](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/changeError.ts#L12)
-
-## changeError(error, itemName, itemError)
-
-> **changeError**\<`T`, `E`\>(`error`, `itemName`, `itemError`): `E` \| `undefined`
+> **changeError**\<`T`\>(`error`, `itemName`, `itemError`): [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`NonNullable`\<`T`\>\> \| `undefined`
 
 ### Type Parameters
 
 • **T** *extends* `undefined` \| readonly `any`[]
 
-• **E** *extends* [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`NonNullable`\<`T`\>\>
-
 ### Parameters
 
-• **error**: `undefined` \| `E`
+• **error**: `undefined` \| [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`NonNullable`\<`T`\>\>
 
 • **itemName**: `number` \| `""`
 
-• **itemError**: `undefined` \| [`ErrorReportValue`](../type-aliases/ErrorReportValue.md) \| `E`\[`number`\]
+• **itemError**: `undefined` \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`NonNullable`\<`T`\>\[`number`\]\>
 
 ### Returns
 
-`E` \| `undefined`
+[`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`NonNullable`\<`T`\>\> \| `undefined`
 
 ### Defined in
 
-[lib/tools/changeError.ts:20](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/changeError.ts#L20)
+[lib/tools/changeError.ts:11](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/tools/changeError.ts#L11)
+
+## changeError(error, itemName, itemError)
+
+> **changeError**\<`T`\>(`error`, `itemName`, `itemError`): [`ErrorReportObject`](../type-aliases/ErrorReportObject.md)\<`NonNullable`\<`T`\>\> \| `undefined`
+
+### Type Parameters
+
+• **T** *extends* `undefined` \| `object`
+
+### Parameters
+
+• **error**: `undefined` \| [`ErrorReportObject`](../type-aliases/ErrorReportObject.md)\<`NonNullable`\<`T`\>\>
+
+• **itemName**: `""` \| keyof `NonNullable`\<`T`\>
+
+• **itemError**: `undefined` \| [`ErrorReport`](../type-aliases/ErrorReport.md)\<`NonNullable`\<`T`\>\[keyof `NonNullable`\<`T`\>\]\>
+
+### Returns
+
+[`ErrorReportObject`](../type-aliases/ErrorReportObject.md)\<`NonNullable`\<`T`\>\> \| `undefined`
+
+### Defined in
+
+[lib/tools/changeError.ts:16](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/tools/changeError.ts#L16)

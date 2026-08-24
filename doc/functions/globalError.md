@@ -6,11 +6,15 @@
 
 # Function: globalError()
 
-> **globalError**(`error`?): [`ErrorReportValue`](../type-aliases/ErrorReportValue.md) \| `undefined`
+> **globalError**\<`T`\>(`error`?): [`ErrorReportValue`](../type-aliases/ErrorReportValue.md) \| `undefined`
+
+## Type Parameters
+
+• **T**
 
 ## Parameters
 
-• **error?**: [`ErrorReportArray`](../type-aliases/ErrorReportArray.md)\<`any`\>
+• **error?**: [`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\>
 
 ## Returns
 
@@ -18,4 +22,4 @@
 
 ## Defined in
 
-[lib/tools/globalError.ts:5](https://github.com/nevoland/realue/blob/10b81dd410f087c06fbf8ea8b1c227058ff70751/lib/tools/globalError.ts#L5)
+[lib/tools/globalError.ts:5](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/tools/globalError.ts#L5)
