@@ -1,6 +1,7 @@
 import type { FunctionComponent } from "../dependencies/types";
 
 import type { ItemAdder } from "./ItemAdder";
+import type { ItemId } from "./ItemId";
 import type { ItemProps } from "./ItemProps";
 import type { ItemRemover } from "./ItemRemover";
 import type { NevoProps } from "./NevoProps";
@@ -44,7 +45,7 @@ export interface ItemCallable<T> {
    *
    * @param index The index of the item to retreive, or `undefined` if none was found.
    */
-  readonly get: (index: number) => T | undefined;
+  readonly at: (index: number) => T | undefined;
   /**
    * Returns the unique identifier of the provided `item` found at the specified `index`. Used as the `id` and `key` of the item props.
    *

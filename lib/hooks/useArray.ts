@@ -249,11 +249,10 @@ export function useArray<
                     );
                   }) as ItemCallable<T>["remove"]),
           },
-          // FIXME: Rename this to `at`
-          get: {
+          at: {
             configurable: false,
             value: ((itemIndexOrName) =>
-              state.current[+itemIndexOrName]) as ItemCallable<T>["get"],
+              state.current[+itemIndexOrName]) as ItemCallable<T>["at"],
           },
           itemId: {
             configurable: false,
