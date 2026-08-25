@@ -50,4 +50,4 @@ Properties according to the NEVO pattern, with `onChange` being a debounced valu
 
 ## Defined in
 
-[lib/hooks/useDelay.ts:19](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/hooks/useDelay.ts#L19)
+[lib/hooks/useDelay.ts:19](https://github.com/nevoland/realue/blob/83709f9838ee56af94dc6598a0bb03579ef097ee/lib/hooks/useDelay.ts#L19)

@@ -30,4 +30,4 @@ A callback that receives the previous parameters and result, and returns a callb
 
 ## Defined in
 
-[lib/hooks/usePreviousCall.ts:11](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/hooks/usePreviousCall.ts#L11)
+[lib/hooks/usePreviousCall.ts:11](https://github.com/nevoland/realue/blob/83709f9838ee56af94dc6598a0bb03579ef097ee/lib/hooks/usePreviousCall.ts#L11)

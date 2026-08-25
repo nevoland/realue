@@ -35,4 +35,4 @@ The `item` function that returns the props for a specific item `index`.
 
 ## Defined in
 
-[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/0164e6c50db362cbf82dd512b953fada7d2b84cc/lib/hooks/useArray.ts#L32)
+[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/83709f9838ee56af94dc6598a0bb03579ef097ee/lib/hooks/useArray.ts#L32)
