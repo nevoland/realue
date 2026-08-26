@@ -20,7 +20,7 @@ export type NevoProps<T> =
       /**
        * An error object describing issues to be shown.
        */
-      error?: ErrorReport<T>;
+      error?: NoInfer<ErrorReport<T>>;
       /**
        * The value to be handled by a component.
        */
@@ -39,7 +39,7 @@ export type NevoProps<T> =
       /**
        * An error object describing issues to be shown.
        */
-      error?: ErrorReport<T>;
+      error?: NoInfer<ErrorReport<T>>;
       /**
        * The value to be handled by a component.
        */
