@@ -18,4 +18,4 @@ Returns an object type with a single property.
 
 ## Defined in
 
-[lib/types/Property.ts:4](https://github.com/nevoland/realue/blob/83709f9838ee56af94dc6598a0bb03579ef097ee/lib/types/Property.ts#L4)
+[lib/types/Property.ts:4](https://github.com/nevoland/realue/blob/99290dc5229b4a4580b710444691711a0467e392/lib/types/Property.ts#L4)
