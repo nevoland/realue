@@ -6,7 +6,7 @@
 
 # Function: itemIdDefault()
 
-> **itemIdDefault**\<`T`\>(`index`, `item`): `string`
+> **itemIdDefault**\<`T`\>(`item`, `index`): `string`
 
 Default function used by `useArray` for defining the unique identifier of an item.
 
@@ -16,13 +16,13 @@ Default function used by `useArray` for defining the unique identifier of an ite
 
 ## Parameters
 
-• **index**: `number`
-
-Array index of the item.
-
 • **item**: `T`
 
 Value of the item.
+
+• **index**: `number`
+
+Array index of the item.
 
 ## Returns
 
@@ -32,4 +32,4 @@ A unique identifier string for this item.
 
 ## Defined in
 
-[lib/tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/99290dc5229b4a4580b710444691711a0467e392/lib/tools/itemIdDefault.ts#L8)
+[lib/tools/itemIdDefault.ts:8](https://github.com/nevoland/realue/blob/bc47ffcae8699bbac13ee4e99253fa39382cf1da/lib/tools/itemIdDefault.ts#L8)

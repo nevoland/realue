@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[lib/types/NevoName.ts:3](https://github.com/nevoland/realue/blob/99290dc5229b4a4580b710444691711a0467e392/lib/types/NevoName.ts#L3)
+[lib/types/NevoName.ts:3](https://github.com/nevoland/realue/blob/bc47ffcae8699bbac13ee4e99253fa39382cf1da/lib/types/NevoName.ts#L3)
