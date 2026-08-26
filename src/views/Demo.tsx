@@ -336,7 +336,7 @@ export function Demo() {
     name: "",
   });
   const { value, error } = props;
-  const item = useArray(props, (index, item) => item.id ?? `${index}`);
+  const item = useArray(props, (item, index) => item.id ?? `${index}`);
   const onAppendItem = useCallback(() => item.add?.({ id: uid() }), [item]);
   const onPrependItem = useCallback(() => item.add?.({ id: uid() }, 0), [item]);
   const onAppendThreeItems = useCallback(() => {
