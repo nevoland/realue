@@ -105,7 +105,7 @@ export function useArray<
             };
           }
           const value = state.current?.[itemIndex];
-          const id = itemId(itemIndex, value);
+          const id = itemId(value, itemIndex);
           return {
             error: childrenError<NonNullable<A>>(
               stateError.current as

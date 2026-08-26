@@ -5,4 +5,4 @@
  * @param item The value of the item.
  * @returns The unique identifier of the item.
  */
-export type ItemId<T> = (index: number, item: T) => string;
+export type ItemId<T> = (item: T, index: number) => string;
