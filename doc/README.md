@@ -6,7 +6,6 @@
 
 ## Interfaces
 
-- [ItemCallable](interfaces/ItemCallable.md)
 - [PropertyCallable](interfaces/PropertyCallable.md)
 
 ## Type Aliases
@@ -21,6 +20,7 @@
 - [ErrorUpdater](type-aliases/ErrorUpdater.md)
 - [Fetch](type-aliases/Fetch.md)
 - [ItemAdder](type-aliases/ItemAdder.md)
+- [ItemCallable](type-aliases/ItemCallable.md)
 - [ItemId](type-aliases/ItemId.md)
 - [ItemProps](type-aliases/ItemProps.md)
 - [ItemRemover](type-aliases/ItemRemover.md)

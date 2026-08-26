@@ -20,4 +20,4 @@ Function that removes an item from the array at the specified `index`.
 
 ## Defined in
 
-[lib/types/ItemRemover.ts:4](https://github.com/nevoland/realue/blob/bc47ffcae8699bbac13ee4e99253fa39382cf1da/lib/types/ItemRemover.ts#L4)
+[lib/types/ItemRemover.ts:4](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/types/ItemRemover.ts#L4)

@@ -6,7 +6,7 @@
 
 # Function: useArray()
 
-> **useArray**\<`A`, `T`\>(`props`, `itemId`): [`ItemCallable`](../interfaces/ItemCallable.md)\<`T`\>
+> **useArray**\<`A`, `T`\>(`props`, `itemId`): [`ItemCallable`](../type-aliases/ItemCallable.md)\<`T`\>
 
 Takes an array and returns a function that generates the required props for handling an array item value.
 That function also contains three callables: `loop`, `add`, and `remove`.
@@ -29,10 +29,10 @@ An optional function that returns a unique identifier for a given array `item`.
 
 ## Returns
 
-[`ItemCallable`](../interfaces/ItemCallable.md)\<`T`\>
+[`ItemCallable`](../type-aliases/ItemCallable.md)\<`T`\>
 
 The `item` function that returns the props for a specific item `index`.
 
 ## Defined in
 
-[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/bc47ffcae8699bbac13ee4e99253fa39382cf1da/lib/hooks/useArray.ts#L32)
+[lib/hooks/useArray.ts:32](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useArray.ts#L32)
