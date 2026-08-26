@@ -9,9 +9,11 @@ import type { NevoProps } from "./NevoProps";
 /**
  * Returns the NEVO props for the item at the specified `itemIndex`. If `itemIndex` is not provided, returns the NEVO props for the entire array.
  *
+ * The `add` and `remove` mutators are either both defined (when the array is mutable) or both `undefined` (when it is read-only).
+ *
  * @param itemIndex The index of the item for which to generate the props.
  */
-export interface ItemCallable<T> {
+export type ItemCallable<T> = {
   (itemIndex: number): ItemProps<T>;
   (): NevoProps<readonly T[]>;
   /**
@@ -26,19 +28,6 @@ export interface ItemCallable<T> {
     extraProps?: P | ((props: ItemProps<T>) => P),
   ) => ReturnType<FunctionComponent<ItemProps<T> & P>>[];
   /**
-   * Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
-   *
-   * @param item The item to add.
-   * @param index The index where to add this item (defaults to the length of the array).
-   */
-  readonly add?: ItemAdder<T>;
-  /**
-   * Removes the item found at the specified `index`.
-   *
-   * @param index The index of the item to remove.
-   */
-  readonly remove?: ItemRemover;
-  /**
    * Current array `value`.
    */
   readonly value: readonly T[];
@@ -50,4 +39,26 @@ export interface ItemCallable<T> {
    * @returns The unique identifier of the item.
    */
   readonly itemId: ItemId<T>;
-}
+} & (
+  | {
+      /**
+       * Inserts an item at the specified index, shifting by one the previous item found at this index and its subsequent ones.
+       * Defined when the source `onChange` is defined, `undefined` otherwise (paired with `remove`).
+       *
+       * @param item The item to add.
+       * @param index The index where to add this item (defaults to the length of the array).
+       */
+      readonly add: ItemAdder<T>;
+      /**
+       * Removes the item found at the specified `index`.
+       * Defined when the source `onChange` is defined, `undefined` otherwise (paired with `add`).
+       *
+       * @param index The index of the item to remove.
+       */
+      readonly remove: ItemRemover;
+    }
+  | {
+      readonly add: undefined;
+      readonly remove: undefined;
+    }
+);
