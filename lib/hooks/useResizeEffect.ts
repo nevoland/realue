@@ -1,24 +1,21 @@
 import { getGlobal } from "@nevoland/get-global";
 
-import { EMPTY_ARRAY, EMPTY_OBJECT, useLayoutEffect } from "../dependencies.js";
+import { EMPTY_OBJECT, useLayoutEffect } from "../dependencies.js";
 import type { ResizeEffectOptions } from "../types";
 
 const { ResizeObserver, requestAnimationFrame, cancelAnimationFrame } =
   getGlobal();
 
 /**
- * Reports changes to the dimensions of the border box of an `element` by calling a provided `callback`.
+ * Reports changes to the dimensions of the border box of an `element` by calling a provided `callback` with that `element`.
  *
  * @param element The element on which to observe resize events.
- * @param callback The callback called by the observer with the mutation list and the observer.
+ * @param callback The callback called with the observed `element` when its dimensions or those of an ancestor (when `parents` is set) change.
  * @param options Observation options.
  */
 export function useResizeEffect(
   element: Element | null | undefined | false,
-  callback: (
-    entries: readonly ResizeObserverEntry[],
-    observer: ResizeObserver,
-  ) => void,
+  callback: (element: Element) => void,
   options: ResizeEffectOptions = EMPTY_OBJECT,
 ) {
   const { parents, box } = options;
@@ -27,16 +24,16 @@ export function useResizeEffect(
       return;
     }
     let animationFrame: number | undefined = undefined;
-    const observer = new ResizeObserver((mutationList, observer) => {
+    const observer = new ResizeObserver(() => {
       if (animationFrame !== undefined) {
         cancelAnimationFrame(animationFrame);
       }
       animationFrame = requestAnimationFrame(() => {
-        callback(mutationList, observer);
+        callback(element);
         animationFrame = undefined;
       });
     });
-    callback(EMPTY_ARRAY, observer);
+    callback(element);
     observer.observe(element, box ? { box } : undefined);
     if (parents) {
       let parentElement = element.parentElement;
