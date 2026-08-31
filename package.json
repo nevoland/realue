@@ -59,7 +59,7 @@
     "is-promise": "^4.0.0",
     "preact": "^10.27.2",
     "unchangeable": "^2.1.2",
-    "futurise": "^1.9.1"
+    "futurise": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
