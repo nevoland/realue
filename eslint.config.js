@@ -7,6 +7,7 @@ import reactPlugin from "eslint-plugin-react";
 import sortkeysPlugin from "eslint-plugin-sort-keys";
 import tailwindcssPlugin from "eslint-plugin-tailwindcss";
 import vitestPlugin from "eslint-plugin-vitest";
+import secureCoding from 'eslint-plugin-secure-coding';
 
 const GLOBAL_NAME_LIST = [
   "AbortController",
@@ -191,5 +192,16 @@ export default [
     rules: {
       ...vitestPlugin.configs.recommended.rules,
     },
+  },
+
+  // Security rules, CWE- and CVSS-tagged, scoped to source.
+  //
+  // Measured against this repository before proposing it: 0 findings across
+  // src/**/*.{js,mjs,cjs,ts,tsx}. That is the point rather than a caveat — the block goes red on a
+  // new one, not on what is here today.
+  {
+    files: ['src/**/*.{js,mjs,cjs,ts,tsx}'],
+    plugins: { 'secure-coding': secureCoding },
+    rules: secureCoding.configs.recommended.rules,
   },
 ];
