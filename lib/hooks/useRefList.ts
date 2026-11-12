@@ -3,9 +3,10 @@ import { useMemo } from "../dependencies.js";
 
 /**
  * Combines a list of refs into a single callable ref, updating the list of refs to the value it is called with.
+ * Callable refs are called with the value, and object refs get their `current` property set to it.
  *
  * @param refList The list of refs to combine.
- * @returns Callable ref that updates the list of refs to the value it is called with.
+ * @returns Callable ref that updates the list of refs to the value it is called with, or `null` if all provided refs are nullish.
  */
 export function useRefList<T>(
   ...refList: Array<Ref<T> | undefined>

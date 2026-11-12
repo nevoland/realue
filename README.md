@@ -26,22 +26,26 @@ Everything is exported from the main entry-point through an ES6 module.
 Use `useObject` to automatically handle an object property, or `useArray` for handling array items. Note how all the values are handled gracefully, without having to write boilerplate code.
 
 ```tsx
-import { useArray, useObject, useRemove, useDebounce } from "realue";
-import type { NevoProps, ValueRemover } from "realue";
+import { useArray, useObject, useSyncedProps } from "realue";
+import type { ErrorReport, ItemRemover, NevoProps } from "realue";
 
 type UserType = {
   name?: string;
   level?: number;
 };
 
-function User(props: NevoProps<UserType> & { onRemove?: ValueRemover }) {
+function User(props: NevoProps<UserType> & { onRemove?: ItemRemover }) {
   const property = useObject(props);
-  const onRemove = useRemove(props);
   return (
     <>
       <Input label="Name" {...property("name")} />
       <InputNumber label="Level" {...property("level")} />
-      <button onClick={onRemove}>Delete user</button>
+      <button
+        disabled={props.onRemove === undefined}
+        onClick={() => props.onRemove?.(+props.name!)}
+      >
+        Delete user
+      </button>
     </>
   );
 }
@@ -82,32 +86,51 @@ export default function App() {
   <summary>Library components used in the example</summary>
 
 ```tsx
+import { memo } from "preact/compat";
+import { useDelay, useInput } from "realue";
+import type { NevoProps } from "realue";
+
 function extractInputValue<T extends string | undefined>({
   value,
 }: HTMLInputElement) {
   return (value === "" ? undefined : value) as T;
 }
 
-function Input(
-  props: NevoProps<string | undefined> & { label: string; delay?: number },
-) {
-  const { value = "", name, onChange } = useDebounce(props, delay);
-  const onInput = useInput(props, extractInputValue);
+type InputProps = NevoProps<string | undefined> & {
+  label?: string;
+  placeholder?: string;
+  delay?: number;
+};
+
+export const Input = memo(function Input({
+  label,
+  placeholder,
+  delay,
+  ...props
+}: InputProps) {
+  const inputProps = useDelay(props, delay);
+  const { value = "", name, error } = inputProps;
+  const onInput = useInput(inputProps, extractInputValue);
   return (
     <div class="flex flex-col space-y-1">
       <label>{label}</label>
       {error && <p class="text-red-500 dark:text-red-300">{error.join(" ")}</p>}
       <input
         autoComplete="new-password"
-        disabled={!onChange}
+        disabled={onInput === undefined}
         name={name}
-        onInput={onChange ? onInput : undefined}
+        onInput={onInput}
         placeholder={placeholder}
         value={value}
       />
     </div>
   );
-}
+});
+
+type InputNumberProps = NevoProps<number | undefined> & {
+  label?: string;
+  placeholder?: string;
+};
 
 function extractInputNumberValue({ value }: HTMLInputElement) {
   const parsedValue = parseFloat(value);
@@ -121,16 +144,14 @@ export const InputNumber = memo(function InputNumber(props: InputNumberProps) {
     onChange,
     label,
     placeholder,
-    onValidate,
     error,
-    onChangeError,
   } = props;
   const value =
     currentValue === undefined
       ? undefined
       : isNaN(currentValue)
-      ? 0
-      : currentValue;
+        ? 0
+        : currentValue;
   const onInput = useInput(props, extractInputNumberValue);
   return (
     <div class="flex flex-col space-y-1">
@@ -154,7 +175,7 @@ export const InputNumber = memo(function InputNumber(props: InputNumberProps) {
 
 ### Error handling
 
-Changing the `USER_LIST_ERROR` in the example above to the following value, will automatically add a an error message for Bob's level value. These errors can be either passed down to components through the `error` prop, but also communicated back up through the `onChangeError` property.
+Changing the `USER_LIST_ERROR` in the example above to the following value, will automatically add an error message for Bob's level value. These errors can be either passed down to components through the `error` prop, but also communicated back up through the `onChangeError` property.
 
 ```tsx
 const USER_LIST_ERROR: ErrorReport<UserType[]> | undefined = {
@@ -162,11 +183,11 @@ const USER_LIST_ERROR: ErrorReport<UserType[]> | undefined = {
 };
 ```
 
-The `error` value follows a [simple structure](doc/README.md#errorreport) to map error messages to specific values:
+The `error` value follows a [simple structure](doc/type-aliases/ErrorReport.md) to map error messages to specific values:
 
-- An error report for a [primitive value](doc/README.md#errorreportvalue) (e.g., a `boolean`, `number`, or `string` value) consists of a list of one or several strings (e.g., `["This is not an email address."]`).
-- Error reports for [objects](doc/README.md#errorreportobject) consist of a mapping of property names to error reports (e.g. `{ name: ["The name is missing."] }`). In case of an error that pertains to the entire value, it can either be stored at the empty string key in case that there are also errors for specific properties (e.g., `{ "": ["Either the username or the email address must be set."], "level": ["The level must be positive."] }`), or directly as a list of strings: `["Either the username or the email address must be set."]`.
-- Error reports for [arrays](doc/README.md#errorreportarray) are similar to those for objects, except that they map item indices to error reports (e.g., `{ 1: { "name": ["The name is required and cannot be empty."] } }`). As well as in error reports for objects, an error report for the entire array could be set at the empty string key if there are errors for the array items, or directly as a list of strings.
+- An error report for a [primitive value](doc/type-aliases/ErrorReportValue.md) (e.g., a `boolean`, `number`, or `string` value) consists of a list of one or several strings (e.g., `["This is not an email address."]`).
+- Error reports for [objects](doc/type-aliases/ErrorReportObject.md) consist of a mapping of property names to error reports (e.g. `{ name: ["The name is missing."] }`). In case of an error that pertains to the entire value, it can either be stored at the empty string key in case that there are also errors for specific properties (e.g., `{ "": ["Either the username or the email address must be set."], "level": ["The level must be positive."] }`), or directly as a list of strings: `["Either the username or the email address must be set."]`.
+- Error reports for [arrays](doc/type-aliases/ErrorReportArray.md) are similar to those for objects, except that they map item indices to error reports (e.g., `{ 1: { "name": ["The name is required and cannot be empty."] } }`). As well as in error reports for objects, an error report for the entire array could be set at the empty string key if there are errors for the array items, or directly as a list of strings.
 
 ### Property name conventions
 
@@ -185,9 +206,8 @@ Checkout the [API documentation](doc/README.md).
 A demo application can be run in the browser with:
 
 ```bash
-npm run build
-npm start
-open http://localhost:1234
+npm run dev
+open http://localhost:5000
 ```
 
-You can then inspect and edit the code in the `demo/` folder.
+You can then inspect and edit the code in the `src/` folder.

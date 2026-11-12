@@ -6,7 +6,7 @@ import { useMemo, useRef } from "../dependencies.js";
  *
  * @param value The `value` to make resilient.
  * @param shouldUpdate Either a falsy value, `true`, or a function that is called with the new value and the current one and returns a boolean value.
- * @returns The current value, last udpated when `shouldUpdate` was `true` or returned `true`.
+ * @returns The current value, last updated when `shouldUpdate` was `true` or returned `true`.
  */
 export function useResilient<T>(
   value: T,

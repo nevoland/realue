@@ -8,7 +8,10 @@
 
 > **adapt**\<`T`, `K`\>(`props`, `propertyName`): [`NevoPropsAdapted`](../type-aliases/NevoPropsAdapted.md)\<`T`, `K`\>
 
-Adapts the provided `props` to the specified `propertyName`.
+Adapts the provided `props` to the specified `propertyName`, so that they can be spread alongside other NEVO props.
+The `name`, `error`, `value`, `onChange`, and `onChangeError` props are respectively renamed to `${propertyName}Name`, `${propertyName}Error`, `${propertyName}`, `onChange${Capitalize<propertyName>}`, and `onChangeError${Capitalize<propertyName>}`.
+
+This is the inverse of `normalize`.
 
 ## Type Parameters
 
@@ -20,7 +23,7 @@ Adapts the provided `props` to the specified `propertyName`.
 
 • **props**: [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>
 
-Properties according to the Nevo pattern.
+Properties according to the NEVO pattern.
 
 • **propertyName**: `K`
 
@@ -30,6 +33,8 @@ Name of the value property.
 
 [`NevoPropsAdapted`](../type-aliases/NevoPropsAdapted.md)\<`T`, `K`\>
 
+The adapted properties.
+
 ## Example
 
 ```tsx
@@ -38,4 +43,4 @@ Name of the value property.
 
 ## Defined in
 
-[lib/tools/adapt.ts:17](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/tools/adapt.ts#L17)
+[lib/tools/adapt.ts:20](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/tools/adapt.ts#L20)

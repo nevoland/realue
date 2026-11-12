@@ -11,6 +11,7 @@ import type {
 
 /**
  * Takes an object and returns a function that generates the required props for handling an object property value.
+ * If called without a property name, that function returns the props for the entire object, with the `error` that pertains to the entire object.
  *
  * @param props Properties according to the NEVO pattern, where the `value` holds an object.
  * @returns The `property` function that returns the props for a specific property `name`.

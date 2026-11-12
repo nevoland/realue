@@ -16,4 +16,4 @@ Omits the properties of the NEVO pattern.
 
 ## Defined in
 
-[lib/types/OmitNevoProps.ts:6](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/types/OmitNevoProps.ts#L6)
+[lib/types/OmitNevoProps.ts:6](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/types/OmitNevoProps.ts#L6)

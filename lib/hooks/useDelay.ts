@@ -8,13 +8,16 @@ import { useReferencedState } from "./useReferencedState.js";
 
 /**
  * Delays calls of the value mutator `onChange` while immediately updating the local `value`.
+ * If `duration` is `undefined`, returns the provided `props` untouched.
+ *
+ * The returned `onChange` also exposes the `cancel()` and `flush()` methods and the `pending` and `result` properties of the underlying delayed function. Pending calls are cancelled when the `duration` or the provided `onChange` change, or when the element unmounts.
  *
  * If `onChange` changes while a delayed call is pending, the pending call will be canceled to avoid calling the outdated `onChange`. Therefore, it is important to ensure that the `onChange` function is stable (e.g., by using `useCallback`) when using this hook to prevent unintended cancellations.
  *
  * @param props - Properties according to the NEVO pattern.
  * @param duration - The delay duration in milliseconds.
  * @param options - Optional configuration for the delay behavior. See {@link DelayOptions} for details.
- * @returns Properties according to the NEVO pattern, with `onChange` being a debounced value mutator.
+ * @returns Properties according to the NEVO pattern, with `onChange` being a delayed value mutator.
  */
 export function useDelay<T>(
   props: Pick<NevoProps<T>, "value" | "name" | "onChange">,

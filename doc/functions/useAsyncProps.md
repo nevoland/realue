@@ -16,13 +16,13 @@ If `options.value(name)` is set, uses the defined return value (a "query") and p
 
 If `options.onChange(value, name)` is set, uses the defined return value (a "query") and passes it to `options.handle(query)`. If `options.onChange(value, name)` returns an undefined value, nothing happens.
 
-The `options.handle(query)` function returns asynchronously (or, if needed, synchronously) a `value` that gets returned in the result.
+The `options.handle(query, abortController)` function returns asynchronously (or, if needed, synchronously) a `value` that gets returned in the result. If the returned promise rejects, the rejection reason is used as the returned `error`. The provided `abortController` is aborted when a new query is handled, when `onAbort()` is called, or when the element unmounts.
 
-Asynchronous tasks can be tracked with the returned `status` property, and aborted using the returned `onAbort()` method. Ongoing operations are automatically aborted when the element that runs this hook unmounts.
+Asynchronous tasks can be tracked with the returned `status` property, which is also reported to `options.props.onChangeStatus(status, name)` if set, and aborted using the returned `onAbort()` method. Ongoing operations are automatically aborted when the element that runs this hook unmounts.
 
 The asynchronous task that gets the `value` can be re-executed using the returned `onRefresh()` method.
 
-If `options.subscribe(query, onRefresh)` is defined, it is called everytime a new `query` is returned by `options.value(name)`, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
+If `options.subscribe(query, onRefresh)` is defined, it is called with the latest `query` returned by `options.value(name)` on mount and every time the `dependencies` change, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
 
 ### Type Parameters
 
@@ -34,7 +34,7 @@ If `options.subscribe(query, onRefresh)` is defined, it is called everytime a ne
 
 • **options**: [`Select`](../type-aliases/Select.md)\<`AsyncPropsOptions`\<`T`, `Q`\>, `"onChange"`, `"props"`\>
 
-Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, the optional `subscribe(query, onRefresh)` method, and the optional parent props according to the NEVO pattern (with support for `status` and `onChangeStatus`).
+Contains the optional `value` and `onChange` query builders, the required `handle(query, abortController)` method, the optional `subscribe(query, onRefresh)` method, and the optional parent props according to the NEVO pattern (with support for `status` and `onChangeStatus`).
 
 • **dependencies?**: `Inputs`
 
@@ -48,7 +48,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:75](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useAsyncProps.ts#L75)
+[lib/hooks/useAsyncProps.ts:75](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useAsyncProps.ts#L75)
 
 ## useAsyncProps(options, dependencies)
 
@@ -72,7 +72,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:79](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useAsyncProps.ts#L79)
+[lib/hooks/useAsyncProps.ts:79](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useAsyncProps.ts#L79)
 
 ## useAsyncProps(options, dependencies)
 
@@ -96,7 +96,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:85](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useAsyncProps.ts#L85)
+[lib/hooks/useAsyncProps.ts:85](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useAsyncProps.ts#L85)
 
 ## useAsyncProps(options, dependencies)
 
@@ -120,7 +120,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:89](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useAsyncProps.ts#L89)
+[lib/hooks/useAsyncProps.ts:89](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useAsyncProps.ts#L89)
 
 ## useAsyncProps(options, dependencies)
 
@@ -144,7 +144,7 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:95](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useAsyncProps.ts#L95)
+[lib/hooks/useAsyncProps.ts:95](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useAsyncProps.ts#L95)
 
 ## useAsyncProps(options, dependencies)
 
@@ -168,4 +168,4 @@ The properties according to the NEVO pattern, with the `status` of the ongoing t
 
 ### Defined in
 
-[lib/hooks/useAsyncProps.ts:99](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useAsyncProps.ts#L99)
+[lib/hooks/useAsyncProps.ts:99](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useAsyncProps.ts#L99)

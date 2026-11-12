@@ -8,12 +8,14 @@
 
 > **useValidator**\<`T`\>(`props`, `onValidate`?): [`PromiseState`](../type-aliases/PromiseState.md)\<[`ErrorReport`](../type-aliases/ErrorReport.md)\<`T`\> \| `undefined`\>
 
-Validates the provided `value` property using the `onValidate` asynchronous callback function.
+Validates the provided `value` property using the `onValidate` asynchronous callback function, and reports the resulting error through `onChangeError(error, name)` if it differs from the current `error`.
 This function returns a promise state object that tracks the status of the validation process.
 
-The `onValidate` callback function is expected to return a value or a promise that resolves with one of the following:
+The `onValidate(value, name, error)` callback function is called every time the `value`, `name`, `onValidate`, or `onChangeError` change. It is expected to return a value or a promise that resolves with one of the following:
   - An error value indicating that validation has failed.
   - `undefined` if the validation succeeds without errors.
+
+No validation occurs if `onValidate` or `onChangeError` is not set.
 
 ## Type Parameters
 
@@ -37,4 +39,4 @@ The promise state object.
 
 ## Defined in
 
-[lib/hooks/useValidator.ts:25](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useValidator.ts#L25)
+[lib/hooks/useValidator.ts:27](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useValidator.ts#L27)

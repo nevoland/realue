@@ -4,11 +4,11 @@ import type { StateDispatcher } from "../types";
 
 /**
  * Creates a state that is synced with its parent state.
- * If the provided `state` changes, the returned `state` is set to that provided state.
- * Calls to the returned `setState(state)` also triggers a call to the optionally provided `setState(state)`.
+ * If the provided `value` changes, the returned `state` is set to that provided value.
+ * Calls to the returned `setState(state)` also trigger a call to the optionally provided `setValue(state)`.
  *
- * @param state The provided parent state.
- * @param setState The optional parent state udpater.
+ * @param value The provided parent state.
+ * @param setValue The optional parent state updater.
  * @returns The `[state, setState]` tuple.
  */
 export function useSyncedState<T>(

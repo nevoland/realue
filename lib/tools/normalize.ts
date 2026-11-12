@@ -3,16 +3,19 @@ import type { NevoProps, NevoPropsAdapted } from "../types";
 import { capitalize } from "./capitalize.js";
 
 /**
- * Normalizes the provided `props` from the provided `propertyName`.
+ * Normalizes the provided `props` adapted to the provided `propertyName` back into props according to the NEVO pattern.
+ * The `${propertyName}Name`, `${propertyName}Error`, `${propertyName}`, `onChange${Capitalize<propertyName>}`, and `onChange${Capitalize<propertyName>}Error` props are respectively renamed to `name`, `error`, `value`, `onChange`, and `onChangeError`.
+ *
+ * This is the inverse of `adapt`.
  *
  * @example
  * ```tsx
- * <SomeComponent {...normalize("option", props)} />
+ * <SomeComponent {...normalize(props, "option")} />
  * ```
  *
- * @param props Propertyes according to the Nevo pattern.
+ * @param props Properties adapted to the `propertyName`.
  * @param propertyName Name of the value property.
- * @returns
+ * @returns Properties according to the NEVO pattern.
  */
 export function normalize<T, const K extends string>(
   props: NevoPropsAdapted<T, K>,

@@ -8,7 +8,10 @@
 
 > **normalize**\<`T`, `K`\>(`props`, `propertyName`): [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>
 
-Normalizes the provided `props` from the provided `propertyName`.
+Normalizes the provided `props` adapted to the provided `propertyName` back into props according to the NEVO pattern.
+The `${propertyName}Name`, `${propertyName}Error`, `${propertyName}`, `onChange${Capitalize<propertyName>}`, and `onChange${Capitalize<propertyName>}Error` props are respectively renamed to `name`, `error`, `value`, `onChange`, and `onChangeError`.
+
+This is the inverse of `adapt`.
 
 ## Type Parameters
 
@@ -20,7 +23,7 @@ Normalizes the provided `props` from the provided `propertyName`.
 
 • **props**: [`NevoPropsAdapted`](../type-aliases/NevoPropsAdapted.md)\<`T`, `K`\>
 
-Propertyes according to the Nevo pattern.
+Properties adapted to the `propertyName`.
 
 • **propertyName**: `K`
 
@@ -30,12 +33,14 @@ Name of the value property.
 
 [`NevoProps`](../type-aliases/NevoProps.md)\<`T`\>
 
+Properties according to the NEVO pattern.
+
 ## Example
 
 ```tsx
-<SomeComponent {...normalize("option", props)} />
+<SomeComponent {...normalize(props, "option")} />
 ```
 
 ## Defined in
 
-[lib/tools/normalize.ts:17](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/tools/normalize.ts#L17)
+[lib/tools/normalize.ts:20](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/tools/normalize.ts#L20)

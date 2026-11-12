@@ -10,7 +10,7 @@ import type {
 /**
  * Transforms the incoming `value` and the outgoing `value` passed to the `onChange` callback, and optionally the incoming `error` and the outgoing `error` passed to the `onChangeError` callback.
  *
- * If the incoming and outgoing `error` transforms are not provided, returned props will not contain `error` nor `onChangeError`.
+ * If the incoming and outgoing `error` transforms are not provided, the returned `error` and `onChangeError` props are `undefined`.
  *
  * @param props Properties according to the NEVO pattern.
  * @param options Options for `useTransform`.

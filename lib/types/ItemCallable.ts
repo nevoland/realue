@@ -19,7 +19,7 @@ export type ItemCallable<T> = {
   /**
    * Returns an array that maps each item with an element out of `Component` with the NEVO props and optional extra props.
    *
-   * @param Component
+   * @param Component The component to render for each item.
    * @param extraProps An object containing extra properties to add to each element, or a function that takes the items props and returns the extra properties to add.
    * @returns An array containing the produced elements out of `Component`.
    */

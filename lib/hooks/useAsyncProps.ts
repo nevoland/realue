@@ -59,15 +59,15 @@ type NevosProps<T> = NevoProps<T> & {
  *
  * If `options.onChange(value, name)` is set, uses the defined return value (a "query") and passes it to `options.handle(query)`. If `options.onChange(value, name)` returns an undefined value, nothing happens.
  *
- * The `options.handle(query)` function returns asynchronously (or, if needed, synchronously) a `value` that gets returned in the result.
+ * The `options.handle(query, abortController)` function returns asynchronously (or, if needed, synchronously) a `value` that gets returned in the result. If the returned promise rejects, the rejection reason is used as the returned `error`. The provided `abortController` is aborted when a new query is handled, when `onAbort()` is called, or when the element unmounts.
  *
- * Asynchronous tasks can be tracked with the returned `status` property, and aborted using the returned `onAbort()` method. Ongoing operations are automatically aborted when the element that runs this hook unmounts.
+ * Asynchronous tasks can be tracked with the returned `status` property, which is also reported to `options.props.onChangeStatus(status, name)` if set, and aborted using the returned `onAbort()` method. Ongoing operations are automatically aborted when the element that runs this hook unmounts.
  *
  * The asynchronous task that gets the `value` can be re-executed using the returned `onRefresh()` method.
  *
- * If `options.subscribe(query, onRefresh)` is defined, it is called everytime a new `query` is returned by `options.value(name)`, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
+ * If `options.subscribe(query, onRefresh)` is defined, it is called with the latest `query` returned by `options.value(name)` on mount and every time the `dependencies` change, and passed along with the `onRefresh(query)` method to trigger a refresh. The `onRefresh(query)` is called with a change query to ignore the queries that emanate from the element using this hook. The `options.subscribe(query, onRefresh)` function can return a function that gets called before a new `options.subcribe(query, onRefresh)` call is made or when the element unmounts, enabling unsubscription logic to happen.
  *
- * @param options Contains the optional `value` and `onChange` query builders, the required `handle(query)` method, the optional `subscribe(query, onRefresh)` method, and the optional parent props according to the NEVO pattern (with support for `status` and `onChangeStatus`).
+ * @param options Contains the optional `value` and `onChange` query builders, the required `handle(query, abortController)` method, the optional `subscribe(query, onRefresh)` method, and the optional parent props according to the NEVO pattern (with support for `status` and `onChangeStatus`).
  * @param dependencies List of values that, when changing, trigger a new asynchronous `value` loading task if `options.value(name)` is set, refresh the subscription if `options.subscribe(query, onRefresh)` is set, and update the definition of the returned `onChange` function.
  * @returns The properties according to the NEVO pattern, with the `status` of the ongoing task, and the `onRefresh()` and `onAbort()` methods.
  */

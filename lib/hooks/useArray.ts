@@ -23,7 +23,16 @@ import type {
 
 /**
  * Takes an array and returns a function that generates the required props for handling an array item value.
- * That function also contains three callables: `loop`, `add`, and `remove`.
+ * If called without an index, that function returns the props for the entire array, with the `error` that pertains to the entire array.
+ *
+ * That function also contains three callables and two properties:
+ *   - `loop(Component, extraProps)`: Renders each item with `Component`, passing the item props and optional extra props.
+ *   - `add(item, index)`: Inserts an `item` at the specified `index` (defaults to the end of the array), shifting the item errors accordingly.
+ *   - `remove(index)`: Removes the item at the specified `index`, shifting the item errors accordingly.
+ *   - `value`: The current array value.
+ *   - `itemId`: The function that returns the unique identifier of an item.
+ *
+ * The `add` and `remove` callables are both `undefined` if `onChange` is not set.
  *
  * @param props Properties according to the NEVO pattern, where the `value` holds an array.
  * @param itemId An optional function that returns a unique identifier for a given array `item`.

@@ -8,6 +8,8 @@
 
 > **useDebounce**\<`T`\>(`props`, `duration`?, `options`?): `object`
 
+Alias of `useDelay`.
+
 ## Type Parameters
 
 • **T**
@@ -30,7 +32,7 @@ Optional configuration for the delay behavior. See [DelayOptions](../type-aliase
 
 `object`
 
-Properties according to the NEVO pattern, with `onChange` being a debounced value mutator.
+Properties according to the NEVO pattern, with `onChange` being a delayed value mutator.
 
 ### ~~name?~~
 
@@ -50,4 +52,4 @@ This function was renamed to `useDelay`.
 
 ## Defined in
 
-[lib/hooks/useDebounce.ts:6](https://github.com/nevoland/realue/blob/ae52e491a42ea548f37572294c8879745c3e1bb1/lib/hooks/useDebounce.ts#L6)
+[lib/hooks/useDebounce.ts:8](https://github.com/nevoland/realue/blob/f33481a3ee1cc20209f6c3f73f221a3b71e7927a/lib/hooks/useDebounce.ts#L8)
